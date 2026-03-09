@@ -2,3 +2,6 @@
 .env
 .mcp.json
 .claude.json
+venv/
+__pycache__/
+*.pyc
