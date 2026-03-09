@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GHL Podcast Pipeline</title>
+  <meta http-equiv="refresh" content="60">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+    header { background: #1e293b; padding: 20px 32px; border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { font-size: 20px; font-weight: 700; color: #f8fafc; }
+    header span { font-size: 13px; color: #64748b; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; padding: 24px 32px 0; }
+    .card { background: #1e293b; border-radius: 12px; padding: 20px; border: 1px solid #334155; }
+    .card .label { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .card .value { font-size: 32px; font-weight: 700; color: #f8fafc; }
+    .card .sub { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+    .card.green .value { color: #4ade80; }
+    .card.blue .value { color: #60a5fa; }
+    .card.yellow .value { color: #fbbf24; }
+    .card.red .value { color: #f87171; }
+    .section { padding: 24px 32px; }
+    .section h2 { font-size: 16px; font-weight: 600; color: #94a3b8; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
+    table { width: 100%; border-collapse: collapse; background: #1e293b; border-radius: 12px; overflow: hidden; border: 1px solid #334155; }
+    th { background: #0f172a; padding: 12px 16px; text-align: left; font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; }
+    td { padding: 12px 16px; font-size: 14px; border-top: 1px solid #334155; }
+    td.streams { font-weight: 700; color: #4ade80; }
+    td.failed-title { color: #f87171; }
+    .log-box { background: #0f172a; border: 1px solid #334155; border-radius: 12px; padding: 16px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.6; color: #94a3b8; max-height: 400px; overflow-y: auto; }
+    .log-box .error { color: #f87171; }
+    .log-box .success { color: #4ade80; }
+    .log-box .info { color: #60a5fa; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+    .badge.published { background: #14532d; color: #4ade80; }
+    .badge.failed { background: #450a0a; color: #f87171; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>GHL Podcast Pipeline</h1>
+  <span>Last updated: {{ now }} — auto-refreshes every 60s</span>
+</header>
+
+<!-- Stats -->
+<div class="grid">
+  <div class="card blue">
+    <div class="label">Articles Scraped</div>
+    <div class="value">{{ stats.articles_scraped }}</div>
+    <div class="sub">{{ stats.pending }} pending</div>
+  </div>
+  <div class="card green">
+    <div class="label">Published</div>
+    <div class="value">{{ stats.total_published }}</div>
+    <div class="sub">all time</div>
+  </div>
+  <div class="card yellow">
+    <div class="label">Today</div>
+    <div class="value">{{ stats.today }}</div>
+    <div class="sub">of 20 max</div>
+  </div>
+  <div class="card blue">
+    <div class="label">This Week</div>
+    <div class="value">{{ stats.this_week }}</div>
+    <div class="sub">episodes</div>
+  </div>
+  <div class="card red">
+    <div class="label">Failed</div>
+    <div class="value">{{ stats.total_failed }}</div>
+    <div class="sub">need attention</div>
+  </div>
+</div>
+
+<div class="two-col" style="padding: 24px 32px 0;">
+
+  <!-- Top Episodes -->
+  <div>
+    <div class="section" style="padding: 0;">
+      <h2>Top Episodes by Streams</h2>
+      {% if top_episodes %}
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Streams</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ep in top_episodes %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ ep.seoTitle or ep.title }}</td>
+            <td style="color: #64748b;">{{ ep.category }}</td>
+            <td class="streams">{{ ep.streams or 0 }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p style="color: #64748b; font-size: 14px;">No published episodes yet.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Failed -->
+  <div>
+    <div class="section" style="padding: 0;">
+      <h2>Failed Episodes</h2>
+      {% if failed %}
+      <table>
+        <thead>
+          <tr>
+            <th>Article</th>
+            <th>Failed At</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ep in failed %}
+          <tr>
+            <td class="failed-title">{{ ep.title or ep.articleId }}</td>
+            <td style="color: #64748b; font-size: 12px;">{{ ep.failedAt or '' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p style="color: #4ade80; font-size: 14px;">No failures.</p>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+<!-- Live Log -->
+<div class="section">
+  <h2>Live Pipeline Log</h2>
+  <div class="log-box" id="logbox">
+    {% for line in log_lines %}
+    <div class="{% if 'ERROR' in line or 'FAILED' in line %}error{% elif 'SUCCESS' in line or 'complete' in line %}success{% elif 'PIPELINE' in line %}info{% endif %}">{{ line }}</div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  // Scroll log to bottom
+  const lb = document.getElementById('logbox');
+  lb.scrollTop = lb.scrollHeight;
+</script>
+
+</body>
+</html>
