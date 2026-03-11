@@ -9,109 +9,136 @@ https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12
 - This IS the 30-day free trial (bootcamp = trial)
 - Tracking: GHL affiliate dashboard only (can't use GA4 — it's GHL's domain)
 - UTM params auto-added to show notes and blog posts by the pipeline
+- **Every link to GoHighLevel.com MUST include fp_ref=amplifi-technologies12 — no exceptions**
 
 ## Podcast
 - Name: "Go High Level" on Spotify
+- URL: https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV
 - Hosted on: Transistor.fm (NOT Buzzsprout)
 - Stats: 380 followers, 6,479 all-time streams, 25 avg streams/episode
 - Top episode: "GoHighLevel Conversation AI Bot" — 492 streams
 - Scheduled: 20 episodes/day, 45-min apart, 8am Eastern
 
-## Pipeline — BUILT (Python)
-Scripts in: `ghl-podcast-pipeline/scripts/`
-Run with: `venv/bin/python3 scripts/run-pipeline.py`
+## Websites
+- **globalhighlevel.com** — main SEO content hub (all new blog posts go here)
+  - Hosted: Netlify (free, auto-deploys from GitHub)
+  - Registrar: Namecheap (login: wcw1985)
+  - Netlify URL: courageous-taiyaki-2c1846.netlify.app
+  - GitHub repo: https://github.com/RecoveryBiometrics/Claude-notebookLM-GHL-Podcast
+  - Google Search Console: verified ✅ sitemap submitted ✅
+  - GSC verification code: TqqkuU1JDcd_0KnXbs_wGvyamJucFYVZiSLx9ICbeq4
+- **reiamplifi.com** — GHL-hosted site. Stays for funnels, CRM, automations. Blog stopped — 48 old posts still live there pending migration.
 
-| Script | What it does |
-|---|---|
-| 1-scraper.py | Scrapes GHL help articles from help.gohighlevel.com → saves JSON to data/articles/ |
-| 2-notebooklm.py | Claude enriches articles → NotebookLM generates podcast audio → uploads to Google Drive |
-| 3-seo.py | Claude Haiku writes SEO title, description, tags. Affiliate link baked into description here. |
-| 4-upload.py | Downloads audio from Drive → uploads to Transistor.fm → schedules. Gemini Flash transcribes audio. |
-| 5-blog.py | DuckDuckGo SERP + Reddit research → Claude Haiku writes SEO blog post → publishes to reiamplifi.com via GHL API |
-| run-pipeline.py | Orchestrator — runs all 4 steps per episode. Blog failure is non-fatal. |
-| analytics.py | Analytics tracking |
-| scheduler.py | Scheduling |
+## All Active Agents
 
-## Pipeline Flow (run-pipeline.py orchestrates all steps)
+### Scheduler (scheduler.py)
+Runs every 25 hours via systemd. Cycle order:
+1. **analytics.py** — pulls Transistor download data, updates topic weights
+2. **retry-failed.py** — recovers partial failures from previous cycle
+3. **run-pipeline.py** — generates + publishes 20 podcast episodes + 1 blog post each
+4. **6-india-blog.py** — publishes 5 India blog topics
+5. **deploy_site()** — git pushes new posts/*.json → Netlify rebuilds globalhighlevel.com in ~30 seconds
+6. Sends daily email summary to bill@reiamplifi.com
+7. Sleeps 25 hours, repeats
+
+### Pipeline Scripts (run-pipeline.py orchestrates these per episode)
+
+| Script | Agent Type | What it does |
+|---|---|---|
+| 1-scraper.py | Scraper | Scrapes GHL help articles from help.gohighlevel.com → saves JSON to data/articles/ |
+| 2-notebooklm.py | Content Generator | Claude enriches articles → NotebookLM generates podcast audio → uploads to Google Drive (Audio/ subfolder) |
+| 3-seo.py | SEO Writer | Claude Haiku writes SEO title, description, tags + bakes in affiliate link |
+| 4-upload.py | Publisher | Downloads audio from Drive → uploads to Transistor.fm → schedules episode. Gemini Flash transcribes audio → saves to Drive (Transcripts/ subfolder) |
+| 5-blog.py | Blog Writer | DuckDuckGo SERP + Reddit research → Claude Haiku writes SEO blog post → saves to globalhighlevel-site/posts/{slug}.json → auto-deploys to globalhighlevel.com |
+| run-pipeline.py | Orchestrator | Runs steps 1-4 per episode. Blog failure is non-fatal. |
+| retry-failed.py | Recovery | Retries failed episodes from previous cycle |
+| analytics.py | Analytics | Pulls Transistor download data, updates topic weights |
+
+### India Blog Agent (6-india-blog.py)
+3-agent pipeline targeting Indian GHL users (English). Runs 5 topics per scheduler cycle.
+- **Researcher Agent:** DuckDuckGo SERP + Reddit (r/GoHighLevel, r/IndiaMarketing, r/marketing)
+- **Writer Agent:** Claude Haiku — 1000-1500 word SEO post tailored for Indian businesses
+- **Fact Checker Agent:** Claude Haiku — validates India-specific facts before saving
+- Saves to globalhighlevel-site/posts/ — auto-deploys same as main blog
+- **Affiliate UTMs:** utm_source=blog&utm_medium=article&utm_campaign={slug}&utm_country=in
+- **Data files:** data/india-published.json, data/india-topics.json
+- **CLI flags:** --topic "Topic Name" (single run), --limit N (batch cap)
+
+#### India Fact-Check Rules
+- WhatsApp NOT SMS (primary messaging in India)
+- Razorpay / PayU / UPI NOT Stripe
+- ₹ rupees NOT $ dollars
+- Zoho as primary CRM competitor (not Salesforce)
+- DPDP Act NOT GDPR
+- GST compliance for Indian businesses
+- GHL starts at $97/month
+
+### Site Builder (globalhighlevel-site/build.py)
+Runs automatically on Netlify on every GitHub push. Generates:
+- public/index.html — homepage (uses homepage_hero.html if present)
+- public/blog/{slug}/index.html — individual post pages
+- public/category/{slug}/index.html — category pages
+- public/sitemap.xml — auto-updated with every post
+- public/llms.txt — AI model discoverability (lists all tutorials)
+- public/robots.txt — copied from globalhighlevel-site/robots.txt
+
+### Two-Agent Homepage Designer (globalhighlevel-site/design-homepage.py)
+Run manually to regenerate homepage_hero.html:
 ```
-GHL Help Article (scraped)
-  → Step 1: 2-notebooklm.py  — Claude enriches → NotebookLM generates audio → Google Drive
-  → Step 2: 3-seo.py         — Claude Haiku writes SEO title, description, tags + affiliate link
-  → Step 3: 4-upload.py      — Audio → Transistor.fm → episode scheduled. Gemini transcribes.
-  → Step 4: 5-blog.py        — SERP + Reddit research → Claude writes blog post → reiamplifi.com/blog
+cd globalhighlevel-site
+../ghl-podcast-pipeline/venv/bin/python3 design-homepage.py
 ```
-Blog failure is non-fatal — episode still publishes to Transistor if blog step fails.
+- **Designer Agent** (claude-opus-4-6) — writes full homepage HTML
+- **Manager Agent** (claude-opus-4-6) — reviews against zero-tolerance checklist
+- Uses verified facts only — see VERIFIED_FACTS block in the script
+- Output: homepage_hero.html → picked up by build.py on next Netlify deploy
 
 ## Blog Agent — How It Works (5-blog.py)
 - **SERP:** DuckDuckGo HTML scrape (no API key) — top 5 results drive H2 structure
-- **Reddit:** Searches r/GoHighLevel, r/marketing, r/automation, r/entrepreneur — only actual questions (containing ?) used in FAQ section
-- **Claude Haiku:** Writes 800-1200 word SEO post. Structure: hook intro → logical H2 steps → FAQ → affiliate CTA
-- **GHL Blog:** Blog ID `0KLFiNIFJ5OtlM836Gfi` | Author ID `680b01f0c55be738c7e7287a` | Category ID `680b01923c1c207691887512` (GoHighLevel Tutorials)
-- **Affiliate UTMs:** `utm_source=blog&utm_medium=article&utm_campaign={slug}`
-- **Publishes to:** reiamplifi.com/blog via GHL REST API
+- **Reddit:** Searches r/GoHighLevel, r/marketing, r/automation, r/entrepreneur
+- **Claude Haiku:** Writes 900-1300 word SEO post with TOC, CTA boxes, Pro Tip callouts, FAQ
+- **Affiliate UTMs:** utm_source=blog&utm_medium=article&utm_campaign={slug}
+- **Publishes to:** globalhighlevel.com ONLY (reiamplifi.com blog stopped Mar 11, 2026)
+
+## Pipeline Flow
+```
+Every 25 hours (automated):
+  analytics.py       → update stream counts + topic weights
+  retry-failed.py    → recover any failed episodes
+  run-pipeline.py (×20 episodes):
+    1-scraper.py     → fetch GHL help article
+    2-notebooklm.py  → generate podcast audio → Google Drive
+    3-seo.py         → write SEO title/description/tags
+    4-upload.py      → upload to Transistor.fm → transcribe
+    5-blog.py        → write blog post → save to globalhighlevel-site/posts/
+  6-india-blog.py    → write 5 India posts → save to globalhighlevel-site/posts/
+  deploy_site()      → git push → Netlify rebuilds globalhighlevel.com
+  send email         → daily summary to bill@reiamplifi.com
+  sleep 25 hours
+```
 
 ## Tech Stack
-Python, playwright, anthropic SDK, notebooklm SDK, Google Drive API, Transistor.fm API, Gemini Flash (transcription), requests + BeautifulSoup (scraping)
+Python, anthropic SDK, notebooklm SDK, Google Drive API, Transistor.fm API, Gemini Flash (transcription), requests + BeautifulSoup (scraping), Netlify (static hosting), GitHub (auto-deploy trigger)
 
-## GHL / Website
-- Website: reiamplifi.com (hosted in GHL)
-- GHL location ID: VL5PlkLBYG4mKk3N6PGw
-- GHL MCP server: ghl-podcast (available in Claude Code)
-
-## .env Keys Required
+## .env Keys
 - TRANSISTOR_API_KEY, TRANSISTOR_SHOW_ID
 - ANTHROPIC_API_KEY
 - GOOGLE_AI_API_KEY, GOOGLE_DRIVE_FOLDER_ID, GOOGLE_CREDENTIALS_FILE
+- GOOGLE_DRIVE_AUDIO_FOLDER_ID, GOOGLE_DRIVE_TRANSCRIPTS_FOLDER_ID, GOOGLE_DRIVE_ARTICLES_FOLDER_ID
 - GHL_API_KEY, GHL_LOCATION_ID, GHL_AFFILIATE_LINK
 - GMAIL_ADDRESS, GMAIL_APP_PASSWORD
+- SITE_DOMAIN, SITE_REGISTRAR, NAMECHEAP_USERNAME, SITE_HOST, SITE_REPO, SITE_NETLIFY_URL
+- GOOGLE_SITE_VERIFICATION (GSC verification code)
+- GA4_MEASUREMENT_ID (not yet set — pending GA4 setup)
 
-## India Blog Agent — How It Works (6-india-blog.py)
-3-agent pipeline targeting Indian GHL users (English). Runs independently of main podcast pipeline.
-
-- **Researcher Agent:** DuckDuckGo SERP + Reddit (r/GoHighLevel, r/IndiaMarketing, r/marketing, r/automation, r/entrepreneur)
-- **Writer Agent:** Claude Haiku — 1000-1500 word SEO post tailored for Indian businesses
-- **Fact Checker Agent:** Claude Haiku — validates India-specific facts before publishing
-- **GHL Blog:** Blog ID `ICGLk7OTn2N6jL6pgxgu` | Author ID `680b01f0c55be738c7e7287a` | Category ID `69b07af891669681ae873ae5` (GoHighLevel Tutorials India)
-- **Affiliate UTMs:** `utm_source=blog&utm_medium=article&utm_campaign={slug}&utm_country=in`
-- **Data files:** `data/india-published.json`, `data/india-topics.json`
-- **Scheduler:** Runs 5 topics per cycle (Step 3 in scheduler.py)
-- **CLI flags:** `--topic "Topic Name"` (single), `--limit N` (batch cap)
-
-### India Fact-Check Rules (hardcoded in INDIA_FACT_RULES)
-- WhatsApp NOT SMS (primary messaging in India)
-- Razorpay / PayU / UPI NOT Stripe (payment gateways)
-- ₹ rupees NOT $ dollars
-- Zoho as primary CRM competitor (not Salesforce)
-- DPDP Act (India privacy law) NOT GDPR
-- GST compliance for Indian businesses
-- GHL starts at $97/month (NOT $297)
-
-### Phase 1-2 Topics (10 total)
-1. How Indian Real Estate Agents Use GoHighLevel to Automate Follow-Ups
-2. GoHighLevel for Indian Digital Marketing Agencies: Complete Setup Guide
-3. How to Set Up WhatsApp Automation in GoHighLevel for Indian Businesses
-4. GoHighLevel vs Zoho CRM: Which Is Better for Indian Agencies in 2025?
-5. How Indian Coaches and Consultants Use GoHighLevel to Scale Their Business
-6. Setting Up GoHighLevel Funnels for Indian E-Commerce Businesses
-7. GoHighLevel Payment Integration for Indian Businesses: Razorpay, PayU & UPI Guide
-8. How Indian Educational Institutes Use GoHighLevel to Manage Student Leads
-9. GoHighLevel for Indian Healthcare Providers: Appointment Booking & Follow-Up Automation
-10. How to Run WhatsApp Marketing Campaigns Using GoHighLevel in India
-
-## Scheduler (scheduler.py)
-Runs every 25 hours. Cycle order:
-1. analytics.py — pull Transistor download data, update topic weights
-2. retry-failed.py — recover partial failures
-3. run-pipeline.py — generate + publish 20 podcast episodes (+ blog per episode)
-4. 6-india-blog.py — publish 5 India blog topics
-5. Send daily email summary to bill@reiamplifi.com
-6. Sleep 25 hours, repeat
-
-Daily email includes: episodes published, GHL blogs, India blogs, failed count, all-time totals, top categories, hot keywords.
+## GHL Config
+- Location ID: VL5PlkLBYG4mKk3N6PGw
+- GHL MCP server: ghl-podcast (available in Claude Code)
+- reiamplifi.com stays for funnels, CRM, contacts, automations only
 
 ## User Context
 - Not a developer — explain in plain English
 - Chromebook with Linux (Crostini) — NOT a Mac
-- IDE: VS Code
+- IDE: Kiro (VS Code-based)
 - Budget: ~$70/month
 - Active GHL user — use native GHL features before third-party tools
