@@ -357,9 +357,25 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
             pages_html += f'<a href="{href}" class="page-btn {active}">{i}</a>'
         pages_html = f'<div class="pagination">{pages_html}</div>'
 
+    canonical = SITE_URL + ("/" if page == 1 else f"/page/{page}/")
+
     if page == 1 and HOMEPAGE_HERO.exists():
-        hero = HOMEPAGE_HERO.read_text(encoding="utf-8")
-    elif page == 1:
+        # homepage_hero.html is a fully self-contained page (has its own <style>, nav, footer).
+        # Use it directly — just inject the blog post cards into id="tutorials-grid".
+        hero_html = HOMEPAGE_HERO.read_text(encoding="utf-8")
+        if cards_html and 'id="tutorials-grid"' in hero_html:
+            grid_block = f'<div id="tutorials-grid">\n{cards_html}\n</div>'
+            # Replace the placeholder grid (keep existing id="tutorials-grid" div or inject before it)
+            hero_html = re.sub(
+                r'<div id="tutorials-grid">.*?</div>',
+                grid_block,
+                hero_html,
+                flags=re.DOTALL
+            )
+        write(PUBLIC_DIR / "index.html", hero_html)
+        return
+
+    if page == 1:
         hero = f"""
 <div class="hero">
   <h1>Master GoHighLevel — Free</h1>
@@ -378,7 +394,6 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
   </div>
 </div>"""
 
-    canonical = SITE_URL + ("/" if page == 1 else f"/page/{page}/")
     html = base_html(
         title=f"{SITE_NAME} — {SITE_TAGLINE}" if page == 1 else f"Page {page} | {SITE_NAME}",
         description="Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies worldwide. Learn GHL step by step.",
