@@ -50,17 +50,15 @@ Ideas and future builds. Goal: agents tackle this list automatically.
 - [x] **Step 2** — Create free Netlify account ✅ DONE Mar 11, 2026
 - [x] **Step 2b** — SSL certificate provisioning: DNS verified ✅ but "certificate parameter" error on provision button. Check back in 1-2 hours — Netlify auto-provisions in background. Visit Site configuration → Domain management → provision if still showing.
 - [x] **Step 3** — Build static site structure ✅ DONE — homepage, post pages, categories, sitemap, 404
-      - Base HTML template (header, footer, nav, consistent styling)
-      - Blog index page (auto-generated from published.json)
-      - Individual post template
-      - Category pages
-      - Auto-generated sitemap.xml
-      - robots.txt
-- [ ] **Step 4** — Update `5-blog.py` to save HTML files to repo instead of calling GHL API
-- [ ] **Step 5** — Point globalhighlevel.com DNS to Netlify (one CNAME record)
+- [x] **Step 3b** — Two-agent homepage design system ✅ DONE — Designer + Manager agents built conversion-optimized landing page (design-homepage.py → homepage_hero.html). Re-run anytime to regenerate.
+- [x] **Step 4** — 5-blog.py now saves every post to globalhighlevel-site/posts/{slug}.json ✅ DONE — pipeline auto-populates site on every run
+- [x] **Step 5** — DNS pointed to Netlify ✅ DONE — CNAME records set in Namecheap Mar 11, 2026
+- [ ] **Step 5b — CHECK SSL** — Visit Netlify → Site configuration → Domain management. If SSL still shows "could not provision" click Provision certificate. Should auto-resolve within 1-2 hrs of DNS propagation. Once green, globalhighlevel.com is fully live with HTTPS.
 - [ ] **Step 6** — Migrate 48 existing GHL blog posts to the new site
+      HOW: Run a one-off script to fetch HTML from GHL API for each published post → save as posts/{slug}.json → push → Netlify deploys
 - [ ] **Step 7** — Set 301 redirects from old reiamplifi.com/blog URLs to globalhighlevel.com
 - [ ] **Step 8** — Submit globalhighlevel.com sitemap to Google Search Console
+      URL: https://globalhighlevel.com/sitemap.xml
 
 ### After Migration
 - Every pipeline run pushes new HTML files to GitHub → Netlify auto-deploys in 30 seconds
@@ -72,7 +70,8 @@ Ideas and future builds. Goal: agents tackle this list automatically.
 ## Next Up 🔜
 
 - [x] **Buy globalhighlevel.com** — purchased Mar 11, 2026 ✅
-- [ ] **Build globalhighlevel.com static site** — See migration plan above for full step-by-step
+- [x] **Build globalhighlevel.com static site** — ✅ DONE Mar 11, 2026 — live at courageous-taiyaki-2c1846.netlify.app
+- [ ] **NEXT SESSION — Pick up here:** Check SSL on Netlify (Step 5b above), then run Step 6 (migrate 48 existing posts), then Step 7 (301 redirects), then Step 8 (Google Search Console)
 - [ ] **Google Search Console** — Verify reiamplifi.com/blog in GSC, submit sitemap. Check SafePath workspace — may already be connected. Without this, posts may not be indexed.
 - [ ] **Internal Linking Agent** — When publishing a new blog post, search published.json for related posts and inject 2-3 internal links. Biggest SEO gap right now. Use RankMath's suggestions post-migration.
 - [ ] Social Media Employee Agent — auto-posts to X, LinkedIn, Instagram, Facebook per episode
