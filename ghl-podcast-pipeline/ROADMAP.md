@@ -25,7 +25,7 @@ Ideas and future builds. Goal: agents tackle this list automatically.
 
 ---
 
-## ⚠️ PLATFORM MIGRATION — Move Blog to learnhighlevel.com on Netlify
+## ⚠️ PLATFORM MIGRATION — Move Blog to globalhighlevel.com on Netlify
 
 **Decision made: Migrate blog off GHL to a dedicated static site before reaching 100 posts.**
 
@@ -35,18 +35,18 @@ Ideas and future builds. Goal: agents tackle this list automatically.
 - Static hosting on Netlify = perfect page speed, free, full SEO control
 
 ### The Domain
-- **`learnhighlevel.com`** — confirmed available (~$12/year on Namecheap)
+- **`globalhighlevel.com`** ✅ PURCHASED — Mar 11, 2026, registered on Namecheap
 - Clean, no confusion, exact search intent match, topically perfect for Google
 
 ### The Stack
-- **Domain:** learnhighlevel.com (~$12/year — Namecheap)
+- **Domain:** globalhighlevel.com (~$12/year — Namecheap)
 - **Hosting:** Netlify (free — auto-deploys from GitHub on every pipeline push)
 - **SEO:** Schema markup injected by pipeline (already doing FAQ schema), sitemap auto-generated
 - **CMS:** None needed — the pipeline IS the CMS
 - **GHL stays:** reiamplifi.com remains on GHL for funnels, CRM, contacts, automations
 
 ### Build Steps (execute in this order)
-- [ ] **Step 1** — Buy `learnhighlevel.com` on Namecheap
+- [x] **Step 1** — Buy `globalhighlevel.com` on Namecheap ✅ DONE Mar 11, 2026
 - [ ] **Step 2** — Create free Netlify account, connect GitHub repo
 - [ ] **Step 3** — Build static site structure (one-time):
       - Base HTML template (header, footer, nav, consistent styling)
@@ -56,22 +56,22 @@ Ideas and future builds. Goal: agents tackle this list automatically.
       - Auto-generated sitemap.xml
       - robots.txt
 - [ ] **Step 4** — Update `5-blog.py` to save HTML files to repo instead of calling GHL API
-- [ ] **Step 5** — Point learnhighlevel.com DNS to Netlify (one CNAME record)
+- [ ] **Step 5** — Point globalhighlevel.com DNS to Netlify (one CNAME record)
 - [ ] **Step 6** — Migrate 48 existing GHL blog posts to the new site
-- [ ] **Step 7** — Set 301 redirects from old reiamplifi.com/blog URLs to learnhighlevel.com
-- [ ] **Step 8** — Submit learnhighlevel.com sitemap to Google Search Console
+- [ ] **Step 7** — Set 301 redirects from old reiamplifi.com/blog URLs to globalhighlevel.com
+- [ ] **Step 8** — Submit globalhighlevel.com sitemap to Google Search Console
 
 ### After Migration
 - Every pipeline run pushes new HTML files to GitHub → Netlify auto-deploys in 30 seconds
-- learnhighlevel.com becomes the SEO content hub for all countries/languages
+- globalhighlevel.com becomes the SEO content hub for all countries/languages
 - reiamplifi.com stays as the GHL business/funnel site
 
 ---
 
 ## Next Up 🔜
 
-- [ ] **Buy learnhighlevel.com** — Namecheap, ~$12/year. First step before building anything.
-- [ ] **Build learnhighlevel.com static site** — See migration plan above for full step-by-step
+- [x] **Buy globalhighlevel.com** — purchased Mar 11, 2026 ✅
+- [ ] **Build globalhighlevel.com static site** — See migration plan above for full step-by-step
 - [ ] **Google Search Console** — Verify reiamplifi.com/blog in GSC, submit sitemap. Check SafePath workspace — may already be connected. Without this, posts may not be indexed.
 - [ ] **Internal Linking Agent** — When publishing a new blog post, search published.json for related posts and inject 2-3 internal links. Biggest SEO gap right now. Use RankMath's suggestions post-migration.
 - [ ] Social Media Employee Agent — auto-posts to X, LinkedIn, Instagram, Facebook per episode
