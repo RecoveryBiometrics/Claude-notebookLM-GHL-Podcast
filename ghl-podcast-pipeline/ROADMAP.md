@@ -48,7 +48,8 @@ Ideas and future builds. Goal: agents tackle this list automatically.
 ### Build Steps (execute in this order)
 - [x] **Step 1** — Buy `globalhighlevel.com` on Namecheap ✅ DONE Mar 11, 2026
 - [x] **Step 2** — Create free Netlify account ✅ DONE Mar 11, 2026
-- [ ] **Step 3** — Build static site structure (one-time):
+- [x] **Step 2b** — SSL certificate provisioning: DNS verified ✅ but "certificate parameter" error on provision button. Check back in 1-2 hours — Netlify auto-provisions in background. Visit Site configuration → Domain management → provision if still showing.
+- [x] **Step 3** — Build static site structure ✅ DONE — homepage, post pages, categories, sitemap, 404
       - Base HTML template (header, footer, nav, consistent styling)
       - Blog index page (auto-generated from published.json)
       - Individual post template
