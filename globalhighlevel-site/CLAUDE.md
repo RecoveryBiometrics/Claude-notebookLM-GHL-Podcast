@@ -1,0 +1,53 @@
+# Frontend Design Standards — GlobalHighLevel.com
+
+## Brand & Audience
+- Site: GlobalHighLevel.com — free GoHighLevel tutorials and affiliate site
+- Audience: Digital marketing agency owners, freelancers, business owners
+- Tone: Confident expert talking to a peer. Not a salesperson. Not a blogger.
+- Goal: Affiliate signups for GHL 30-day free trial
+
+## Design Rules — Non-Negotiable
+
+### NO generic AI aesthetics:
+- No purple/violet gradients
+- No Inter or Roboto as the primary display font
+- No "glassmorphism" cards with blur effects
+- No generic blue (#3b82f6) as the accent
+- No grid-of-3-feature-cards with emoji icons as the only layout idea
+
+### DO use distinctive choices:
+- Pick ONE unexpected accent color (amber, coral, lime, copper — not blue, not purple)
+- Use a display/serif font for headlines (load via Google Fonts: Instrument Serif, Fraunces, Playfair Display)
+- System font (-apple-system stack) for body copy — fast and readable
+- Asymmetric layouts, pull-quotes, editorial treatments
+- CSS animations: entrance fades, scroll reveals (CSS only, no JS deps)
+- Generous whitespace — let the content breathe
+
+### Typography hierarchy:
+- Hero headline: 4rem+ desktop, 2.2rem mobile, font-weight 800, tight letter-spacing
+- Section headlines: 2.2rem, serif display font
+- Body: 1rem, system font, line-height 1.7, muted color
+- Labels/eyebrows: 0.7rem, uppercase, letter-spacing 1.2px
+
+### Color palette:
+- Background: Near-black (#07080a)
+- Surface cards: #111520
+- Accent: Amber (#f59e0b) or another non-generic choice — decide before building
+- Text: #eef2ff (primary), #7c8aab (secondary), #3d4a63 (muted)
+- Do NOT use blue as the primary accent
+
+## Verified Facts (use ONLY these — invent nothing)
+- Site: GlobalHighLevel.com — free GHL tutorials
+- Podcast: "Go High Level" on Spotify
+- Podcast stats: 380 followers, 6,479 all-time streams, 25 avg streams/episode
+- Top episode: "GoHighLevel Conversation AI Bot" — 492 streams
+- Content: 80+ published tutorials
+- Offer: GoHighLevel 30-day FREE trial (double the standard 14-day trial)
+- GHL starts at $97/month
+- Affiliate link: https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12
+
+## DO NOT invent:
+- Testimonials or reviews
+- Income claims or revenue numbers
+- Student counts or community sizes
+- Awards, press mentions, certifications
