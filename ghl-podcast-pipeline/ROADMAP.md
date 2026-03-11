@@ -67,6 +67,12 @@ Ideas and future builds. Goal: agents tackle this list automatically.
 
 ---
 
+## globalhighlevel.com — Site Design 🎨
+
+- [ ] **Full homepage redesign** — current design is not good enough. Needs a complete rethink: layout, typography, visual hierarchy, conversion flow. Do not use AI agents for this — write it directly. Reference: Raycast.com, Resend.com, Framer.com for inspiration.
+- [ ] **Get real Spotify podcast URL** from William → update Spotify button (currently links to search, not the actual show)
+- [ ] **Auto-deploy pipeline** — after each blog post saves, run build.py + git push so Netlify deploys automatically. Add as final step in scheduler.py.
+
 ## Next Up 🔜
 
 - [x] **Buy globalhighlevel.com** — purchased Mar 11, 2026 ✅
