@@ -1,7 +1,9 @@
 .mcp.json
 .env
-.mcp.json
 .claude.json
+token.json
 venv/
 __pycache__/
 *.pyc
+ghl-podcast-pipeline/data/articles/
+ghl-podcast-pipeline/logs/

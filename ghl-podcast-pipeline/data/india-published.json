@@ -1,0 +1,138 @@
+[
+  {
+    "topic": "GoHighLevel WhatsApp Integration Complete India Guide",
+    "blogPostId": "69b07be8670416ecb8ab839a",
+    "blogSlug": "gohighlevel-whatsapp-integration-india-agencies-guide",
+    "corrections": [
+      "The blog post is incomplete - it cuts off mid-sentence at 'Real Use Case: A Pune-B'. Cannot fully fact-check without complete content.",
+      "Missing pricing comparison section - no mention of GHL Starter (\u20b98,000/month) vs Agency (\u20b924,700/month) plans in rupees",
+      "No payment gateway mention - should specifically recommend Razorpay, PayU, or UPI as GHL payment options for Indian users",
+      "Missing GST compliance reference - should mention GST invoice generation capability when discussing CRM features",
+      "No DPDP Act mention - should reference India's data protection law when discussing lead data storage/handling",
+      "Zoho CRM comparison is good, but missing direct ROI calculation in rupees - should quantify cost savings for a 4-person team",
+      "Missing mention of trust-based business relationships - important cultural element for Indian B2B context",
+      "No mention of lean team automation benefits - should emphasize how GHL helps agencies run lean operations",
+      "Missing specific WhatsApp Business API feature name - should explicitly state 'WhatsApp Business API' not just 'WhatsApp integration'",
+      "The claim about Zoho CRM hitting a wall at 50-100 conversations needs verification - may be overstated",
+      "No comparison of response time expectations in Indian market context",
+      "Missing any mention of competitor positioning against Freshworks (other major Indian CRM)"
+    ],
+    "publishedAt": "2026-03-10T14:15:35.522399"
+  },
+  {
+    "topic": "GoHighLevel vs Zoho CRM for Indian Agencies",
+    "status": "failed",
+    "error": "Writer did not return valid JSON",
+    "failedAt": "2026-03-10T14:23:28.585639"
+  },
+  {
+    "topic": "GoHighLevel Pricing in India Rupees Breakdown 2026",
+    "blogPostId": "69b07e399166962a08876ac7",
+    "blogSlug": "gohighlevel-pricing-india-rupees-breakdown-2026",
+    "corrections": [
+      "CRITICAL: Plan naming error - 'Unlimited Plan' should be 'Agency Plan' (GHL's official naming is Starter, Agency, SaaS Pro). Current naming is confusing and inaccurate.",
+      "CRITICAL: Agency plan pricing is wrong - listed as \u20b924,700/month ($297/month) but this is correct. However, the plan is called 'Unlimited' in GHL's actual product, which is misleading. Verify current GHL plan names match 2026 offerings.",
+      "ISSUE: Payment gateway section says 'GoHighLevel charges in USD' and mentions GST may apply - this is accurate but could confuse Indian businesses. Should clarify that most Indian agencies pay via international credit card and handle GST reconciliation with their CA.",
+      "MINOR: 'SMS/WhatsApp automation' mentioned in intro paragraph is imprecise. Should emphasize WhatsApp-first approach, not SMS parity. SMS is not mentioned elsewhere (good), but this one phrase could mislead readers.",
+      "TONE: 'Your move.' at the end is slightly Americanized. More Indian-professional phrasing would be: 'The choice is yours.' or 'Now it's your turn.'",
+      "ACCURACY CHECK: WhatsApp templates section mentions 'FMCG, real estate, fintech \u2014 all supported' - this is accurate but should note that Meta approves categories, not GHL. Phrasing is slightly misleading.",
+      "MISSING CONTEXT: Should mention DPDP Act compliance briefly when discussing CRM and contact data. Current text doesn't address India's data protection law, which is relevant for agencies handling client data.",
+      "VERIFICATION NEEDED: The Pune agency case study shows '2,300% ROI in 3 months' - this is mathematically correct (\u20b92,00,000 additional MRR \u00f7 \u20b98,700 increased cost) but may be overstated as a typical example. Should note this is best-case scenario or add 'case example' disclaimer.",
+      "MINOR: 'Tier-2 cities' reference is good, but could have mentioned specific tier-2 hubs like Chandigarh, Jaipur, or Lucknow for more authentic feel.",
+      "VERIFICATION: GHL's actual WhatsApp features should be verified - 'broadcast messaging' requires Meta Business Account setup; GHL facilitates but doesn't fully own this. Phrasing is accurate but could be clearer.",
+      "UPI MENTION: Blog mentions Razorpay and PayU but doesn't explicitly highlight UPI as a payment collection option for clients. Should add: 'Your clients can pay you via UPI through Razorpay/PayU integration.'"
+    ],
+    "publishedAt": "2026-03-10T14:25:28.707400"
+  },
+  {
+    "topic": "How Indian Agencies Are Replacing 10 Tools With GoHighLevel",
+    "status": "failed",
+    "error": "Writer did not return valid JSON",
+    "failedAt": "2026-03-10T14:26:38.764614"
+  },
+  {
+    "topic": "How to Scale Your Indian Agency Without Hiring More Staff",
+    "blogPostId": "69b07eca0fecd7a132d3a8c8",
+    "blogSlug": "scale-indian-agency-without-hiring-gohighlevel",
+    "corrections": [],
+    "publishedAt": "2026-03-10T14:27:53.501562"
+  },
+  {
+    "topic": "Best CRM for Digital Marketing Agencies in India 2026",
+    "blogPostId": "69b07f3b67041648edabb4f3",
+    "blogSlug": "best-crm-digital-marketing-agencies-india-gohighlevel",
+    "corrections": [
+      "PRICING ERROR: GHL Starter plan pricing shows ~\u20b98,000/month but $97/month converts to approximately \u20b98,050/month at current rates (2026). This is acceptable, but should note the exchange rate used (1 USD = ~\u20b983). Similarly, Agency plan $297/month = ~\u20b924,651/month, not \u20b924,700. Use consistent conversion rate or note 'approximate' clearly.",
+      "PAYMENT METHODS: Article mentions 'Razorpay, PayU, and UPI' for GHL payments. This is accurate for Indian platforms, but GHL's primary payment processor in India is typically through Razorpay. Should verify if GHL explicitly supports direct PayU integration or if this is assumed. Recommend: 'GHL accepts payments via Razorpay (supporting UPI, cards, and net banking)' to be more precise.",
+      "SMS MENTION: In 'WhatsApp Automation' section, the FAQ mentions 'SMS charges per message (\u20b92-3 per SMS)' comparing to WhatsApp. While this is contextually correct, the article should have explicitly stated earlier that Indian agencies should AVOID SMS campaigns entirely in favor of WhatsApp. The tone suggests SMS is still an option when it shouldn't be presented as such for India.",
+      "COMPLIANCE DETAIL: Article mentions 'GST compliance' and 'GSTIN fields' in invoicing. While accurate, it should note that GHL's GST implementation assumes registered businesses. For unregistered small agencies (turnover <\u20b940 lakhs), GST isn't applicable. Should add: 'GST is calculated for registered businesses; unregistered agencies can issue GST-free invoices.'",
+      "FRESHWORKS OMISSION: Article positions GHL against Zoho and briefly mentions Freshworks isn't included in the main comparison. Given Freshworks is a major Indian CRM competitor (especially for SMEs), should at least mention why it wasn't included or add brief comparison.",
+      "DPDP ACT: Article doesn't mention the Digital Personal Data Protection (DPDP) Act 2023, which is now live in India. Should add: 'Ensure GHL's data handling complies with India's DPDP Act for client data security.' This is important for trust in India.",
+      "RUPEE SYMBOL INCONSISTENCY: Pricing uses both \u20b9 and rupee descriptions interchangeably. In the 'Real Example' section, shows both '\u20b914,500/month (~$174)' and later '\u20b924,700/month (~$297/month)'. The conversion math is slightly off (\u20b924,700 \u00f7 83 \u2248 $297, but \u20b914,500 \u00f7 83 \u2248 $175, not $174). Keep conversions consistent or remove them.",
+      "CITY USAGE: Good natural city usage (Mumbai, Bangalore, Hyderabad, Pune, Delhi, Chennai mentioned appropriately). No issue here.",
+      "TONE AUTHENTICITY: Article reads well for Indian audience, but has some Americanisms that could be tightened: 'hit a scaling wall' and 'Honest take' are acceptable but could be more Indian-professional. Overall tone is 85% authentic Indian business writing.",
+      "FEATURE CLAIM VERIFICATION: Article claims WhatsApp messages via Business API are 'free if you're using WhatsApp Business API.' This is partially misleading\u2014messages ARE charged by Meta, but typically \u20b90.25-1 per message depending on category (marketing, service, utility). Should clarify: 'WhatsApp messages cost significantly less than SMS (\u20b90.50-1 per message vs \u20b92-3 per SMS) through GHL's WhatsApp Business API integration.'",
+      "BOOTCAMP LINK: The HighLevel Bootcamp link appears multiple times with identical parameters. This is fine, but ensure the link is actually active in India and the content is India-specific. No correction needed if verified, but flagging for verification.",
+      "MISSING CONTEXT: Article doesn't mention that GHL requires WhatsApp Business Account setup separately through Meta, which involves verification. Should add: 'You'll need to set up a WhatsApp Business Account with Meta (free but requires business verification)\u2014GHL provides the integration layer.'"
+    ],
+    "publishedAt": "2026-03-10T14:29:46.560069"
+  },
+  {
+    "topic": "How to Automate Client Follow-Ups in India Using GoHighLevel",
+    "blogPostId": "69b07fa30fecd7aa9fd3b853",
+    "blogSlug": "automate-client-follow-ups-gohighlevel-india",
+    "corrections": [
+      "CRITICAL: Step 1 mentions 'Authenticate your account using Razorpay or PayU' - this is incorrect. WhatsApp Business authentication uses Meta/Facebook credentials, NOT payment gateways. Razorpay/PayU are only for GHL payment processing, not WhatsApp setup.",
+      "MINOR: 'Cold outreach = WhatsApp first' rule not explicitly emphasized in the intro. Consider adding a sentence about why WhatsApp beats SMS for Indian cold outreach.",
+      "OPTIONAL: While DPDP Act is mentioned in rules, the blog doesn't reference it when discussing data compliance. Consider adding a compliance note in FAQ or GST section.",
+      "TONE: 'Here's How to Automate Them in GoHighLevel' - minor: could be 'Here's How to Automate Them (Without Hiring Extra Staff)' to emphasize the lean team angle more.",
+      "MINOR: The sentence 'Each team member follows up differently, damaging your brand consistency across Hyderabad, Pune, and other markets' - while cities are mentioned naturally, could add one more tier-2 city like Indore or Nashik for stronger regional coverage.",
+      "FACT CHECK: Verify the \u20b94 lakh annual savings calculation is realistic and not overpromising."
+    ],
+    "publishedAt": "2026-03-10T14:31:30.482194"
+  },
+  {
+    "topic": "GoHighLevel for Real Estate Agencies in India",
+    "blogPostId": "69b080080fecd75720d3bfb0",
+    "blogSlug": "gohighlevel-real-estate-agencies-india",
+    "corrections": [
+      "PRICING ERROR: Blog states '2025' but should say '2026' per your instructions (as of 2026)",
+      "MISSING UPI: Blog mentions Razorpay and PayU but doesn't explicitly highlight UPI as a payment option, which is critical for Indian businesses",
+      "INCOMPLETE PAYMENT FLOW: The Razorpay integration section says 'Takes 5 minutes through Razorpay integration' but doesn't mention that users should also have PayU/UPI options available",
+      "TONE ISSUE: Several phrases sound slightly foreign - 'eating your lunch' is American idiom, should be 'your competitors are winning your deals' or similar",
+      "MISSING DPDP ACT REFERENCE: No mention of DPDP Act (India's data protection law) in compliance section - should be added given data handling emphasis",
+      "INCOMPLETE FAQ: 'GST-compliant' section could explicitly mention DPDP Act compliance alongside GST",
+      "VAGUE CLAIM: 'Built for real estate (lead source, property type, budget range, possession timeline)' - these are generic. Should specify GHL's actual real estate-specific features or templates",
+      "COMPARISON WEAKNESS: Zoho vs GHL comparison doesn't mention that Zoho is an Indian company (important context). Should acknowledge this and explain why GHL is still better despite Zoho being Indian-owned"
+    ],
+    "publishedAt": "2026-03-10T14:33:11.864934"
+  },
+  {
+    "topic": "GoHighLevel for Healthcare Marketing India",
+    "blogPostId": "69b080516704163f24abc84f",
+    "blogSlug": "gohighlevel-healthcare-marketing-india",
+    "corrections": [],
+    "publishedAt": "2026-03-10T14:34:24.739278"
+  },
+  {
+    "topic": "How Indian Agencies Win More Clients Using GoHighLevel Funnels",
+    "blogPostId": "69b0809e670416b73aabccbd",
+    "blogSlug": "how-indian-agencies-win-more-clients-gohighlevel-funnels",
+    "corrections": [],
+    "publishedAt": "2026-03-10T14:35:42.301850"
+  },
+  {
+    "topic": "GoHighLevel vs Zoho CRM for Indian Agencies",
+    "blogPostId": "69b0835d9166963af187b6f0",
+    "blogSlug": "gohighlevel-vs-zoho-crm-indian-agencies",
+    "corrections": [],
+    "publishedAt": "2026-03-10T14:47:25.200752"
+  },
+  {
+    "topic": "How Indian Agencies Are Replacing 10 Tools With GoHighLevel",
+    "blogPostId": "69b083ad6704163386abf59f",
+    "blogSlug": "indian-agencies-replacing-10-tools-with-gohighlevel",
+    "corrections": [],
+    "publishedAt": "2026-03-10T14:48:44.832632"
+  }
+]
