@@ -38,7 +38,9 @@ CREDENTIALS_FILE = BASE_DIR / os.getenv("GOOGLE_CREDENTIALS_FILE", "credentials.
 AUDIO_DIR.mkdir(parents=True, exist_ok=True)
 
 # ── Config ────────────────────────────────────────────────────────────────────
-DRIVE_FOLDER_ID = os.getenv("GOOGLE_DRIVE_FOLDER_ID")
+DRIVE_FOLDER_ID            = os.getenv("GOOGLE_DRIVE_FOLDER_ID")
+DRIVE_AUDIO_FOLDER_ID      = os.getenv("GOOGLE_DRIVE_AUDIO_FOLDER_ID", DRIVE_FOLDER_ID)
+DRIVE_ARTICLES_FOLDER_ID   = os.getenv("GOOGLE_DRIVE_ARTICLES_FOLDER_ID", DRIVE_FOLDER_ID)
 DRIVE_SCOPES = ["https://www.googleapis.com/auth/drive.file"]
 MIN_CONTENT_LENGTH = 3000  # chars — below this we enrich with Claude first
 GHL_SOLUTIONS_BASE = "https://help.gohighlevel.com/support/solutions"
@@ -207,7 +209,7 @@ def get_drive_service():
 
 def upload_to_drive(service, local_path: Path, filename: str) -> str:
     log(f"Uploading to Google Drive: {filename}")
-    file_metadata = {"name": filename, "parents": [DRIVE_FOLDER_ID]}
+    file_metadata = {"name": filename, "parents": [DRIVE_AUDIO_FOLDER_ID]}
     media = MediaFileUpload(str(local_path), mimetype="audio/mp4", resumable=True)
     file = service.files().create(
         body=file_metadata, media_body=media, fields="id"
@@ -218,7 +220,7 @@ def upload_to_drive(service, local_path: Path, filename: str) -> str:
 
 
 def upload_json_to_drive(service, data: dict, filename: str) -> str:
-    file_metadata = {"name": filename, "parents": [DRIVE_FOLDER_ID]}
+    file_metadata = {"name": filename, "parents": [DRIVE_ARTICLES_FOLDER_ID]}
     content = json.dumps(data, indent=2).encode("utf-8")
     media = MediaIoBaseUpload(io.BytesIO(content), mimetype="application/json")
     file = service.files().create(

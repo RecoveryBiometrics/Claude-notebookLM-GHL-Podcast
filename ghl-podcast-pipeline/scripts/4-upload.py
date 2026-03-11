@@ -217,7 +217,7 @@ def upload_transcript_to_drive(article_id: str, title: str, transcript: str) -> 
     """Upload transcript as a .txt file to Google Drive. Returns Drive file ID."""
     try:
         service = get_drive_service()
-        drive_folder_id = os.getenv("GOOGLE_DRIVE_FOLDER_ID")
+        drive_folder_id = os.getenv("GOOGLE_DRIVE_TRANSCRIPTS_FOLDER_ID") or os.getenv("GOOGLE_DRIVE_FOLDER_ID")
         safe_title = title[:50].replace("/", "-")
         filename = f"{article_id}_{safe_title}_transcript.txt"
         file_metadata = {"name": filename, "parents": [drive_folder_id]}
