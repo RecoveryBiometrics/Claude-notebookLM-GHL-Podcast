@@ -36,6 +36,17 @@
 - Text: #eef2ff (primary), #7c8aab (secondary), #3d4a63 (muted)
 - Do NOT use blue as the primary accent
 
+## Affiliate Link Rules — NEVER Break These
+
+- **Every single link to GoHighLevel.com MUST use the affiliate link** — no exceptions
+- Affiliate link: `https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12`
+- Always append UTM params: `&utm_source=globalhighlevel&utm_medium={location}&utm_campaign={context}`
+- This includes: pricing pages, feature pages, sign-up pages, help links — ANYTHING on gohighlevel.com
+- NEVER link to `gohighlevel.com/pricing` or any GHL URL without `fp_ref=amplifi-technologies12`
+- All affiliate links: `target="_blank" rel="nofollow noopener"`
+- **No placeholder `#` links** — if the real URL isn't known, link to `/category/gohighlevel-tutorials/` or `/`
+- Spotify podcast link: `https://open.spotify.com/search/Go%20High%20Level/podcasts` (update when real URL confirmed)
+
 ## Verified Facts (use ONLY these — invent nothing)
 - Site: GlobalHighLevel.com — free GHL tutorials
 - Podcast: "Go High Level" on Spotify
