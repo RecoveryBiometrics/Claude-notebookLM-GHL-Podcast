@@ -23,8 +23,9 @@ from bs4 import BeautifulSoup
 load_dotenv()
 
 # ── Config ─────────────────────────────────────────────────────────────────────
-BASE_DIR = Path(__file__).parent.parent
-LOG_FILE = BASE_DIR / "logs" / "pipeline.log"
+BASE_DIR   = Path(__file__).parent.parent
+LOG_FILE   = BASE_DIR / "logs" / "pipeline.log"
+SITE_POSTS = BASE_DIR.parent / "globalhighlevel-site" / "posts"
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 GHL_API_KEY       = os.getenv("GHL_API_KEY")
@@ -367,7 +368,26 @@ def create_blog_post(article: dict) -> dict:
         utm_campaign=utm_campaign,
     )
 
-    # Publish
+    # Save post data locally for globalhighlevel.com static site
+    try:
+        SITE_POSTS.mkdir(parents=True, exist_ok=True)
+        site_post = {
+            "slug":         post_data["slug"],
+            "title":        title,
+            "description":  post_data["meta_description"],
+            "html_content": post_data["html_content"],
+            "category":     article.get("category", "GoHighLevel Tutorials"),
+            "articleId":    str(article.get("id", "")),
+            "publishedAt":  datetime.now().isoformat(),
+        }
+        post_file = SITE_POSTS / f"{post_data['slug']}.json"
+        with open(post_file, "w") as f:
+            json.dump(site_post, f, indent=2)
+        log(f"  Saved to site/posts/{post_data['slug']}.json")
+    except Exception as e:
+        log(f"  WARNING: could not save site post file: {e}")
+
+    # Publish to GHL (keeping for now until full migration to globalhighlevel.com)
     ghl_response = publish_to_ghl(
         title=title,
         html_content=post_data["html_content"],

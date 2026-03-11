@@ -7,3 +7,4 @@ __pycache__/
 *.pyc
 ghl-podcast-pipeline/data/articles/
 ghl-podcast-pipeline/logs/
+globalhighlevel-site/public/
