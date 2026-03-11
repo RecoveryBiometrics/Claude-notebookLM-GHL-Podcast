@@ -20,10 +20,11 @@ import shutil
 from datetime import datetime
 from pathlib import Path
 
-BASE_DIR     = Path(__file__).parent
-POSTS_DIR    = BASE_DIR / "posts"
-PUBLIC_DIR   = BASE_DIR / "public"
+BASE_DIR       = Path(__file__).parent
+POSTS_DIR      = BASE_DIR / "posts"
+PUBLIC_DIR     = BASE_DIR / "public"
 PUBLISHED_JSON = BASE_DIR / ".." / "ghl-podcast-pipeline" / "data" / "published.json"
+HOMEPAGE_HERO  = BASE_DIR / "homepage_hero.html"
 
 SITE_URL     = "https://globalhighlevel.com"
 SITE_NAME    = "Global High Level"
@@ -356,12 +357,17 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
             pages_html += f'<a href="{href}" class="page-btn {active}">{i}</a>'
         pages_html = f'<div class="pagination">{pages_html}</div>'
 
-    hero = f"""
+    if page == 1 and HOMEPAGE_HERO.exists():
+        hero = HOMEPAGE_HERO.read_text(encoding="utf-8")
+    elif page == 1:
+        hero = f"""
 <div class="hero">
   <h1>Master GoHighLevel — Free</h1>
   <p>Tutorials, step-by-step guides, and strategies for agencies and businesses using GoHighLevel worldwide.</p>
   <a href="{AFFILIATE}" class="hero-btn" target="_blank" rel="nofollow">Start Your Free 30-Day Trial →</a>
-</div>""" if page == 1 else ""
+</div>"""
+    else:
+        hero = ""
 
     body = f"""{hero}
 <div class="container">
