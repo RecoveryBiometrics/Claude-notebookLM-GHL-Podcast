@@ -1,1313 +1,321 @@
 <style>
 :root {
-  --bg-primary: #0f172a;
-  --bg-secondary: #1e293b;
-  --bg-tertiary: #0d1117;
-  --bg-card: #162032;
-  --bg-offer: #0c2d1f;
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --accent-blue: #3b82f6;
-  --accent-blue-hover: #2563eb;
-  --accent-green: #1DB954;
-  --accent-green-hover: #1aa34a;
-  --accent-orange: #f59e0b;
-  --accent-purple: #8b5cf6;
-  --border-subtle: rgba(148, 163, 184, 0.1);
-  --border-card: rgba(148, 163, 184, 0.08);
-  --gradient-hero: linear-gradient(165deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%);
-  --gradient-offer: linear-gradient(165deg, #042f1a 0%, #0c4a2e 50%, #06301d 100%);
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
-  --shadow-card: 0 1px 3px rgba(0,0,0,0.3), 0 8px 32px rgba(0,0,0,0.2);
-  --shadow-button: 0 2px 8px rgba(59,130,246,0.3);
-  --max-width: 1200px;
-  --section-padding: 64px 20px;
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.6;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-/* ── NAV ── */
-.nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.nav-inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 60px;
-}
-
-.nav-logo {
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -0.3px;
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-.nav-logo .logo-icon {
-  width: 28px;
-  height: 28px;
-  background: var(--accent-blue);
-  border-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 900;
-  color: white;
-  flex-shrink: 0;
-}
-
-.nav-links {
-  display: none;
-  list-style: none;
-  gap: 32px;
-  align-items: center;
-}
-
-.nav-links a {
-  font-size: 14px;
-  color: var(--text-secondary);
-  font-weight: 500;
-  transition: color 0.2s;
-  white-space: nowrap;
-}
-
-.nav-links a:hover {
-  color: var(--text-primary);
-}
-
-.nav-cta {
-  display: none;
-}
-
-.nav-cta a {
-  display: inline-flex;
-  align-items: center;
-  padding: 8px 18px;
-  background: var(--accent-blue);
-  color: white;
-  border-radius: var(--radius-sm);
-  font-size: 13px;
-  font-weight: 600;
-  transition: background 0.2s;
-  white-space: nowrap;
-}
-
-.nav-cta a:hover {
-  background: var(--accent-blue-hover);
-}
-
-.hamburger {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  padding: 8px;
-  min-height: 44px;
-  min-width: 44px;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-}
-
-.hamburger span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: var(--text-secondary);
-  border-radius: 2px;
-  transition: all 0.3s;
-}
-
-.mobile-menu {
-  display: none;
-  position: fixed;
-  top: 60px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(15, 23, 42, 0.98);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  z-index: 999;
-  padding: 32px 20px;
-}
-
-.mobile-menu.is-open {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.mobile-menu a {
-  display: flex;
-  align-items: center;
-  padding: 16px;
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  border-radius: var(--radius-md);
-  min-height: 52px;
-  transition: all 0.2s;
-}
-
-.mobile-menu a:hover {
-  background: var(--bg-card);
-  color: var(--text-primary);
-}
-
-.mobile-menu .mobile-cta {
-  margin-top: 16px;
-  padding: 16px;
-  background: var(--accent-blue);
-  color: white;
-  font-weight: 600;
-  border-radius: var(--radius-md);
-  text-align: center;
-  justify-content: center;
-}
-
-/* ── HERO ── */
-.hero {
-  position: relative;
-  padding: 120px 20px 64px;
-  background: var(--gradient-hero);
-  overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image:
-    radial-gradient(ellipse 600px 400px at 20% 50%, rgba(59,130,246,0.08) 0%, transparent 70%),
-    radial-gradient(ellipse 500px 300px at 80% 30%, rgba(139,92,246,0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: radial-gradient(rgba(148,163,184,0.03) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
-}
-
-.hero-inner {
-  position: relative;
-  z-index: 1;
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  background: rgba(59,130,246,0.1);
-  border: 1px solid rgba(59,130,246,0.2);
-  border-radius: 100px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--accent-blue);
-  margin-bottom: 24px;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-}
-
-.hero h1 {
-  font-size: 32px;
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -1px;
-  color: var(--text-primary);
-  margin-bottom: 16px;
-}
-
-.hero h1 .gradient-text {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-sub {
-  font-size: 16px;
-  color: var(--text-secondary);
-  line-height: 1.7;
-  margin-bottom: 32px;
-  max-width: 560px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.hero-ctas {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 16px 32px;
-  background: var(--accent-blue);
-  color: white;
-  font-size: 15px;
-  font-weight: 700;
-  border-radius: var(--radius-md);
-  min-height: 52px;
-  width: 100%;
-  max-width: 380px;
-  transition: all 0.2s;
-  box-shadow: var(--shadow-button);
-  border: none;
-  cursor: pointer;
-}
-
-.btn-primary:hover {
-  background: var(--accent-blue-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(59,130,246,0.4);
-}
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 14px 28px;
-  background: transparent;
-  color: var(--text-secondary);
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: var(--radius-md);
-  min-height: 48px;
-  width: 100%;
-  max-width: 380px;
-  border: 1px solid var(--border-subtle);
-  transition: all 0.2s;
-  cursor: pointer;
-}
-
-.btn-secondary:hover {
-  border-color: var(--text-muted);
-  color: var(--text-primary);
-  background: rgba(148,163,184,0.05);
-}
-
-.trust-strip {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 24px;
-  padding-top: 32px;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.trust-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-.trust-item .trust-icon {
-  font-size: 16px;
-}
-
-.trust-item strong {
-  color: var(--text-secondary);
-  font-weight: 700;
-}
-
-/* ── SOCIAL PROOF BAR ── */
-.proof-bar {
-  padding: 40px 20px;
-  background: var(--bg-tertiary);
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.proof-bar-inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-  text-align: center;
-}
-
-.proof-stat {
-  padding: 16px;
-}
-
-.proof-stat .number {
-  font-size: 36px;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: -1px;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.proof-stat .label {
-  font-size: 13px;
-  color: var(--text-muted);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* ── WHO THIS IS FOR ── */
-.who-section {
-  padding: var(--section-padding);
-  background: var(--bg-primary);
-}
-
-.section-inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: 48px;
-}
-
-.section-label {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--accent-blue);
-  margin-bottom: 12px;
-}
-
-.section-title {
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  line-height: 1.2;
-  color: var(--text-primary);
-  margin-bottom: 12px;
-}
-
-.section-subtitle {
-  font-size: 15px;
-  color: var(--text-secondary);
-  max-width: 520px;
-  margin: 0 auto;
-  line-height: 1.6;
-}
-
-.audience-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-
-.audience-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-lg);
-  padding: 28px 24px;
-  transition: all 0.3s;
-}
-
-.audience-card:hover {
-  border-color: rgba(59,130,246,0.2);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card);
-}
-
-.audience-card .card-icon {
-  font-size: 32px;
-  margin-bottom: 16px;
-  display: block;
-}
-
-.audience-card h3 {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-  letter-spacing: -0.2px;
-}
-
-.audience-card p {
-  font-size: 14px;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-/* ── WHAT YOU GET ── */
-.benefits-section {
-  padding: var(--section-padding);
-  background: var(--bg-secondary);
-}
-
-.benefits-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-
-.benefit-card {
-  background: var(--bg-primary);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-lg);
-  padding: 28px 24px;
-  transition: all 0.3s;
-}
-
-.benefit-card:hover {
-  border-color: rgba(139,92,246,0.2);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card);
-}
-
-.benefit-card .benefit-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  margin-bottom: 16px;
-}
-
-.benefit-card:nth-child(1) .benefit-icon { background: rgba(59,130,246,0.12); }
-.benefit-card:nth-child(2) .benefit-icon { background: rgba(139,92,246,0.12); }
-.benefit-card:nth-child(3) .benefit-icon { background: rgba(245,158,11,0.12); }
-
-.benefit-card h3 {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-  letter-spacing: -0.2px;
-}
-
-.benefit-card p {
-  font-size: 14px;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-/* ── MID CTA ── */
-.mid-cta {
-  padding: 56px 20px;
-  background: var(--bg-primary);
-  text-align: center;
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.mid-cta-inner {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.mid-cta p {
-  font-size: 16px;
-  color: var(--text-secondary);
-  margin-bottom: 24px;
-  line-height: 1.6;
-}
-
-.mid-cta .btn-primary {
-  max-width: 380px;
-}
-
-.mid-cta .offer-note {
-  margin-top: 12px;
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-/* ── THE OFFER ── */
-.offer-section {
-  padding: 72px 20px;
-  background: var(--gradient-offer);
-  position: relative;
-  overflow: hidden;
-}
-
-.offer-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: radial-gradient(rgba(29,185,84,0.04) 1px, transparent 1px);
-  background-size: 24px 24px;
-  pointer-events: none;
-}
-
-.offer-inner {
-  position: relative;
-  z-index: 1;
-  max-width: 680px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.offer-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 16px;
-  background: rgba(29,185,84,0.15);
-  border: 1px solid rgba(29,185,84,0.25);
-  border-radius: 100px;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--accent-green);
-  margin-bottom: 24px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.offer-section .section-title {
-  font-size: 28px;
-  margin-bottom: 16px;
-}
-
-.offer-comparison {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin: 32px 0;
-  flex-wrap: wrap;
-}
-
-.offer-box {
-  padding: 20px 24px;
-  border-radius: var(--radius-md);
-  min-width: 140px;
-  flex: 1;
-  max-width: 220px;
-}
-
-.offer-box.standard {
-  background: rgba(148,163,184,0.08);
-  border: 1px solid rgba(148,163,184,0.1);
-}
-
-.offer-box.exclusive {
-  background: rgba(29,185,84,0.1);
-  border: 2px solid rgba(29,185,84,0.35);
-  position: relative;
-}
-
-.offer-box .box-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.offer-box.standard .box-label { color: var(--text-muted); }
-.offer-box.exclusive .box-label { color: var(--accent-green); }
-
-.offer-box .box-days {
-  font-size: 40px;
-  font-weight: 800;
-  line-height: 1;
-  margin-bottom: 4px;
-  letter-spacing: -1px;
-}
-
-.offer-box.standard .box-days {
-  color: var(--text-muted);
-  text-decoration: line-through;
-  text-decoration-color: rgba(148,163,184,0.4);
-}
-
-.offer-box.exclusive .box-days { color: var(--text-primary); }
-
-.offer-box .box-sub {
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-.offer-box.exclusive .box-sub { color: var(--text-secondary); }
-
-.offer-details {
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin-bottom: 32px;
-  line-height: 1.7;
-}
-
-.btn-offer {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 18px 40px;
-  background: var(--accent-green);
-  color: white;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: var(--radius-md);
-  min-height: 56px;
-  width: 100%;
-  max-width: 380px;
-  transition: all 0.2s;
-  box-shadow: 0 2px 12px rgba(29,185,84,0.3);
-  border: none;
-  cursor: pointer;
-}
-
-.btn-offer:hover {
-  background: var(--accent-green-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(29,185,84,0.4);
-}
-
-.offer-note {
-  margin-top: 16px;
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-/* ── TUTORIALS ── */
-.tutorials-section {
-  padding: var(--section-padding);
-  background: var(--bg-primary);
-}
-
-.tutorials-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-
-.tutorial-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  transition: all 0.3s;
-  display: flex;
-  flex-direction: column;
-}
-
-.tutorial-card:hover {
-  border-color: rgba(59,130,246,0.2);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-card);
-}
-
-.tutorial-badge {
-  display: inline-flex;
-  align-self: flex-start;
-  padding: 4px 10px;
-  border-radius: 100px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 14px;
-}
-
-.tutorial-badge.automation { background: rgba(59,130,246,0.12); color: var(--accent-blue); }
-.tutorial-badge.ai { background: rgba(139,92,246,0.12); color: var(--accent-purple); }
-.tutorial-badge.funnels { background: rgba(245,158,11,0.12); color: var(--accent-orange); }
-
-.tutorial-card h3 {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-  line-height: 1.3;
-  letter-spacing: -0.2px;
-}
-
-.tutorial-card p {
-  font-size: 14px;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 16px;
-  flex-grow: 1;
-}
-
-.tutorial-link {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--accent-blue);
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  transition: gap 0.2s;
-}
-
-.tutorial-link:hover {
-  gap: 8px;
-}
-
-.tutorials-more {
-  text-align: center;
-  margin-top: 32px;
-}
-
-/* ── PODCAST ── */
-.podcast-section {
-  padding: var(--section-padding);
-  background: var(--bg-secondary);
-}
-
-.podcast-inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-}
-
-.podcast-card {
-  background: var(--bg-primary);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-xl);
-  padding: 32px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  overflow: hidden;
-  position: relative;
-}
-
-.podcast-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent-green), #1ed760);
-}
-
-.podcast-artwork {
-  width: 100%;
-  max-width: 200px;
-  aspect-ratio: 1;
-  border-radius: var(--radius-md);
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  border: 1px solid var(--border-subtle);
-}
-
-.podcast-artwork .artwork-emoji {
-  font-size: 48px;
-  margin-bottom: 8px;
-}
-
-.podcast-artwork .artwork-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-primary);
-  text-align: center;
-  padding: 0 12px;
-}
-
-.podcast-content {
-  text-align: center;
-}
-
-.podcast-content h3 {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 8px;
-  letter-spacing: -0.3px;
-}
-
-.podcast-content .podcast-subtitle {
-  font-size: 14px;
-  color: var(--text-secondary);
-  margin-bottom: 20px;
-  line-height: 1.6;
-}
-
-.podcast-stats {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-}
-
-.podcast-stat {
-  text-align: center;
-}
-
-.podcast-stat .stat-num {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text-primary);
-  line-height: 1;
-}
-
-.podcast-stat .stat-label {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 4px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.podcast-top {
-  padding: 12px 16px;
-  background: rgba(29,185,84,0.08);
-  border: 1px solid rgba(29,185,84,0.15);
-  border-radius: var(--radius-md);
-  margin-bottom: 24px;
-}
-
-.podcast-top .top-label {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--accent-green);
-  margin-bottom: 4px;
-}
-
-.podcast-top .top-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.podcast-top .top-streams {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
-
-.btn-spotify {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 14px 28px;
-  background: var(--accent-green);
-  color: white;
-  font-size: 15px;
-  font-weight: 700;
-  border-radius: 100px;
-  min-height: 50px;
-  transition: all 0.2s;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-spotify:hover {
-  background: var(--accent-green-hover);
-  transform: translateY(-1px);
-}
-
-.btn-spotify .spotify-icon {
-  width: 20px;
-  height: 20px;
-  background: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-}
-
-.podcast-note {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 12px;
-}
-
-/* ── FINAL CTA ── */
-.final-cta {
-  padding: 80px 20px;
-  background: var(--gradient-offer);
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.final-cta::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image:
-    radial-gradient(ellipse 500px 300px at 50% 50%, rgba(29,185,84,0.08) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.final-cta-inner {
-  position: relative;
-  z-index: 1;
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-.final-cta h2 {
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  line-height: 1.2;
-  color: var(--text-primary);
-  margin-bottom: 16px;
-}
-
-.final-cta p {
-  font-size: 15px;
-  color: var(--text-secondary);
-  margin-bottom: 32px;
-  line-height: 1.6;
-}
-
-.final-cta .btn-offer {
-  max-width: 420px;
-  font-size: 17px;
-  padding: 20px 40px;
-  min-height: 60px;
-}
-
-.final-note {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 16px;
-}
-
-.final-urgency {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: rgba(29,185,84,0.12);
-  border: 1px solid rgba(29,185,84,0.2);
-  border-radius: 100px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--accent-green);
-  margin-bottom: 24px;
-}
-
-/* ── FOOTER ── */
-.footer {
-  padding: 40px 20px;
-  background: var(--bg-primary);
-  border-top: 1px solid var(--border-subtle);
-}
-
-.footer-inner {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  text-align: center;
-}
-
-.footer-brand {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text-secondary);
-  margin-bottom: 8px;
-}
-
-.footer-text {
-  font-size: 12px;
-  color: var(--text-muted);
-  line-height: 1.6;
-  max-width: 480px;
-  margin: 0 auto;
-}
-
-.footer-links {
-  margin-top: 16px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.footer-links a {
-  font-size: 12px;
-  color: var(--text-muted);
-  transition: color 0.2s;
-}
-
-.footer-links a:hover {
-  color: var(--text-secondary);
-}
-
-/* ════════════════════════════════════
-   TABLET — min-width 768px
-   ════════════════════════════════════ */
-@media (min-width: 768px) {
-  :root {
-    --section-padding: 96px 40px;
-  }
-
-  .nav-inner {
-    padding: 0 40px;
-    height: 64px;
-  }
-
-  .nav-logo {
-    font-size: 18px;
-  }
-
-  .nav-links {
-    display: flex;
-  }
-
-  .nav-cta {
-    display: block;
-  }
-
-  .hamburger {
-    display: none;
-  }
-
-  .hero {
-    padding: 160px 40px 100px;
-  }
-
-  .hero h1 {
-    font-size: 52px;
-    letter-spacing: -2px;
-  }
-
-  .hero-sub {
-    font-size: 18px;
-  }
-
-  .hero-ctas {
-    flex-direction: row;
-    justify-content: center;
-    gap: 16px;
-  }
-
-  .btn-primary, .btn-secondary {
-    width: auto;
-  }
-
-  .trust-strip {
-    gap: 40px;
-  }
-
-  .proof-bar-inner {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-  }
-
-  .proof-stat {
-    padding: 24px;
-  }
-
-  .proof-stat:not(:last-child) {
-    border-right: 1px solid var(--border-subtle);
-  }
-
-  .proof-stat .number {
-    font-size: 48px;
-  }
-
-  .proof-stat .label {
-    font-size: 14px;
-  }
-
-  .section-title {
-    font-size: 36px;
-  }
-
-  .audience-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  .audience-card {
-    padding: 36px 28px;
-  }
-
-  .benefits-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  .benefit-card {
-    padding: 36px 28px;
-  }
-
-  .mid-cta {
-    padding: 72px 40px;
-  }
-
-  .mid-cta p {
-    font-size: 18px;
-  }
-
-  .offer-section {
-    padding: 96px 40px;
-  }
-
-  .offer-section .section-title {
-    font-size: 36px;
-  }
-
-  .offer-comparison {
-    gap: 24px;
-  }
-
-  .tutorials-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  .podcast-card {
-    flex-direction: row;
-    align-items: center;
-    padding: 48px;
-    gap: 48px;
-  }
-
-  .podcast-artwork {
-    min-width: 200px;
-    max-width: 200px;
-    margin: 0;
-  }
-
-  .podcast-content {
-    text-align: left;
-    flex: 1;
-  }
-
-  .podcast-content h3 {
-    font-size: 26px;
-  }
-
-  .podcast-stats {
-    justify-content: flex-start;
-    gap: 32px;
-  }
-
-  .final-cta {
-    padding: 120px 40px;
-  }
-
-  .final-cta h2 {
-    font-size: 40px;
-  }
-
-  .final-cta p {
-    font-size: 17px;
-  }
-
-  .footer {
-    padding: 48px 40px;
-  }
-}
-
-/* ════════════════════════════════════
-   LARGE DESKTOP — 1024px+
-   ════════════════════════════════════ */
-@media (min-width: 1024px) {
-  .hero h1 {
-    font-size: 64px;
-    letter-spacing: -2.5px;
-  }
-
-  .hero-sub {
-    font-size: 20px;
-  }
-
-  .section-title {
-    font-size: 40px;
-  }
-
-  .offer-section .section-title {
-    font-size: 40px;
-  }
-
-  .audience-card, .benefit-card {
-    padding: 40px 32px;
-  }
+  --bg: #0f172a;
+  --bg2: #1e293b;
+  --blue: #3b82f6;
+  --blue-dark: #2563eb;
+  --green: #1DB954;
+  --text: #f1f5f9;
+  --text2: #94a3b8;
+  --border: rgba(148,163,184,0.12);
+  --max: 1100px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,23,42,0.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-size:1.1rem;font-weight:800;letter-spacing:-.3px}
+.logo span{color:var(--blue)}
+.nav-cta{background:var(--blue);color:#fff;padding:9px 18px;border-radius:7px;font-size:.85rem;font-weight:700;white-space:nowrap}
+.nav-cta:hover{background:var(--blue-dark)}
+
+/* HERO */
+.hero{padding:140px 20px 80px;text-align:center;background:linear-gradient(160deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(59,130,246,.15) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-block;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);color:var(--blue);font-size:.78rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:24px}
+.hero h1{font-size:2.6rem;font-weight:800;line-height:1.15;letter-spacing:-.5px;max-width:700px;margin:0 auto 20px}
+.hero h1 span{color:var(--blue)}
+.hero p{font-size:1.1rem;color:var(--text2);max-width:560px;margin:0 auto 36px}
+.btn-group{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--blue);color:#fff;padding:14px 28px;border-radius:8px;font-weight:700;font-size:1rem;display:inline-block;transition:background .2s}
+.btn-primary:hover{background:var(--blue-dark)}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border);padding:14px 28px;border-radius:8px;font-weight:600;font-size:1rem;display:inline-block;transition:border-color .2s}
+.btn-secondary:hover{border-color:var(--blue);color:var(--blue)}
+.trust-strip{margin-top:48px;display:flex;gap:32px;justify-content:center;flex-wrap:wrap;padding-top:32px;border-top:1px solid var(--border)}
+.trust-item{text-align:center}
+.trust-num{font-size:1.6rem;font-weight:800;color:var(--text)}
+.trust-label{font-size:.78rem;color:var(--text2);margin-top:2px}
+
+/* STATS BAR */
+.stats-bar{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:32px 20px}
+.stats-inner{max-width:var(--max);margin:0 auto;display:flex;gap:0;justify-content:space-around;flex-wrap:wrap;gap:20px}
+.stat{text-align:center;padding:0 16px}
+.stat-num{font-size:2rem;font-weight:800;color:var(--blue)}
+.stat-label{font-size:.85rem;color:var(--text2);margin-top:4px}
+
+/* SECTIONS */
+section{padding:72px 20px}
+.inner{max-width:var(--max);margin:0 auto}
+.section-label{font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
+.section-title{font-size:2rem;font-weight:800;letter-spacing:-.3px;margin-bottom:16px}
+.section-sub{font-size:1rem;color:var(--text2);max-width:560px;margin-bottom:48px}
+
+/* AUDIENCE CARDS */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:28px 24px}
+.card-icon{font-size:2rem;margin-bottom:16px}
+.card h3{font-size:1.05rem;font-weight:700;margin-bottom:10px}
+.card p{font-size:.9rem;color:var(--text2);line-height:1.6}
+
+/* OFFER */
+.offer-section{background:linear-gradient(150deg,#042f1a 0%,#0c4a2e 100%);border-top:1px solid rgba(29,185,84,.2);border-bottom:1px solid rgba(29,185,84,.2);padding:80px 20px}
+.offer-box{max-width:700px;margin:0 auto;text-align:center}
+.offer-badge{display:inline-block;background:rgba(29,185,84,.15);border:1px solid rgba(29,185,84,.3);color:var(--green);font-size:.78rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:24px}
+.offer-section .section-title{font-size:2.2rem}
+.offer-section .section-sub{color:rgba(241,245,249,.75);margin:0 auto 16px}
+.offer-highlight{font-size:1rem;font-weight:700;color:var(--green);margin-bottom:36px}
+.btn-green{background:var(--green);color:#000;padding:16px 32px;border-radius:8px;font-weight:700;font-size:1.05rem;display:inline-block;transition:opacity .2s}
+.btn-green:hover{opacity:.9}
+.offer-note{font-size:.8rem;color:rgba(241,245,249,.45);margin-top:16px}
+
+/* TUTORIALS GRID */
+.tutorials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tutorial-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:24px;display:flex;flex-direction:column}
+.tutorial-cat{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--blue);margin-bottom:10px}
+.tutorial-title{font-size:1rem;font-weight:700;line-height:1.4;margin-bottom:10px;flex:1}
+.tutorial-title a{color:var(--text)}
+.tutorial-title a:hover{color:var(--blue)}
+.tutorial-desc{font-size:.85rem;color:var(--text2);line-height:1.5;margin-bottom:16px}
+.tutorial-link{font-size:.85rem;font-weight:600;color:var(--blue)}
+.tutorial-link:hover{text-decoration:underline}
+
+/* PODCAST */
+.podcast-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:72px 20px}
+.podcast-inner{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.podcast-stats{display:flex;flex-direction:column;gap:16px;margin-top:28px}
+.p-stat{display:flex;align-items:center;gap:12px}
+.p-stat-num{font-size:1.4rem;font-weight:800;color:var(--green)}
+.p-stat-label{font-size:.9rem;color:var(--text2)}
+.btn-spotify{background:var(--green);color:#000;padding:14px 28px;border-radius:8px;font-weight:700;display:inline-block;margin-top:28px}
+.btn-spotify:hover{opacity:.9}
+
+/* FINAL CTA */
+.final-cta{background:linear-gradient(160deg,#1e3a5f 0%,#0f172a 100%);padding:96px 20px;text-align:center;border-top:1px solid var(--border)}
+.final-cta .section-title{font-size:2.4rem;max-width:600px;margin:0 auto 16px}
+.final-cta .section-sub{margin:0 auto 36px}
+
+/* FOOTER */
+footer{background:#060d1a;border-top:1px solid var(--border);padding:48px 20px 28px}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;margin-bottom:36px}
+.footer-brand{font-size:1.1rem;font-weight:800}
+.footer-brand span{color:var(--blue)}
+.footer-brand p{font-size:.85rem;color:var(--text2);margin-top:10px;font-weight:400;line-height:1.6}
+.footer-col h4{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text2);margin-bottom:14px}
+.footer-col a{display:block;font-size:.85rem;color:var(--text2);margin-bottom:8px}
+.footer-col a:hover{color:var(--text)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:20px;font-size:.78rem;color:var(--text2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.disclaimer{font-size:.75rem;color:rgba(148,163,184,.5);margin-top:12px;line-height:1.5}
+
+/* MOBILE */
+@media(max-width:767px){
+  .hero{padding:110px 20px 60px}
+  .hero h1{font-size:1.8rem}
+  .hero p{font-size:1rem}
+  .trust-strip{gap:20px}
+  .stats-inner{gap:12px}
+  .stat-num{font-size:1.5rem}
+  .cards3{grid-template-columns:1fr}
+  .tutorials-grid{grid-template-columns:1fr}
+  .podcast-inner{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .section-title{font-size:1.6rem}
+  .final-cta .section-title{font-size:1.7rem}
+  .btn-group{flex-direction:column;align-items:center}
+  .btn-primary,.btn-secondary{width:100%;max-width:320px;text-align:center}
 }
 </style>
 
-<header class="nav" role="banner">
+<nav>
   <div class="nav-inner">
-    <a href="/" class="nav-
+    <div class="logo">Global<span>HighLevel</span></div>
+    <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=nav&utm_campaign=hero" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Free GoHighLevel Tutorials</div>
+  <h1>Stop Guessing.<br>Start <span>Scaling</span> with GHL.</h1>
+  <p>80+ step-by-step guides and a weekly podcast for agency owners and freelancers who actually use GoHighLevel.</p>
+  <div class="btn-group">
+    <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=homepage&utm_campaign=hero" class="btn-primary" target="_blank" rel="nofollow noopener">Start My Free 30-Day Trial →</a>
+    <a href="#tutorials" class="btn-secondary">Browse Tutorials</a>
+  </div>
+  <div class="trust-strip">
+    <div class="trust-item"><div class="trust-num">80+</div><div class="trust-label">Free Tutorials</div></div>
+    <div class="trust-item"><div class="trust-num">380</div><div class="trust-label">Podcast Followers</div></div>
+    <div class="trust-item"><div class="trust-num">6,479</div><div class="trust-label">All-Time Streams</div></div>
+    <div class="trust-item"><div class="trust-num">492</div><div class="trust-label">Top Episode Streams</div></div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">80+</div><div class="stat-label">Published guides</div></div>
+    <div class="stat"><div class="stat-num">380</div><div class="stat-label">Podcast followers</div></div>
+    <div class="stat"><div class="stat-num">6,479</div><div class="stat-label">Total streams</div></div>
+    <div class="stat"><div class="stat-num">30</div><div class="stat-label">Day free trial</div></div>
+  </div>
+</div>
+
+<!-- WHO THIS IS FOR -->
+<section>
+  <div class="inner">
+    <div class="section-label">Who This Is For</div>
+    <h2 class="section-title">Built for the people actually using GHL</h2>
+    <p class="section-sub">Not theory. Not overviews. Real walkthroughs for people running real businesses on GoHighLevel.</p>
+    <div class="cards3">
+      <div class="card">
+        <div class="card-icon">🏢</div>
+        <h3>Digital Marketing Agencies</h3>
+        <p>You're managing 10+ clients on GHL and something always breaks. Get the exact setup guides your team needs — from sub-accounts to automations to white-label.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💻</div>
+        <h3>Freelancers & Consultants</h3>
+        <p>You sold a client on GHL and now you have to deliver. Step-by-step walkthroughs for funnels, automations, and calendar setups — without the learning curve panic.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📈</div>
+        <h3>Business Owners</h3>
+        <p>You switched to GHL to save money and consolidate tools. Learn how to replace your email platform, CRM, booking system, and more — all in one place.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU GET -->
+<section style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="inner">
+    <div class="section-label">What You Get</div>
+    <h2 class="section-title">Everything free. No catch.</h2>
+    <p class="section-sub">GlobalHighLevel exists because GoHighLevel's official docs don't show you how to actually use it. We do.</p>
+    <div class="cards3">
+      <div class="card" style="background:var(--bg)">
+        <div class="card-icon">📖</div>
+        <h3>Written Guides</h3>
+        <p>80+ tutorials covering every major GHL feature — automations, AI bots, funnels, pipelines, calendars, and more. Search what you need, get the answer.</p>
+      </div>
+      <div class="card" style="background:var(--bg)">
+        <div class="card-icon">🎙️</div>
+        <h3>Podcast Episodes</h3>
+        <p>Every topic also has a podcast episode on Spotify. Listen while you work, commute, or set things up. New episodes automatically every day.</p>
+      </div>
+      <div class="card" style="background:var(--bg)">
+        <div class="card-icon">🔗</div>
+        <h3>30-Day Free Trial</h3>
+        <p>We've negotiated double the standard trial — 30 days instead of 14. Start with our affiliate link and get a full month to test GHL before paying anything.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE OFFER -->
+<div class="offer-section">
+  <div class="offer-box">
+    <div class="offer-badge">Exclusive Offer</div>
+    <h2 class="section-title">Get 30 Days Free — Not 14</h2>
+    <p class="section-sub">GoHighLevel's standard trial is 14 days. Sign up through our link and you get 30. That's double the time to build your automations, test your funnels, and decide if GHL is right for you.</p>
+    <p class="offer-highlight">✓ Double the standard trial &nbsp;·&nbsp; ✓ No credit card pressure &nbsp;·&nbsp; ✓ Cancel anytime</p>
+    <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=offer&utm_campaign=30day" class="btn-green" target="_blank" rel="nofollow noopener">Start My Free 30-Day Trial →</a>
+    <p class="offer-note">GHL starts at $97/month after trial. Cancel before then and you pay nothing.</p>
+  </div>
+</div>
+
+<!-- TUTORIALS -->
+<section id="tutorials">
+  <div class="inner">
+    <div class="section-label">Latest Tutorials</div>
+    <h2 class="section-title">Start with what you need right now</h2>
+    <p class="section-sub">Every guide is written to get you from zero to done — not to explain what GHL is.</p>
+    <!-- build.py injects real posts here via id="tutorials-grid" -->
+    <div id="tutorials-grid" class="tutorials-grid">
+      <div class="tutorial-card">
+        <div class="tutorial-cat">Automation</div>
+        <div class="tutorial-title"><a href="#">How to Build a GoHighLevel SMS Automation from Scratch</a></div>
+        <div class="tutorial-desc">Set up a full lead nurture sequence that fires automatically when someone fills out your form.</div>
+        <a href="#" class="tutorial-link">Read Guide →</a>
+      </div>
+      <div class="tutorial-card">
+        <div class="tutorial-cat">AI Features</div>
+        <div class="tutorial-title"><a href="#">GoHighLevel Conversation AI Bot: Full Setup Guide</a></div>
+        <div class="tutorial-desc">Configure GHL's AI chatbot to qualify leads 24/7 without lifting a finger.</div>
+        <a href="#" class="tutorial-link">Read Guide →</a>
+      </div>
+      <div class="tutorial-card">
+        <div class="tutorial-cat">Funnels</div>
+        <div class="tutorial-title"><a href="#">Build a High-Converting Lead Capture Funnel in GHL</a></div>
+        <div class="tutorial-desc">Step-by-step funnel build inside GoHighLevel — no ClickFunnels needed.</div>
+        <a href="#" class="tutorial-link">Read Guide →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PODCAST -->
+<div class="podcast-section">
+  <div class="podcast-inner">
+    <div>
+      <div class="section-label">Podcast</div>
+      <h2 class="section-title">Go High Level on Spotify</h2>
+      <p style="color:var(--text2);font-size:.95rem">New episodes every day. Every tutorial on this site also has a podcast version — listen while you work.</p>
+      <div class="podcast-stats">
+        <div class="p-stat"><div class="p-stat-num">380</div><div class="p-stat-label">followers on Spotify</div></div>
+        <div class="p-stat"><div class="p-stat-num">6,479</div><div class="p-stat-label">all-time streams</div></div>
+        <div class="p-stat"><div class="p-stat-num">492</div><div class="p-stat-label">streams on top episode</div></div>
+      </div>
+      <a href="#" class="btn-spotify" target="_blank" rel="noopener">Listen on Spotify →</a>
+    </div>
+    <div>
+      <div class="card" style="background:var(--bg);border-color:rgba(29,185,84,.2)">
+        <div style="color:var(--green);font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Top Episode</div>
+        <h3 style="font-size:1.1rem;margin-bottom:10px;line-height:1.4">GoHighLevel Conversation AI Bot</h3>
+        <p style="color:var(--text2);font-size:.9rem;margin-bottom:16px">Our most-listened episode with 492 streams. Learn how GHL's AI bot handles leads automatically.</p>
+        <div style="display:flex;align-items:center;gap:8px;color:var(--green);font-size:.85rem;font-weight:600">
+          <span>●</span> 492 streams
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <div class="section-label">Get Started</div>
+  <h2 class="section-title">30 days to decide. Zero risk.</h2>
+  <p class="section-sub" style="color:var(--text2);max-width:500px;margin:0 auto 36px">Use our link, get double the standard trial, and use the guides on this site to set everything up. If it's not for you, cancel before day 30.</p>
+  <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=footer-cta&utm_campaign=30day" class="btn-primary" style="font-size:1.1rem;padding:16px 36px" target="_blank" rel="nofollow noopener">Start My Free 30-Day Trial →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Global<span>HighLevel</span><p>Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide.</p></div>
+        <p class="disclaimer">Affiliate disclosure: Some links on this site are affiliate links. If you sign up through our link, we may earn a commission at no extra cost to you. This site is not affiliated with GoHighLevel LLC.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="/">Home</a>
+        <a href="/category/gohighlevel-tutorials/">Tutorials</a>
+        <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=footer&utm_campaign=nav" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://help.gohighlevel.com" target="_blank" rel="noopener">GHL Help Center</a>
+        <a href="https://www.gohighlevel.com/pricing" target="_blank" rel="noopener">GHL Pricing</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 GlobalHighLevel.com — All rights reserved</span>
+      <span>Not affiliated with GoHighLevel LLC</span>
+    </div>
+  </div>
+</footer>
