@@ -1,0 +1,349 @@
+"""
+5-blog.py
+Generates and publishes an SEO blog post to GHL (reiamplifi.com) for each episode.
+
+Flow:
+  1. Scrape DuckDuckGo for top results on the episode topic
+  2. Scrape Reddit for real user questions about the topic
+  3. Claude writes a full SEO blog post using transcript + SERP data + Reddit questions
+  4. Publish to GHL blog via REST API
+"""
+
+import json
+import os
+import re
+import time
+import requests
+from datetime import datetime
+from pathlib import Path
+from dotenv import load_dotenv
+import anthropic
+from bs4 import BeautifulSoup
+
+load_dotenv()
+
+# ── Config ─────────────────────────────────────────────────────────────────────
+BASE_DIR = Path(__file__).parent.parent
+LOG_FILE = BASE_DIR / "logs" / "pipeline.log"
+
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+GHL_API_KEY       = os.getenv("GHL_API_KEY")
+GHL_LOCATION_ID   = os.getenv("GHL_LOCATION_ID")
+GHL_AFFILIATE_LINK = os.getenv("GHL_AFFILIATE_LINK")
+
+GHL_API_BASE = "https://services.leadconnectorhq.com"
+
+# Hardcoded GHL blog config
+BLOG_ID     = "0KLFiNIFJ5OtlM836Gfi"
+AUTHOR_ID   = "680b01f0c55be738c7e7287a"
+CATEGORY_ID = "680b01923c1c207691887512"
+
+HEADERS_DDG = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
+}
+HEADERS_GHL = {
+    "Authorization": f"Bearer {GHL_API_KEY}",
+    "Content-Type": "application/json",
+    "Version": "2021-07-28",
+}
+
+
+# ── Logging ───────────────────────────────────────────────────────────────────
+def log(msg: str):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    line = f"[{timestamp}] [BLOG] {msg}"
+    print(line)
+    with open(LOG_FILE, "a") as f:
+        f.write(line + "\n")
+
+
+# ── DuckDuckGo SERP Scrape ─────────────────────────────────────────────────────
+def scrape_duckduckgo(query: str, max_results: int = 5) -> list[dict]:
+    """Scrape top DuckDuckGo results for a query. Returns list of {title, snippet, url}."""
+    log(f"  Scraping DuckDuckGo: {query}")
+    try:
+        url = "https://html.duckduckgo.com/html/"
+        resp = requests.post(
+            url,
+            data={"q": query},
+            headers=HEADERS_DDG,
+            timeout=15,
+        )
+        soup = BeautifulSoup(resp.text, "html.parser")
+        results = []
+        for result in soup.select(".result__body")[:max_results + 3]:
+            title_el = result.select_one(".result__title")
+            snippet_el = result.select_one(".result__snippet")
+            url_el = result.select_one(".result__url")
+            # Skip ads (DuckDuckGo injects them with "Ad" badge)
+            if result.select_one(".badge--ad"):
+                continue
+            if title_el and snippet_el:
+                results.append({
+                    "title": title_el.get_text(strip=True),
+                    "snippet": snippet_el.get_text(strip=True),
+                    "url": url_el.get_text(strip=True) if url_el else "",
+                })
+            if len(results) >= max_results:
+                break
+        log(f"  Found {len(results)} SERP results")
+        for r in results:
+            log(f"    SERP: {r['title']}")
+        return results
+    except Exception as e:
+        log(f"  DuckDuckGo scrape failed: {e}")
+        return []
+
+
+# ── Reddit Scrape ──────────────────────────────────────────────────────────────
+def scrape_reddit(query: str, max_results: int = 5) -> list[str]:
+    """Fetch top Reddit questions about the topic from relevant subreddits."""
+    log(f"  Scraping Reddit: {query}")
+    subreddits = ["GoHighLevel", "marketing", "automation", "entrepreneur"]
+    questions = []
+
+    for subreddit in subreddits:
+        if len(questions) >= max_results:
+            break
+        try:
+            url = f"https://www.reddit.com/r/{subreddit}/search.json"
+            params = {"q": query, "restrict_sr": 1, "sort": "top", "limit": max_results, "type": "link"}
+            resp = requests.get(
+                url,
+                params=params,
+                headers={"User-Agent": "GHLBlogBot/1.0"},
+                timeout=15,
+            )
+            data = resp.json()
+            posts = data.get("data", {}).get("children", [])
+            for post in posts:
+                title = post.get("data", {}).get("title", "")
+                if title and title not in questions:
+                    questions.append(title)
+        except Exception as e:
+            log(f"  Reddit r/{subreddit} failed: {e}")
+
+    log(f"  Found {len(questions)} Reddit questions")
+    for q in questions:
+        log(f"    REDDIT: {q}")
+    return questions[:max_results]
+
+
+# ── Claude Blog Writer ─────────────────────────────────────────────────────────
+def generate_blog_post(
+    title: str,
+    description: str,
+    tags: str,
+    transcript: str | None,
+    serp_results: list[dict],
+    reddit_questions: list[str],
+    utm_campaign: str,
+) -> dict:
+    """Use Claude to write a full SEO blog post. Returns {html_content, meta_description, slug}."""
+    log(f"  Generating blog post with Claude...")
+
+    affiliate_url = (
+        f"{GHL_AFFILIATE_LINK}"
+        f"&utm_source=blog&utm_medium=article&utm_campaign={utm_campaign}"
+    )
+
+    serp_context = "\n".join(
+        [f"- {r['title']}: {r['snippet']}" for r in serp_results]
+    ) or "No SERP data available."
+
+    reddit_context = "\n".join(
+        [f"- {q}" for q in reddit_questions]
+    ) or "No Reddit questions available."
+
+    transcript_context = (
+        f"PODCAST TRANSCRIPT (use this as your primary source):\n{transcript[:6000]}"
+        if transcript
+        else f"EPISODE DESCRIPTION:\n{description}"
+    )
+
+    prompt = f"""You are an expert SEO content writer. Write a comprehensive, well-structured blog post that will rank on Google for the topic below.
+
+TOPIC: {title}
+TAGS: {tags}
+
+{transcript_context}
+
+WHAT TOP RANKING PAGES COVER (use these to build your H2 structure — match and beat their depth):
+{serp_context}
+
+REDDIT INSIGHTS (use these as supporting context, real-world examples, or a FAQ section — only use posts that are actual questions ending in ? as FAQ items. Do NOT use them as H2 headings):
+{reddit_context}
+
+AFFILIATE LINK (include naturally 2-3 times — intro, mid-article, closing CTA):
+{affiliate_url}
+
+REQUIREMENTS:
+- Write in HTML format (<h2>, <h3>, <p>, <ul>, <li>, <strong> tags only)
+- 800-1200 words
+- H2s must be clear, logical steps or questions directly related to the topic (e.g. "Step 1: Set Up Your Phone Number", "What Is an SMS Campaign in GoHighLevel?")
+- Include a FAQ section at the bottom using only Reddit posts that are genuine questions (contain ?)
+- If no Reddit questions found, skip the FAQ section
+- Hook intro that addresses the reader's pain point immediately
+- Strong closing CTA with affiliate link
+- Do NOT include <html>, <head>, or <body> tags
+- Write as William Welch, a GoHighLevel expert helping agencies and businesses of all types
+- Tone: direct, practical, authoritative — no fluff
+
+Return a JSON object with these exact keys:
+{{
+  "html_content": "the full blog post HTML",
+  "meta_description": "150-160 char SEO meta description",
+  "slug": "url-friendly-slug-from-title"
+}}"""
+
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=4000,
+        messages=[{"role": "user", "content": prompt}],
+    )
+
+    raw = response.content[0].text.strip()
+
+    # Extract JSON from response
+    json_match = re.search(r'\{[\s\S]*\}', raw)
+    if not json_match:
+        raise ValueError("Claude did not return valid JSON")
+
+    result = json.loads(json_match.group())
+    log(f"  Blog post generated: {len(result.get('html_content',''))} chars")
+    return result
+
+
+# ── GHL Publish ───────────────────────────────────────────────────────────────
+def check_slug_exists(slug: str) -> bool:
+    """Check if a URL slug already exists in GHL."""
+    try:
+        resp = requests.get(
+            f"{GHL_API_BASE}/blogs/posts/url-slug-exists",
+            headers=HEADERS_GHL,
+            params={"locationId": GHL_LOCATION_ID, "urlSlug": slug},
+            timeout=15,
+        )
+        data = resp.json()
+        return data.get("exists", False)
+    except Exception:
+        return False
+
+
+def make_unique_slug(slug: str) -> str:
+    """Ensure slug is unique by appending a number if needed."""
+    base = slug
+    counter = 1
+    while check_slug_exists(slug):
+        slug = f"{base}-{counter}"
+        counter += 1
+    return slug
+
+
+def publish_to_ghl(title: str, html_content: str, meta_description: str, slug: str) -> dict:
+    """Publish blog post to GHL. Returns response data."""
+    log(f"  Publishing to GHL: {title[:60]}")
+
+    unique_slug = make_unique_slug(slug)
+
+    payload = {
+        "locationId": GHL_LOCATION_ID,
+        "title": title,
+        "blogId": BLOG_ID,
+        "author": AUTHOR_ID,
+        "categories": [CATEGORY_ID],
+        "description": meta_description,
+        "rawHTML": html_content,
+        "status": "PUBLISHED",
+        "urlSlug": unique_slug,
+        "publishedAt": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+        "imageUrl": "https://storage.googleapis.com/msgsndr/VL5PlkLBYG4mKk3N6PGw/media/65c56a906c059c625980d9ac.jpeg",
+        "imageAltText": f"{title} — GoHighLevel Tutorial",
+        "tags": [],
+    }
+
+    resp = requests.post(
+        f"{GHL_API_BASE}/blogs/posts",
+        headers=HEADERS_GHL,
+        json=payload,
+        timeout=30,
+    )
+
+    if not resp.ok:
+        raise RuntimeError(f"GHL publish failed ({resp.status_code}): {resp.text}")
+
+    data = resp.json()
+    post_id = data.get("blogPost", {}).get("_id", "unknown")
+    log(f"  Published! Post ID: {post_id} — slug: /{unique_slug}")
+    return data
+
+
+# ── Main ──────────────────────────────────────────────────────────────────────
+def create_blog_post(article: dict) -> dict:
+    """
+    Create and publish a blog post for an episode.
+    article must have: seoTitle, seoDescription, seoTags
+    Optional: driveTranscriptId (transcript text passed directly if available)
+    Returns updated article dict with blogPostId.
+    """
+    title = article["seoTitle"]
+    description = article["seoDescription"]
+    tags = article.get("seoTags", "")
+    transcript = article.get("transcript")  # passed directly if available
+
+    # Build UTM campaign slug
+    utm_campaign = re.sub(r"[^a-z0-9-]", "", title.lower().replace(" ", "-"))
+
+    log(f"Starting blog post: {title[:60]}")
+
+    # Simplify query to core topic for better search results
+    core_topic = title.split("—")[0].strip().split(" in ")[0].strip()
+
+    # Research phase
+    serp_results = scrape_duckduckgo(f"{core_topic} GoHighLevel")
+    time.sleep(2)  # polite delay
+    reddit_questions = scrape_reddit(f"GoHighLevel {core_topic}")
+
+    # Generate post
+    post_data = generate_blog_post(
+        title=title,
+        description=description,
+        tags=tags,
+        transcript=transcript,
+        serp_results=serp_results,
+        reddit_questions=reddit_questions,
+        utm_campaign=utm_campaign,
+    )
+
+    # Publish
+    ghl_response = publish_to_ghl(
+        title=title,
+        html_content=post_data["html_content"],
+        meta_description=post_data["meta_description"],
+        slug=post_data["slug"],
+    )
+
+    post_id = ghl_response.get("blogPost", {}).get("_id", "unknown")
+
+    return {
+        **article,
+        "blogPostId": post_id,
+        "blogSlug": post_data["slug"],
+        "blogPostedAt": datetime.now().isoformat(),
+    }
+
+
+# Allow running standalone for testing
+if __name__ == "__main__":
+    import sys
+
+    if len(sys.argv) < 2:
+        print("Usage: python 5-blog.py <path/to/article.json>")
+        sys.exit(1)
+
+    with open(sys.argv[1]) as f:
+        article = json.load(f)
+
+    result = create_blog_post(article)
+    print(json.dumps(result, indent=2))

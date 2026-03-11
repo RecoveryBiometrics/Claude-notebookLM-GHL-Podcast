@@ -15,19 +15,18 @@ Ideas and future builds. Goal: agents tackle this list automatically.
 - [x] Full article discovery (1,565 articles, newest first)
 - [x] Gemini Flash transcription attached to every episode
 - [x] Article body + transcript saved to Google Drive for future use
+- [x] Blog agent (5-blog.py) — DuckDuckGo SERP + Reddit research → Claude Haiku writes SEO blog post → auto-publishes to reiamplifi.com/blog via GHL API
+- [x] Blog wired into pipeline — runs automatically as Step 4 after every Transistor upload
+- [x] Affiliate UTM links auto-added to every blog post (utm_source=blog&utm_medium=article&utm_campaign={slug})
 
 ---
 
 ## Next Up 🔜
 
-- [ ] Create podcast-specific GHL affiliate tracking link
-      Replace link in .env so revenue from podcast is tracked separately
-
-- [ ] Blog post generator
-      Use saved article body (driveJsonId) + transcript (driveTranscriptId)
-      → Claude writes SEO blog post per episode
-      → Publish to website or Medium
-      → More surface area for affiliate link
+- [ ] Spanish language expansion — duplicate pipeline for Spanish blogs + podcasts
+- [ ] Social Media Employee Agent — auto-posts to X, LinkedIn, Instagram, Facebook per episode
+- [ ] Content Gap Optimization Agent — checks analytics every 7/14/30 days, identifies gaps, prioritizes scraper queue
+- [ ] GA4 setup on reiamplifi.com — track blog traffic and user behavior
 
 ---
 
@@ -55,6 +54,7 @@ Ideas and future builds. Goal: agents tackle this list automatically.
 
 ## Pipeline Improvements
 
+- [ ] Email reliability — Gmail SMTP failed once (Cycle #2, Mar 10) with 535 credentials error despite valid app password. Keep an eye on summary emails each cycle — if it happens again, regenerate the app password at myaccount.google.com → Security → App passwords
 - [ ] Log rotation — archive pipeline.log weekly so it doesn't grow forever
 - [ ] Slack/Discord alert if scheduler stops unexpectedly
 - [ ] Episode quality check — flag episodes under X seconds (bad audio)

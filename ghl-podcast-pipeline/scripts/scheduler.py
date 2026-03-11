@@ -100,18 +100,29 @@ def build_summary(cycle_num: int, next_run: datetime) -> str:
     total_failed = 0
     episode_titles = []
 
+    total_blogs = 0
+    blogs_today = 0
+    total_streams = 0
+    india_blogs_today = 0
+    india_blogs_total = 0
+
     if PUBLISHED_FILE.exists():
         with open(PUBLISHED_FILE) as f:
             records = json.load(f)
         for r in records:
             if r.get("status") == "published":
                 total_published += 1
+                total_streams += r.get("streams", 0)
                 uploaded = r.get("uploadedAt", "")
                 if uploaded.startswith(today):
                     published_today += 1
                     title = r.get("seoTitle", r.get("title", ""))
                     if title:
                         episode_titles.append(f"  • {title[:70]}")
+                if r.get("blogPostId"):
+                    total_blogs += 1
+                    if uploaded.startswith(today):
+                        blogs_today += 1
             elif r.get("status") == "failed":
                 total_failed += 1
                 uploaded = r.get("failedAt", r.get("uploadedAt", ""))
@@ -129,6 +140,17 @@ def build_summary(cycle_num: int, next_run: datetime) -> str:
 
     titles_text = "\n".join(episode_titles[:20]) if episode_titles else "  (none today)"
     errors_text = "\n".join(error_lines) if error_lines else "  None"
+
+    # Count India blog stats
+    india_file = BASE_DIR / "data" / "india-published.json"
+    if india_file.exists():
+        with open(india_file) as f:
+            india_records = json.load(f)
+        for r in india_records:
+            if r.get("blogPostId"):
+                india_blogs_total += 1
+                if r.get("publishedAt", "").startswith(today):
+                    india_blogs_today += 1
 
     needs_action = failed_today > 0 and total_failed > 0
 
@@ -167,14 +189,19 @@ HOT KEYWORDS (SEO is targeting these)
 Cycle #{cycle_num} | {datetime.now().strftime("%B %d, %Y %I:%M %p")}
 
 TODAY
-  Published:  {published_today}
-  Failed:     {failed_today}
+  Podcast episodes:     {published_today}
+  GHL blogs:            {blogs_today}
+  India blogs:          {india_blogs_today}
+  Failed:               {failed_today}
   {"ACTION MAY BE NEEDED — see failures below" if needs_action else "All good"}
 
 ALL TIME
-  Published:  {total_published}
-  Failed:     {total_failed} (will retry next cycle)
-  Remaining:  ~{1565 - total_published} articles left (~{max(0, (1565 - total_published) // 20)} days)
+  Podcast episodes:     {total_published}
+  GHL blogs:            {total_blogs}
+  India blogs:          {india_blogs_total}
+  Total streams:        {total_streams}
+  Failed:               {total_failed} (will retry next cycle)
+  Remaining:            ~{1565 - total_published} articles left (~{max(0, (1565 - total_published) // 20)} days)
 
 NEXT RUN
   {next_run.strftime("%B %d, %Y at %I:%M %p")}
@@ -263,12 +290,23 @@ You'll get a summary email when it's done.
         log(f"  retry-failed.py error: {e}")
 
     # Step 2: Run main pipeline
-    log("Step 2/2 — Running run-pipeline.py...")
+    log("Step 2/3 — Running run-pipeline.py...")
     try:
         pipeline = load_script("run-pipeline.py")
         await pipeline.main()
     except Exception as e:
         log(f"  run-pipeline.py error: {e}")
+
+    # Step 3: Run India blog agent (5 topics per cycle)
+    log("Step 3/3 — Running 6-india-blog.py (up to 5 topics)...")
+    try:
+        import sys
+        sys.argv = ["6-india-blog.py", "--limit", "5"]
+        india = load_script("6-india-blog.py")
+        india.main()
+        sys.argv = [sys.argv[0]]
+    except Exception as e:
+        log(f"  6-india-blog.py error (non-fatal): {e}")
 
     # Save state so restarts are safe
     save_state(cycle_started)

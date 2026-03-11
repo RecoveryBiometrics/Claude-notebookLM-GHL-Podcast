@@ -270,6 +270,7 @@ async def process_one(article: dict, published_today: int) -> dict | None:
     notebooklm = load_script("2-notebooklm.py")
     seo = load_script("3-seo.py")
     upload = load_script("4-upload.py")
+    blog = load_script("5-blog.py")
 
     log(f"{'='*50}")
     log(f"Article: {article['title']}")
@@ -293,7 +294,7 @@ async def process_one(article: dict, published_today: int) -> dict | None:
     time.sleep(3)
 
     # Step 3: Upload to Transistor
-    log("Step 3/3 — Uploading to Transistor.fm")
+    log("Step 3/4 — Uploading to Transistor.fm")
     try:
         result = upload.upload_episode(result, published_today)
     except Exception as e:
@@ -305,6 +306,16 @@ async def process_one(article: dict, published_today: int) -> dict | None:
     log(f"✓ PUBLISHED: {result.get('seoTitle', '')}")
     log(f"  Transistor ID: {result.get('transistorEpisodeId')}")
     log(f"  Scheduled: {result.get('publishedAt')}")
+
+    # Step 4: Blog post
+    log("Step 4/4 — Publishing blog post to reiamplifi.com")
+    try:
+        result = blog.create_blog_post(result)
+        log(f"  Blog post live — ID: {result.get('blogPostId')} slug: /{result.get('blogSlug')}")
+    except Exception as e:
+        log(f"  Blog post FAILED (non-fatal): {e}")
+        # Blog failure doesn't kill the pipeline — episode is already published
+
     return result
 
 
@@ -358,6 +369,8 @@ async def main():
                 "driveJsonId": result.get("driveJsonId"),
                 "driveTranscriptId": result.get("driveTranscriptId"),
                 "affiliateLinkIncluded": result.get("affiliateLinkIncluded", False),
+                "blogPostId": result.get("blogPostId"),
+                "blogSlug": result.get("blogSlug"),
                 "streams": 0,
             })
             published_ids.add(result["id"])

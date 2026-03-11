@@ -1,0 +1,503 @@
+"""
+6-india-blog.py
+Generates and publishes India-specific GHL blog posts to reiamplifi.com.
+
+Three-agent pipeline:
+  1. Researcher  — DuckDuckGo + Reddit (India-specific queries)
+  2. Writer      — Claude Haiku writes India-native blog post
+  3. Fact Checker — Claude Haiku checks GHL regional accuracy + cultural authenticity
+
+Run all topics:
+  venv/bin/python3 scripts/6-india-blog.py
+
+Run one topic:
+  venv/bin/python3 scripts/6-india-blog.py --topic "GoHighLevel WhatsApp Integration Complete India Guide"
+"""
+
+import argparse
+import json
+import os
+import re
+import time
+import requests
+from datetime import datetime
+from pathlib import Path
+from dotenv import load_dotenv
+import anthropic
+from bs4 import BeautifulSoup
+
+load_dotenv()
+
+# ── Config ─────────────────────────────────────────────────────────────────────
+BASE_DIR    = Path(__file__).parent.parent
+LOG_FILE    = BASE_DIR / "logs" / "pipeline.log"
+DATA_FILE   = BASE_DIR / "data" / "india-published.json"
+TOPICS_FILE = BASE_DIR / "data" / "india-topics.json"
+
+ANTHROPIC_API_KEY  = os.getenv("ANTHROPIC_API_KEY")
+GHL_API_KEY        = os.getenv("GHL_API_KEY")
+GHL_LOCATION_ID    = os.getenv("GHL_LOCATION_ID")
+GHL_AFFILIATE_LINK = os.getenv("GHL_AFFILIATE_LINK")
+
+GHL_API_BASE = "https://services.leadconnectorhq.com"
+
+# India blog config
+INDIA_BLOG_ID     = "ICGLk7OTn2N6jL6pgxgu"
+INDIA_CATEGORY_ID = "69b07af891669681ae873ae5"
+AUTHOR_ID         = "680b01f0c55be738c7e7287a"
+
+HEADERS_GHL = {
+    "Authorization": f"Bearer {GHL_API_KEY}",
+    "Content-Type": "application/json",
+    "Version": "2021-07-28",
+}
+
+# ── Phase 1-3 Topic Queue ──────────────────────────────────────────────────────
+DEFAULT_TOPICS = [
+    # Phase 1 — Foundation
+    "GoHighLevel vs Zoho CRM for Indian Agencies",
+    "GoHighLevel Pricing in India Rupees Breakdown 2026",
+    "How Indian Agencies Are Replacing 10 Tools With GoHighLevel",
+    "GoHighLevel WhatsApp Integration Complete India Guide",
+    # Phase 2 — Problem/Solution
+    "How to Scale Your Indian Agency Without Hiring More Staff",
+    "Best CRM for Digital Marketing Agencies in India 2026",
+    "How to Automate Client Follow-Ups in India Using GoHighLevel",
+    "GoHighLevel for Real Estate Agencies in India",
+    "GoHighLevel for Healthcare Marketing India",
+    "How Indian Agencies Win More Clients Using GoHighLevel Funnels",
+]
+
+# ── India Fact-Check Rules ─────────────────────────────────────────────────────
+INDIA_FACT_RULES = """
+INDIA-SPECIFIC GHL FACT CHECK RULES:
+
+COMMUNICATION:
+- India uses WhatsApp, NOT SMS for business communication
+- WhatsApp Business API is the correct GHL feature to highlight
+- Cold outreach = WhatsApp first, then call — never SMS blast
+
+PAYMENTS:
+- Indians use Razorpay, PayU, or UPI — NOT Stripe primarily
+- Always mention UPI as a payment option
+- Pricing must be in ₹ rupees (not just dollars)
+
+COMPETITORS:
+- Zoho CRM and Freshworks are the main known alternatives (both Indian companies)
+- HubSpot/Salesforce are known but considered expensive/foreign
+- Always position GHL against Zoho specifically
+
+PRICING (as of 2026):
+- GHL Starter: $97/month (~₹8,000/month)
+- GHL Agency: $297/month (~₹24,700/month)
+- Always justify ROI in rupees
+
+COMPLIANCE:
+- Mention GST compliance for invoicing where relevant
+- Reference DPDP Act (India's data protection law) where relevant
+
+CITIES (use naturally, not forced):
+- Mumbai (finance, media, real estate)
+- Bangalore (tech startups, IT agencies)
+- Delhi/NCR (enterprise, government)
+- Hyderabad (pharma, tech)
+- Pune (IT, manufacturing)
+- Chennai (manufacturing, IT)
+
+CULTURAL:
+- Business relationships are trust-based — mention building client trust
+- Indian agencies often run lean with small teams — automation angle is key
+- Price sensitivity is real — always show rupee ROI
+- Content should sound like an Indian professional wrote it, not an American
+- Avoid American idioms and phrases
+"""
+
+
+# ── Logging ───────────────────────────────────────────────────────────────────
+def log(msg: str):
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    line = f"[{timestamp}] [INDIA-BLOG] {msg}"
+    print(line)
+    with open(LOG_FILE, "a") as f:
+        f.write(line + "\n")
+
+
+# ── Published tracker ──────────────────────────────────────────────────────────
+def load_published() -> list:
+    if DATA_FILE.exists():
+        with open(DATA_FILE) as f:
+            return json.load(f)
+    return []
+
+
+def save_published(records: list):
+    with open(DATA_FILE, "w") as f:
+        json.dump(records, f, indent=2)
+
+
+def is_published(topic: str, published: list) -> bool:
+    return any(r.get("topic") == topic and r.get("blogPostId") for r in published)
+
+
+# ── Agent 1: Researcher ────────────────────────────────────────────────────────
+def scrape_duckduckgo(query: str, max_results: int = 5) -> list[dict]:
+    try:
+        resp = requests.post(
+            "https://html.duckduckgo.com/html/",
+            data={"q": query},
+            headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120 Safari/537.36"},
+            timeout=15,
+        )
+        soup = BeautifulSoup(resp.text, "html.parser")
+        results = []
+        for result in soup.select(".result__body")[:max_results + 3]:
+            if result.select_one(".badge--ad"):
+                continue
+            title_el = result.select_one(".result__title")
+            snippet_el = result.select_one(".result__snippet")
+            if title_el and snippet_el:
+                results.append({
+                    "title": title_el.get_text(strip=True),
+                    "snippet": snippet_el.get_text(strip=True),
+                })
+            if len(results) >= max_results:
+                break
+        log(f"  SERP ({query[:50]}): {len(results)} results")
+        return results
+    except Exception as e:
+        log(f"  DuckDuckGo failed: {e}")
+        return []
+
+
+def scrape_reddit(query: str, max_results: int = 5) -> list[str]:
+    subreddits = ["IndiaMarketing", "india", "GoHighLevel", "digitalnomad"]
+    questions = []
+    for subreddit in subreddits:
+        if len(questions) >= max_results:
+            break
+        try:
+            resp = requests.get(
+                f"https://www.reddit.com/r/{subreddit}/search.json",
+                params={"q": query, "restrict_sr": 1, "sort": "top", "limit": max_results},
+                headers={"User-Agent": "GHLIndiaBlogBot/1.0"},
+                timeout=15,
+            )
+            posts = resp.json().get("data", {}).get("children", [])
+            for post in posts:
+                title = post.get("data", {}).get("title", "")
+                if title and title not in questions:
+                    questions.append(title)
+        except Exception:
+            pass
+    log(f"  Reddit ({query[:50]}): {len(questions)} posts")
+    return questions[:max_results]
+
+
+def research(topic: str) -> dict:
+    log(f"Agent 1: Researching — {topic}")
+    serp1 = scrape_duckduckgo(f"{topic} India")
+    time.sleep(2)
+    serp2 = scrape_duckduckgo(f"GoHighLevel India agency 2026")
+    time.sleep(2)
+    reddit = scrape_reddit(f"GoHighLevel India {topic.split()[0]}")
+    return {
+        "serp": serp1 + serp2,
+        "reddit": reddit,
+    }
+
+
+# ── Agent 2: Writer ────────────────────────────────────────────────────────────
+def write_blog(topic: str, research_data: dict) -> dict:
+    log(f"Agent 2: Writing blog — {topic}")
+
+    utm_campaign = re.sub(r"[^a-z0-9-]", "", topic.lower().replace(" ", "-"))
+    affiliate_url = (
+        f"{GHL_AFFILIATE_LINK}"
+        f"&utm_source=blog&utm_medium=article&utm_campaign={utm_campaign}-india&utm_country=IN"
+    )
+
+    serp_context = "\n".join(
+        [f"- {r['title']}: {r['snippet']}" for r in research_data["serp"]]
+    ) or "No SERP data available."
+
+    reddit_context = "\n".join(
+        [f"- {q}" for q in research_data["reddit"]]
+    ) or "No Reddit data available."
+
+    prompt = f"""You are an expert content writer creating a blog post specifically for Indian digital marketing agencies and business owners considering GoHighLevel.
+
+TOPIC: {topic}
+
+RESEARCH — TOP RANKING CONTENT ON THIS TOPIC:
+{serp_context}
+
+RESEARCH — WHAT INDIAN MARKETERS ARE SAYING:
+{reddit_context}
+
+AFFILIATE LINK (include 2-3 times naturally):
+{affiliate_url}
+
+INDIA-SPECIFIC REQUIREMENTS:
+- WhatsApp automation (NOT SMS) is the primary communication tool in India
+- Reference Zoho CRM as the main competitor Indians know
+- All pricing in ₹ rupees AND $ dollars (e.g. $97/month — approximately ₹8,000/month)
+- GHL Starter plan: $97/month (~₹8,000/month), Agency plan: $297/month (~₹24,700/month)
+- Reference relevant Indian cities naturally (Mumbai, Bangalore, Delhi, Hyderabad, Pune)
+- Mention GST compliance where relevant
+- Use Razorpay/PayU/UPI when discussing payments — not Stripe
+- Write as an Indian business professional, not an American
+- Pain points: talent shortage, managing too many tools, scaling lean teams
+
+BLOG STRUCTURE:
+0. FIRST LINE of the post — before any heading — include this CTA banner:
+   <p style="background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 16px;border-radius:4px;"><strong>🚀 Try GoHighLevel FREE for 30 days</strong> — No credit card required. <a href="{affiliate_url}" target="_blank">Start your free trial here →</a></p>
+1. Hook — speak to a specific Indian agency pain point
+2. Agitate — make the problem feel real with Indian context
+3. Introduce GHL as the solution
+4. Show a real use case for an Indian agency (pick a specific city/niche)
+5. GoHighLevel pricing in ₹ rupees with ROI justification
+6. WhatsApp automation walkthrough (India-specific)
+7. FAQ section (use Reddit questions that contain ?)
+8. Strong CTA with affiliate link
+
+FORMAT: HTML only (<h2>, <h3>, <p>, <ul>, <li>, <strong>). No <html>/<head>/<body> tags.
+LENGTH: 900-1200 words
+TONE: Professional, direct, written by someone who understands Indian business culture
+
+Return JSON with these exact keys:
+{{
+  "html_content": "full blog post HTML",
+  "meta_description": "150-160 char SEO meta description",
+  "slug": "url-friendly-slug-india"
+}}"""
+
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=4000,
+        messages=[{"role": "user", "content": prompt}],
+    )
+
+    raw = response.content[0].text.strip()
+    json_match = re.search(r'\{[\s\S]*\}', raw)
+    if not json_match:
+        raise ValueError("Writer did not return valid JSON")
+
+    result = json.loads(json_match.group())
+    log(f"  Blog written: {len(result.get('html_content', ''))} chars")
+    return result
+
+
+# ── Agent 3: Fact Checker ──────────────────────────────────────────────────────
+def fact_check(topic: str, blog_data: dict) -> dict:
+    log(f"Agent 3: Fact checking — {topic}")
+
+    prompt = f"""You are an Indian digital marketing professional and GoHighLevel expert.
+Your job is to fact-check this blog post for regional accuracy and cultural authenticity.
+
+{INDIA_FACT_RULES}
+
+BLOG POST TO REVIEW:
+{blog_data['html_content']}
+
+Check for:
+1. Any mention of SMS instead of WhatsApp
+2. Any mention of Stripe instead of Razorpay/PayU/UPI
+3. Missing rupee pricing or incorrect rupee amounts
+4. American idioms or phrases that sound foreign
+5. Incorrect GHL pricing (Starter=$97, Agency=$297)
+6. Any factually wrong claims about GHL features in India
+7. Does it sound like it was written by an Indian professional?
+
+Return JSON:
+{{
+  "approved": true or false,
+  "corrections": ["list of specific corrections needed"] or [],
+  "revised_html": "corrected HTML if changes needed, or empty string if approved as-is"
+}}"""
+
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    response = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=6000,
+        messages=[{"role": "user", "content": prompt}],
+    )
+
+    raw = response.content[0].text.strip()
+    json_match = re.search(r'\{[\s\S]*\}', raw)
+    if not json_match:
+        log("  Fact checker returned invalid JSON — using original")
+        return {"approved": True, "corrections": [], "revised_html": ""}
+
+    result = json.loads(json_match.group())
+
+    if result.get("corrections"):
+        log(f"  Corrections needed: {len(result['corrections'])}")
+        for c in result["corrections"]:
+            log(f"    - {c}")
+        if result.get("revised_html"):
+            log("  Revised HTML provided — using corrected version")
+        else:
+            log("  No revised HTML — publishing with writer's version")
+    else:
+        log("  Fact check passed — no corrections needed")
+
+    return result
+
+
+# ── GHL Publisher ──────────────────────────────────────────────────────────────
+def check_slug_exists(slug: str) -> bool:
+    try:
+        resp = requests.get(
+            f"{GHL_API_BASE}/blogs/posts/url-slug-exists",
+            headers=HEADERS_GHL,
+            params={"locationId": GHL_LOCATION_ID, "urlSlug": slug},
+            timeout=15,
+        )
+        return resp.json().get("exists", False)
+    except Exception:
+        return False
+
+
+def make_unique_slug(slug: str) -> str:
+    base = slug
+    counter = 1
+    while check_slug_exists(slug):
+        slug = f"{base}-{counter}"
+        counter += 1
+    return slug
+
+
+def publish(topic: str, html_content: str, meta_description: str, slug: str) -> str:
+    log(f"Publishing: {topic[:60]}")
+    unique_slug = make_unique_slug(slug)
+
+    payload = {
+        "locationId": GHL_LOCATION_ID,
+        "title": topic,
+        "blogId": INDIA_BLOG_ID,
+        "author": AUTHOR_ID,
+        "categories": [INDIA_CATEGORY_ID],
+        "description": meta_description,
+        "rawHTML": html_content,
+        "status": "PUBLISHED",
+        "urlSlug": unique_slug,
+        "publishedAt": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+        "imageUrl": "https://storage.googleapis.com/msgsndr/VL5PlkLBYG4mKk3N6PGw/media/65c56a906c059c625980d9ac.jpeg",
+        "imageAltText": f"{topic} — GoHighLevel India",
+        "tags": ["india", "gohighlevel", "crm", "agency"],
+    }
+
+    resp = requests.post(
+        f"{GHL_API_BASE}/blogs/posts",
+        headers=HEADERS_GHL,
+        json=payload,
+        timeout=30,
+    )
+
+    if not resp.ok:
+        raise RuntimeError(f"GHL publish failed ({resp.status_code}): {resp.text}")
+
+    post_id = resp.json().get("blogPost", {}).get("_id", "unknown")
+    log(f"  Published! ID: {post_id} — /{unique_slug}")
+    return post_id
+
+
+# ── Main ───────────────────────────────────────────────────────────────────────
+def process_topic(topic: str) -> dict:
+    log(f"{'='*50}")
+    log(f"Topic: {topic}")
+
+    # Agent 1: Research
+    research_data = research(topic)
+    time.sleep(2)
+
+    # Agent 2: Write (retry once on JSON failure)
+    blog_data = None
+    for attempt in range(2):
+        try:
+            blog_data = write_blog(topic, research_data)
+            break
+        except (ValueError, json.JSONDecodeError) as e:
+            log(f"  Writer attempt {attempt + 1} failed: {e} — {'retrying...' if attempt == 0 else 'giving up'}")
+            time.sleep(5)
+    if not blog_data:
+        raise ValueError("Writer failed after 2 attempts")
+    time.sleep(2)
+
+    # Agent 3: Fact check
+    check_result = fact_check(topic, blog_data)
+
+    # Use revised HTML if corrections were made
+    final_html = check_result.get("revised_html") or blog_data["html_content"]
+    if not final_html.strip():
+        final_html = blog_data["html_content"]
+
+    # Publish
+    post_id = publish(
+        topic=topic,
+        html_content=final_html,
+        meta_description=blog_data["meta_description"],
+        slug=blog_data["slug"],
+    )
+
+    return {
+        "topic": topic,
+        "blogPostId": post_id,
+        "blogSlug": blog_data["slug"],
+        "corrections": check_result.get("corrections", []),
+        "publishedAt": datetime.now().isoformat(),
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--topic", type=str, help="Run a single specific topic")
+    parser.add_argument("--limit", type=int, default=0, help="Max topics to process (0 = all pending)")
+    args = parser.parse_args()
+
+    published = load_published()
+
+    if args.topic:
+        topics = [args.topic]
+    else:
+        # Load from file if exists, else use defaults
+        if TOPICS_FILE.exists():
+            with open(TOPICS_FILE) as f:
+                topics = json.load(f)
+        else:
+            topics = DEFAULT_TOPICS
+            with open(TOPICS_FILE, "w") as f:
+                json.dump(topics, f, indent=2)
+            log(f"Created india-topics.json with {len(topics)} topics")
+
+    pending = [t for t in topics if not is_published(t, published)]
+    if args.limit and args.limit > 0:
+        pending = pending[:args.limit]
+    log(f"Topics pending: {len(pending)} / {len(topics)}")
+
+    for i, topic in enumerate(pending):
+        try:
+            result = process_topic(topic)
+            published.append(result)
+            save_published(published)
+            log(f"Done: {topic[:60]}")
+        except Exception as e:
+            log(f"FAILED: {topic[:60]} — {e}")
+            published.append({
+                "topic": topic,
+                "status": "failed",
+                "error": str(e),
+                "failedAt": datetime.now().isoformat(),
+            })
+            save_published(published)
+
+        if i < len(pending) - 1:
+            log("Cooling down 30 seconds...")
+            time.sleep(30)
+
+    log(f"India blog run complete — {len(pending)} topics processed")
+
+
+if __name__ == "__main__":
+    main()
