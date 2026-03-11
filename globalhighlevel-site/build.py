@@ -499,6 +499,50 @@ def build_sitemap(posts: list[dict]):
     write(PUBLIC_DIR / "sitemap.xml", xml)
 
 
+def build_llms_txt(posts: list[dict]):
+    """
+    Generate llms.txt — tells AI models (ChatGPT, Claude, Perplexity, Gemini)
+    what this site is about and lists all available content.
+    Standard: https://llmstxt.org
+    """
+    post_lines = ""
+    for p in posts[:200]:  # cap at 200 most recent
+        title = p.get("title", p.get("seoTitle", ""))
+        slug  = p.get("slug", "")
+        desc  = truncate(p.get("description", p.get("seoDescription", p.get("meta_description", ""))), 120)
+        if title and slug:
+            post_lines += f"- [{title}]({SITE_URL}/blog/{slug}/): {desc}\n"
+
+    content = f"""# GlobalHighLevel.com
+
+> Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide.
+
+GlobalHighLevel.com is a free resource covering GoHighLevel (GHL) — an all-in-one CRM, marketing automation, and funnel platform used by digital marketing agencies globally. Every tutorial on this site also has a corresponding podcast episode on Spotify ("Go High Level", {SITE_URL}).
+
+## About
+
+- **Author:** William Welch — GoHighLevel user and affiliate
+- **Audience:** Digital marketing agency owners, freelancers, business owners
+- **Content:** 80+ step-by-step tutorials covering every major GoHighLevel feature
+- **Podcast:** "Go High Level" on Spotify — https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV
+- **Free Trial:** 30-day GoHighLevel free trial (double the standard 14 days) — https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12
+
+## Content
+
+All tutorials are free. Topics include GoHighLevel automations, AI conversation bots, funnel building, pipeline management, SMS/email marketing, reputation management, calendar booking, white-label SaaS setup, and sub-account management.
+
+## Tutorials
+
+{post_lines if post_lines else "- New tutorials published daily. See full list at " + SITE_URL}
+
+## Optional
+
+- Sitemap: {SITE_URL}/sitemap.xml
+- Podcast: https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV
+"""
+    write(PUBLIC_DIR / "llms.txt", content)
+
+
 def build_404():
     body = """
 <div style="text-align:center;padding:100px 24px">
@@ -516,13 +560,13 @@ def build_404():
 def main():
     print(f"\n🔨 Building globalhighlevel.com...\n")
 
-    # Clean public dir (keep robots.txt)
-    robots = (PUBLIC_DIR / "robots.txt").read_text() if (PUBLIC_DIR / "robots.txt").exists() else ""
+    # Clean public dir, then copy robots.txt from source (not from public/ which is gitignored)
+    ROBOTS_SRC = BASE_DIR / "robots.txt"
     if PUBLIC_DIR.exists():
         shutil.rmtree(PUBLIC_DIR)
     PUBLIC_DIR.mkdir(parents=True)
-    if robots:
-        (PUBLIC_DIR / "robots.txt").write_text(robots)
+    if ROBOTS_SRC.exists():
+        shutil.copy(ROBOTS_SRC, PUBLIC_DIR / "robots.txt")
 
     posts     = load_posts()
     published = load_published()
@@ -551,6 +595,9 @@ def main():
     # Sitemap
     print("\nBuilding sitemap...")
     build_sitemap(merged)
+
+    # llms.txt (AI discoverability)
+    build_llms_txt(merged)
 
     # 404
     build_404()
