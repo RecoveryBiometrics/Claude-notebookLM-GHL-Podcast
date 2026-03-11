@@ -25,28 +25,53 @@ Ideas and future builds. Goal: agents tackle this list automatically.
 
 ---
 
-## ⚠️ PLATFORM DECISION — Migrate Blog to WordPress
+## ⚠️ PLATFORM MIGRATION — Move Blog to learnhighlevel.com on Netlify
 
-**Recommendation: Move blog from GHL to WordPress before reaching 100 posts.**
+**Decision made: Migrate blog off GHL to a dedicated static site before reaching 100 posts.**
 
-GHL is the right tool for CRM, funnels, and automations — but it has a hard ceiling as a content platform:
-- Page speed scores poorly on Core Web Vitals (Google ranking factor — can't be fixed on GHL)
-- No SEO plugins (no Yoast/RankMath, no auto-schema, no internal link tools)
-- Not built to scale to 500+ posts
+### Why
+- `reiamplifi.com` reads as a real estate site — confusing for GHL visitors, bad brand signal to Google
+- GHL blog platform has a hard ceiling: poor Core Web Vitals, no SEO plugins, not built for 500+ posts
+- Static hosting on Netlify = perfect page speed, free, full SEO control
 
-**The plan:**
-- Host: Cloudways (~$14/month) — fast managed WordPress
-- SEO: RankMath free tier — handles all schema, sitemaps, SEO scoring per post
-- Domain: blog.reiamplifi.com OR move full reiamplifi.com to WordPress
-- GHL stays as the CRM/funnel/automation backend — nothing changes there
-- Pipeline change: swap `publish_to_ghl()` for `publish_to_wordpress()` (WP REST API) — one afternoon of work
-- **Do this now at 48 posts. At 500 posts it becomes a major migration project.**
+### The Domain
+- **`learnhighlevel.com`** — confirmed available (~$12/year on Namecheap)
+- Clean, no confusion, exact search intent match, topically perfect for Google
+
+### The Stack
+- **Domain:** learnhighlevel.com (~$12/year — Namecheap)
+- **Hosting:** Netlify (free — auto-deploys from GitHub on every pipeline push)
+- **SEO:** Schema markup injected by pipeline (already doing FAQ schema), sitemap auto-generated
+- **CMS:** None needed — the pipeline IS the CMS
+- **GHL stays:** reiamplifi.com remains on GHL for funnels, CRM, contacts, automations
+
+### Build Steps (execute in this order)
+- [ ] **Step 1** — Buy `learnhighlevel.com` on Namecheap
+- [ ] **Step 2** — Create free Netlify account, connect GitHub repo
+- [ ] **Step 3** — Build static site structure (one-time):
+      - Base HTML template (header, footer, nav, consistent styling)
+      - Blog index page (auto-generated from published.json)
+      - Individual post template
+      - Category pages
+      - Auto-generated sitemap.xml
+      - robots.txt
+- [ ] **Step 4** — Update `5-blog.py` to save HTML files to repo instead of calling GHL API
+- [ ] **Step 5** — Point learnhighlevel.com DNS to Netlify (one CNAME record)
+- [ ] **Step 6** — Migrate 48 existing GHL blog posts to the new site
+- [ ] **Step 7** — Set 301 redirects from old reiamplifi.com/blog URLs to learnhighlevel.com
+- [ ] **Step 8** — Submit learnhighlevel.com sitemap to Google Search Console
+
+### After Migration
+- Every pipeline run pushes new HTML files to GitHub → Netlify auto-deploys in 30 seconds
+- learnhighlevel.com becomes the SEO content hub for all countries/languages
+- reiamplifi.com stays as the GHL business/funnel site
 
 ---
 
 ## Next Up 🔜
 
-- [ ] **Migrate blog to WordPress** — Set up Cloudways + WordPress + RankMath, update 5-blog.py to publish via WP REST API, 301-redirect all 48 existing GHL blog URLs
+- [ ] **Buy learnhighlevel.com** — Namecheap, ~$12/year. First step before building anything.
+- [ ] **Build learnhighlevel.com static site** — See migration plan above for full step-by-step
 - [ ] **Google Search Console** — Verify reiamplifi.com/blog in GSC, submit sitemap. Check SafePath workspace — may already be connected. Without this, posts may not be indexed.
 - [ ] **Internal Linking Agent** — When publishing a new blog post, search published.json for related posts and inject 2-3 internal links. Biggest SEO gap right now. Use RankMath's suggestions post-migration.
 - [ ] Social Media Employee Agent — auto-posts to X, LinkedIn, Instagram, Facebook per episode
