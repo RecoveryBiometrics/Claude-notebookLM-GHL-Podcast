@@ -47,7 +47,7 @@ Ideas and future builds. Goal: agents tackle this list automatically.
 
 ### Build Steps (execute in this order)
 - [x] **Step 1** — Buy `globalhighlevel.com` on Namecheap ✅ DONE Mar 11, 2026
-- [ ] **Step 2** — Create free Netlify account, connect GitHub repo
+- [x] **Step 2** — Create free Netlify account ✅ DONE Mar 11, 2026
 - [ ] **Step 3** — Build static site structure (one-time):
       - Base HTML template (header, footer, nav, consistent styling)
       - Blog index page (auto-generated from published.json)
