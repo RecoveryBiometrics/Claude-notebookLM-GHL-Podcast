@@ -1,284 +1,1313 @@
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-</head>
-<body style="margin:0;padding:0;">
-<div style="font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a2e; background: #ffffff; margin: 0; padding: 0; overflow-x: hidden;">
+<style>
+:root {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #0d1117;
+  --bg-card: #162032;
+  --bg-offer: #0c2d1f;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-blue: #3b82f6;
+  --accent-blue-hover: #2563eb;
+  --accent-green: #1DB954;
+  --accent-green-hover: #1aa34a;
+  --accent-orange: #f59e0b;
+  --accent-purple: #8b5cf6;
+  --border-subtle: rgba(148, 163, 184, 0.1);
+  --border-card: rgba(148, 163, 184, 0.08);
+  --gradient-hero: linear-gradient(165deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%);
+  --gradient-offer: linear-gradient(165deg, #042f1a 0%, #0c4a2e 50%, #06301d 100%);
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.3), 0 8px 32px rgba(0,0,0,0.2);
+  --shadow-button: 0 2px 8px rgba(59,130,246,0.3);
+  --max-width: 1200px;
+  --section-padding: 64px 20px;
+}
 
-<!-- ========== HERO SECTION ========== -->
-<section style="background: linear-gradient(135deg, #0d1b4b 0%, #1a73e8 60%, #0d47a1 100%); color: #ffffff; padding: 80px 20px 90px; text-align: center; position: relative; overflow: hidden;">
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2220%22 cy=%2220%22 r=%2240%22 fill=%22rgba(255,255,255,0.03)%22/><circle cx=%2280%22 cy=%2280%22 r=%2260%22 fill=%22rgba(255,255,255,0.03)%22/></svg>') no-repeat center; background-size: cover; pointer-events: none;"></div>
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
 
-  <div style="max-width: 860px; margin: 0 auto; position: relative; z-index: 1;">
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-    <div style="display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 50px; padding: 8px 20px; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 24px; color: #ffe082;">
-      &#9888; Limited Offer &mdash; 30-Day FREE Trial (2x the Standard Offer)
-    </div>
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-    <h1 style="font-size: clamp(28px, 5vw, 52px); font-weight: 800; line-height: 1.15; margin: 0 0 22px; color: #ffffff; text-shadow: 0 2px 12px rgba(0,0,0,0.3);">
-      Stop Wasting $500–$1,500/Month<br/>
-      <span style="color: #ffe082;">on Tools That Don&rsquo;t Work Together</span>
-    </h1>
+img {
+  max-width: 100%;
+  height: auto;
+}
 
-    <p style="font-size: clamp(16px, 2.5vw, 21px); color: rgba(255,255,255,0.88); line-height: 1.65; margin: 0 auto 36px; max-width: 700px;">
-      GoHighLevel replaces your CRM, funnels, email, SMS, scheduling, and more &mdash; in one platform. Agencies using GHL cut their tool costs and close more clients every month. Get the world&rsquo;s best free tutorials right here, then start your <strong style="color: #ffe082;">exclusive 30-day free trial</strong> &mdash; double the standard offer.
-    </p>
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+}
 
-    <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=homepage&utm_campaign=hero"
-       target="_blank"
-       rel="nofollow"
-       style="display: inline-block; background: linear-gradient(135deg, #ff6f00, #ff9800); color: #ffffff; font-size: 18px; font-weight: 800; padding: 18px 44px; border-radius: 50px; text-decoration: none; box-shadow: 0 8px 30px rgba(255,111,0,0.5); letter-spacing: 0.5px; transition: transform 0.2s; margin-bottom: 16px;">
-      &#128640; Start My FREE 30-Day Trial &rarr;
-    </a>
+.nav-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
 
-    <p style="font-size: 13px; color: rgba(255,255,255,0.65); margin: 0; letter-spacing: 0.3px;">
-      &#9989; No credit card required &nbsp;&#8226;&nbsp; &#9989; Cancel anytime &nbsp;&#8226;&nbsp; &#9989; Full platform access from Day 1
-    </p>
+.nav-logo {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
 
-  </div>
-</section>
+.nav-logo .logo-icon {
+  width: 28px;
+  height: 28px;
+  background: var(--accent-blue);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+  color: white;
+  flex-shrink: 0;
+}
 
-<!-- ========== SOCIAL PROOF BAR ========== -->
-<section style="background: #0d1b4b; color: #ffffff; padding: 28px 20px;">
-  <div style="max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 32px; text-align: center;">
+.nav-links {
+  display: none;
+  list-style: none;
+  gap: 32px;
+  align-items: center;
+}
 
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <span style="font-size: 26px;">&#127897;</span>
-      <div>
-        <div style="font-size: 22px; font-weight: 800; color: #ffe082;">6,479+</div>
-        <div style="font-size: 12px; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.8px;">Podcast Streams</div>
-      </div>
-    </div>
+.nav-links a {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
 
-    <div style="width: 1px; height: 40px; background: rgba(255,255,255,0.15);"></div>
+.nav-links a:hover {
+  color: var(--text-primary);
+}
 
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <span style="font-size: 26px;">&#128101;</span>
-      <div>
-        <div style="font-size: 22px; font-weight: 800; color: #ffe082;">380+</div>
-        <div style="font-size: 12px; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.8px;">Podcast Followers</div>
-      </div>
-    </div>
+.nav-cta {
+  display: none;
+}
 
-    <div style="width: 1px; height: 40px; background: rgba(255,255,255,0.15);"></div>
+.nav-cta a {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 18px;
+  background: var(--accent-blue);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
 
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <span style="font-size: 26px;">&#128218;</span>
-      <div>
-        <div style="font-size: 22px; font-weight: 800; color: #ffe082;">80+</div>
-        <div style="font-size: 12px; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.8px;">Free Tutorials</div>
-      </div>
-    </div>
+.nav-cta a:hover {
+  background: var(--accent-blue-hover);
+}
 
-    <div style="width: 1px; height: 40px; background: rgba(255,255,255,0.15);"></div>
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+  min-height: 44px;
+  min-width: 44px;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+}
 
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <span style="font-size: 26px;">&#127775;</span>
-      <div>
-        <div style="font-size: 22px; font-weight: 800; color: #ffe082;">492</div>
-        <div style="font-size: 12px; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.8px;">Top Episode Streams</div>
-      </div>
-    </div>
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text-secondary);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
 
-    <div style="width: 1px; height: 40px; background: rgba(255,255,255,0.15);"></div>
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 999;
+  padding: 32px 20px;
+}
 
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <span style="font-size: 26px;">&#127758;</span>
-      <div>
-        <div style="font-size: 22px; font-weight: 800; color: #ffe082;">Global</div>
-        <div style="font-size: 12px; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.8px;">Audience Worldwide</div>
-      </div>
-    </div>
+.mobile-menu.is-open {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-  </div>
-</section>
+.mobile-menu a {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: var(--radius-md);
+  min-height: 52px;
+  transition: all 0.2s;
+}
 
-<!-- ========== WHY GOHIGHLEVEL ========== -->
-<section style="padding: 80px 20px; background: #f8faff;">
-  <div style="max-width: 1100px; margin: 0 auto;">
+.mobile-menu a:hover {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
 
-    <div style="text-align: center; margin-bottom: 56px;">
-      <span style="display: inline-block; background: #e8f0fe; color: #1a73e8; font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; padding: 6px 16px; border-radius: 50px; margin-bottom: 14px;">Why GoHighLevel?</span>
-      <h2 style="font-size: clamp(24px, 4vw, 38px); font-weight: 800; color: #0d1b4b; margin: 0 0 14px; line-height: 1.2;">Here&rsquo;s What You Gain When You Switch to GHL</h2>
-      <p style="font-size: 17px; color: #555; max-width: 600px; margin: 0 auto; line-height: 1.7;">One platform. Every outcome your agency needs &mdash; more clients signed, more revenue automated, less chaos every day.</p>
-    </div>
+.mobile-menu .mobile-cta {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--accent-blue);
+  color: white;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  text-align: center;
+  justify-content: center;
+}
 
-    <div style="display: flex; flex-wrap: wrap; gap: 28px; justify-content: center;">
+/* ── HERO ── */
+.hero {
+  position: relative;
+  padding: 120px 20px 64px;
+  background: var(--gradient-hero);
+  overflow: hidden;
+}
 
-      <!-- Card 1 -->
-      <div style="flex: 1; min-width: 280px; max-width: 340px; background: #ffffff; border-radius: 16px; padding: 36px 28px; box-shadow: 0 4px 24px rgba(26,115,232,0.09); border-top: 4px solid #1a73e8; text-align: center;">
-        <div style="font-size: 44px; margin-bottom: 16px;">&#128274;</div>
-        <h3 style="font-size: 20px; font-weight: 700; color: #0d1b4b; margin: 0 0 12px;">Keep an Extra $500–$1,500/Month</h3>
-        <p style="color: #666; font-size: 15px; line-height: 1.7; margin: 0 0 20px;">Cancel Clickfunnels, ActiveCampaign, Calendly, Twilio &amp; more. Agencies that switch to GHL save an average of <strong>$500&ndash;$1,500 every month</strong> &mdash; money that goes straight back to your bottom line.</p>
-        <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=homepage&utm_campaign=benefits" target="_blank" rel="nofollow" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">See what it replaces &rarr;</a>
-      </div>
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(ellipse 600px 400px at 20% 50%, rgba(59,130,246,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 300px at 80% 30%, rgba(139,92,246,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
 
-      <!-- Card 2 -->
-      <div style="flex: 1; min-width: 280px; max-width: 340px; background: #0d1b4b; border-radius: 16px; padding: 36px 28px; box-shadow: 0 4px 24px rgba(13,27,75,0.2); border-top: 4px solid #ffe082; text-align: center;">
-        <div style="font-size: 44px; margin-bottom: 16px;">&#129302;</div>
-        <h3 style="font-size: 20px; font-weight: 700; color: #ffffff; margin: 0 0 12px;">Close More Deals on Autopilot</h3>
-        <p style="color: rgba(255,255,255,0.75); font-size: 15px; line-height: 1.7; margin: 0 0 20px;">Never lose a lead to slow follow-up again. GHL nurtures your prospects 24/7 with automated SMS, email, and voicemail &mdash; so you wake up to booked appointments, not missed opportunities.</p>
-        <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=homepage&utm_campaign=benefits" target="_blank" rel="nofollow" style="font-size: 13px; color: #ffe082; font-weight: 600; text-decoration: none;">See automations in action &rarr;</a>
-      </div>
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(rgba(148,163,184,0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
 
-      <!-- Card 3 -->
-      <div style="flex: 1; min-width: 280px; max-width: 340px; background: #ffffff; border-radius: 16px; padding: 36px 28px; box-shadow: 0 4px 24px rgba(26,115,232,0.09); border-top: 4px solid #1a73e8; text-align: center;">
-        <div style="font-size: 44px; margin-bottom: 16px;">&#127970;</div>
-        <h3 style="font-size: 20px; font-weight: 700; color: #0d1b4b; margin: 0 0 12px;">Turn Your Tool Cost Into Monthly Revenue</h3>
-        <p style="color: #666; font-size: 15px; line-height: 1.7; margin: 0 0 20px;">White-label GHL as your own SaaS and charge clients a monthly fee. Your platform subscription pays for itself &mdash; and then becomes a <strong>profitable recurring revenue stream</strong> you own.</p>
-        <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=homepage&utm_campaign=benefits" target="_blank" rel="nofollow" style="font-size: 13px; color: #1a73e8; font-weight: 600; text-decoration: none;">Learn about white-label &rarr;</a>
-      </div>
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
 
-    </div>
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.2);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-blue);
+  margin-bottom: 24px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
 
-    <div style="text-align: center; margin-top: 44px;">
-      <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=homepage&utm_campaign=benefits"
-         target="_blank"
-         rel="nofollow"
-         style="display: inline-block; background: linear-gradient(135deg, #1a73e8, #0d47a1); color: #ffffff; font-size: 16px; font-weight: 700; padding: 15px 38px; border-radius: 50px; text-decoration: none; box-shadow: 0 6px 20px rgba(26,115,232,0.35);">
-        &#127775; Try GoHighLevel FREE for 30 Days &rarr;
-      </a>
-    </div>
+.hero h1 {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
 
-  </div>
-</section>
+.hero h1 .gradient-text {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-<!-- ========== AUTHORITY / FEATURED ========== -->
-<section style="padding: 56px 20px; background: #ffffff; border-top: 1px solid #eef2ff; border-bottom: 1px solid #eef2ff;">
-  <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+.hero-sub {
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 32px;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-    <p style="font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #999; margin-bottom: 32px;">Trusted Knowledge From a Real GoHighLevel Expert</p>
+.hero-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 40px;
+}
 
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 40px;">
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 32px;
+  background: var(--accent-blue);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  min-height: 52px;
+  width: 100%;
+  max-width: 380px;
+  transition: all 0.2s;
+  box-shadow: var(--shadow-button);
+  border: none;
+  cursor: pointer;
+}
 
-      <div style="background: #f8faff; border-radius: 12px; padding: 20px 28px; text-align: center; min-width: 160px;">
-        <div style="font-size: 28px; margin-bottom: 6px;">&#127897;</div>
-        <div style="font-weight: 700; color: #0d1b4b; font-size: 14px;">Spotify Podcast</div>
-        <div style="font-size: 12px; color: #888; margin-top: 3px;">&ldquo;Go High Level&rdquo;</div>
-      </div>
+.btn-primary:hover {
+  background: var(--accent-blue-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(59,130,246,0.4);
+}
 
-      <div style="background: #f8faff; border-radius: 12px; padding: 20px 28px; text-align: center; min-width: 160px;">
-        <div style="font-size: 28px; margin-bottom: 6px;">&#128218;</div>
-        <div style="font-weight: 700; color: #0d1b4b; font-size: 14px;">80+ Free Tutorials</div>
-        <div style="font-size: 12px; color: #888; margin-top: 3px;">Step-by-step guides</div>
-      </div>
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 28px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  min-height: 48px;
+  width: 100%;
+  max-width: 380px;
+  border: 1px solid var(--border-subtle);
+  transition: all 0.2s;
+  cursor: pointer;
+}
 
-      <div style="background: #f8faff; border-radius: 12px; padding: 20px 28px; text-align: center; min-width: 160px;">
-        <div style="font-size: 28px; margin-bottom: 6px;">&#129351;</div>
-        <div style="font-weight: 700; color: #0d1b4b; font-size: 14px;">GHL Certified Expert</div>
-        <div style="font-size: 12px; color: #888; margin-top: 3px;">William Welch</div>
-      </div>
+.btn-secondary:hover {
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+  background: rgba(148,163,184,0.05);
+}
 
-      <div style="background: #f8faff; border-radius: 12px; padding: 20px 28px; text-align: center; min-width: 160px;">
-        <div style="font-size: 28px; margin-bottom: 6px;">&#127758;</div>
-        <div style="font-weight: 700; color: #0d1b4b; font-size: 14px;">Global Reach</div>
-        <div style="font-size: 12px; color: #888; margin-top: 3px;">Agencies worldwide</div>
-      </div>
+.trust-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border-subtle);
+}
 
-      <div style="background: #f8faff; border-radius: 12px; padding: 20px 28px; text-align: center; min-width: 160px;">
-        <div style="font-size: 28px; margin-bottom: 6px;">&#128200;</div>
-        <div style="font-weight: 700; color: #0d1b4b; font-size: 14px;">Real Results</div>
-        <div style="font-size: 12px; color: #888; margin-top: 3px;">Proven strategies</div>
-      </div>
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
 
-    </div>
+.trust-item .trust-icon {
+  font-size: 16px;
+}
 
-    <div style="margin-top: 36px; padding: 24px 32px; background: linear-gradient(135deg, #e8f0fe, #fce4ec); border-radius: 14px; max-width: 700px; margin-left: auto; margin-right: auto;">
-      <p style="font-size: 15px; color: #0d1b4b; line-height: 1.7; margin: 0; font-style: italic;">
-        &ldquo;I&rsquo;ve used GoHighLevel to build and run my agency for years. Everything you find on GlobalHighLevel &mdash; every tutorial, every guide &mdash; comes from real, hands-on experience inside the platform. Not theory. Not fluff.&rdquo;
-      </p>
-      <p style="font-size: 13px; font-weight: 700; color: #1a73e8; margin: 12px 0 0;">&#8212; William Welch, Founder of GlobalHighLevel</p>
-    </div>
+.trust-item strong {
+  color: var(--text-secondary);
+  font-weight: 700;
+}
 
-  </div>
-</section>
+/* ── SOCIAL PROOF BAR ── */
+.proof-bar {
+  padding: 40px 20px;
+  background: var(--bg-tertiary);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
 
-<!-- ========== LATEST TUTORIALS ========== -->
-<section style="padding: 80px 20px; background: #f8faff;" id="tutorials">
-  <div style="max-width: 1100px; margin: 0 auto;">
+.proof-bar-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  text-align: center;
+}
 
-    <div style="text-align: center; margin-bottom: 50px;">
-      <span style="display: inline-block; background: #e8f0fe; color: #1a73e8; font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; padding: 6px 16px; border-radius: 50px; margin-bottom: 14px;">Free Tutorials</span>
-      <h2 style="font-size: clamp(24px, 4vw, 36px); font-weight: 800; color: #0d1b4b; margin: 0 0 12px;">Master GoHighLevel &mdash; For Free</h2>
-      <p style="font-size: 16px; color: #666; max-width: 560px; margin: 0 auto; line-height: 1.7;">80+ step-by-step guides covering every corner of GHL. Learn the platform before &mdash; and after &mdash; you start your free trial.</p>
-    </div>
+.proof-stat {
+  padding: 16px;
+}
 
-    <div style="display: flex; flex-wrap: wrap; gap: 28px; justify-content: center;">
+.proof-stat .number {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -1px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
 
-      <!-- Tutorial Card 1 -->
-      <div style="flex: 1; min-width: 280px; max-width: 350px; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.2s;">
-        <div style="background: linear-gradient(135deg, #1a73e8, #0d47a1); height: 10px;"></div>
-        <div style="padding: 28px 24px 24px;">
-          <span style="display: inline-block; background: #e8f0fe; color: #1a73e8; font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 4px 10px; border-radius: 50px; margin-bottom: 14px;">CRM</span>
-          <h3 style="font-size: 17px; font-weight: 700; color: #0d1b4b; margin: 0 0 10px; line-height: 1.4;">How to Set Up Your GoHighLevel CRM From Scratch</h3>
-          <p style="font-size: 14px; color: #777; line-height: 1.65; margin: 0 0 20px;">A complete walkthrough for building your pipeline, adding contacts, and tracking deals inside GHL.</p>
-          <a href="/tutorials" style="font-size: 13px; color: #1a73e8; font-weight: 700; text-decoration: none;">Read Tutorial &rarr;</a>
-        </div>
-      </div>
+.proof-stat .label {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-      <!-- Tutorial Card 2 -->
-      <div style="flex: 1; min-width: 280px; max-width: 350px; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-        <div style="background: linear-gradient(135deg, #ff6f00, #ff9800); height: 10px;"></div>
-        <div style="padding: 28px 24px 24px;">
-          <span style="display: inline-block; background: #fff3e0; color: #e65100; font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 4px 10px; border-radius: 50px; margin-bottom: 14px;">Automation</span>
-          <h3 style="font-size: 17px; font-weight: 700; color: #0d1b4b; margin: 0 0 10px; line-height: 1.4;">Build Your First GoHighLevel Workflow Automation</h3>
-          <p style="font-size: 14px; color: #777; line-height: 1.65; margin: 0 0 20px;">Step-by-step guide to automating lead follow-up with email, SMS, and voicemail drops in one workflow.</p>
-          <a href="/tutorials" style="font-size: 13px; color: #1a73e8; font-weight: 700; text-decoration: none;">Read Tutorial &rarr;</a>
-        </div>
-      </div>
+/* ── WHO THIS IS FOR ── */
+.who-section {
+  padding: var(--section-padding);
+  background: var(--bg-primary);
+}
 
-      <!-- Tutorial Card 3 -->
-      <div style="flex: 1; min-width: 280px; max-width: 350px; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-        <div style="background: linear-gradient(135deg, #0d1b4b, #1a73e8); height: 10px;"></div>
-        <div style="padding: 28px 24px 24px;">
-          <span style="display: inline-block; background: #e8eaf6; color: #3949ab; font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 4px 10px; border-radius: 50px; margin-bottom: 14px;">Funnels</span>
-          <h3 style="font-size: 17px; font-weight: 700; color: #0d1b4b; margin: 0 0 10px; line-height: 1.4;">GoHighLevel Funnel Builder: A Beginner&#39;s Complete Guide</h3>
-          <p style="font-size: 14px; color: #777; line-height: 1.65; margin: 0 0 20px;">Learn how to build high-converting funnels inside GHL &mdash; no Clickfunnels or third-party tools needed.</p>
-          <a href="/tutorials" style="font-size: 13px; color: #1a73e8; font-weight: 700; text-decoration: none;">Read Tutorial &rarr;</a>
-        </div>
-      </div>
+.section-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
 
-    </div>
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
 
-    <div style="text-align: center; margin-top: 40px;">
-      <a href="/tutorials" style="display: inline-block; background: #ffffff; color: #1a73e8; font-size: 15px; font-weight: 700; padding: 13px 32px; border-radius: 50px; text-decoration: none; border: 2px solid #1a73e8; margin-right: 12px;">Browse All 80+ Tutorials</a>
-      <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=homepage&utm_campaign=tutorials" target="_blank" rel="nofollow" style="display: inline-block; background: linear-gradient(135deg, #1a73e8, #0d47a1); color: #ffffff; font-size: 15px; font-weight: 700; padding: 13px 32px; border-radius: 50px; text-decoration: none; box-shadow: 0 5px 18px rgba(26,115,232,0.3); margin-top: 8px;">Start Free Trial &rarr;</a>
-    </div>
+.section-label {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent-blue);
+  margin-bottom: 12px;
+}
 
-  </div>
-</section>
+.section-title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
 
-<!-- ========== PODCAST SECTION ========== -->
-<section style="padding: 80px 20px; background: linear-gradient(135deg, #0d1b4b 0%, #1e3a8a 100%); color: #ffffff;">
-  <div style="max-width: 1000px; margin: 0 auto;">
+.section-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
 
-    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 48px; justify-content: center;">
+.audience-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
 
-      <!-- Podcast Art -->
-      <div style="flex-shrink: 0; text-align: center;">
-        <div style="width: 200px; height: 200px; background: linear-gradient(135deg, #1db954, #1ed760); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 80px; box-shadow: 0 12px 40px rgba(29,185,84,0.4); margin: 0 auto 14px;">
-          &#127897;
-        </div>
-        <div style="font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase;">Now on Spotify</div>
-      </div>
+.audience-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  transition: all 0.3s;
+}
 
-      <!-- Podcast Text -->
-      <div style="flex: 1; min-width: 280px;">
-        <span style="display: inline-block; background: rgba(29,185,84,0.2); border: 1px solid rgba(29,185,84,0.4); color: #1db954; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 5px 14px; border-radius: 50px; margin-bottom: 16px;">&#127897; Podcast</span>
+.audience-card:hover {
+  border-color: rgba(59,130,246,0.2);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
 
-        <h2 style="font-size: clamp(22px, 4vw, 34px); font-weight: 800; color: #ffffff; margin: 0 0 14px; line-height: 1.25;">&ldquo;Go High Level&rdquo; &mdash; The Podcast for Agency Owners</h2>
+.audience-card .card-icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+  display: block;
+}
 
-        <p style="font-size: 16px; color: rgba(255,255,255,0.78); line-height: 1.7; margin: 0 0 20px;">Real talk on using GoHighLevel to grow your agency. Tips, walkthroughs, and strategy from William Welch &mdash; covering everything from onboarding clients to scaling with automation.</p>
+.audience-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.2px;
+}
 
-        <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 28px;">
-          <div style="background: rgba(255,255,255,0.1); border-radius: 10px; padding: 12px 18px; text-align: center;">
-            <div style="font-size: 20px; font-weight: 800; color: #ffe082;">6,479+</div>
-            <div style="font-size: 11px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.8px;">All-Time Streams</div>
-          </div>
-          <div style="background: rgba(255,255,255,0.1); border-radius: 10px; padding: 12px 18px; text-align: center;">
-            <div style="font-size: 20px; font-weight: 800; color: #ffe082;">380+</div>
-            <div style="font-size: 11px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.8px;">Followers</div>
-          </div>
-          <div style="background: rgba(255,255,
+.audience-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ── WHAT YOU GET ── */
+.benefits-section {
+  padding: var(--section-padding);
+  background: var(--bg-secondary);
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.benefit-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  transition: all 0.3s;
+}
+
+.benefit-card:hover {
+  border-color: rgba(139,92,246,0.2);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.benefit-card .benefit-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+.benefit-card:nth-child(1) .benefit-icon { background: rgba(59,130,246,0.12); }
+.benefit-card:nth-child(2) .benefit-icon { background: rgba(139,92,246,0.12); }
+.benefit-card:nth-child(3) .benefit-icon { background: rgba(245,158,11,0.12); }
+
+.benefit-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.2px;
+}
+
+.benefit-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ── MID CTA ── */
+.mid-cta {
+  padding: 56px 20px;
+  background: var(--bg-primary);
+  text-align: center;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.mid-cta-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.mid-cta p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.mid-cta .btn-primary {
+  max-width: 380px;
+}
+
+.mid-cta .offer-note {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ── THE OFFER ── */
+.offer-section {
+  padding: 72px 20px;
+  background: var(--gradient-offer);
+  position: relative;
+  overflow: hidden;
+}
+
+.offer-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(rgba(29,185,84,0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+.offer-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.offer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  background: rgba(29,185,84,0.15);
+  border: 1px solid rgba(29,185,84,0.25);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent-green);
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.offer-section .section-title {
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+
+.offer-comparison {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 32px 0;
+  flex-wrap: wrap;
+}
+
+.offer-box {
+  padding: 20px 24px;
+  border-radius: var(--radius-md);
+  min-width: 140px;
+  flex: 1;
+  max-width: 220px;
+}
+
+.offer-box.standard {
+  background: rgba(148,163,184,0.08);
+  border: 1px solid rgba(148,163,184,0.1);
+}
+
+.offer-box.exclusive {
+  background: rgba(29,185,84,0.1);
+  border: 2px solid rgba(29,185,84,0.35);
+  position: relative;
+}
+
+.offer-box .box-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.offer-box.standard .box-label { color: var(--text-muted); }
+.offer-box.exclusive .box-label { color: var(--accent-green); }
+
+.offer-box .box-days {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 4px;
+  letter-spacing: -1px;
+}
+
+.offer-box.standard .box-days {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-color: rgba(148,163,184,0.4);
+}
+
+.offer-box.exclusive .box-days { color: var(--text-primary); }
+
+.offer-box .box-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.offer-box.exclusive .box-sub { color: var(--text-secondary); }
+
+.offer-details {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  line-height: 1.7;
+}
+
+.btn-offer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 18px 40px;
+  background: var(--accent-green);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  min-height: 56px;
+  width: 100%;
+  max-width: 380px;
+  transition: all 0.2s;
+  box-shadow: 0 2px 12px rgba(29,185,84,0.3);
+  border: none;
+  cursor: pointer;
+}
+
+.btn-offer:hover {
+  background: var(--accent-green-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(29,185,84,0.4);
+}
+
+.offer-note {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ── TUTORIALS ── */
+.tutorials-section {
+  padding: var(--section-padding);
+  background: var(--bg-primary);
+}
+
+.tutorials-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.tutorial-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.tutorial-card:hover {
+  border-color: rgba(59,130,246,0.2);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.tutorial-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+}
+
+.tutorial-badge.automation { background: rgba(59,130,246,0.12); color: var(--accent-blue); }
+.tutorial-badge.ai { background: rgba(139,92,246,0.12); color: var(--accent-purple); }
+.tutorial-badge.funnels { background: rgba(245,158,11,0.12); color: var(--accent-orange); }
+
+.tutorial-card h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  line-height: 1.3;
+  letter-spacing: -0.2px;
+}
+
+.tutorial-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+.tutorial-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-blue);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap 0.2s;
+}
+
+.tutorial-link:hover {
+  gap: 8px;
+}
+
+.tutorials-more {
+  text-align: center;
+  margin-top: 32px;
+}
+
+/* ── PODCAST ── */
+.podcast-section {
+  padding: var(--section-padding);
+  background: var(--bg-secondary);
+}
+
+.podcast-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.podcast-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+.podcast-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-green), #1ed760);
+}
+
+.podcast-artwork {
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: 1;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border: 1px solid var(--border-subtle);
+}
+
+.podcast-artwork .artwork-emoji {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+.podcast-artwork .artwork-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  padding: 0 12px;
+}
+
+.podcast-content {
+  text-align: center;
+}
+
+.podcast-content h3 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+
+.podcast-content .podcast-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.podcast-stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.podcast-stat {
+  text-align: center;
+}
+
+.podcast-stat .stat-num {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.podcast-stat .stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.podcast-top {
+  padding: 12px 16px;
+  background: rgba(29,185,84,0.08);
+  border: 1px solid rgba(29,185,84,0.15);
+  border-radius: var(--radius-md);
+  margin-bottom: 24px;
+}
+
+.podcast-top .top-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent-green);
+  margin-bottom: 4px;
+}
+
+.podcast-top .top-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.podcast-top .top-streams {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.btn-spotify {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--accent-green);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 100px;
+  min-height: 50px;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-spotify:hover {
+  background: var(--accent-green-hover);
+  transform: translateY(-1px);
+}
+
+.btn-spotify .spotify-icon {
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.podcast-note {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 12px;
+}
+
+/* ── FINAL CTA ── */
+.final-cta {
+  padding: 80px 20px;
+  background: var(--gradient-offer);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.final-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(ellipse 500px 300px at 50% 50%, rgba(29,185,84,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.final-cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.final-cta h2 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.final-cta p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.final-cta .btn-offer {
+  max-width: 420px;
+  font-size: 17px;
+  padding: 20px 40px;
+  min-height: 60px;
+}
+
+.final-note {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 16px;
+}
+
+.final-urgency {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(29,185,84,0.12);
+  border: 1px solid rgba(29,185,84,0.2);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-green);
+  margin-bottom: 24px;
+}
+
+/* ── FOOTER ── */
+.footer {
+  padding: 40px 20px;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-brand {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.footer-text {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.footer-links {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: var(--text-secondary);
+}
+
+/* ════════════════════════════════════
+   TABLET — min-width 768px
+   ════════════════════════════════════ */
+@media (min-width: 768px) {
+  :root {
+    --section-padding: 96px 40px;
+  }
+
+  .nav-inner {
+    padding: 0 40px;
+    height: 64px;
+  }
+
+  .nav-logo {
+    font-size: 18px;
+  }
+
+  .nav-links {
+    display: flex;
+  }
+
+  .nav-cta {
+    display: block;
+  }
+
+  .hamburger {
+    display: none;
+  }
+
+  .hero {
+    padding: 160px 40px 100px;
+  }
+
+  .hero h1 {
+    font-size: 52px;
+    letter-spacing: -2px;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+  }
+
+  .hero-ctas {
+    flex-direction: row;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .btn-primary, .btn-secondary {
+    width: auto;
+  }
+
+  .trust-strip {
+    gap: 40px;
+  }
+
+  .proof-bar-inner {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .proof-stat {
+    padding: 24px;
+  }
+
+  .proof-stat:not(:last-child) {
+    border-right: 1px solid var(--border-subtle);
+  }
+
+  .proof-stat .number {
+    font-size: 48px;
+  }
+
+  .proof-stat .label {
+    font-size: 14px;
+  }
+
+  .section-title {
+    font-size: 36px;
+  }
+
+  .audience-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .audience-card {
+    padding: 36px 28px;
+  }
+
+  .benefits-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .benefit-card {
+    padding: 36px 28px;
+  }
+
+  .mid-cta {
+    padding: 72px 40px;
+  }
+
+  .mid-cta p {
+    font-size: 18px;
+  }
+
+  .offer-section {
+    padding: 96px 40px;
+  }
+
+  .offer-section .section-title {
+    font-size: 36px;
+  }
+
+  .offer-comparison {
+    gap: 24px;
+  }
+
+  .tutorials-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .podcast-card {
+    flex-direction: row;
+    align-items: center;
+    padding: 48px;
+    gap: 48px;
+  }
+
+  .podcast-artwork {
+    min-width: 200px;
+    max-width: 200px;
+    margin: 0;
+  }
+
+  .podcast-content {
+    text-align: left;
+    flex: 1;
+  }
+
+  .podcast-content h3 {
+    font-size: 26px;
+  }
+
+  .podcast-stats {
+    justify-content: flex-start;
+    gap: 32px;
+  }
+
+  .final-cta {
+    padding: 120px 40px;
+  }
+
+  .final-cta h2 {
+    font-size: 40px;
+  }
+
+  .final-cta p {
+    font-size: 17px;
+  }
+
+  .footer {
+    padding: 48px 40px;
+  }
+}
+
+/* ════════════════════════════════════
+   LARGE DESKTOP — 1024px+
+   ════════════════════════════════════ */
+@media (min-width: 1024px) {
+  .hero h1 {
+    font-size: 64px;
+    letter-spacing: -2.5px;
+  }
+
+  .hero-sub {
+    font-size: 20px;
+  }
+
+  .section-title {
+    font-size: 40px;
+  }
+
+  .offer-section .section-title {
+    font-size: 40px;
+  }
+
+  .audience-card, .benefit-card {
+    padding: 40px 32px;
+  }
+}
+</style>
+
+<header class="nav" role="banner">
+  <div class="nav-inner">
+    <a href="/" class="nav-
