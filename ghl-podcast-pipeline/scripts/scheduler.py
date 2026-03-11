@@ -6,9 +6,11 @@ Cycle order:
   0. analytics.py     — pull Transistor download data, update topic weights
   1. retry-failed.py  — recover any partial failures from previous run
   2. run-pipeline.py  — generate + publish today's batch of 20 episodes
-  3. Send daily email summary to bill@reiamplifi.com
-  4. Sleep until 25 hours after cycle started
-  5. Repeat forever
+  3. 6-india-blog.py  — publish 5 India blog topics
+  4. deploy_site()    — git push new posts/ JSON → Netlify rebuilds globalhighlevel.com
+  5. Send daily email summary to bill@reiamplifi.com
+  6. Sleep until 25 hours after cycle started
+  7. Repeat forever
 
 Safe restarts: saves last run time to logs/scheduler-state.json.
 If restarted early, waits out the remaining time before running again.
@@ -31,6 +33,7 @@ import json
 import os
 import smtplib
 import ssl
+import subprocess
 from datetime import datetime, timedelta
 from email.mime.text import MIMEText
 from pathlib import Path
@@ -242,6 +245,57 @@ def send_email(subject: str, body: str):
         log(f"  Email failed: {e}")
 
 
+# ── Site deploy ───────────────────────────────────────────────────────────────
+def deploy_site():
+    """
+    Push new blog post JSON files to GitHub → Netlify auto-rebuilds and deploys.
+    Only commits if there are actual new/changed files in globalhighlevel-site/posts/.
+    """
+    repo_dir = BASE_DIR.parent  # Claude_notebookLM_GHL_Podcast root
+    posts_dir = repo_dir / "globalhighlevel-site" / "posts"
+
+    if not posts_dir.exists():
+        log("  deploy_site: posts/ dir not found — skipping")
+        return
+
+    try:
+        # Check if there's anything new to commit in posts/
+        result = subprocess.run(
+            ["git", "status", "--porcelain", "globalhighlevel-site/posts/"],
+            cwd=repo_dir, capture_output=True, text=True
+        )
+        if not result.stdout.strip():
+            log("  deploy_site: no new posts to push — skipping")
+            return
+
+        # Count new files
+        new_files = len(result.stdout.strip().splitlines())
+
+        # Stage only the posts directory
+        subprocess.run(
+            ["git", "add", "globalhighlevel-site/posts/"],
+            cwd=repo_dir, check=True, capture_output=True
+        )
+
+        # Commit
+        msg = f"Auto-deploy: {new_files} new post(s) — {datetime.now().strftime('%Y-%m-%d %H:%M')}"
+        subprocess.run(
+            ["git", "commit", "-m", msg],
+            cwd=repo_dir, check=True, capture_output=True
+        )
+
+        # Push
+        subprocess.run(
+            ["git", "push", "origin", "main"],
+            cwd=repo_dir, check=True, capture_output=True
+        )
+
+        log(f"  deploy_site: pushed {new_files} post(s) → Netlify deploying globalhighlevel.com")
+
+    except subprocess.CalledProcessError as e:
+        log(f"  deploy_site error (non-fatal): {e}")
+
+
 # ── Script loader ─────────────────────────────────────────────────────────────
 def load_script(name: str):
     path = SCRIPTS_DIR / name
@@ -307,6 +361,13 @@ You'll get a summary email when it's done.
         sys.argv = [sys.argv[0]]
     except Exception as e:
         log(f"  6-india-blog.py error (non-fatal): {e}")
+
+    # Step 4: Deploy new posts to globalhighlevel.com via GitHub → Netlify
+    log("Step 4/4 — Deploying new posts to globalhighlevel.com...")
+    try:
+        deploy_site()
+    except Exception as e:
+        log(f"  deploy_site error (non-fatal): {e}")
 
     # Save state so restarts are safe
     save_state(cycle_started)
