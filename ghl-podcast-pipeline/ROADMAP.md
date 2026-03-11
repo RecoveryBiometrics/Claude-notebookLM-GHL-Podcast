@@ -14,7 +14,8 @@ Goal: fully automated content engine driving GHL affiliate signups via podcast +
 - [x] Full article discovery — 1,565 GHL help articles, newest first
 - [x] Gemini Flash transcription attached to every episode
 - [x] Article body + transcript saved to Google Drive (Audio/, Transcripts/, Articles/ subfolders)
-- [x] Blog agent (5-blog.py) — DuckDuckGo SERP + Reddit research → Claude Haiku writes SEO post → publishes to reiamplifi.com/blog via GHL API
+- [x] Blog agent (5-blog.py) — DuckDuckGo SERP + Reddit research → Claude Haiku writes SEO post → saves to globalhighlevel-site/posts/ → auto-deploys to globalhighlevel.com
+- [x] Stopped dual-publishing — all new posts go to globalhighlevel.com only (reiamplifi.com blog stopped)
 - [x] Affiliate UTM links auto-added to every blog post
 - [x] Styled blog posts — Table of Contents, CTA boxes, Pro Tip callouts, FAQ section
 - [x] FAQ schema (JSON-LD) on every post — enables Google rich results
