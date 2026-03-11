@@ -161,7 +161,7 @@ def generate_blog_post(
         else f"EPISODE DESCRIPTION:\n{description}"
     )
 
-    prompt = f"""You are an expert SEO content writer. Write a comprehensive, well-structured blog post that will rank on Google for the topic below.
+    prompt = f"""You are an expert SEO content writer. Write a comprehensive, visually styled blog post that will rank on Google for the topic below.
 
 TOPIC: {title}
 TAGS: {tags}
@@ -171,27 +171,78 @@ TAGS: {tags}
 WHAT TOP RANKING PAGES COVER (use these to build your H2 structure — match and beat their depth):
 {serp_context}
 
-REDDIT INSIGHTS (use these as supporting context, real-world examples, or a FAQ section — only use posts that are actual questions ending in ? as FAQ items. Do NOT use them as H2 headings):
+REDDIT INSIGHTS (only use posts that are actual questions ending in ? as FAQ items — do NOT use as H2 headings):
 {reddit_context}
 
-AFFILIATE LINK (include naturally 2-3 times — intro, mid-article, closing CTA):
+AFFILIATE LINK:
 {affiliate_url}
 
-REQUIREMENTS:
-- Write in HTML format (<h2>, <h3>, <p>, <ul>, <li>, <strong> tags only)
-- 800-1200 words
-- H2s must be clear, logical steps or questions directly related to the topic (e.g. "Step 1: Set Up Your Phone Number", "What Is an SMS Campaign in GoHighLevel?")
-- Include a FAQ section at the bottom using only Reddit posts that are genuine questions (contain ?)
-- If no Reddit questions found, skip the FAQ section
-- Hook intro that addresses the reader's pain point immediately
-- Strong closing CTA with affiliate link
+═══════════════════════════════════════
+STRUCTURE (in this exact order):
+═══════════════════════════════════════
+
+1. INTRO PARAGRAPH — hook that addresses the reader's pain point. Include affiliate link naturally here.
+
+2. TABLE OF CONTENTS — styled jump-link box listing all H2 sections:
+<div style="background:#f0f4ff;border-left:4px solid #1a73e8;padding:16px 24px;margin:28px 0;border-radius:6px;">
+<p style="font-weight:700;margin:0 0 10px 0;font-size:16px;">📋 In This Guide</p>
+<ul style="margin:0;padding-left:20px;">
+<li><a href="#section-1" style="color:#1a73e8;text-decoration:none;">Section title</a></li>
+... one per H2
+</ul>
+</div>
+
+3. BODY SECTIONS — each H2 gets id="section-N" for the TOC links to work:
+<h2 id="section-1">Section Title</h2>
+
+4. MID-ARTICLE CTA BOX — after the 2nd or 3rd H2:
+<div style="background:#1a73e8;color:#ffffff;padding:28px 24px;margin:36px 0;border-radius:8px;text-align:center;">
+<p style="font-size:20px;font-weight:700;margin:0 0 8px 0;">Try GoHighLevel FREE for 30 Days</p>
+<p style="margin:0 0 18px 0;opacity:0.9;">Double the standard trial. No credit card required to start.</p>
+<a href="AFFILIATE_URL" style="background:#ffffff;color:#1a73e8;padding:14px 28px;border-radius:6px;font-weight:700;text-decoration:none;display:inline-block;font-size:16px;">Start My Free Trial →</a>
+</div>
+Replace AFFILIATE_URL with the actual affiliate link above.
+
+5. PRO TIP CALLOUT — include at least one where relevant:
+<div style="background:#fff8e1;border-left:4px solid #ffc107;padding:16px 20px;margin:24px 0;border-radius:4px;">
+<p style="font-weight:700;margin:0 0 6px 0;">💡 Pro Tip</p>
+<p style="margin:0;">Tip content here.</p>
+</div>
+
+6. FAQ SECTION — only if Reddit questions with ? are available:
+<div style="background:#f8f9fa;padding:24px;border-radius:8px;margin:36px 0;">
+<h2 style="margin-top:0;">Frequently Asked Questions</h2>
+... Q&A pairs using <h3> for questions, <p> for answers
+</div>
+
+7. CLOSING CTA — final paragraph + styled button:
+<div style="background:#f0f4ff;border:2px solid #1a73e8;padding:24px;margin:36px 0;border-radius:8px;text-align:center;">
+<p style="font-size:18px;font-weight:700;margin:0 0 8px 0;">Ready to Get Started with GoHighLevel?</p>
+<p style="margin:0 0 16px 0;">Get a free 30-day trial — double the standard 14-day trial.</p>
+<a href="AFFILIATE_URL" style="background:#1a73e8;color:#ffffff;padding:14px 28px;border-radius:6px;font-weight:700;text-decoration:none;display:inline-block;font-size:16px;">Claim Your Free Trial →</a>
+</div>
+Replace AFFILIATE_URL with the actual affiliate link above.
+
+8. FAQ SCHEMA — if FAQ section exists, append this JSON-LD at the very end of html_content:
+<script type="application/ld+json">
+{{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{"@type":"Question","name":"Question text?","acceptedAnswer":{{"@type":"Answer","text":"Answer text."}}}}]}}
+</script>
+Include one object per FAQ question.
+
+═══════════════════════════════════════
+RULES:
+═══════════════════════════════════════
+- 900-1300 words of actual content (not counting HTML tags)
+- H2s must be clear steps or questions directly about the topic
 - Do NOT include <html>, <head>, or <body> tags
-- Write as William Welch, a GoHighLevel expert helping agencies and businesses of all types
+- Do NOT wrap output in markdown code blocks
+- Write as William Welch, GoHighLevel expert for agencies and businesses
 - Tone: direct, practical, authoritative — no fluff
+- Replace every instance of AFFILIATE_URL with the actual affiliate link
 
 Return a JSON object with these exact keys:
 {{
-  "html_content": "the full blog post HTML",
+  "html_content": "the complete styled HTML including all components above",
   "meta_description": "150-160 char SEO meta description",
   "slug": "url-friendly-slug-from-title"
 }}"""
@@ -199,7 +250,7 @@ Return a JSON object with these exact keys:
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
     response = client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=4000,
+        max_tokens=6000,
         messages=[{"role": "user", "content": prompt}],
     )
 
