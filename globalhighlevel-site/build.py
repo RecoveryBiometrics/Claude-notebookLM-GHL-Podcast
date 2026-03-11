@@ -360,19 +360,46 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
     canonical = SITE_URL + ("/" if page == 1 else f"/page/{page}/")
 
     if page == 1 and HOMEPAGE_HERO.exists():
-        # homepage_hero.html is a fully self-contained page (has its own <style>, nav, footer).
-        # Use it directly — just inject the blog post cards into id="tutorials-grid".
-        hero_html = HOMEPAGE_HERO.read_text(encoding="utf-8")
-        if cards_html and 'id="tutorials-grid"' in hero_html:
-            grid_block = f'<div id="tutorials-grid">\n{cards_html}\n</div>'
-            # Replace the placeholder grid (keep existing id="tutorials-grid" div or inject before it)
-            hero_html = re.sub(
-                r'<div id="tutorials-grid">.*?</div>',
+        # homepage_hero.html is <style>...</style> + raw body HTML (no doctype/html/head/body tags).
+        # Split style from body content and wrap in a proper HTML document.
+        hero_raw = HOMEPAGE_HERO.read_text(encoding="utf-8")
+
+        # Extract the <style> block (everything inside the first <style>...</style>)
+        style_match = re.search(r'<style>(.*?)</style>', hero_raw, re.DOTALL)
+        hero_style = style_match.group(0) if style_match else ""
+        # Body content = everything after the closing </style>
+        hero_body = hero_raw[style_match.end():].strip() if style_match else hero_raw
+
+        # Inject real post cards into tutorials-grid if posts exist
+        if cards_html and 'id="tutorials-grid"' in hero_body:
+            grid_block = f'<div id="tutorials-grid" class="tutorials-grid">\n{cards_html}\n</div>'
+            hero_body = re.sub(
+                r'<div id="tutorials-grid"[^>]*>.*?</div>',
                 grid_block,
-                hero_html,
+                hero_body,
                 flags=re.DOTALL
             )
-        write(PUBLIC_DIR / "index.html", hero_html)
+
+        full_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{SITE_NAME} — {SITE_TAGLINE}</title>
+<meta name="description" content="Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies worldwide. Learn GHL step by step.">
+<link rel="canonical" href="{SITE_URL}/">
+<meta property="og:title" content="{SITE_NAME} — {SITE_TAGLINE}">
+<meta property="og:description" content="Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies worldwide.">
+<meta property="og:url" content="{SITE_URL}/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+{hero_style}
+</head>
+<body>
+{hero_body}
+</body>
+</html>"""
+        write(PUBLIC_DIR / "index.html", full_html)
         return
 
     if page == 1:
