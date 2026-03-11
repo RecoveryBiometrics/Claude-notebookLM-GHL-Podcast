@@ -1,148 +1,184 @@
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+
 :root{
-  --bg:#08090c;
-  --bg2:#0d1117;
-  --surface:#111827;
-  --surface2:#1a2235;
-  --blue:#4f8ef7;
-  --blue2:#6ea8ff;
-  --glow:rgba(79,142,247,0.18);
-  --green:#22c55e;
-  --text:#f0f4ff;
-  --text2:#8b9ab5;
-  --text3:#4d5f7a;
-  --border:rgba(255,255,255,0.07);
-  --border2:rgba(79,142,247,0.2);
-  --max:1080px;
+  --bg:#07080a;
+  --bg2:#0c0e14;
+  --surface:#111520;
+  --amber:#f59e0b;
+  --amber-light:#fbbf24;
+  --amber-dim:rgba(245,158,11,0.12);
+  --amber-border:rgba(245,158,11,0.22);
+  --text:#eef2ff;
+  --text2:#7c8aab;
+  --text3:#3d4a63;
+  --border:rgba(255,255,255,0.06);
+  --max:1060px;
+  --serif:'Instrument Serif',Georgia,serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px}
+html{scroll-behavior:smooth}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 
-/* ── NAV ── */
-nav{position:fixed;top:0;inset-x:0;z-index:200;padding:0 20px}
-.nav-inner{max-width:var(--max);margin:0 auto;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.logo{font-size:1rem;font-weight:700;letter-spacing:-.2px;display:flex;align-items:center;gap:8px}
-.logo-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 10px var(--blue)}
-.nav-right{display:flex;align-items:center;gap:20px}
-.nav-link{font-size:.85rem;color:var(--text2);transition:color .15s}
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.fade-1{animation:fadeUp .6s ease both}
+.fade-2{animation:fadeUp .6s .15s ease both}
+.fade-3{animation:fadeUp .6s .3s ease both}
+.fade-4{animation:fadeUp .6s .45s ease both}
+
+/* NAV */
+nav{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--serif);font-size:1.25rem;letter-spacing:-.3px;display:flex;align-items:center;gap:6px}
+.logo-amber{color:var(--amber)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-link{font-size:.82rem;color:var(--text2);letter-spacing:.1px;transition:color .15s}
 .nav-link:hover{color:var(--text)}
-.nav-btn{background:var(--blue);color:#fff;font-size:.83rem;font-weight:600;padding:8px 18px;border-radius:6px;transition:opacity .15s;white-space:nowrap}
-.nav-btn:hover{opacity:.85}
+.nav-cta{font-size:.82rem;font-weight:600;color:#000;background:var(--amber);padding:8px 18px;border-radius:6px;transition:background .15s}
+.nav-cta:hover{background:var(--amber-light)}
 
-/* ── HERO ── */
-.hero{min-height:100vh;display:flex;align-items:center;padding:100px 20px 80px;position:relative;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(79,142,247,.12) 0%,transparent 70%);pointer-events:none}
-.hero-grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;mask-image:radial-gradient(ellipse at center,black 0%,transparent 80%)}
-.hero-inner{max-width:var(--max);margin:0 auto;text-align:center;position:relative;z-index:1}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(79,142,247,.1);border:1px solid var(--border2);color:var(--blue2);font-size:.75rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:32px}
-.hero-eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--blue2);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.hero h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;line-height:1.1;letter-spacing:-1.5px;margin-bottom:24px;max-width:800px;margin-left:auto;margin-right:auto}
-.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--blue) 0%,#a78bfa 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:1.1rem;color:var(--text2);max-width:500px;margin:0 auto 40px;line-height:1.7}
-.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:56px}
-.btn-main{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;font-size:.95rem;font-weight:600;padding:13px 26px;border-radius:8px;transition:all .2s;box-shadow:0 0 30px rgba(79,142,247,.3)}
-.btn-main:hover{background:var(--blue2);box-shadow:0 0 40px rgba(79,142,247,.45);transform:translateY(-1px)}
-.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--text2);font-size:.95rem;font-weight:500;padding:13px 26px;border-radius:8px;border:1px solid var(--border);transition:all .2s}
-.btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,.15)}
-.hero-stats{display:flex;gap:0;justify-content:center;flex-wrap:wrap;padding:28px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.hero-stat{padding:0 36px;text-align:center;border-right:1px solid var(--border)}
-.hero-stat:last-child{border-right:none}
-.hero-stat-n{font-size:1.8rem;font-weight:800;letter-spacing:-1px;color:var(--text)}
-.hero-stat-l{font-size:.78rem;color:var(--text3);margin-top:2px;letter-spacing:.2px}
+/* HERO */
+.hero{padding:128px 24px 88px;position:relative;overflow:hidden}
+.hero-noise{position:absolute;inset:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px 200px;pointer-events:none}
+.hero-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(245,158,11,.08) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:var(--max);margin:0 auto;position:relative;z-index:1}
+.hero-kicker{display:inline-flex;align-items:center;gap:10px;margin-bottom:28px;font-size:.72rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--amber)}
+.kicker-line{width:28px;height:1px;background:var(--amber)}
+.hero h1{font-family:var(--serif);font-size:clamp(2.8rem,6.5vw,5rem);font-weight:400;line-height:1.08;letter-spacing:-.5px;max-width:720px;margin-bottom:28px}
+.hero h1 i{font-style:italic;color:var(--amber)}
+.hero-sub{font-size:1.05rem;color:var(--text2);max-width:460px;line-height:1.75;margin-bottom:40px}
+.hero-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:64px}
+.btn-amber{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:#000;font-size:.9rem;font-weight:700;padding:13px 26px;border-radius:7px;transition:all .2s;box-shadow:0 4px 24px rgba(245,158,11,.25)}
+.btn-amber:hover{background:var(--amber-light);box-shadow:0 4px 32px rgba(245,158,11,.4);transform:translateY(-1px)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;color:var(--text2);font-size:.9rem;padding:13px 22px;border-radius:7px;border:1px solid var(--border);transition:all .2s}
+.btn-outline:hover{color:var(--text);border-color:rgba(255,255,255,.12)}
+.hero-rule{height:1px;background:var(--border);margin-bottom:36px}
+.hero-proof{display:flex;gap:48px;flex-wrap:wrap}
+.proof-item{}
+.proof-n{font-family:var(--serif);font-size:2.2rem;font-weight:400;line-height:1;color:var(--text)}
+.proof-l{font-size:.75rem;color:var(--text3);margin-top:5px;letter-spacing:.3px}
 
-/* ── SECTION BASE ── */
-.s{padding:96px 20px}
-.w{max-width:var(--max);margin:0 auto}
-.s-label{font-size:.72rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
-.s-title{font-size:clamp(1.7rem,3.5vw,2.4rem);font-weight:800;letter-spacing:-.5px;line-height:1.2;margin-bottom:14px}
-.s-sub{font-size:1rem;color:var(--text2);max-width:520px;line-height:1.7}
+/* MARQUEE STRIP */
+.strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:14px 0;overflow:hidden;background:var(--bg2)}
+.strip-inner{display:flex;gap:0;white-space:nowrap;animation:scroll 25s linear infinite}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.strip-item{display:inline-flex;align-items:center;gap:10px;padding:0 36px;font-size:.78rem;color:var(--text3);letter-spacing:.3px}
+.strip-dot{width:4px;height:4px;border-radius:50%;background:var(--amber);flex-shrink:0}
 
-/* ── AUDIENCE ── */
-.audience-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
-.a-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px 24px;transition:border-color .2s,transform .2s}
-.a-card:hover{border-color:rgba(79,142,247,.3);transform:translateY(-3px)}
-.a-icon{font-size:1.8rem;margin-bottom:18px;display:block}
-.a-card h3{font-size:1rem;font-weight:700;margin-bottom:10px;letter-spacing:-.2px}
-.a-card p{font-size:.875rem;color:var(--text2);line-height:1.65}
+/* AUDIENCE */
+.section{padding:88px 24px}
+.section-inner{max-width:var(--max);margin:0 auto}
+.section-header{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;margin-bottom:56px}
+.section-label{font-size:.7rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--amber);margin-bottom:14px}
+.section-title{font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:400;line-height:1.2;letter-spacing:-.2px}
+.section-sub{font-size:.95rem;color:var(--text2);line-height:1.75;align-self:end}
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.card{background:var(--bg);padding:32px 28px;transition:background .2s}
+.card:hover{background:var(--surface)}
+.card-num{font-family:var(--serif);font-size:3rem;font-weight:400;color:var(--border);line-height:1;margin-bottom:20px;letter-spacing:-2px}
+.card h3{font-size:1rem;font-weight:600;margin-bottom:10px;letter-spacing:-.2px}
+.card p{font-size:.85rem;color:var(--text2);line-height:1.7}
 
-/* ── FEATURES ── */
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
-.f-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px 24px}
-.f-num{font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
-.f-card h3{font-size:1rem;font-weight:700;margin-bottom:10px}
-.f-card p{font-size:.875rem;color:var(--text2);line-height:1.65}
+/* FEATURES — 2-col layout */
+.features-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.feat{background:var(--bg);padding:40px 36px}
+.feat:hover{background:var(--surface)}
+.feat-num{font-size:.7rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);margin-bottom:20px}
+.feat h3{font-family:var(--serif);font-size:1.5rem;font-weight:400;margin-bottom:12px;letter-spacing:-.2px}
+.feat p{font-size:.875rem;color:var(--text2);line-height:1.75}
+.feat-wide{grid-column:1/-1}
 
-/* ── OFFER ── */
-.offer-wrap{background:linear-gradient(135deg,rgba(34,197,94,.07) 0%,rgba(79,142,247,.07) 100%);border:1px solid rgba(34,197,94,.15);border-radius:20px;padding:64px 48px;text-align:center;position:relative;overflow:hidden}
-.offer-wrap::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:300px;height:120px;background:radial-gradient(ellipse,rgba(34,197,94,.2) 0%,transparent 70%);pointer-events:none}
-.offer-tag{display:inline-block;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:var(--green);font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 14px;border-radius:100px;margin-bottom:24px}
-.offer-wrap h2{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;letter-spacing:-.5px;line-height:1.15;margin-bottom:16px}
-.offer-wrap p{color:var(--text2);font-size:1rem;max-width:480px;margin:0 auto 12px;line-height:1.7}
-.offer-checks{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin:24px 0 36px;font-size:.875rem;color:var(--text2)}
-.offer-check{display:flex;align-items:center;gap:6px}
-.offer-check::before{content:'✓';color:var(--green);font-weight:700}
-.btn-green{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#000;font-size:1rem;font-weight:700;padding:15px 32px;border-radius:8px;transition:all .2s;box-shadow:0 0 30px rgba(34,197,94,.25)}
-.btn-green:hover{opacity:.9;box-shadow:0 0 45px rgba(34,197,94,.35);transform:translateY(-1px)}
-.offer-fine{font-size:.78rem;color:var(--text3);margin-top:14px}
+/* OFFER */
+.offer-section{padding:88px 24px;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.offer-box{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.offer-tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--amber);border:1px solid var(--amber-border);background:var(--amber-dim);padding:5px 14px;border-radius:100px;margin-bottom:20px}
+.offer-box h2{font-family:var(--serif);font-size:clamp(2rem,3.5vw,3rem);font-weight:400;line-height:1.15;letter-spacing:-.3px;margin-bottom:16px}
+.offer-box p{font-size:.95rem;color:var(--text2);line-height:1.75;margin-bottom:24px}
+.offer-checks{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.check{display:flex;align-items:center;gap:10px;font-size:.875rem;color:var(--text2)}
+.check-mark{width:18px;height:18px;border-radius:50%;background:var(--amber-dim);border:1px solid var(--amber-border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.65rem;color:var(--amber);font-weight:700}
+.offer-visual{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:40px 36px}
+.offer-price{font-family:var(--serif);font-size:4rem;font-weight:400;line-height:1;letter-spacing:-2px;color:var(--amber);margin-bottom:6px}
+.offer-price-sub{font-size:.85rem;color:var(--text3);margin-bottom:24px}
+.offer-vs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.vs-box{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px}
+.vs-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:6px}
+.vs-val{font-size:1.1rem;font-weight:700}
+.vs-box.highlight{border-color:var(--amber-border);background:var(--amber-dim)}
+.vs-box.highlight .vs-val{color:var(--amber)}
+.offer-note{font-size:.78rem;color:var(--text3);line-height:1.6}
 
-/* ── TUTORIALS ── */
-.tutorials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
-.t-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;display:flex;flex-direction:column;transition:border-color .2s}
-.t-card:hover{border-color:rgba(79,142,247,.3)}
-.t-cat{font-size:.7rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
-.t-title{font-size:.95rem;font-weight:700;line-height:1.45;margin-bottom:10px;flex:1;color:var(--text)}
-.t-title a{color:inherit}
-.t-title a:hover{color:var(--blue)}
-.t-desc{font-size:.82rem;color:var(--text2);line-height:1.6;margin-bottom:16px}
-.t-link{font-size:.82rem;font-weight:600;color:var(--blue);display:flex;align-items:center;gap:4px}
+/* TUTORIALS */
+.tutorials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.t-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px 22px;display:flex;flex-direction:column;transition:border-color .2s,transform .2s}
+.t-card:hover{border-color:rgba(245,158,11,.25);transform:translateY(-2px)}
+.t-cat{font-size:.68rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+.t-title{font-size:.95rem;font-weight:600;line-height:1.45;margin-bottom:10px;flex:1}
+.t-title a{color:var(--text)}
+.t-title a:hover{color:var(--amber)}
+.t-desc{font-size:.82rem;color:var(--text2);line-height:1.65;margin-bottom:16px}
+.t-link{font-size:.8rem;font-weight:600;color:var(--amber);display:flex;align-items:center;gap:5px}
+.t-link:hover{text-decoration:underline}
 
-/* ── PODCAST ── */
-.pod-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:0}
-.pod-stats{display:flex;flex-direction:column;gap:12px;margin:28px 0}
-.pod-stat{display:flex;align-items:baseline;gap:10px}
-.pod-n{font-size:1.5rem;font-weight:800;color:var(--green);letter-spacing:-.5px}
-.pod-l{font-size:.875rem;color:var(--text2)}
-.pod-card{background:var(--surface);border:1px solid rgba(34,197,94,.15);border-radius:14px;padding:28px}
-.pod-top{font-size:.7rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--green);margin-bottom:14px}
-.pod-card h3{font-size:1.05rem;font-weight:700;line-height:1.4;margin-bottom:10px}
-.pod-card p{font-size:.85rem;color:var(--text2);line-height:1.6;margin-bottom:18px}
-.pod-streams{display:flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:var(--green)}
-.pod-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
-.btn-spotify{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#000;font-size:.9rem;font-weight:700;padding:12px 24px;border-radius:8px;transition:opacity .2s;margin-top:8px}
+/* PODCAST */
+.pod-section{padding:88px 24px;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.pod-inner{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.pod-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0}
+.pod-stat{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px}
+.pod-n{font-family:var(--serif);font-size:2rem;font-weight:400;color:var(--text);letter-spacing:-1px;line-height:1}
+.pod-l{font-size:.75rem;color:var(--text3);margin-top:6px;letter-spacing:.2px}
+.btn-spotify{display:inline-flex;align-items:center;gap:8px;background:#1DB954;color:#000;font-size:.85rem;font-weight:700;padding:11px 22px;border-radius:7px;transition:opacity .2s}
 .btn-spotify:hover{opacity:.88}
+.pod-featured{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:32px;position:relative;overflow:hidden}
+.pod-featured::before{content:'';position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle,rgba(29,185,84,.08) 0%,transparent 70%)}
+.pod-featured-tag{font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#1DB954;margin-bottom:14px}
+.pod-featured h3{font-family:var(--serif);font-size:1.35rem;font-weight:400;line-height:1.35;margin-bottom:12px}
+.pod-featured p{font-size:.85rem;color:var(--text2);line-height:1.65;margin-bottom:20px}
+.pod-count{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600;color:#1DB954}
+.pod-count-dot{width:6px;height:6px;border-radius:50%;background:#1DB954}
 
-/* ── FINAL CTA ── */
-.final{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:96px 20px;text-align:center}
-.final h2{font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:16px}
-.final p{color:var(--text2);font-size:1rem;max-width:460px;margin:0 auto 36px;line-height:1.7}
+/* FINAL CTA */
+.final{padding:96px 24px;text-align:center}
+.final-inner{max-width:680px;margin:0 auto}
+.final h2{font-family:var(--serif);font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:400;line-height:1.1;letter-spacing:-.5px;margin-bottom:18px}
+.final p{color:var(--text2);font-size:1rem;line-height:1.75;margin-bottom:36px}
+.final-note{font-size:.78rem;color:var(--text3);margin-top:14px}
 
-/* ── FOOTER ── */
-footer{padding:48px 20px 32px;border-top:1px solid var(--border)}
-.footer-w{max-width:var(--max);margin:0 auto}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
-.f-brand{font-size:.95rem;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.footer-desc{font-size:.82rem;color:var(--text3);line-height:1.65}
-.footer-disclaimer{font-size:.75rem;color:var(--text3);margin-top:14px;line-height:1.6}
-.footer-col h4{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:14px}
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:56px 24px 36px}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-logo{font-family:var(--serif);font-size:1.2rem;margin-bottom:12px}
+.footer-logo span{color:var(--amber)}
+.footer-desc{font-size:.82rem;color:var(--text3);line-height:1.7;margin-bottom:14px}
+.footer-disclaimer{font-size:.74rem;color:var(--text3);line-height:1.6;opacity:.7}
+.footer-col h4{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:16px}
 .footer-col a{display:block;font-size:.85rem;color:var(--text2);margin-bottom:10px;transition:color .15s}
 .footer-col a:hover{color:var(--text)}
-.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.78rem;color:var(--text3)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.76rem;color:var(--text3)}
 
-/* ── MOBILE ── */
-@media(max-width:768px){
-  .nav-link{display:none}
-  .hero{padding:100px 20px 60px;min-height:auto}
-  .hero-stat{padding:0 18px}
-  .hero-stat-n{font-size:1.3rem}
-  .audience-grid,.features-grid,.tutorials-grid{grid-template-columns:1fr}
-  .pod-grid{grid-template-columns:1fr}
-  .footer-grid{grid-template-columns:1fr;gap:32px}
-  .offer-wrap{padding:40px 24px}
-  .hero-actions{flex-direction:column;align-items:center}
-  .btn-main,.btn-ghost{width:100%;max-width:300px;justify-content:center}
+/* MOBILE */
+@media(max-width:767px){
+  .nav-links .nav-link{display:none}
+  .hero{padding:100px 20px 60px}
+  .hero h1{font-size:2.4rem}
+  .hero-proof{gap:24px}
+  .hero-actions{flex-direction:column;align-items:flex-start}
+  .btn-amber,.btn-outline{width:100%;justify-content:center}
+  .section-header{grid-template-columns:1fr}
+  .cards-grid{grid-template-columns:1fr;background:none;border:none;gap:12px}
+  .card{border:1px solid var(--border);border-radius:12px}
+  .features-wrap{grid-template-columns:1fr}
+  .feat-wide{grid-column:auto}
+  .offer-box{grid-template-columns:1fr}
+  .pod-inner{grid-template-columns:1fr}
+  .pod-stats{grid-template-columns:1fr 1fr}
+  .footer-top{grid-template-columns:1fr;gap:32px}
+  .tutorials-grid{grid-template-columns:1fr}
   .footer-bottom{flex-direction:column}
 }
 </style>
@@ -150,134 +186,178 @@ footer{padding:48px 20px 32px;border-top:1px solid var(--border)}
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <div class="logo">
-      <span class="logo-dot"></span>
-      GlobalHighLevel
-    </div>
-    <div class="nav-right">
+    <div class="logo">Global<span class="logo-amber">HighLevel</span></div>
+    <div class="nav-links">
       <a href="#tutorials" class="nav-link">Tutorials</a>
       <a href="#podcast" class="nav-link">Podcast</a>
-      <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=nav&utm_campaign=hero" class="nav-btn" target="_blank" rel="nofollow noopener">Free 30-Day Trial →</a>
+      <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=nav&utm_campaign=hero" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial →</a>
     </div>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid-lines"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-glow"></div>
   <div class="hero-inner">
-    <div class="hero-eyebrow">
-      <span class="hero-eyebrow-dot"></span>
-      Free GoHighLevel Tutorials
+    <div class="hero-kicker fade-1"><span class="kicker-line"></span>Free GoHighLevel Tutorials</div>
+    <h1 class="fade-2">The GHL guide your<br>agency <i>actually</i> needed</h1>
+    <p class="hero-sub fade-3">80+ step-by-step tutorials and a daily podcast for agency owners who are done piecing together half-answers.</p>
+    <div class="hero-actions fade-4">
+      <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=homepage&utm_campaign=hero" class="btn-amber" target="_blank" rel="nofollow noopener">Start My Free 30-Day Trial →</a>
+      <a href="#tutorials" class="btn-outline">Browse Tutorials</a>
     </div>
-    <h1>The GHL resource<br>your agency <em>actually</em> needed</h1>
-    <p class="hero-sub">80+ step-by-step guides and a daily podcast for agency owners who are done Googling half-answers.</p>
-    <div class="hero-actions">
-      <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=homepage&utm_campaign=hero" class="btn-main" target="_blank" rel="nofollow noopener">
-        Start My Free 30-Day Trial →
-      </a>
-      <a href="#tutorials" class="btn-ghost">Browse Tutorials</a>
-    </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="hero-stat-n">80+</div><div class="hero-stat-l">Free tutorials</div></div>
-      <div class="hero-stat"><div class="hero-stat-n">380</div><div class="hero-stat-l">Podcast followers</div></div>
-      <div class="hero-stat"><div class="hero-stat-n">6,479</div><div class="hero-stat-l">Total streams</div></div>
-      <div class="hero-stat"><div class="hero-stat-n">30</div><div class="hero-stat-l">Day free trial</div></div>
+    <div class="hero-rule"></div>
+    <div class="hero-proof fade-4">
+      <div class="proof-item"><div class="proof-n">80+</div><div class="proof-l">Free tutorials published</div></div>
+      <div class="proof-item"><div class="proof-n">380</div><div class="proof-l">Podcast followers</div></div>
+      <div class="proof-item"><div class="proof-n">6,479</div><div class="proof-l">Total streams</div></div>
+      <div class="proof-item"><div class="proof-n">30</div><div class="proof-l">Day free trial via our link</div></div>
     </div>
   </div>
 </section>
 
-<!-- WHO THIS IS FOR -->
-<section class="s" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-  <div class="w">
-    <div class="s-label">Who this is for</div>
-    <h2 class="s-title">You're already using GHL.<br>This makes you better at it.</h2>
-    <p class="s-sub">Not a beginner course. Not a sales pitch. Real walkthroughs for people actively building on GoHighLevel.</p>
-    <div class="audience-grid">
-      <div class="a-card">
-        <span class="a-icon">🏢</span>
+<!-- SCROLLING STRIP -->
+<div class="strip">
+  <div class="strip-inner">
+    <span class="strip-item"><span class="strip-dot"></span>GoHighLevel Automation</span>
+    <span class="strip-item"><span class="strip-dot"></span>AI Conversation Bot</span>
+    <span class="strip-item"><span class="strip-dot"></span>Funnel Builder</span>
+    <span class="strip-item"><span class="strip-dot"></span>Pipeline Management</span>
+    <span class="strip-item"><span class="strip-dot"></span>Email Marketing</span>
+    <span class="strip-item"><span class="strip-dot"></span>SMS Campaigns</span>
+    <span class="strip-item"><span class="strip-dot"></span>Reputation Management</span>
+    <span class="strip-item"><span class="strip-dot"></span>Calendar Booking</span>
+    <span class="strip-item"><span class="strip-dot"></span>White Label SaaS</span>
+    <span class="strip-item"><span class="strip-dot"></span>Sub-Account Setup</span>
+    <!-- duplicate for seamless loop -->
+    <span class="strip-item"><span class="strip-dot"></span>GoHighLevel Automation</span>
+    <span class="strip-item"><span class="strip-dot"></span>AI Conversation Bot</span>
+    <span class="strip-item"><span class="strip-dot"></span>Funnel Builder</span>
+    <span class="strip-item"><span class="strip-dot"></span>Pipeline Management</span>
+    <span class="strip-item"><span class="strip-dot"></span>Email Marketing</span>
+    <span class="strip-item"><span class="strip-dot"></span>SMS Campaigns</span>
+    <span class="strip-item"><span class="strip-dot"></span>Reputation Management</span>
+    <span class="strip-item"><span class="strip-dot"></span>Calendar Booking</span>
+    <span class="strip-item"><span class="strip-dot"></span>White Label SaaS</span>
+    <span class="strip-item"><span class="strip-dot"></span>Sub-Account Setup</span>
+  </div>
+</div>
+
+<!-- AUDIENCE -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Who this is for</div>
+        <h2 class="section-title">You're already on GHL.<br>This makes you better at it.</h2>
+      </div>
+      <p class="section-sub">Not a beginner intro. Real walkthroughs for people actively running businesses on GoHighLevel who need answers fast.</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-num">01</div>
         <h3>Agency Owners</h3>
-        <p>Managing clients on GHL and constantly patching things that break. Get exact setup guides for sub-accounts, SaaS mode, automations, and white-label — done right the first time.</p>
+        <p>Managing 10+ clients on GHL and constantly firefighting. Get exact setup guides for sub-accounts, SaaS mode, automations, and white-label — done right from the start.</p>
       </div>
-      <div class="a-card">
-        <span class="a-icon">⚡</span>
+      <div class="card">
+        <div class="card-num">02</div>
         <h3>Freelancers & Consultants</h3>
-        <p>You sold a client on GHL. Now you have to deliver. Walkthroughs for funnels, automations, and booking setups that make you look like you've done this a hundred times.</p>
+        <p>You sold a client on GHL. Now you have to deliver. Step-by-step walkthroughs for funnels, automations, and booking systems that make you look like you've done it a hundred times.</p>
       </div>
-      <div class="a-card">
-        <span class="a-icon">📈</span>
+      <div class="card">
+        <div class="card-num">03</div>
         <h3>Business Owners</h3>
-        <p>Switching to GHL to consolidate tools and cut monthly costs. Learn how to replace your email, CRM, booking system, and website — all inside one platform.</p>
+        <p>Switching to GHL to cut your SaaS stack costs. Learn how to replace your email platform, CRM, booking system, and website — all in one place.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- WHAT YOU GET -->
-<section class="s">
-  <div class="w">
-    <div class="s-label">What's here</div>
-    <h2 class="s-title">Everything free. No course to buy.</h2>
-    <p class="s-sub">GlobalHighLevel exists because GHL's official docs tell you what things are, not how to actually use them.</p>
-    <div class="features-grid">
-      <div class="f-card">
-        <div class="f-num">01</div>
-        <h3>Written Guides</h3>
-        <p>80+ tutorials on every major GHL feature. Automations, AI bots, funnels, pipelines, calendars, reputation management. Search what you need, get the exact steps.</p>
+<!-- FEATURES -->
+<section class="section" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-label">What's here</div>
+        <h2 class="section-title">Everything free.<br>No course to buy.</h2>
       </div>
-      <div class="f-card">
-        <div class="f-num">02</div>
-        <h3>Daily Podcast</h3>
-        <p>Every topic has a podcast episode on Spotify. Listen while you work. New episodes published automatically every day — the same content, hands-free.</p>
+      <p class="section-sub">GHL's official docs tell you what things are. GlobalHighLevel tells you how to actually use them.</p>
+    </div>
+    <div class="features-wrap">
+      <div class="feat">
+        <div class="feat-num">01 — Written Guides</div>
+        <h3>Step-by-step tutorials for every GHL feature</h3>
+        <p>80+ guides covering automations, AI bots, funnels, pipelines, calendars, reputation management, and more. Search what you need. Get the exact steps. Move on.</p>
       </div>
-      <div class="f-card">
-        <div class="f-num">03</div>
-        <h3>30-Day Free Trial</h3>
-        <p>Sign up through our link and get 30 days free — double the standard 14-day trial. A full month to build, test, and decide before paying a cent.</p>
+      <div class="feat">
+        <div class="feat-num">02 — Daily Podcast</div>
+        <h3>Listen while you work, build, or commute</h3>
+        <p>Every tutorial also has a podcast episode on Spotify. New episodes publish automatically every day — the same content, delivered hands-free.</p>
+      </div>
+      <div class="feat feat-wide">
+        <div class="feat-num">03 — Exclusive Trial</div>
+        <h3>30 days free through our link — double the standard 14-day trial</h3>
+        <p>Sign up through GlobalHighLevel and you get an extra two weeks. That's a full month to set up your automations, test your funnels, onboard a real client, and decide if GHL belongs in your stack — before paying anything.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- THE OFFER -->
-<section class="s" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-  <div class="w">
-    <div class="offer-wrap">
+<!-- OFFER -->
+<div class="offer-section">
+  <div class="offer-box">
+    <div>
       <div class="offer-tag">Exclusive Offer</div>
-      <h2>30 Days Free — Not 14</h2>
-      <p>GoHighLevel's standard trial is 14 days. Sign up through GlobalHighLevel and you get 30. That's double the time to build your automations, test your funnels, and decide if GHL belongs in your stack.</p>
+      <h2>30 days free.<br>Not 14.</h2>
+      <p>GoHighLevel's standard trial is 14 days. Sign up through our link and you get 30. Double the time to build, test, and make a real decision.</p>
       <div class="offer-checks">
-        <span class="offer-check">Double the standard trial</span>
-        <span class="offer-check">No pressure to upgrade</span>
-        <span class="offer-check">Cancel anytime</span>
+        <div class="check"><span class="check-mark">✓</span>Double the standard trial period</div>
+        <div class="check"><span class="check-mark">✓</span>Full access to all GHL features</div>
+        <div class="check"><span class="check-mark">✓</span>Cancel before day 30 — pay nothing</div>
       </div>
-      <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=offer&utm_campaign=30day" class="btn-green" target="_blank" rel="nofollow noopener">
-        Start My Free 30-Day Trial →
-      </a>
-      <p class="offer-fine">GHL starts at $97/month after trial. Cancel before day 30 and pay nothing.</p>
+      <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=offer&utm_campaign=30day" class="btn-amber" target="_blank" rel="nofollow noopener">Start My Free 30-Day Trial →</a>
+    </div>
+    <div class="offer-visual">
+      <div class="offer-price">30</div>
+      <div class="offer-price-sub">days completely free</div>
+      <div class="offer-vs">
+        <div class="vs-box">
+          <div class="vs-label">Standard trial</div>
+          <div class="vs-val">14 days</div>
+        </div>
+        <div class="vs-box highlight">
+          <div class="vs-label">Our link</div>
+          <div class="vs-val">30 days</div>
+        </div>
+      </div>
+      <p class="offer-note">GHL starts at $97/month after the trial. Cancel before day 30 and you pay nothing. No pressure.</p>
     </div>
   </div>
-</section>
+</div>
 
 <!-- TUTORIALS -->
-<section class="s" id="tutorials">
-  <div class="w">
-    <div class="s-label">Latest Tutorials</div>
-    <h2 class="s-title">Start with what you need right now</h2>
-    <p class="s-sub">Written to get you from zero to working — not to explain what GHL is.</p>
+<section class="section" id="tutorials">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Latest Tutorials</div>
+        <h2 class="section-title">Start with what you<br>need right now</h2>
+      </div>
+      <p class="section-sub">Written to get you from zero to working — not to explain what GHL is.</p>
+    </div>
     <!-- build.py injects real posts here via id="tutorials-grid" -->
     <div id="tutorials-grid" class="tutorials-grid">
       <div class="t-card">
         <div class="t-cat">Automation</div>
         <div class="t-title"><a href="#">How to Build a GoHighLevel SMS Automation from Scratch</a></div>
-        <div class="t-desc">Set up a full lead nurture sequence that fires automatically the moment someone fills out your form.</div>
+        <div class="t-desc">Set up a full lead nurture sequence that fires automatically when someone fills out your form.</div>
         <a href="#" class="t-link">Read Guide →</a>
       </div>
       <div class="t-card">
         <div class="t-cat">AI Features</div>
         <div class="t-title"><a href="#">GoHighLevel Conversation AI Bot: Full Setup Guide</a></div>
-        <div class="t-desc">Configure GHL's AI chatbot to qualify and respond to leads 24/7 — without lifting a finger.</div>
+        <div class="t-desc">Configure GHL's AI chatbot to qualify leads 24/7 without lifting a finger.</div>
         <a href="#" class="t-link">Read Guide →</a>
       </div>
       <div class="t-card">
@@ -291,46 +371,46 @@ footer{padding:48px 20px 32px;border-top:1px solid var(--border)}
 </section>
 
 <!-- PODCAST -->
-<section class="s" id="podcast" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-  <div class="w">
-    <div class="s-label">Podcast</div>
-    <div class="pod-grid">
-      <div>
-        <h2 class="s-title">Go High Level<br>on Spotify</h2>
-        <p style="color:var(--text2);font-size:.95rem;line-height:1.7">New episodes every day. Every guide on this site also exists as a podcast episode — the same content, hands-free.</p>
-        <div class="pod-stats">
-          <div class="pod-stat"><span class="pod-n">380</span><span class="pod-l">followers on Spotify</span></div>
-          <div class="pod-stat"><span class="pod-n">6,479</span><span class="pod-l">all-time streams</span></div>
-          <div class="pod-stat"><span class="pod-n">492</span><span class="pod-l">streams on the top episode</span></div>
-        </div>
-        <a href="#" class="btn-spotify" target="_blank" rel="noopener">Listen on Spotify →</a>
+<section class="pod-section" id="podcast">
+  <div class="pod-inner">
+    <div>
+      <div class="section-label">Podcast</div>
+      <h2 class="section-title" style="font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.5rem);font-weight:400;letter-spacing:-.2px;margin-bottom:12px">Go High Level<br>on Spotify</h2>
+      <p style="font-size:.9rem;color:var(--text2);line-height:1.75">New episodes daily. Every tutorial on this site also has a podcast version — same content, hands-free.</p>
+      <div class="pod-stats">
+        <div class="pod-stat"><div class="pod-n">380</div><div class="pod-l">Spotify followers</div></div>
+        <div class="pod-stat"><div class="pod-n">6,479</div><div class="pod-l">All-time streams</div></div>
+        <div class="pod-stat"><div class="pod-n">25</div><div class="pod-l">Avg streams per episode</div></div>
+        <div class="pod-stat"><div class="pod-n">492</div><div class="pod-l">Top episode streams</div></div>
       </div>
-      <div class="pod-card">
-        <div class="pod-top">Top Episode</div>
-        <h3>GoHighLevel Conversation AI Bot</h3>
-        <p>Our most-listened episode. Learn how GHL's built-in AI bot handles lead qualification automatically — no human needed.</p>
-        <div class="pod-streams"><span class="pod-dot"></span> 492 streams</div>
-      </div>
+      <a href="#" class="btn-spotify" target="_blank" rel="noopener">Listen on Spotify →</a>
+    </div>
+    <div class="pod-featured">
+      <div class="pod-featured-tag">Top Episode</div>
+      <h3>GoHighLevel Conversation AI Bot</h3>
+      <p>Our most-listened episode. Learn how GHL's built-in AI bot handles lead qualification automatically — no human needed, no extra tools.</p>
+      <div class="pod-count"><span class="pod-count-dot"></span>492 streams</div>
     </div>
   </div>
 </section>
 
 <!-- FINAL CTA -->
 <div class="final">
-  <div class="s-label" style="margin-bottom:12px">Get Started</div>
-  <h2>30 days free. Zero risk.</h2>
-  <p>Use our link, get double the standard trial, and use the free guides here to set everything up. Don't love it? Cancel before day 30 and pay nothing.</p>
-  <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=footer-cta&utm_campaign=30day" class="btn-main" style="font-size:1rem;padding:14px 30px" target="_blank" rel="nofollow noopener">
-    Start My Free 30-Day Trial →
-  </a>
+  <div class="final-inner">
+    <div class="section-label" style="text-align:center;margin-bottom:12px">Get Started</div>
+    <h2>30 days free.<br>Zero risk.</h2>
+    <p>Use our link, get double the standard trial, and use the free guides here to set everything up. Don't love it? Cancel before day 30 and pay nothing.</p>
+    <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=footer-cta&utm_campaign=30day" class="btn-amber" style="font-size:.95rem;padding:14px 30px" target="_blank" rel="nofollow noopener">Start My Free 30-Day Trial →</a>
+    <p class="final-note">GHL starts at $97/month after trial. No commitment during the 30 days.</p>
+  </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-w">
-    <div class="footer-grid">
+  <div class="footer-inner">
+    <div class="footer-top">
       <div>
-        <div class="f-brand"><span class="logo-dot"></span>GlobalHighLevel</div>
+        <div class="footer-logo">Global<span>HighLevel</span></div>
         <p class="footer-desc">Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide.</p>
         <p class="footer-disclaimer">Affiliate disclosure: Some links on this site are affiliate links. If you sign up through our link, we may earn a commission at no extra cost to you. Not affiliated with GoHighLevel LLC.</p>
       </div>
