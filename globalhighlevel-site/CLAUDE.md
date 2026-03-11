@@ -45,7 +45,7 @@
 - NEVER link to `gohighlevel.com/pricing` or any GHL URL without `fp_ref=amplifi-technologies12`
 - All affiliate links: `target="_blank" rel="nofollow noopener"`
 - **No placeholder `#` links** — if the real URL isn't known, link to `/category/gohighlevel-tutorials/` or `/`
-- Spotify podcast link: `https://open.spotify.com/search/Go%20High%20Level/podcasts` (update when real URL confirmed)
+- Spotify podcast link: `https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV`
 
 ## Verified Facts (use ONLY these — invent nothing)
 - Site: GlobalHighLevel.com — free GHL tutorials
