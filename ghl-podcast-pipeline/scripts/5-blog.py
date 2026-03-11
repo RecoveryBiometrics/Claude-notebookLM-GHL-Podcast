@@ -1,12 +1,13 @@
 """
 5-blog.py
-Generates and publishes an SEO blog post to GHL (reiamplifi.com) for each episode.
+Generates an SEO blog post and saves it to globalhighlevel-site/posts/ for auto-deploy to globalhighlevel.com.
 
 Flow:
   1. Scrape DuckDuckGo for top results on the episode topic
   2. Scrape Reddit for real user questions about the topic
   3. Claude writes a full SEO blog post using transcript + SERP data + Reddit questions
-  4. Publish to GHL blog via REST API
+  4. Save post JSON to globalhighlevel-site/posts/{slug}.json
+     → scheduler.py Step 4 git pushes to GitHub → Netlify deploys globalhighlevel.com
 """
 
 import json
@@ -27,25 +28,11 @@ BASE_DIR   = Path(__file__).parent.parent
 LOG_FILE   = BASE_DIR / "logs" / "pipeline.log"
 SITE_POSTS = BASE_DIR.parent / "globalhighlevel-site" / "posts"
 
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
-GHL_API_KEY       = os.getenv("GHL_API_KEY")
-GHL_LOCATION_ID   = os.getenv("GHL_LOCATION_ID")
+ANTHROPIC_API_KEY  = os.getenv("ANTHROPIC_API_KEY")
 GHL_AFFILIATE_LINK = os.getenv("GHL_AFFILIATE_LINK")
-
-GHL_API_BASE = "https://services.leadconnectorhq.com"
-
-# Hardcoded GHL blog config
-BLOG_ID     = "0KLFiNIFJ5OtlM836Gfi"
-AUTHOR_ID   = "680b01f0c55be738c7e7287a"
-CATEGORY_ID = "680b01923c1c207691887512"
 
 HEADERS_DDG = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
-}
-HEADERS_GHL = {
-    "Authorization": f"Bearer {GHL_API_KEY}",
-    "Content-Type": "application/json",
-    "Version": "2021-07-28",
 }
 
 
@@ -267,70 +254,6 @@ Return a JSON object with these exact keys:
     return result
 
 
-# ── GHL Publish ───────────────────────────────────────────────────────────────
-def check_slug_exists(slug: str) -> bool:
-    """Check if a URL slug already exists in GHL."""
-    try:
-        resp = requests.get(
-            f"{GHL_API_BASE}/blogs/posts/url-slug-exists",
-            headers=HEADERS_GHL,
-            params={"locationId": GHL_LOCATION_ID, "urlSlug": slug},
-            timeout=15,
-        )
-        data = resp.json()
-        return data.get("exists", False)
-    except Exception:
-        return False
-
-
-def make_unique_slug(slug: str) -> str:
-    """Ensure slug is unique by appending a number if needed."""
-    base = slug
-    counter = 1
-    while check_slug_exists(slug):
-        slug = f"{base}-{counter}"
-        counter += 1
-    return slug
-
-
-def publish_to_ghl(title: str, html_content: str, meta_description: str, slug: str) -> dict:
-    """Publish blog post to GHL. Returns response data."""
-    log(f"  Publishing to GHL: {title[:60]}")
-
-    unique_slug = make_unique_slug(slug)
-
-    payload = {
-        "locationId": GHL_LOCATION_ID,
-        "title": title,
-        "blogId": BLOG_ID,
-        "author": AUTHOR_ID,
-        "categories": [CATEGORY_ID],
-        "description": meta_description,
-        "rawHTML": html_content,
-        "status": "PUBLISHED",
-        "urlSlug": unique_slug,
-        "publishedAt": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.000Z"),
-        "imageUrl": "https://storage.googleapis.com/msgsndr/VL5PlkLBYG4mKk3N6PGw/media/65c56a906c059c625980d9ac.jpeg",
-        "imageAltText": f"{title} — GoHighLevel Tutorial",
-        "tags": [],
-    }
-
-    resp = requests.post(
-        f"{GHL_API_BASE}/blogs/posts",
-        headers=HEADERS_GHL,
-        json=payload,
-        timeout=30,
-    )
-
-    if not resp.ok:
-        raise RuntimeError(f"GHL publish failed ({resp.status_code}): {resp.text}")
-
-    data = resp.json()
-    post_id = data.get("blogPost", {}).get("_id", "unknown")
-    log(f"  Published! Post ID: {post_id} — slug: /{unique_slug}")
-    return data
-
-
 # ── Main ──────────────────────────────────────────────────────────────────────
 def create_blog_post(article: dict) -> dict:
     """
@@ -368,39 +291,26 @@ def create_blog_post(article: dict) -> dict:
         utm_campaign=utm_campaign,
     )
 
-    # Save post data locally for globalhighlevel.com static site
-    try:
-        SITE_POSTS.mkdir(parents=True, exist_ok=True)
-        site_post = {
-            "slug":         post_data["slug"],
-            "title":        title,
-            "description":  post_data["meta_description"],
-            "html_content": post_data["html_content"],
-            "category":     article.get("category", "GoHighLevel Tutorials"),
-            "articleId":    str(article.get("id", "")),
-            "publishedAt":  datetime.now().isoformat(),
-        }
-        post_file = SITE_POSTS / f"{post_data['slug']}.json"
-        with open(post_file, "w") as f:
-            json.dump(site_post, f, indent=2)
-        log(f"  Saved to site/posts/{post_data['slug']}.json")
-    except Exception as e:
-        log(f"  WARNING: could not save site post file: {e}")
-
-    # Publish to GHL (keeping for now until full migration to globalhighlevel.com)
-    ghl_response = publish_to_ghl(
-        title=title,
-        html_content=post_data["html_content"],
-        meta_description=post_data["meta_description"],
-        slug=post_data["slug"],
-    )
-
-    post_id = ghl_response.get("blogPost", {}).get("_id", "unknown")
+    # Save post to globalhighlevel-site/posts/ — scheduler git pushes → Netlify deploys
+    SITE_POSTS.mkdir(parents=True, exist_ok=True)
+    site_post = {
+        "slug":         post_data["slug"],
+        "title":        title,
+        "description":  post_data["meta_description"],
+        "html_content": post_data["html_content"],
+        "category":     article.get("category", "GoHighLevel Tutorials"),
+        "articleId":    str(article.get("id", "")),
+        "publishedAt":  datetime.now().isoformat(),
+    }
+    post_file = SITE_POSTS / f"{post_data['slug']}.json"
+    with open(post_file, "w") as f:
+        json.dump(site_post, f, indent=2)
+    log(f"  Published to globalhighlevel.com → site/posts/{post_data['slug']}.json")
 
     return {
         **article,
-        "blogPostId": post_id,
-        "blogSlug": post_data["slug"],
+        "blogPostId": post_data["slug"],   # used by scheduler to count blogs published
+        "blogSlug":   post_data["slug"],
         "blogPostedAt": datetime.now().isoformat(),
     }
 
