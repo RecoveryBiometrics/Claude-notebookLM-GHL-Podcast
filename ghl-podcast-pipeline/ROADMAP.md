@@ -78,7 +78,7 @@ Ideas and future builds. Goal: agents tackle this list automatically.
 - [x] **Buy globalhighlevel.com** — purchased Mar 11, 2026 ✅
 - [x] **Build globalhighlevel.com static site** — ✅ DONE Mar 11, 2026 — live at courageous-taiyaki-2c1846.netlify.app
 - [ ] **NEXT SESSION — Pick up here:** Check SSL on Netlify (Step 5b above), then run Step 6 (migrate 48 existing posts), then Step 7 (301 redirects), then Step 8 (Google Search Console)
-- [ ] **Google Analytics 4** — Add GA4 tracking script to globalhighlevel.com. Create GA4 property, get measurement ID (G-XXXXXXXX), inject into build.py base template so every page is tracked automatically. See which tutorials get the most traffic, where visitors drop off, and which pages drive affiliate clicks.
+- [ ] **Google Analytics 4** — Create GA4 property at analytics.google.com, get measurement ID (G-XXXXXXXX), inject tracking script into build.py base template so every page is tracked automatically. Do this after GSC is confirmed working and traffic starts coming in.
 - [ ] **Google Search Console** — Verify globalhighlevel.com in GSC, submit sitemap at https://globalhighlevel.com/sitemap.xml. Without this, posts may not be indexed by Google.
 - [ ] **Internal Linking Agent** — When publishing a new blog post, search published.json for related posts and inject 2-3 internal links. Biggest SEO gap right now. Use RankMath's suggestions post-migration.
 - [ ] Social Media Employee Agent — auto-posts to X, LinkedIn, Instagram, Facebook per episode
