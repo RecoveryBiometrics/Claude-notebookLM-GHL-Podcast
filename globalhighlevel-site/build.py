@@ -31,10 +31,13 @@ SITE_NAME    = "Global High Level"
 SITE_TAGLINE = "GoHighLevel Tutorials, Guides & Strategies for Agencies Worldwide"
 AFFILIATE    = "https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=site&utm_campaign=nav"
 
-PRIMARY      = "#1a73e8"
-PRIMARY_DARK = "#1557b0"
+ACCENT       = "#f59e0b"   # amber
+ACCENT_DARK  = "#d97706"
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
+# Categories that bleed through from CMS and mean nothing to readers
+_BAD_CATS = {"home", "uncategorized", "blog", "general", ""}
 
 def slugify(text: str) -> str:
     return re.sub(r"[^a-z0-9-]", "", text.lower().replace(" ", "-"))
@@ -48,6 +51,18 @@ def fmt_date(iso: str) -> str:
 def truncate(text: str, n: int = 160) -> str:
     return text[:n].rsplit(" ", 1)[0] + "…" if len(text) > n else text
 
+def display_cat(cat: str) -> str:
+    """Return category label for display, or empty string if it's a CMS artifact."""
+    if not cat or cat.strip().lower() in _BAD_CATS:
+        return ""
+    return cat.strip()
+
+def read_time(html: str) -> str:
+    """Estimate read time from HTML content word count."""
+    words = len(re.sub(r"<[^>]+>", " ", html).split())
+    mins = max(1, round(words / 200))
+    return f"{mins} min read"
+
 def write(path: Path, html: str):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(html, encoding="utf-8")
@@ -57,96 +72,113 @@ def write(path: Path, html: str):
 
 CSS = f"""
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:16px;line-height:1.7;color:#1a1a2e;background:#fff}}
-a{{color:{PRIMARY};text-decoration:none}}
+body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;font-size:16px;line-height:1.7;color:#eef2ff;background:#07080a}}
+a{{color:{ACCENT};text-decoration:none}}
 a:hover{{text-decoration:underline}}
 img{{max-width:100%;height:auto}}
 
 /* Header */
-.site-header{{background:{PRIMARY};color:#fff;padding:0 24px;box-shadow:0 2px 8px rgba(0,0,0,.15)}}
-.header-inner{{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}}
-.site-logo{{font-size:1.4rem;font-weight:800;color:#fff;letter-spacing:-.5px}}
-.site-logo span{{opacity:.8;font-weight:400}}
-.site-nav a{{color:rgba(255,255,255,.9);margin-left:24px;font-size:.95rem;font-weight:500}}
-.site-nav a:hover{{color:#fff;text-decoration:none}}
-.nav-cta{{background:#fff;color:{PRIMARY}!important;padding:8px 16px;border-radius:6px;font-weight:700!important}}
-.nav-cta:hover{{background:#f0f4ff!important}}
+.site-header{{background:#0a0c12;border-bottom:1px solid #1e2433;padding:0 24px}}
+.header-inner{{max-width:1140px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}}
+.site-logo{{font-size:1.4rem;font-weight:800;color:#eef2ff;letter-spacing:-.5px}}
+.site-logo span{{color:{ACCENT};font-weight:400}}
+.site-nav a{{color:#7c8aab;margin-left:24px;font-size:.9rem;font-weight:500}}
+.site-nav a:hover{{color:#eef2ff;text-decoration:none}}
+.nav-cta{{background:{ACCENT};color:#07080a!important;padding:8px 18px;border-radius:6px;font-weight:700!important}}
+.nav-cta:hover{{background:{ACCENT_DARK}!important;text-decoration:none!important}}
 
 /* Hero */
-.hero{{background:linear-gradient(135deg,{PRIMARY} 0%,{PRIMARY_DARK} 100%);color:#fff;padding:64px 24px;text-align:center}}
-.hero h1{{font-size:2.4rem;font-weight:800;margin-bottom:16px;line-height:1.2}}
-.hero p{{font-size:1.15rem;opacity:.9;max-width:600px;margin:0 auto 32px}}
-.hero-btn{{background:#fff;color:{PRIMARY};padding:14px 32px;border-radius:8px;font-weight:700;font-size:1.05rem;display:inline-block}}
-.hero-btn:hover{{background:#f0f4ff;text-decoration:none}}
+.hero{{background:#0a0c12;border-bottom:1px solid #1e2433;padding:72px 24px;text-align:center}}
+.hero-eyebrow{{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:{ACCENT};margin-bottom:16px}}
+.hero h1{{font-size:2.8rem;font-weight:800;margin-bottom:16px;line-height:1.15;color:#eef2ff;letter-spacing:-.5px}}
+.hero p{{font-size:1.1rem;color:#7c8aab;max-width:580px;margin:0 auto 32px;line-height:1.6}}
+.hero-btn{{background:{ACCENT};color:#07080a;padding:14px 32px;border-radius:6px;font-weight:700;font-size:1rem;display:inline-block}}
+.hero-btn:hover{{background:{ACCENT_DARK};text-decoration:none}}
 
 /* Container */
-.container{{max-width:1100px;margin:0 auto;padding:0 24px}}
+.container{{max-width:1140px;margin:0 auto;padding:0 24px}}
 
 /* Section */
-.section{{padding:48px 0}}
-.section-title{{font-size:1.5rem;font-weight:700;margin-bottom:32px;color:#1a1a2e}}
+.section{{padding:56px 0}}
+.section-label{{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:{ACCENT};margin-bottom:12px}}
+.section-title{{font-size:1.6rem;font-weight:700;margin-bottom:36px;color:#eef2ff}}
 
-/* Cards grid */
-.cards{{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}}
-.card{{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;transition:box-shadow .2s,transform .2s}}
-.card:hover{{box-shadow:0 8px 24px rgba(0,0,0,.1);transform:translateY(-2px)}}
-.card-body{{padding:20px}}
-.card-cat{{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:{PRIMARY};margin-bottom:8px}}
-.card-title{{font-size:1.05rem;font-weight:700;line-height:1.4;margin-bottom:10px;color:#1a1a2e}}
-.card-title a{{color:inherit}}
-.card-title a:hover{{color:{PRIMARY};text-decoration:none}}
-.card-desc{{font-size:.9rem;color:#6b7280;line-height:1.6;margin-bottom:16px}}
-.card-meta{{font-size:.8rem;color:#9ca3af;display:flex;align-items:center;justify-content:space-between}}
-.card-link{{font-size:.85rem;font-weight:600;color:{PRIMARY}}}
+/* Cards grid — 3 col desktop, 2 tablet, 1 mobile */
+.cards{{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}}
+
+/* Card — text-only, left amber border */
+.card{{background:#111520;border:1px solid #1e2433;border-left:3px solid {ACCENT};border-radius:8px;padding:22px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;display:flex;flex-direction:column}}
+.card:hover{{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.45);border-color:{ACCENT}}}
+.card:hover .card-title a{{color:{ACCENT}}}
+
+/* Category pill — amber, above title */
+.card-cat{{display:inline-block;background:{ACCENT};color:#07080a;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 9px;border-radius:4px;margin-bottom:10px;align-self:flex-start}}
+
+/* Title — 2-line clamp */
+.card-title{{font-size:1rem;font-weight:700;line-height:1.35;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
+.card-title a{{color:#eef2ff;transition:color .2s}}
+
+/* Excerpt — 2-line clamp */
+.card-excerpt{{font-size:.875rem;color:#7c8aab;line-height:1.55;margin-bottom:auto;padding-bottom:16px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
+
+/* Meta row */
+.card-meta{{font-size:.72rem;color:#3d4a63;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding-top:14px;border-top:1px solid #1e2433;margin-top:auto}}
+.meta-sep{{color:#2a3347}}
 
 /* Podcast badge */
-.podcast-badge{{display:inline-flex;align-items:center;gap:6px;background:#f0f4ff;color:{PRIMARY};font-size:.75rem;font-weight:600;padding:4px 10px;border-radius:20px;margin-bottom:12px}}
+.podcast-badge{{display:inline-flex;align-items:center;gap:4px;background:rgba(245,158,11,.12);color:{ACCENT};font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:20px;margin-left:auto}}
 
 /* Post page */
 .post-wrap{{max-width:780px;margin:0 auto;padding:48px 24px}}
-.post-breadcrumb{{font-size:.85rem;color:#9ca3af;margin-bottom:24px}}
-.post-breadcrumb a{{color:{PRIMARY}}}
-.post-header{{margin-bottom:36px}}
-.post-cat{{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:{PRIMARY};margin-bottom:12px}}
-.post-title{{font-size:2rem;font-weight:800;line-height:1.3;margin-bottom:16px;color:#1a1a2e}}
-.post-meta{{font-size:.9rem;color:#6b7280;display:flex;gap:16px;flex-wrap:wrap}}
-.post-content h2{{font-size:1.5rem;font-weight:700;margin:36px 0 16px;color:#1a1a2e}}
-.post-content h3{{font-size:1.15rem;font-weight:700;margin:28px 0 12px;color:#1a1a2e}}
-.post-content p{{margin-bottom:18px}}
+.post-breadcrumb{{font-size:.8rem;color:#3d4a63;margin-bottom:24px}}
+.post-breadcrumb a{{color:#7c8aab}}
+.post-breadcrumb a:hover{{color:#eef2ff;text-decoration:none}}
+.post-header{{margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid #1e2433}}
+.post-cat{{display:inline-block;background:{ACCENT};color:#07080a;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 9px;border-radius:4px;margin-bottom:14px}}
+.post-title{{font-size:2rem;font-weight:800;line-height:1.25;margin-bottom:16px;color:#eef2ff;letter-spacing:-.3px}}
+.post-meta{{font-size:.85rem;color:#3d4a63;display:flex;gap:12px;flex-wrap:wrap}}
+.post-content{{color:#c8d0e7}}
+.post-content h2{{font-size:1.4rem;font-weight:700;margin:40px 0 14px;color:#eef2ff}}
+.post-content h3{{font-size:1.1rem;font-weight:700;margin:28px 0 10px;color:#eef2ff}}
+.post-content p{{margin-bottom:18px;line-height:1.75}}
 .post-content ul,.post-content ol{{margin:0 0 18px 24px}}
 .post-content li{{margin-bottom:8px}}
-.post-content strong{{color:#1a1a2e}}
+.post-content strong{{color:#eef2ff}}
+.post-content a{{color:{ACCENT}}}
+.post-content a:hover{{color:{ACCENT_DARK}}}
 
 /* Podcast embed */
-.podcast-embed{{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:20px;margin:36px 0}}
-.podcast-embed p{{font-size:.9rem;font-weight:600;color:#6b7280;margin-bottom:12px}}
+.podcast-embed{{background:#111520;border:1px solid #1e2433;border-left:3px solid {ACCENT};border-radius:8px;padding:20px;margin:36px 0}}
+.podcast-embed p{{font-size:.85rem;font-weight:600;color:#7c8aab;margin-bottom:12px}}
 .podcast-embed iframe{{border-radius:6px}}
 
 /* Pagination */
-.pagination{{display:flex;gap:8px;justify-content:center;margin-top:40px;flex-wrap:wrap}}
-.page-btn{{padding:8px 16px;border:1px solid #e2e8f0;border-radius:6px;font-size:.9rem;color:#6b7280;background:#fff}}
-.page-btn.active{{background:{PRIMARY};color:#fff;border-color:{PRIMARY}}}
-.page-btn:hover{{background:#f0f4ff;text-decoration:none}}
+.pagination{{display:flex;gap:8px;justify-content:center;margin-top:48px;flex-wrap:wrap}}
+.page-btn{{padding:8px 16px;border:1px solid #1e2433;border-radius:6px;font-size:.875rem;color:#7c8aab;background:#111520}}
+.page-btn.active{{background:{ACCENT};color:#07080a;border-color:{ACCENT};font-weight:700}}
+.page-btn:hover{{border-color:{ACCENT};color:#eef2ff;text-decoration:none}}
 
 /* Category header */
-.cat-header{{background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:36px 24px}}
-.cat-header h1{{font-size:1.8rem;font-weight:800;margin-bottom:8px}}
-.cat-header p{{color:#6b7280}}
+.cat-header{{background:#0a0c12;border-bottom:1px solid #1e2433;padding:48px 24px}}
+.cat-header h1{{font-size:1.8rem;font-weight:800;margin-bottom:8px;color:#eef2ff}}
+.cat-header p{{color:#7c8aab;font-size:.9rem}}
 
 /* Footer */
-.site-footer{{background:#1a1a2e;color:rgba(255,255,255,.7);padding:48px 24px 24px;margin-top:64px}}
-.footer-inner{{max-width:1100px;margin:0 auto}}
-.footer-grid{{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;margin-bottom:40px}}
-.footer-brand p{{font-size:.9rem;margin-top:12px;line-height:1.6}}
-.footer-col h4{{color:#fff;font-size:.9rem;font-weight:700;margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px}}
-.footer-col a{{display:block;font-size:.9rem;color:rgba(255,255,255,.6);margin-bottom:8px}}
-.footer-col a:hover{{color:#fff;text-decoration:none}}
-.footer-bottom{{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;font-size:.8rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}}
-.footer-logo{{font-size:1.2rem;font-weight:800;color:#fff}}
-.disclaimer{{font-size:.75rem;color:rgba(255,255,255,.4);margin-top:16px;line-height:1.6}}
+.site-footer{{background:#0a0c12;border-top:1px solid #1e2433;color:#7c8aab;padding:56px 24px 28px;margin-top:80px}}
+.footer-inner{{max-width:1140px;margin:0 auto}}
+.footer-grid{{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}}
+.footer-logo{{font-size:1.2rem;font-weight:800;color:#eef2ff}}
+.footer-logo span{{color:{ACCENT}}}
+.footer-brand p{{font-size:.875rem;margin-top:12px;line-height:1.65}}
+.footer-col h4{{color:#eef2ff;font-size:.75rem;font-weight:700;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px}}
+.footer-col a{{display:block;font-size:.875rem;color:#7c8aab;margin-bottom:10px}}
+.footer-col a:hover{{color:#eef2ff;text-decoration:none}}
+.footer-bottom{{border-top:1px solid #1e2433;padding-top:24px;font-size:.75rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:#3d4a63}}
+.disclaimer{{font-size:.72rem;color:#3d4a63;margin-top:14px;line-height:1.6}}
 
-@media(max-width:768px){{
-  .hero h1{{font-size:1.7rem}}
+@media(max-width:1024px){{.cards{{grid-template-columns:repeat(2,1fr)}}}}
+@media(max-width:640px){{
+  .hero h1{{font-size:1.9rem}}
   .cards{{grid-template-columns:1fr}}
   .footer-grid{{grid-template-columns:1fr}}
   .site-nav .nav-links{{display:none}}
@@ -180,7 +212,7 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
 <body>
 <header class="site-header">
   <div class="header-inner">
-    <a href="/" class="site-logo">Global<span>HighLevel</span></a>
+    <a href="/" class="site-logo">GlobalHigh<span>Level</span></a>
     <nav class="site-nav">
       <span class="nav-links">
         <a href="/">Home</a>
@@ -195,7 +227,7 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
   <div class="footer-inner">
     <div class="footer-grid">
       <div>
-        <div class="footer-logo">GlobalHighLevel</div>
+        <div class="footer-logo">GlobalHigh<span>Level</span></div>
         <p>Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide.</p>
         <p class="disclaimer">Affiliate disclosure: Some links on this site are affiliate links. If you sign up through our link, we may earn a commission at no extra cost to you.</p>
       </div>
@@ -207,8 +239,8 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
       </div>
       <div class="footer-col">
         <h4>Resources</h4>
-        <a href="https://help.gohighlevel.com" target="_blank" rel="nofollow">GHL Help Center</a>
-        <a href="https://www.gohighlevel.com/pricing" target="_blank" rel="nofollow">GHL Pricing</a>
+        <a href="https://help.gohighlevel.com" target="_blank" rel="nofollow noopener">GHL Help Center</a>
+        <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=footer&utm_campaign=pricing" target="_blank" rel="nofollow noopener">GHL Pricing</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -263,7 +295,7 @@ def build_post_page(post: dict):
     slug        = post["slug"]
     title       = post.get("title", post.get("seoTitle", ""))
     description = post.get("description", post.get("seoDescription", post.get("meta_description", "")))
-    category    = post.get("category", "GoHighLevel Tutorials")
+    category    = display_cat(post.get("category", "")) or "GoHighLevel Tutorials"
     cat_slug    = slugify(category)
     date_str    = fmt_date(post.get("publishedAt", post.get("uploadedAt", "")))
     html_content = post.get("html_content", "")
@@ -329,24 +361,24 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
         slug     = p.get("slug", "")
         title    = p.get("title", p.get("seoTitle", "Untitled"))
         desc     = truncate(p.get("description", p.get("seoDescription", p.get("meta_description", ""))), 130)
-        cat      = p.get("category", "GoHighLevel Tutorials")
+        cat      = display_cat(p.get("category", ""))
         date_str = fmt_date(p.get("publishedAt", p.get("uploadedAt", "")))
         ep_id    = p.get("transistorEpisodeId", "")
-        podcast  = '<div class="podcast-badge">🎙️ Podcast + Article</div>' if ep_id else ""
+        rtime    = read_time(p.get("html_content", desc))
+        cat_html = f'<span class="card-cat">{cat}</span>' if cat else ""
+        podcast  = '<span class="podcast-badge">🎙 Podcast</span>' if ep_id else ""
 
         cards_html += f"""
-<div class="card">
-  <div class="card-body">
-    <div class="card-cat">{cat}</div>
+<article class="card">
+  {cat_html}
+  <h2 class="card-title"><a href="/blog/{slug}/">{title}</a></h2>
+  <p class="card-excerpt">{desc}</p>
+  <div class="card-meta">
+    <span class="card-date">{date_str}</span>
+    {"<span class='meta-sep'>·</span><span>" + rtime + "</span>" if date_str else ""}
     {podcast}
-    <div class="card-title"><a href="/blog/{slug}/">{title}</a></div>
-    <div class="card-desc">{desc}</div>
-    <div class="card-meta">
-      <span>{date_str}</span>
-      <a href="/blog/{slug}/" class="card-link">Read More →</a>
-    </div>
   </div>
-</div>"""
+</article>"""
 
     # Pagination
     pages_html = ""
@@ -405,9 +437,10 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
     if page == 1:
         hero = f"""
 <div class="hero">
-  <h1>Master GoHighLevel — Free</h1>
-  <p>Tutorials, step-by-step guides, and strategies for agencies and businesses using GoHighLevel worldwide.</p>
-  <a href="{AFFILIATE}" class="hero-btn" target="_blank" rel="nofollow">Start Your Free 30-Day Trial →</a>
+  <div class="hero-eyebrow">Free GoHighLevel Tutorials</div>
+  <h1>Everything You Need to Master GoHighLevel</h1>
+  <p>Step-by-step guides for agencies and businesses. Updated daily.</p>
+  <a href="{AFFILIATE}" class="hero-btn" target="_blank" rel="nofollow noopener">Start Your Free 30-Day Trial →</a>
 </div>"""
     else:
         hero = ""
@@ -415,6 +448,7 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
     body = f"""{hero}
 <div class="container">
   <div class="section">
+    <div class="section-label">Tutorials</div>
     <div class="section-title">{"Latest Guides & Tutorials" if page == 1 else f"Page {page}"}</div>
     <div class="cards">{cards_html}</div>
     {pages_html}
@@ -448,20 +482,21 @@ def build_category_pages(posts: list[dict]):
             desc     = truncate(p.get("description", p.get("seoDescription", p.get("meta_description", ""))), 130)
             date_str = fmt_date(p.get("publishedAt", p.get("uploadedAt", "")))
             ep_id    = p.get("transistorEpisodeId", "")
-            podcast  = '<div class="podcast-badge">🎙️ Podcast + Article</div>' if ep_id else ""
+            rtime    = read_time(p.get("html_content", desc))
+            cat_label = display_cat(cat)
+            cat_html  = f'<span class="card-cat">{cat_label}</span>' if cat_label else ""
+            podcast   = '<span class="podcast-badge">🎙 Podcast</span>' if ep_id else ""
             cards_html += f"""
-<div class="card">
-  <div class="card-body">
-    <div class="card-cat">{cat}</div>
+<article class="card">
+  {cat_html}
+  <h2 class="card-title"><a href="/blog/{slug}/">{title}</a></h2>
+  <p class="card-excerpt">{desc}</p>
+  <div class="card-meta">
+    <span class="card-date">{date_str}</span>
+    {"<span class='meta-sep'>·</span><span>" + rtime + "</span>" if date_str else ""}
     {podcast}
-    <div class="card-title"><a href="/blog/{slug}/">{title}</a></div>
-    <div class="card-desc">{desc}</div>
-    <div class="card-meta">
-      <span>{date_str}</span>
-      <a href="/blog/{slug}/" class="card-link">Read More →</a>
-    </div>
   </div>
-</div>"""
+</article>"""
 
         body = f"""
 <div class="cat-header">
