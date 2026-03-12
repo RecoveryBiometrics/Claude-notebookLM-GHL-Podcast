@@ -63,6 +63,43 @@ def read_time(html: str) -> str:
     mins = max(1, round(words / 200))
     return f"{mins} min read"
 
+def extract_toc(html: str) -> list:
+    """Extract (anchor_id, label) from H2 tags for table of contents."""
+    items = []
+    for m in re.finditer(r'<h2[^>]*id=["\']([^"\']+)["\'][^>]*>(.*?)</h2>', html, re.DOTALL):
+        anchor = m.group(1)
+        label  = re.sub(r"<[^>]+>", "", m.group(2)).strip()
+        if label:
+            items.append((anchor, label))
+    if not items:
+        for m in re.finditer(r'<h2[^>]*>(.*?)</h2>', html, re.DOTALL):
+            label  = re.sub(r"<[^>]+>", "", m.group(1)).strip()
+            anchor = slugify(label)
+            if label:
+                items.append((anchor, label))
+    return items[:8]
+
+def inject_inline_ctas(html: str, cta2: str, cta3: str) -> str:
+    """Inject two inline CTAs at roughly the 50% and 75% H2 boundaries."""
+    h2_positions = [m.start() for m in re.finditer(r'<h2', html)]
+    n = len(h2_positions)
+    if n < 2:
+        return html
+    mid  = h2_positions[n // 2]
+    late = h2_positions[(3 * n) // 4]
+    # Insert from end to front so positions stay valid
+    result = html[:late] + cta3 + html[late:]
+    result = result[:mid] + cta2 + result[mid:]
+    return result
+
+def get_related(post: dict, all_posts: list, n: int = 3) -> list:
+    """Return n related posts — same category first, then most recent."""
+    slug = post.get("slug", "")
+    cat  = post.get("category", "")
+    same = [p for p in all_posts if p.get("slug") != slug and p.get("category") == cat]
+    other = [p for p in all_posts if p.get("slug") != slug and p.get("category") != cat]
+    return (same + other)[:n]
+
 def write(path: Path, html: str):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(html, encoding="utf-8")
@@ -176,13 +213,102 @@ img{{max-width:100%;height:auto}}
 .footer-bottom{{border-top:1px solid #1e2433;padding-top:24px;font-size:.75rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:#3d4a63}}
 .disclaimer{{font-size:.72rem;color:#3d4a63;margin-top:14px;line-height:1.6}}
 
-@media(max-width:1024px){{.cards{{grid-template-columns:repeat(2,1fr)}}}}
+/* ── Reading progress bar ─────────────────────────────────────────────────── */
+#reading-progress{{position:fixed;top:0;left:0;height:3px;width:0;background:{ACCENT};z-index:9999;transition:width .1s linear}}
+
+/* ── Post page layout (2-col desktop) ────────────────────────────────────── */
+.post-container{{max-width:1000px;margin:0 auto;padding:48px 24px;display:grid;grid-template-columns:1fr 260px;gap:48px;align-items:start}}
+.post-main{{min-width:0}}
+
+/* Post header */
+.post-eyebrow{{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:{ACCENT};margin-bottom:12px}}
+.post-title{{font-size:2.2rem;font-weight:800;line-height:1.2;color:#fff;letter-spacing:-.3px;margin-bottom:20px}}
+.post-byline{{display:flex;align-items:center;gap:10px;font-size:.8rem;color:#3d4a63;padding-bottom:24px;border-bottom:1px solid #1e2433;margin-bottom:32px;flex-wrap:wrap}}
+.post-byline .sep{{color:#2a3347}}
+
+/* Post body typography */
+.post-body{{font-size:17px;line-height:1.75;color:#e5e7eb}}
+.post-body h2{{font-size:1.5rem;font-weight:700;color:#fff;margin:48px 0 14px}}
+.post-body h3{{font-size:1.15rem;font-weight:600;color:#f3f4f6;margin:32px 0 10px}}
+.post-body p{{margin-bottom:20px}}
+.post-body ul,.post-body ol{{margin:0 0 20px 24px}}
+.post-body li{{margin-bottom:8px}}
+.post-body strong{{color:#fff}}
+.post-body a{{color:{ACCENT};text-decoration:underline;text-underline-offset:3px}}
+.post-body a:hover{{color:{ACCENT_DARK}}}
+
+/* TOC */
+.toc{{background:#0f1014;border:1px solid #1e2433;border-radius:8px;padding:20px 24px;margin:0 0 32px}}
+.toc-label{{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#3d4a63;margin-bottom:12px}}
+.toc ol{{margin:0;padding-left:18px}}
+.toc li{{font-size:.9rem;line-height:1.9}}
+.toc a{{color:#7c8aab;text-decoration:none}}
+.toc a:hover{{color:{ACCENT};text-decoration:none}}
+
+/* CTA boxes */
+.cta-intro{{background:#0f1117;border:1px solid {ACCENT};border-left:4px solid {ACCENT};border-radius:8px;padding:22px 26px;margin:0 0 32px}}
+.cta-intro .cta-headline{{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:{ACCENT};margin-bottom:8px}}
+.cta-intro p{{font-size:.9rem;color:#9ca3af;margin:0 0 16px;line-height:1.6}}
+.cta-inline{{background:#0f1014;border:1px solid #1e2433;border-radius:6px;padding:14px 18px;margin:28px 0;font-size:.875rem;color:#7c8aab;display:block}}
+.cta-inline a{{color:{ACCENT};font-weight:600;text-decoration:none}}
+.cta-inline a:hover{{color:{ACCENT_DARK}}}
+.cta-end{{background:linear-gradient(135deg,#111318 0%,#1a1d24 100%);border:1px solid {ACCENT};border-radius:12px;padding:36px 40px;text-align:center;margin:48px 0}}
+.cta-end h3{{font-size:1.35rem;font-weight:700;color:#fff;margin-bottom:12px}}
+.cta-end p{{font-size:.9rem;color:#9ca3af;margin:0 0 24px;max-width:440px;margin-left:auto;margin-right:auto}}
+.cta-end .fine{{font-size:.75rem;color:#6b7280;margin-top:12px}}
+.btn-amber{{display:inline-block;background:{ACCENT};color:#07080a;font-weight:700;font-size:.95rem;padding:13px 28px;border-radius:6px;text-decoration:none}}
+.btn-amber:hover{{background:{ACCENT_DARK};text-decoration:none}}
+
+/* Pro tip callout */
+.callout{{border-left:3px solid {ACCENT};border-radius:0 6px 6px 0;padding:14px 18px;margin:28px 0}}
+.callout-tip{{background:rgba(245,158,11,.08)}}
+.callout-note{{background:rgba(59,130,246,.08);border-left-color:#3b82f6}}
+.callout-label{{font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:{ACCENT};margin-bottom:6px}}
+.callout-note .callout-label{{color:#3b82f6}}
+.callout p{{font-size:.9rem;color:#d1d5db;margin:0;line-height:1.65}}
+
+/* Podcast embed */
+.podcast-embed{{background:#0f1014;border:1px solid #1e2433;border-left:3px solid {ACCENT};border-radius:8px;padding:20px;margin:36px 0}}
+.podcast-embed p{{font-size:.8rem;font-weight:600;color:#7c8aab;margin-bottom:12px}}
+.podcast-embed iframe{{border-radius:6px}}
+.podcast-link{{display:inline-flex;align-items:center;gap:8px;color:{ACCENT};font-size:.875rem;font-weight:600;text-decoration:none;margin-top:8px}}
+.podcast-link:hover{{color:{ACCENT_DARK};text-decoration:none}}
+
+/* Author box */
+.author-box{{display:flex;gap:16px;align-items:flex-start;padding:24px 0;border-top:1px solid #1e2433;border-bottom:1px solid #1e2433;margin:40px 0}}
+.author-box .author-name{{font-weight:700;color:#fff;font-size:.95rem;margin-bottom:4px}}
+.author-box .author-bio{{font-size:.825rem;color:#7c8aab;line-height:1.6}}
+
+/* Related posts */
+.related-posts{{margin:48px 0 0}}
+.related-label{{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#3d4a63;margin-bottom:18px}}
+.related-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}}
+.related-card{{background:#0f1014;border:1px solid #1e2433;border-radius:8px;padding:16px;text-decoration:none;display:block;transition:border-color .2s}}
+.related-card:hover{{border-color:{ACCENT};text-decoration:none}}
+.related-card .r-tag{{font-size:.65rem;font-weight:700;color:{ACCENT};text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}}
+.related-card .r-title{{font-size:.85rem;font-weight:600;color:#e5e7eb;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
+
+/* Sidebar */
+.post-sidebar{{}}
+.sidebar-cta{{position:sticky;top:90px;background:#0f1014;border:1px solid {ACCENT};border-radius:10px;padding:22px 18px;text-align:center}}
+.sidebar-cta .s-headline{{font-size:.95rem;font-weight:700;color:#fff;margin-bottom:8px}}
+.sidebar-cta .s-sub{{font-size:.8rem;color:#9ca3af;margin-bottom:16px;line-height:1.5}}
+.sidebar-cta .s-fine{{font-size:.7rem;color:#3d4a63;margin-top:10px}}
+
+@media(max-width:1024px){{
+  .cards{{grid-template-columns:repeat(2,1fr)}}
+  .post-container{{grid-template-columns:1fr;padding:32px 20px}}
+  .post-sidebar{{display:none}}
+  .related-grid{{grid-template-columns:repeat(2,1fr)}}
+}}
 @media(max-width:640px){{
   .hero h1{{font-size:1.9rem}}
   .cards{{grid-template-columns:1fr}}
   .footer-grid{{grid-template-columns:1fr}}
   .site-nav .nav-links{{display:none}}
-  .post-title{{font-size:1.5rem}}
+  .post-title{{font-size:1.6rem}}
+  .cta-end{{padding:24px 20px}}
+  .related-grid{{grid-template-columns:1fr}}
 }}
 """
 
@@ -291,7 +417,7 @@ def merge_data(posts: list[dict], published: list[dict]) -> list[dict]:
 
 # ── Page generators ───────────────────────────────────────────────────────────
 
-def build_post_page(post: dict):
+def build_post_page(post: dict, all_posts: list = None):
     slug        = post["slug"]
     title       = post.get("title", post.get("seoTitle", ""))
     description = post.get("description", post.get("seoDescription", post.get("meta_description", "")))
@@ -300,17 +426,109 @@ def build_post_page(post: dict):
     date_str    = fmt_date(post.get("publishedAt", post.get("uploadedAt", "")))
     html_content = post.get("html_content", "")
     episode_id  = post.get("transistorEpisodeId", "")
+    rtime       = read_time(html_content)
     canonical   = f"{SITE_URL}/blog/{slug}/"
 
-    podcast_html = ""
+    # ── Podcast section — always show Spotify link; embed player if episode exists ──
     if episode_id:
         podcast_html = f"""
 <div class="podcast-embed">
-  <p>🎙️ Listen to the podcast episode</p>
+  <p>🎙 Listen to this episode</p>
   <iframe width="100%" height="180" frameborder="no" scrolling="no" seamless
-    src="https://share.transistor.fm/e/{episode_id}"></iframe>
+    src="https://share.transistor.fm/e/{episode_id}" loading="lazy"></iframe>
+  <a class="podcast-link" href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">
+    Follow the podcast on Spotify →
+  </a>
+</div>"""
+    else:
+        podcast_html = f"""
+<div class="podcast-embed">
+  <p>🎙 This tutorial also has a podcast episode</p>
+  <a class="podcast-link" href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">
+    Listen on Spotify — "Go High Level" podcast →
+  </a>
 </div>"""
 
+    # ── Table of contents ──────────────────────────────────────────────────────
+    toc_items = extract_toc(html_content)
+    if toc_items:
+        toc_rows = "".join(f'<li><a href="#{a}">{label}</a></li>' for a, label in toc_items)
+        toc_html = f"""
+<div class="toc">
+  <div class="toc-label">In This Guide</div>
+  <ol>{toc_rows}</ol>
+</div>"""
+    else:
+        toc_html = ""
+
+    # ── Inline CTAs (#2 and #3) ────────────────────────────────────────────────
+    cta2 = f"""
+<p class="cta-inline">This is exactly the kind of workflow GoHighLevel handles natively.
+<a href="{AFFILIATE}&utm_campaign={slug}" target="_blank" rel="nofollow noopener">Try it free for 30 days →</a></p>"""
+    cta3 = f"""
+<p class="cta-inline">Every feature covered in this guide is included in the free trial — no credit card required.
+<a href="{AFFILIATE}&utm_campaign={slug}" target="_blank" rel="nofollow noopener">Start your trial here →</a></p>"""
+    body_with_ctas = inject_inline_ctas(html_content, cta2, cta3)
+
+    # ── CTA #1 — Post intro box ────────────────────────────────────────────────
+    cta1 = f"""
+<div class="cta-intro">
+  <div class="cta-headline">Want to follow along?</div>
+  <p>GoHighLevel gives you 30 days free — full access, no credit card. Set up everything in this guide inside your trial.</p>
+  <a href="{AFFILIATE}&utm_campaign={slug}" class="btn-amber" target="_blank" rel="nofollow noopener">Start Your Free 30-Day Trial →</a>
+</div>"""
+
+    # ── CTA #4 — End of article ────────────────────────────────────────────────
+    cta4 = f"""
+<div class="cta-end">
+  <h3>Ready to put this into practice?</h3>
+  <p>Start your free 30-day GoHighLevel trial — full access to every feature covered in this guide.</p>
+  <a href="{AFFILIATE}&utm_campaign={slug}" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free Trial — 30 Days</a>
+  <div class="fine">30 days free · No credit card required</div>
+</div>"""
+
+    # ── Author box ─────────────────────────────────────────────────────────────
+    author_html = f"""
+<div class="author-box">
+  <div>
+    <div class="author-name">William Welch</div>
+    <div class="author-bio">GoHighLevel user and affiliate. Runs GlobalHighLevel.com — free tutorials, guides, and strategies for agencies and businesses using GHL worldwide.</div>
+  </div>
+</div>"""
+
+    # ── Related posts ──────────────────────────────────────────────────────────
+    related_html = ""
+    if all_posts:
+        related = get_related(post, all_posts)
+        if related:
+            cards = ""
+            for r in related:
+                r_slug  = r.get("slug", "")
+                r_title = r.get("title", r.get("seoTitle", ""))
+                r_cat   = display_cat(r.get("category", "")) or "GoHighLevel"
+                cards += f"""
+<a href="/blog/{r_slug}/" class="related-card">
+  <div class="r-tag">{r_cat}</div>
+  <div class="r-title">{r_title}</div>
+</a>"""
+            related_html = f"""
+<div class="related-posts">
+  <div class="related-label">Keep Reading</div>
+  <div class="related-grid">{cards}</div>
+</div>"""
+
+    # ── Sidebar ────────────────────────────────────────────────────────────────
+    sidebar_html = f"""
+<aside class="post-sidebar">
+  <div class="sidebar-cta">
+    <div class="s-headline">Try GoHighLevel Free</div>
+    <div class="s-sub">30 days full access — set up everything in this guide at no cost.</div>
+    <a href="{AFFILIATE}&utm_campaign={slug}" class="btn-amber" style="display:block" target="_blank" rel="nofollow noopener">Start Free Trial →</a>
+    <div class="s-fine">No credit card required</div>
+  </div>
+</aside>"""
+
+    # ── Schema ─────────────────────────────────────────────────────────────────
     article_schema = json.dumps({
         "@context": "https://schema.org",
         "@type": "Article",
@@ -322,25 +540,46 @@ def build_post_page(post: dict):
         "url": canonical
     })
 
+    # ── Progress bar JS ────────────────────────────────────────────────────────
+    progress_js = """
+<script>
+(function(){
+  var bar=document.getElementById('reading-progress');
+  if(!bar)return;
+  window.addEventListener('scroll',function(){
+    var body=document.querySelector('.post-body');
+    if(!body)return;
+    var top=body.getBoundingClientRect().top+window.scrollY;
+    var h=body.offsetHeight-window.innerHeight;
+    var pct=h>0?Math.min(100,Math.max(0,(window.scrollY-top+window.innerHeight*0.1)/h*100)):100;
+    bar.style.width=pct+'%';
+  },{passive:true});
+})();
+</script>"""
+
     body = f"""
-<div class="post-wrap">
-  <div class="post-breadcrumb">
-    <a href="/">Home</a> › <a href="/category/{cat_slug}/">{category}</a> › {title[:50]}
-  </div>
-  <header class="post-header">
-    <div class="post-cat">{category}</div>
+<div id="reading-progress"></div>
+<div class="post-container">
+  <main class="post-main">
+    <div class="post-eyebrow"><a href="/category/{cat_slug}/" style="color:{ACCENT};text-decoration:none">{category}</a></div>
     <h1 class="post-title">{title}</h1>
-    <div class="post-meta">
+    <div class="post-byline">
       <span>By William Welch</span>
-      {"<span>" + date_str + "</span>" if date_str else ""}
+      {"<span class='sep'>·</span><span>" + date_str + "</span>" if date_str else ""}
+      <span class="sep">·</span><span>{rtime}</span>
     </div>
-  </header>
-  {podcast_html}
-  <div class="post-content">
-    {html_content}
-  </div>
-  <script type="application/ld+json">{article_schema}</script>
-</div>"""
+    {cta1}
+    {toc_html}
+    {podcast_html}
+    <div class="post-body">{body_with_ctas}</div>
+    {cta4}
+    {author_html}
+    {related_html}
+  </main>
+  {sidebar_html}
+</div>
+<script type="application/ld+json">{article_schema}</script>
+{progress_js}"""
 
     html = base_html(
         title=f"{title} | {SITE_NAME}",
@@ -614,7 +853,7 @@ def main():
     # Individual post pages
     print("Building post pages...")
     for p in merged:
-        build_post_page(p)
+        build_post_page(p, all_posts=merged)
 
     # Homepage (paginated)
     print("\nBuilding homepage...")
