@@ -24,7 +24,6 @@ BASE_DIR       = Path(__file__).parent
 POSTS_DIR      = BASE_DIR / "posts"
 PUBLIC_DIR     = BASE_DIR / "public"
 PUBLISHED_JSON = BASE_DIR / ".." / "ghl-podcast-pipeline" / "data" / "published.json"
-HOMEPAGE_HERO  = BASE_DIR / "homepage_hero.html"
 
 SITE_URL     = "https://globalhighlevel.com"
 SITE_NAME    = "Global High Level"
@@ -79,18 +78,14 @@ def extract_toc(html: str) -> list:
                 items.append((anchor, label))
     return items[:8]
 
-def inject_inline_ctas(html: str, cta2: str, cta3: str) -> str:
-    """Inject two inline CTAs at roughly the 50% and 75% H2 boundaries."""
+def inject_inline_ctas(html: str, cta_mid: str) -> str:
+    """Inject one inline CTA at roughly the 50% H2 boundary."""
     h2_positions = [m.start() for m in re.finditer(r'<h2', html)]
     n = len(h2_positions)
     if n < 2:
         return html
-    mid  = h2_positions[n // 2]
-    late = h2_positions[(3 * n) // 4]
-    # Insert from end to front so positions stay valid
-    result = html[:late] + cta3 + html[late:]
-    result = result[:mid] + cta2 + result[mid:]
-    return result
+    mid = h2_positions[n // 2]
+    return html[:mid] + cta_mid + html[mid:]
 
 def get_related(post: dict, all_posts: list, n: int = 3) -> list:
     """Return n related posts — same category first, then most recent."""
@@ -145,10 +140,10 @@ def sanitize_content(html: str) -> str:
 
     return html
 
-# ── CSS (shared across all post/category/404 pages) ─────────────────────────
+# ── CSS — TechCrunch-style editorial layout ──────────────────────────────────
 
 CSS = f"""
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
 
 :root{{
   --bg:#07080a;
@@ -162,12 +157,13 @@ CSS = f"""
   --text2:#a0aec8;
   --text3:#6b7ea8;
   --border:rgba(255,255,255,0.06);
-  --max:1060px;
-  --serif:'Instrument Serif',Georgia,serif;
+  --max:1120px;
+  --content:665px;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 }}
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0}}
 html{{scroll-behavior:smooth}}
-body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:16px;line-height:1.7;color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}}
+body{{font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}}
 a{{color:var(--amber);text-decoration:none}}
 a:hover{{text-decoration:underline}}
 img{{max-width:100%;height:auto}}
@@ -177,58 +173,88 @@ img{{max-width:100%;height:auto}}
 .fade-1{{animation:fadeUp .6s ease both}}
 .fade-2{{animation:fadeUp .6s .15s ease both}}
 .fade-3{{animation:fadeUp .6s .3s ease both}}
-.fade-4{{animation:fadeUp .6s .45s ease both}}
 
-/* NAV — fixed, backdrop blur, matching homepage */
-nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}}
-.nav-inner{{max-width:var(--max);margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}}
-.logo{{font-family:var(--serif);font-size:1.25rem;letter-spacing:-.3px;display:flex;align-items:center;gap:6px;color:var(--text)}}
+/* ── NAV — fixed, backdrop blur, animated underlines ──────────────────────── */
+nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}}
+.nav-inner{{max-width:var(--max);margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}}
+.logo{{font-family:var(--sans);font-size:1.15rem;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:0;color:var(--text)}}
 .logo-amber{{color:var(--amber)}}
-.nav-links{{display:flex;align-items:center;gap:28px}}
-.nav-link{{font-size:.82rem;color:var(--text2);letter-spacing:.1px;transition:color .15s}}
+.nav-links{{display:flex;align-items:center;gap:24px}}
+.nav-link{{font-size:.82rem;font-weight:500;color:var(--text2);letter-spacing:.1px;transition:color .15s;position:relative;padding:4px 0}}
+.nav-link::after{{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--amber);transition:width .2s ease-in-out}}
 .nav-link:hover{{color:var(--text);text-decoration:none}}
-.nav-cta{{font-size:.82rem;font-weight:600;color:#000;background:var(--amber);padding:8px 18px;border-radius:6px;transition:background .15s}}
+.nav-link:hover::after{{width:100%}}
+.nav-cta{{font-size:.8rem;font-weight:700;color:#000;background:var(--amber);padding:7px 16px;border-radius:100px;transition:background .15s}}
 .nav-cta:hover{{background:var(--amber-light);text-decoration:none}}
 
-/* Container */
+/* ── CONTAINER ────────────────────────────────────────────────────────────── */
 .container{{max-width:var(--max);margin:0 auto;padding:0 24px}}
 
-/* Section */
-.section{{padding:56px 0}}
-.section-label{{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--amber);margin-bottom:12px}}
-.section-title{{font-family:var(--serif);font-size:1.6rem;font-weight:400;margin-bottom:36px;color:var(--text)}}
+/* ── SECTION LABELS ───────────────────────────────────────────────────────── */
+.section-label{{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--amber);display:inline-block}}
 
-/* Cards grid — 3 col desktop, 2 tablet, 1 mobile */
-.cards{{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}}
+/* ── HOMEPAGE — Featured + stack ──────────────────────────────────────────── */
+.hp-featured{{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;padding:88px 0 48px;border-bottom:1px solid var(--border)}}
+.hp-lead{{display:flex;flex-direction:column;justify-content:center}}
+.hp-lead-cat{{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}}
+.hp-lead-title{{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);margin-bottom:14px;letter-spacing:-.5px}}
+.hp-lead-title a{{color:var(--text);transition:color .2s}}
+.hp-lead-title a:hover{{color:var(--amber);text-decoration:none}}
+.hp-lead-desc{{font-size:1rem;color:var(--text2);line-height:1.65;margin-bottom:16px}}
+.hp-lead-meta{{font-size:13px;color:var(--text3);letter-spacing:.2px}}
+.hp-stack{{display:flex;flex-direction:column;gap:0}}
+.hp-stack-item{{padding:20px 0;border-bottom:1px solid var(--border)}}
+.hp-stack-item:first-child{{padding-top:0}}
+.hp-stack-item:last-child{{border-bottom:none}}
+.hp-stack-cat{{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:6px}}
+.hp-stack-title{{font-family:var(--sans);font-size:1rem;font-weight:700;line-height:1.35;margin-bottom:6px}}
+.hp-stack-title a{{color:var(--text);transition:color .15s}}
+.hp-stack-title a:hover{{color:var(--amber);text-decoration:none}}
+.hp-stack-meta{{font-size:12px;color:var(--text3)}}
 
-/* Card — text-only, left amber border */
-.card{{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:22px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;display:flex;flex-direction:column}}
-.card:hover{{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.45);border-color:var(--amber)}}
-.card:hover .card-title a{{color:var(--amber)}}
+/* ── HOMEPAGE — Main grid + sidebar ───────────────────────────────────────── */
+.hp-body{{display:grid;grid-template-columns:1fr 320px;gap:48px;padding:48px 0 80px}}
+.hp-articles{{display:flex;flex-direction:column;gap:0}}
 
-/* Category pill */
-.card-cat{{display:inline-block;background:var(--amber);color:#07080a;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 9px;border-radius:4px;margin-bottom:10px;align-self:flex-start}}
-
-/* Title — 2-line clamp */
-.card-title{{font-size:1rem;font-weight:700;line-height:1.35;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
-.card-title a{{color:var(--text);transition:color .2s}}
-
-/* Excerpt — 2-line clamp */
-.card-excerpt{{font-size:.875rem;color:var(--text2);line-height:1.55;margin-bottom:auto;padding-bottom:16px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
-
-/* Meta row */
-.card-meta{{font-size:.72rem;color:var(--text3);display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--border);margin-top:auto}}
+/* ── FLAT EDITORIAL CARDS (article list items) ────────────────────────────── */
+.card{{padding:24px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column}}
+.card-cat{{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:8px}}
+.card-title{{font-family:var(--sans);font-size:1.1rem;font-weight:700;line-height:1.35;margin-bottom:8px}}
+.card-title a{{color:var(--text);transition:color .15s}}
+.card-title a:hover{{color:var(--amber);text-decoration:none}}
+.card-excerpt{{font-size:.9rem;color:var(--text2);line-height:1.55;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
+.card-meta{{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px;flex-wrap:wrap}}
 .meta-sep{{color:var(--text3)}}
+.podcast-badge{{display:inline-flex;align-items:center;gap:4px;background:var(--amber-dim);color:var(--amber);font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto}}
 
-/* Podcast badge */
-.podcast-badge{{display:inline-flex;align-items:center;gap:4px;background:var(--amber-dim);color:var(--amber);font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:20px;margin-left:auto}}
+/* ── HOMEPAGE SIDEBAR ─────────────────────────────────────────────────────── */
+.hp-sidebar{{position:sticky;top:72px;align-self:start}}
+.sidebar-section{{margin-bottom:36px}}
+.sidebar-section .section-label{{font-size:11px;margin-bottom:12px;padding-bottom:8px}}
+.sidebar-trending{{display:flex;flex-direction:column;gap:0}}
+.trending-item{{padding:12px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}}
+.trending-item:last-child{{border-bottom:none}}
+.trending-num{{font-family:var(--sans);font-size:1.3rem;font-weight:800;color:rgba(245,158,11,.3);line-height:1;min-width:24px}}
+.trending-title{{font-size:.85rem;font-weight:600;line-height:1.35}}
+.trending-title a{{color:var(--text2);transition:color .15s}}
+.trending-title a:hover{{color:var(--text);text-decoration:none}}
+.sidebar-podcast{{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:24px}}
+.sidebar-podcast p{{font-size:.85rem;color:var(--text2);margin-bottom:12px;line-height:1.5}}
+.btn-spotify{{display:inline-flex;align-items:center;gap:6px;background:#1DB954;color:#000;font-size:.8rem;font-weight:700;padding:8px 16px;border-radius:6px;transition:opacity .15s}}
+.btn-spotify:hover{{opacity:.88;text-decoration:none}}
+.sidebar-cta{{background:var(--surface);border:1px solid var(--amber-border);border-radius:8px;padding:20px;text-align:center}}
+.sidebar-cta .s-headline{{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px}}
+.sidebar-cta .s-sub{{font-size:.8rem;color:var(--text2);margin-bottom:14px;line-height:1.5}}
+.sidebar-cta .s-fine{{font-size:.7rem;color:var(--text3);margin-top:10px}}
+
+/* ── Cards grid (for category pages) ──────────────────────────────────────── */
+.cards-grid{{display:flex;flex-direction:column;gap:0}}
 
 /* ── Reading progress bar ─────────────────────────────────────────────────── */
 #reading-progress{{position:fixed;top:0;left:0;height:3px;width:0;background:var(--amber);z-index:9999;transition:width .1s linear}}
 
-/* ── Post page layout (2-col desktop) ────────────────────────────────────── */
-.post-container{{max-width:var(--max);margin:0 auto;padding:110px 24px 48px;display:grid;grid-template-columns:1fr 280px;gap:48px;align-items:start}}
-.post-main{{min-width:0}}
+/* ── POST PAGE — single-column centered ───────────────────────────────────── */
+.post-container{{max-width:var(--content);margin:0 auto;padding:100px 24px 48px}}
 
 /* Breadcrumb */
 .post-breadcrumb{{font-size:.8rem;color:var(--text3);margin-bottom:24px}}
@@ -237,15 +263,38 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.8);back
 .post-breadcrumb .bc-sep{{margin:0 8px;color:var(--text3);opacity:.5}}
 
 /* Post header */
-.post-eyebrow{{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--amber);margin-bottom:12px}}
-.post-title{{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.6rem);font-weight:400;line-height:1.15;color:var(--text);letter-spacing:-.3px;margin-bottom:20px}}
-.post-byline{{display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--text3);padding-bottom:24px;border-bottom:1px solid var(--border);margin-bottom:32px;flex-wrap:wrap}}
+.post-eyebrow{{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}}
+.post-title{{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px}}
+.post-byline{{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text3);padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:8px;flex-wrap:wrap}}
 .post-byline .sep{{color:var(--text3);opacity:.4}}
 
+/* Share row */
+.share-row{{display:flex;align-items:center;gap:12px;padding:12px 0 28px;border-bottom:1px solid var(--border);margin-bottom:32px;font-size:13px;color:var(--text3)}}
+.share-btn{{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;color:var(--text2);background:transparent;cursor:pointer;transition:border-color .15s,color .15s}}
+.share-btn:hover{{border-color:var(--amber);color:var(--text);text-decoration:none}}
+
+/* CTA — below byline (compact one-liner) */
+.cta-byline{{font-size:.9rem;color:var(--text2);margin:0 0 32px;padding:12px 0}}
+.cta-byline a{{color:var(--amber);font-weight:600}}
+.cta-byline a:hover{{color:var(--amber-light)}}
+
+/* CTA — mid-article inline */
+.cta-inline{{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:28px 0;font-size:.9rem;color:var(--text2);display:block}}
+.cta-inline a{{color:var(--amber);font-weight:600;text-decoration:none}}
+.cta-inline a:hover{{color:var(--amber-light)}}
+
+/* CTA — end of article box */
+.cta-end{{background:var(--surface);border:1px solid var(--amber-border);border-radius:10px;padding:32px;text-align:center;margin:48px 0}}
+.cta-end h3{{font-family:var(--sans);font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:10px}}
+.cta-end p{{font-size:.9rem;color:var(--text2);margin:0 0 20px;max-width:440px;margin-left:auto;margin-right:auto}}
+.cta-end .fine{{font-size:.75rem;color:var(--text3);margin-top:12px}}
+.btn-amber{{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:#000;font-size:.85rem;font-weight:700;padding:11px 22px;border-radius:6px;transition:all .2s;text-decoration:none}}
+.btn-amber:hover{{background:var(--amber-light);transform:translateY(-1px);text-decoration:none}}
+
 /* Post body typography */
-.post-body{{font-size:17px;line-height:1.75;color:#e5e7eb}}
-.post-body h2{{font-family:var(--serif);font-size:1.5rem;font-weight:400;color:var(--text);margin:48px 0 14px}}
-.post-body h3{{font-size:1.15rem;font-weight:600;color:#f3f4f6;margin:32px 0 10px}}
+.post-body{{font-size:19px;line-height:1.75;color:#e5e7eb}}
+.post-body h2{{font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin:48px 0 14px}}
+.post-body h3{{font-size:1.15rem;font-weight:700;color:#f3f4f6;margin:32px 0 10px}}
 .post-body p{{margin-bottom:20px}}
 .post-body ul,.post-body ol{{margin:0 0 20px 24px}}
 .post-body li{{margin-bottom:8px}}
@@ -254,10 +303,6 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.8);back
 .post-body a:hover{{color:var(--amber-light)}}
 
 /* ── LIGHT-MODE INLINE STYLE OVERRIDES ────────────────────────────────────── */
-/* Blog HTML content comes with hardcoded inline styles from 5-blog.py.
-   These use !important to override inline style="..." attributes.           */
-
-/* Override blue links inline-styled with color:#1a73e8 */
 .post-body a[style*="color:#1a73e8"],
 .post-body a[style*="color: #1a73e8"]{{
   color:var(--amber)!important;
@@ -266,8 +311,6 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.8);back
 .post-body a[style*="color: #1a73e8"]:hover{{
   color:var(--amber-light)!important;
 }}
-
-/* Override light background boxes: #f0f4ff, #f8f9fa, #fff8e1, #fff, #ffffff */
 .post-body div[style*="background:#f0f4ff"],
 .post-body div[style*="background: #f0f4ff"]{{
   background:var(--surface)!important;
@@ -289,8 +332,6 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.8);back
 .post-body div[style*="background: #ffffff"]{{
   background:var(--surface)!important;
 }}
-
-/* Override blue solid backgrounds used in CTA blocks */
 .post-body div[style*="background:#1a73e8"],
 .post-body div[style*="background: #1a73e8"]{{
   background:var(--surface)!important;
@@ -307,8 +348,6 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.8);back
   border-radius:6px;
   padding:12px 24px;
 }}
-
-/* Override CTA buttons styled with background:#ffffff on blue */
 .post-body a[style*="background:#ffffff"],
 .post-body a[style*="background: #ffffff"],
 .post-body a[style*="background:#fff"],
@@ -316,8 +355,6 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.8);back
   background:var(--amber)!important;
   color:#000!important;
 }}
-
-/* Override inline blue borders */
 .post-body div[style*="border-left:4px solid #1a73e8"],
 .post-body div[style*="border-left: 4px solid #1a73e8"]{{
   border-left-color:var(--amber)!important;
@@ -329,8 +366,6 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.8);back
 .post-body div[style*="border-left:4px solid #ffc107"]{{
   border-left-color:var(--amber)!important;
 }}
-
-/* Override FAQ section: #f8f9fa bg with blue h3 */
 .post-body div[style*="background:#f8f9fa"] h3,
 .post-body div[style*="background: #f8f9fa"] h3{{
   color:var(--amber)!important;
@@ -348,15 +383,11 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.8);back
 .post-body div[style*="background: #f8f9fa"] strong{{
   color:var(--text)!important;
 }}
-
-/* Override any heading with inline color:#1a73e8 */
 .post-body h2[style*="color:#1a73e8"],
 .post-body h3[style*="color:#1a73e8"],
 .post-body h4[style*="color:#1a73e8"]{{
   color:var(--amber)!important;
 }}
-
-/* Override inline color on paragraphs/spans */
 .post-body p[style*="color:#1a73e8"],
 .post-body span[style*="color:#1a73e8"],
 .post-body p[style*="color:#333"],
@@ -365,50 +396,22 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.8);back
 .post-body span[style*="color:#000"]{{
   color:var(--text2)!important;
 }}
-
-/* Override CTA button backgrounds that are inline blue */
 .post-body a[style*="background:#1a73e8"],
 .post-body a[style*="background: #1a73e8"]{{
   background:var(--amber)!important;
   color:#000!important;
 }}
-
-/* General catch: any div in post-body with padding and border-radius looks like a box */
 .post-body div[style*="border-radius"]{{
   color:var(--text2);
 }}
 
-/* ── END LIGHT-MODE OVERRIDES ─────────────────────────────────────────────── */
-
 /* TOC */
-.toc{{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin:0 0 32px}}
-.toc-label{{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:12px}}
+.toc{{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:0 0 32px}}
+.toc-label{{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:12px}}
 .toc ol{{margin:0;padding-left:18px}}
 .toc li{{font-size:.9rem;line-height:1.9}}
 .toc a{{color:var(--text2);text-decoration:none}}
 .toc a:hover{{color:var(--amber);text-decoration:none}}
-
-/* CTA boxes */
-.cta-intro{{background:var(--bg2);border:1px solid var(--amber-border);border-left:4px solid var(--amber);border-radius:8px;padding:22px 26px;margin:0 0 32px}}
-.cta-intro .cta-headline{{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--amber);margin-bottom:8px}}
-.cta-intro p{{font-size:.9rem;color:var(--text2);margin:0 0 16px;line-height:1.6}}
-.cta-inline{{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:28px 0;font-size:.875rem;color:var(--text2);display:block}}
-.cta-inline a{{color:var(--amber);font-weight:600;text-decoration:none}}
-.cta-inline a:hover{{color:var(--amber-light)}}
-.cta-end{{background:linear-gradient(135deg,var(--surface) 0%,var(--bg2) 100%);border:1px solid var(--amber-border);border-radius:12px;padding:36px 40px;text-align:center;margin:48px 0}}
-.cta-end h3{{font-family:var(--serif);font-size:1.35rem;font-weight:400;color:var(--text);margin-bottom:12px}}
-.cta-end p{{font-size:.9rem;color:var(--text2);margin:0 0 24px;max-width:440px;margin-left:auto;margin-right:auto}}
-.cta-end .fine{{font-size:.75rem;color:var(--text3);margin-top:12px}}
-.btn-amber{{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:#000;font-size:.9rem;font-weight:700;padding:13px 26px;border-radius:7px;transition:all .2s;text-decoration:none;box-shadow:0 4px 24px rgba(245,158,11,.25)}}
-.btn-amber:hover{{background:var(--amber-light);box-shadow:0 4px 32px rgba(245,158,11,.4);transform:translateY(-1px);text-decoration:none}}
-
-/* Pro tip callout */
-.callout{{border-left:3px solid var(--amber);border-radius:0 6px 6px 0;padding:14px 18px;margin:28px 0}}
-.callout-tip{{background:var(--amber-dim)}}
-.callout-note{{background:rgba(59,130,246,.08);border-left-color:#3b82f6}}
-.callout-label{{font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:6px}}
-.callout-note .callout-label{{color:#3b82f6}}
-.callout p{{font-size:.9rem;color:#d1d5db;margin:0;line-height:1.65}}
 
 /* Podcast embed */
 .podcast-embed{{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:20px;margin:36px 0}}
@@ -424,19 +427,12 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.8);back
 
 /* Related posts */
 .related-posts{{margin:48px 0 0}}
-.related-label{{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:18px}}
+.related-label{{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:18px}}
 .related-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}}
 .related-card{{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;text-decoration:none;display:block;transition:border-color .2s}}
 .related-card:hover{{border-color:var(--amber);text-decoration:none}}
-.related-card .r-tag{{font-size:.65rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}}
+.related-card .r-tag{{font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}}
 .related-card .r-title{{font-size:.85rem;font-weight:600;color:#e5e7eb;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
-
-/* Sidebar */
-.post-sidebar{{}}
-.sidebar-cta{{position:sticky;top:90px;background:var(--surface);border:1px solid var(--amber-border);border-radius:10px;padding:22px 18px;text-align:center}}
-.sidebar-cta .s-headline{{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:8px}}
-.sidebar-cta .s-sub{{font-size:.8rem;color:var(--text2);margin-bottom:16px;line-height:1.5}}
-.sidebar-cta .s-fine{{font-size:.7rem;color:var(--text3);margin-top:10px}}
 
 /* Pagination */
 .pagination{{display:flex;gap:8px;justify-content:center;margin-top:48px;flex-wrap:wrap}}
@@ -445,23 +441,15 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.8);back
 .page-btn:hover{{border-color:var(--amber);color:var(--text);text-decoration:none}}
 
 /* Category header */
-.cat-header{{background:var(--bg2);border-bottom:1px solid var(--border);padding:110px 24px 48px}}
-.cat-header h1{{font-family:var(--serif);font-size:1.8rem;font-weight:400;margin-bottom:8px;color:var(--text)}}
+.cat-header{{background:var(--bg2);border-bottom:1px solid var(--border);padding:100px 24px 40px}}
+.cat-header h1{{font-family:var(--sans);font-size:1.8rem;font-weight:800;margin-bottom:8px;color:var(--text)}}
 .cat-header p{{color:var(--text2);font-size:.9rem}}
 
-/* Hero (fallback, only used when homepage_hero.html is missing) */
-.hero{{background:var(--bg2);border-bottom:1px solid var(--border);padding:72px 24px;text-align:center}}
-.hero-eyebrow{{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--amber);margin-bottom:16px}}
-.hero h1{{font-family:var(--serif);font-size:2.8rem;font-weight:400;margin-bottom:16px;line-height:1.15;color:var(--text);letter-spacing:-.5px}}
-.hero p{{font-size:1.1rem;color:var(--text2);max-width:580px;margin:0 auto 32px;line-height:1.6}}
-.hero-btn{{background:var(--amber);color:#07080a;padding:14px 32px;border-radius:6px;font-weight:700;font-size:1rem;display:inline-block}}
-.hero-btn:hover{{background:var(--amber-light);text-decoration:none}}
-
-/* Footer — matching homepage */
+/* Footer */
 footer{{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80px}}
 .footer-inner{{max-width:var(--max);margin:0 auto}}
 .footer-top{{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}}
-.footer-logo{{font-family:var(--serif);font-size:1.2rem;margin-bottom:12px;color:var(--text)}}
+.footer-logo{{font-family:var(--sans);font-size:1.1rem;font-weight:800;margin-bottom:12px;color:var(--text)}}
 .footer-logo span{{color:var(--amber)}}
 .footer-desc{{font-size:.82rem;color:var(--text3);line-height:1.7;margin-bottom:14px}}
 .footer-disclaimer{{font-size:.74rem;color:var(--text3);line-height:1.6;opacity:.7}}
@@ -470,22 +458,24 @@ footer{{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80p
 .footer-col a:hover{{color:var(--text);text-decoration:none}}
 .footer-bottom{{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.76rem;color:var(--text3)}}
 
+/* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
 @media(max-width:1024px){{
-  .cards{{grid-template-columns:repeat(2,1fr)}}
-  .post-container{{grid-template-columns:1fr;padding-top:90px}}
-  .post-sidebar{{display:none}}
+  .hp-featured{{grid-template-columns:1fr}}
+  .hp-body{{grid-template-columns:1fr}}
+  .hp-sidebar{{position:static;display:grid;grid-template-columns:1fr 1fr;gap:24px}}
   .related-grid{{grid-template-columns:repeat(2,1fr)}}
 }}
 @media(max-width:640px){{
-  .hero h1{{font-size:1.9rem}}
-  .cards{{grid-template-columns:1fr}}
-  .footer-top{{grid-template-columns:1fr;gap:32px}}
+  .hp-sidebar{{grid-template-columns:1fr}}
   .nav-links .nav-link{{display:none}}
-  .post-title{{font-size:1.6rem}}
+  .post-title{{font-size:1.8rem}}
+  .hp-lead-title{{font-size:1.8rem}}
   .cta-end{{padding:24px 20px}}
   .related-grid{{grid-template-columns:1fr}}
   .cat-header{{padding:90px 20px 36px}}
+  .footer-top{{grid-template-columns:1fr;gap:32px}}
   .footer-bottom{{flex-direction:column}}
+  .share-row{{flex-wrap:wrap}}
 }}
 """
 
@@ -519,7 +509,8 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
     <div class="nav-links">
       <a href="/" class="nav-link">Home</a>
       <a href="/category/gohighlevel-tutorials/" class="nav-link">Tutorials</a>
-      <a href="{AFFILIATE}" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial →</a>
+      <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="nav-link" target="_blank" rel="noopener">Podcast</a>
+      <a href="{AFFILIATE}" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
     </div>
   </div>
 </nav>
@@ -536,6 +527,7 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
         <h4>Site</h4>
         <a href="/">Home</a>
         <a href="/category/gohighlevel-tutorials/">Tutorials</a>
+        <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
         <a href="{AFFILIATE}" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
       </div>
       <div class="footer-col">
@@ -607,23 +599,23 @@ def build_post_page(post: dict, all_posts: list = None):
     # ── Sanitize content: strip in-content TOC and CTA boxes ──────────────────
     html_content = sanitize_content(html_content)
 
-    # ── Podcast section — always show Spotify link; embed player if episode exists ──
+    # ── Podcast section ───────────────────────────────────────────────────────
     if episode_id:
         podcast_html = f"""
 <div class="podcast-embed">
-  <p>🎙 Listen to this episode</p>
+  <p>Listen to this episode</p>
   <iframe width="100%" height="180" frameborder="no" scrolling="no" seamless
     src="https://share.transistor.fm/e/{episode_id}" loading="lazy"></iframe>
   <a class="podcast-link" href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">
-    Follow the podcast on Spotify →
+    Follow the podcast on Spotify
   </a>
 </div>"""
     else:
         podcast_html = f"""
 <div class="podcast-embed">
-  <p>🎙 This tutorial also has a podcast episode</p>
+  <p>This tutorial also has a podcast episode</p>
   <a class="podcast-link" href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">
-    Listen on Spotify — "Go High Level" podcast →
+    Listen on Spotify — "Go High Level" podcast
   </a>
 </div>"""
 
@@ -639,30 +631,34 @@ def build_post_page(post: dict, all_posts: list = None):
     else:
         toc_html = ""
 
-    # ── Inline CTAs (#2 and #3) ────────────────────────────────────────────────
-    cta2 = f"""
-<p class="cta-inline">This is exactly the kind of workflow GoHighLevel handles natively.
-<a href="{AFFILIATE}&utm_campaign={slug}" target="_blank" rel="nofollow noopener">Try it free for 30 days →</a></p>"""
-    cta3 = f"""
-<p class="cta-inline">Every feature covered in this guide is included in the free trial — no credit card required.
-<a href="{AFFILIATE}&utm_campaign={slug}" target="_blank" rel="nofollow noopener">Start your trial here →</a></p>"""
-    body_with_ctas = inject_inline_ctas(html_content, cta2, cta3)
-
-    # ── CTA #1 — Post intro box ────────────────────────────────────────────────
+    # ── CTA #1 — Below byline (compact one-liner) ─────────────────────────────
     cta1 = f"""
-<div class="cta-intro">
-  <div class="cta-headline">Want to follow along?</div>
-  <p>GoHighLevel gives you 30 days free — full access, no credit card. Set up everything in this guide inside your trial.</p>
-  <a href="{AFFILIATE}&utm_campaign={slug}" class="btn-amber" target="_blank" rel="nofollow noopener">Start Your Free 30-Day Trial →</a>
+<p class="cta-byline">Follow along &mdash; <a href="{AFFILIATE}&utm_campaign={slug}" target="_blank" rel="nofollow noopener">get 30 days free &rarr;</a></p>"""
+
+    # ── CTA #2 — Mid-article inline ───────────────────────────────────────────
+    cta_mid = f"""
+<p class="cta-inline">This is built into GoHighLevel.
+<a href="{AFFILIATE}&utm_campaign={slug}" target="_blank" rel="nofollow noopener">Try it free for 30 days &rarr;</a></p>"""
+    body_with_ctas = inject_inline_ctas(html_content, cta_mid)
+
+    # ── CTA #3 — End of article box ───────────────────────────────────────────
+    cta3 = f"""
+<div class="cta-end">
+  <h3>Ready to try this?</h3>
+  <p>30 days free, no credit card required. Set up everything in this guide inside your trial.</p>
+  <a href="{AFFILIATE}&utm_campaign={slug}" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free 30-Day Trial</a>
+  <div class="fine">Cancel anytime &mdash; $0 for the first 30 days</div>
 </div>"""
 
-    # ── CTA #4 — End of article ────────────────────────────────────────────────
-    cta4 = f"""
-<div class="cta-end">
-  <h3>Ready to put this into practice?</h3>
-  <p>Start your free 30-day GoHighLevel trial — full access to every feature covered in this guide.</p>
-  <a href="{AFFILIATE}&utm_campaign={slug}" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free Trial — 30 Days</a>
-  <div class="fine">30 days free · No credit card required</div>
+    # ── Share buttons ─────────────────────────────────────────────────────────
+    encoded_url = canonical.replace(":", "%3A").replace("/", "%2F")
+    encoded_title = title.replace(" ", "%20").replace("&", "%26")
+    share_html = f"""
+<div class="share-row">
+  <span>Share</span>
+  <a href="https://twitter.com/intent/tweet?url={encoded_url}&text={encoded_title}" target="_blank" rel="noopener" class="share-btn">X</a>
+  <a href="https://www.linkedin.com/sharing/share-offsite/?url={encoded_url}" target="_blank" rel="noopener" class="share-btn">LinkedIn</a>
+  <button class="share-btn" onclick="navigator.clipboard.writeText('{canonical}');this.textContent='Copied!'">Copy Link</button>
 </div>"""
 
     # ── Author box ─────────────────────────────────────────────────────────────
@@ -694,17 +690,6 @@ def build_post_page(post: dict, all_posts: list = None):
   <div class="related-label">Keep Reading</div>
   <div class="related-grid">{cards}</div>
 </div>"""
-
-    # ── Sidebar ────────────────────────────────────────────────────────────────
-    sidebar_html = f"""
-<aside class="post-sidebar">
-  <div class="sidebar-cta">
-    <div class="s-headline">Try GoHighLevel Free</div>
-    <div class="s-sub">30 days full access — set up everything in this guide at no cost.</div>
-    <a href="{AFFILIATE}&utm_campaign={slug}" class="btn-amber" style="display:block;text-align:center" target="_blank" rel="nofollow noopener">Start Free Trial →</a>
-    <div class="s-fine">No credit card required</div>
-  </div>
-</aside>"""
 
     # ── Schema ─────────────────────────────────────────────────────────────────
     article_schema = json.dumps({
@@ -738,26 +723,24 @@ def build_post_page(post: dict, all_posts: list = None):
     body = f"""
 <div id="reading-progress"></div>
 <div class="post-container">
-  <main class="post-main">
-    <div class="post-breadcrumb fade-1">
-      <a href="/">Home</a><span class="bc-sep">›</span><a href="/category/{cat_slug}/">{category}</a><span class="bc-sep">›</span><span>{truncate(title, 50)}</span>
-    </div>
-    <div class="post-eyebrow fade-1"><a href="/category/{cat_slug}/" style="color:var(--amber);text-decoration:none">{category}</a></div>
-    <h1 class="post-title fade-2">{title}</h1>
-    <div class="post-byline fade-3">
-      <span>By William Welch</span>
-      {"<span class='sep'>·</span><span>" + date_str + "</span>" if date_str else ""}
-      <span class="sep">·</span><span>{rtime}</span>
-    </div>
-    {cta1}
-    {toc_html}
-    {podcast_html}
-    <div class="post-body">{body_with_ctas}</div>
-    {cta4}
-    {author_html}
-    {related_html}
-  </main>
-  {sidebar_html}
+  <div class="post-breadcrumb fade-1">
+    <a href="/">Home</a><span class="bc-sep">&rsaquo;</span><a href="/category/{cat_slug}/">{category}</a><span class="bc-sep">&rsaquo;</span><span>{truncate(title, 50)}</span>
+  </div>
+  <div class="post-eyebrow fade-1"><a href="/category/{cat_slug}/" style="color:var(--amber);text-decoration:none">{category}</a></div>
+  <h1 class="post-title fade-2">{title}</h1>
+  <div class="post-byline fade-3">
+    <span>By William Welch</span>
+    {"<span class='sep'>&middot;</span><span>" + date_str + "</span>" if date_str else ""}
+    <span class="sep">&middot;</span><span>{rtime}</span>
+  </div>
+  {share_html}
+  {cta1}
+  {toc_html}
+  {podcast_html}
+  <div class="post-body">{body_with_ctas}</div>
+  {cta3}
+  {author_html}
+  {related_html}
 </div>
 <script type="application/ld+json">{article_schema}</script>
 {progress_js}"""
@@ -776,8 +759,8 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
     start = (page - 1) * per_page
     page_posts = posts[start:start + per_page]
 
-    cards_html = ""
-    for p in page_posts:
+    # ── Build card HTML for all page posts ────────────────────────────────────
+    def make_card(p):
         slug     = p.get("slug", "")
         title    = p.get("title", p.get("seoTitle", "Untitled"))
         desc     = truncate(p.get("description", p.get("seoDescription", p.get("meta_description", ""))), 130)
@@ -786,16 +769,15 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
         ep_id    = p.get("transistorEpisodeId", "")
         rtime    = read_time(p.get("html_content", desc))
         cat_html = f'<span class="card-cat">{cat}</span>' if cat else ""
-        podcast  = '<span class="podcast-badge">🎙 Podcast</span>' if ep_id else ""
-
-        cards_html += f"""
+        podcast  = '<span class="podcast-badge">Podcast</span>' if ep_id else ""
+        return f"""
 <article class="card">
   {cat_html}
   <h2 class="card-title"><a href="/blog/{slug}/">{title}</a></h2>
   <p class="card-excerpt">{desc}</p>
   <div class="card-meta">
-    <span class="card-date">{date_str}</span>
-    {"<span class='meta-sep'>·</span><span>" + rtime + "</span>" if date_str else ""}
+    <span>{date_str}</span>
+    {"<span class='meta-sep'>&middot;</span><span>" + rtime + "</span>" if date_str else ""}
     {podcast}
   </div>
 </article>"""
@@ -811,68 +793,104 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
 
     canonical = SITE_URL + ("/" if page == 1 else f"/page/{page}/")
 
-    if page == 1 and HOMEPAGE_HERO.exists():
-        # homepage_hero.html is <style>...</style> + raw body HTML (no doctype/html/head/body tags).
-        # Split style from body content and wrap in a proper HTML document.
-        hero_raw = HOMEPAGE_HERO.read_text(encoding="utf-8")
+    # ── PAGE 1: Editorial homepage ────────────────────────────────────────────
+    if page == 1 and len(page_posts) > 0:
+        lead = page_posts[0]
+        stack_posts = page_posts[1:4]
+        rest_posts = page_posts[4:]
+        # Trending = top 5 posts for sidebar
+        trending = posts[:5]
 
-        # Extract the <style> block (everything inside the first <style>...</style>)
-        style_match = re.search(r'<style>(.*?)</style>', hero_raw, re.DOTALL)
-        hero_style = style_match.group(0) if style_match else ""
-        # Body content = everything after the closing </style>
-        hero_body = hero_raw[style_match.end():].strip() if style_match else hero_raw
+        # Featured section: lead + stack
+        lead_slug = lead.get("slug", "")
+        lead_title = lead.get("title", lead.get("seoTitle", ""))
+        lead_desc = truncate(lead.get("description", lead.get("seoDescription", lead.get("meta_description", ""))), 200)
+        lead_cat = display_cat(lead.get("category", ""))
+        lead_date = fmt_date(lead.get("publishedAt", lead.get("uploadedAt", "")))
+        lead_rtime = read_time(lead.get("html_content", lead_desc))
+        lead_cat_html = f'<div class="hp-lead-cat">{lead_cat}</div>' if lead_cat else ""
 
-        # Inject real post cards into tutorials-grid if posts exist
-        if cards_html and 'id="tutorials-grid"' in hero_body:
-            grid_block = f'<div id="tutorials-grid" class="tutorials-grid">\n{cards_html}\n</div>'
-            hero_body = re.sub(
-                r'<div id="tutorials-grid"[^>]*>.*?</div>',
-                grid_block,
-                hero_body,
-                flags=re.DOTALL
-            )
+        stack_html = ""
+        for sp in stack_posts:
+            sp_slug = sp.get("slug", "")
+            sp_title = sp.get("title", sp.get("seoTitle", ""))
+            sp_cat = display_cat(sp.get("category", ""))
+            sp_date = fmt_date(sp.get("publishedAt", sp.get("uploadedAt", "")))
+            sp_cat_html = f'<div class="hp-stack-cat">{sp_cat}</div>' if sp_cat else ""
+            stack_html += f"""
+<div class="hp-stack-item">
+  {sp_cat_html}
+  <div class="hp-stack-title"><a href="/blog/{sp_slug}/">{sp_title}</a></div>
+  <div class="hp-stack-meta">{sp_date}</div>
+</div>"""
 
-        full_html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{SITE_NAME} — {SITE_TAGLINE}</title>
-<meta name="description" content="Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies worldwide. Learn GHL step by step.">
-<link rel="canonical" href="{SITE_URL}/">
-<meta property="og:title" content="{SITE_NAME} — {SITE_TAGLINE}">
-<meta property="og:description" content="Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies worldwide.">
-<meta property="og:url" content="{SITE_URL}/">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-{hero_style}
-</head>
-<body>
-{hero_body}
-</body>
-</html>"""
-        write(PUBLIC_DIR / "index.html", full_html)
-        return
+        # Article list (rest of posts)
+        articles_html = ""
+        for p in rest_posts:
+            articles_html += make_card(p)
 
-    if page == 1:
-        hero = f"""
-<div class="hero">
-  <div class="hero-eyebrow">Free GoHighLevel Tutorials</div>
-  <h1>Everything You Need to Master GoHighLevel</h1>
-  <p>Step-by-step guides for agencies and businesses. Updated daily.</p>
-  <a href="{AFFILIATE}" class="hero-btn" target="_blank" rel="nofollow noopener">Start Your Free 30-Day Trial →</a>
+        # Trending sidebar
+        trending_html = ""
+        for i, tp in enumerate(trending, 1):
+            tp_slug = tp.get("slug", "")
+            tp_title = tp.get("title", tp.get("seoTitle", ""))
+            trending_html += f"""
+<div class="trending-item">
+  <span class="trending-num">{i:02d}</span>
+  <div class="trending-title"><a href="/blog/{tp_slug}/">{tp_title}</a></div>
+</div>"""
+
+        body = f"""
+<div class="container" style="padding-top:56px">
+  <div class="hp-featured fade-1">
+    <div class="hp-lead">
+      {lead_cat_html}
+      <h1 class="hp-lead-title"><a href="/blog/{lead_slug}/">{lead_title}</a></h1>
+      <p class="hp-lead-desc">{lead_desc}</p>
+      <div class="hp-lead-meta">{lead_date} &middot; {lead_rtime}</div>
+    </div>
+    <div class="hp-stack">{stack_html}</div>
+  </div>
+  <div class="hp-body">
+    <div class="hp-articles">
+      <div class="section-label">Latest</div>
+      {articles_html}
+      {pages_html}
+    </div>
+    <aside class="hp-sidebar">
+      <div class="sidebar-section">
+        <div class="section-label">Trending</div>
+        <div class="sidebar-trending">{trending_html}</div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-podcast">
+          <div class="section-label" style="border-bottom-color:#1DB954">Podcast</div>
+          <p>"Go High Level" on Spotify — 380 followers, new episodes daily.</p>
+          <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="btn-spotify" target="_blank" rel="noopener">Listen on Spotify</a>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-cta">
+          <div class="s-headline">Try GoHighLevel Free</div>
+          <div class="s-sub">30 days full access — double the standard 14-day trial.</div>
+          <a href="{AFFILIATE}&utm_campaign=sidebar" class="btn-amber" style="display:block;text-align:center;font-size:.8rem" target="_blank" rel="nofollow noopener">Start Free Trial</a>
+          <div class="s-fine">No credit card required</div>
+        </div>
+      </div>
+    </aside>
+  </div>
 </div>"""
     else:
-        hero = ""
+        # Non-first pages or empty: simple list
+        cards_html = ""
+        for p in page_posts:
+            cards_html += make_card(p)
 
-    body = f"""{hero}
-<div class="container" style="padding-top:{'80px' if page > 1 else '0'}">
-  <div class="section">
-    <div class="section-label">Tutorials</div>
-    <div class="section-title">{"Latest Guides & Tutorials" if page == 1 else f"Page {page}"}</div>
-    <div class="cards">{cards_html}</div>
-    {pages_html}
-  </div>
+        body = f"""
+<div class="container" style="padding-top:100px">
+  <div class="section-label">{"Tutorials" if page == 1 else f"Page {page}"}</div>
+  <div class="cards-grid">{cards_html}</div>
+  {pages_html}
 </div>"""
 
     html = base_html(
@@ -905,15 +923,15 @@ def build_category_pages(posts: list[dict]):
             rtime    = read_time(p.get("html_content", desc))
             cat_label = display_cat(cat)
             cat_html  = f'<span class="card-cat">{cat_label}</span>' if cat_label else ""
-            podcast   = '<span class="podcast-badge">🎙 Podcast</span>' if ep_id else ""
+            podcast   = '<span class="podcast-badge">Podcast</span>' if ep_id else ""
             cards_html += f"""
 <article class="card">
   {cat_html}
   <h2 class="card-title"><a href="/blog/{slug}/">{title}</a></h2>
   <p class="card-excerpt">{desc}</p>
   <div class="card-meta">
-    <span class="card-date">{date_str}</span>
-    {"<span class='meta-sep'>·</span><span>" + rtime + "</span>" if date_str else ""}
+    <span>{date_str}</span>
+    {"<span class='meta-sep'>&middot;</span><span>" + rtime + "</span>" if date_str else ""}
     {podcast}
   </div>
 </article>"""
@@ -921,15 +939,13 @@ def build_category_pages(posts: list[dict]):
         body = f"""
 <div class="cat-header">
   <div class="container">
-    <div class="section-label fade-1">Category</div>
+    <div class="section-label fade-1" style="border-bottom:none;padding-bottom:0;margin-bottom:8px">Category</div>
     <h1 class="fade-2">{cat}</h1>
     <p class="fade-3">{len(cat_posts)} guides and tutorials</p>
   </div>
 </div>
 <div class="container">
-  <div class="section">
-    <div class="cards">{cards_html}</div>
-  </div>
+  <div class="cards-grid" style="padding:32px 0 80px">{cards_html}</div>
 </div>"""
 
         canonical = f"{SITE_URL}/category/{cat_slug}/"
@@ -1002,8 +1018,8 @@ All tutorials are free. Topics include GoHighLevel automations, AI conversation 
 def build_404():
     body = f"""
 <div style="text-align:center;padding:160px 24px 100px">
-  <h1 style="font-family:var(--serif);font-size:5rem;font-weight:400;color:var(--amber);margin-bottom:8px">404</h1>
-  <h2 style="font-family:var(--serif);font-size:1.5rem;font-weight:400;margin-bottom:16px;color:var(--text)">Page Not Found</h2>
+  <h1 style="font-family:var(--sans);font-size:5rem;font-weight:800;color:var(--amber);margin-bottom:8px">404</h1>
+  <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:700;margin-bottom:16px;color:var(--text)">Page Not Found</h2>
   <p style="color:var(--text3);margin-bottom:32px">The page you're looking for doesn't exist.</p>
   <a href="/" class="btn-amber">Go Home</a>
 </div>"""

@@ -17,17 +17,17 @@
 
 ### DO use distinctive choices:
 - Pick ONE unexpected accent color (amber, coral, lime, copper — not blue, not purple)
-- Use a display/serif font for headlines (load via Google Fonts: Instrument Serif, Fraunces, Playfair Display)
-- System font (-apple-system stack) for body copy — fast and readable
+- Use DM Sans 800 for headlines (loaded via Google Fonts)
+- DM Sans for body copy — clean and readable
 - Asymmetric layouts, pull-quotes, editorial treatments
 - CSS animations: entrance fades, scroll reveals (CSS only, no JS deps)
 - Generous whitespace — let the content breathe
 
 ### Typography hierarchy:
-- Hero headline: 4rem+ desktop, 2.2rem mobile, font-weight 800, tight letter-spacing
-- Section headlines: 2.2rem, serif display font
-- Body: 1rem, system font, line-height 1.7, muted color
-- Labels/eyebrows: 0.7rem, uppercase, letter-spacing 1.2px
+- Headlines: DM Sans 800, clamp(2rem, 4vw, 3.5rem), line-height 1.15, letter-spacing -.5px
+- Section headlines: DM Sans 800, 1.5rem
+- Body: 19px, DM Sans 400, line-height 1.75
+- Labels/eyebrows: 13px, uppercase, letter-spacing .5px
 
 ### Color palette:
 - Background: Near-black (#07080a)
