@@ -908,7 +908,8 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
 def build_category_pages(posts: list[dict]):
     by_cat: dict[str, list] = {}
     for p in posts:
-        cat = p.get("category", "GoHighLevel Tutorials")
+        raw_cat = p.get("category", "")
+        cat = raw_cat if display_cat(raw_cat) else "GoHighLevel Tutorials"
         by_cat.setdefault(cat, []).append(p)
 
     for cat, cat_posts in by_cat.items():
