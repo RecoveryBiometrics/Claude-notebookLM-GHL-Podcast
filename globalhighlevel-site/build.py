@@ -105,210 +105,387 @@ def write(path: Path, html: str):
     path.write_text(html, encoding="utf-8")
     print(f"  ✓ {path.relative_to(PUBLIC_DIR)}")
 
-# ── CSS (shared across all pages) ────────────────────────────────────────────
+def sanitize_content(html: str) -> str:
+    """Strip problematic inline elements from blog HTML before rendering.
+
+    Removes:
+    - In-content TOC blocks (divs with lists of #section-N anchor links)
+    - In-content CTA boxes (blue-themed centered divs with affiliate links)
+    """
+    # Remove in-content TOC blocks: divs with light background containing
+    # a heading/label + a list of #section-N anchor links
+    html = re.sub(
+        r'<div[^>]*style="[^"]*background:#f0f4ff[^"]*"[^>]*>.*?</div>',
+        '',
+        html,
+        flags=re.DOTALL
+    )
+
+    # Remove in-content CTA boxes: solid blue background divs
+    html = re.sub(
+        r'<div[^>]*style="[^"]*background:#1a73e8[^"]*"[^>]*>.*?</div>',
+        '',
+        html,
+        flags=re.DOTALL
+    )
+
+    # Remove bottom CTA boxes: light border/background with centered trial links
+    html = re.sub(
+        r'<div[^>]*style="[^"]*background:#f0f4ff[^"]*text-align:center[^"]*"[^>]*>.*?</div>',
+        '',
+        html,
+        flags=re.DOTALL
+    )
+    html = re.sub(
+        r'<div[^>]*style="[^"]*text-align:center[^"]*background:#f0f4ff[^"]*"[^>]*>.*?</div>',
+        '',
+        html,
+        flags=re.DOTALL
+    )
+
+    return html
+
+# ── CSS (shared across all post/category/404 pages) ─────────────────────────
 
 CSS = f"""
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+
+:root{{
+  --bg:#07080a;
+  --bg2:#0c0e14;
+  --surface:#111520;
+  --amber:#f59e0b;
+  --amber-light:#fbbf24;
+  --amber-dim:rgba(245,158,11,0.12);
+  --amber-border:rgba(245,158,11,0.22);
+  --text:#eef2ff;
+  --text2:#a0aec8;
+  --text3:#6b7ea8;
+  --border:rgba(255,255,255,0.06);
+  --max:1060px;
+  --serif:'Instrument Serif',Georgia,serif;
+}}
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0}}
-body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;font-size:16px;line-height:1.7;color:#eef2ff;background:#07080a}}
-a{{color:{ACCENT};text-decoration:none}}
+html{{scroll-behavior:smooth}}
+body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:16px;line-height:1.7;color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}}
+a{{color:var(--amber);text-decoration:none}}
 a:hover{{text-decoration:underline}}
 img{{max-width:100%;height:auto}}
 
-/* Header */
-.site-header{{background:#0a0c12;border-bottom:1px solid #1e2433;padding:0 24px}}
-.header-inner{{max-width:1140px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}}
-.site-logo{{font-size:1.4rem;font-weight:800;color:#eef2ff;letter-spacing:-.5px}}
-.site-logo span{{color:{ACCENT};font-weight:400}}
-.site-nav a{{color:#7c8aab;margin-left:24px;font-size:.9rem;font-weight:500}}
-.site-nav a:hover{{color:#eef2ff;text-decoration:none}}
-.nav-cta{{background:{ACCENT};color:#07080a!important;padding:8px 18px;border-radius:6px;font-weight:700!important}}
-.nav-cta:hover{{background:{ACCENT_DARK}!important;text-decoration:none!important}}
+/* ANIMATIONS */
+@keyframes fadeUp{{from{{opacity:0;transform:translateY(20px)}}to{{opacity:1;transform:translateY(0)}}}}
+.fade-1{{animation:fadeUp .6s ease both}}
+.fade-2{{animation:fadeUp .6s .15s ease both}}
+.fade-3{{animation:fadeUp .6s .3s ease both}}
+.fade-4{{animation:fadeUp .6s .45s ease both}}
 
-/* Hero */
-.hero{{background:#0a0c12;border-bottom:1px solid #1e2433;padding:72px 24px;text-align:center}}
-.hero-eyebrow{{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:{ACCENT};margin-bottom:16px}}
-.hero h1{{font-size:2.8rem;font-weight:800;margin-bottom:16px;line-height:1.15;color:#eef2ff;letter-spacing:-.5px}}
-.hero p{{font-size:1.1rem;color:#7c8aab;max-width:580px;margin:0 auto 32px;line-height:1.6}}
-.hero-btn{{background:{ACCENT};color:#07080a;padding:14px 32px;border-radius:6px;font-weight:700;font-size:1rem;display:inline-block}}
-.hero-btn:hover{{background:{ACCENT_DARK};text-decoration:none}}
+/* NAV — fixed, backdrop blur, matching homepage */
+nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}}
+.nav-inner{{max-width:var(--max);margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;justify-content:space-between}}
+.logo{{font-family:var(--serif);font-size:1.25rem;letter-spacing:-.3px;display:flex;align-items:center;gap:6px;color:var(--text)}}
+.logo-amber{{color:var(--amber)}}
+.nav-links{{display:flex;align-items:center;gap:28px}}
+.nav-link{{font-size:.82rem;color:var(--text2);letter-spacing:.1px;transition:color .15s}}
+.nav-link:hover{{color:var(--text);text-decoration:none}}
+.nav-cta{{font-size:.82rem;font-weight:600;color:#000;background:var(--amber);padding:8px 18px;border-radius:6px;transition:background .15s}}
+.nav-cta:hover{{background:var(--amber-light);text-decoration:none}}
 
 /* Container */
-.container{{max-width:1140px;margin:0 auto;padding:0 24px}}
+.container{{max-width:var(--max);margin:0 auto;padding:0 24px}}
 
 /* Section */
 .section{{padding:56px 0}}
-.section-label{{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:{ACCENT};margin-bottom:12px}}
-.section-title{{font-size:1.6rem;font-weight:700;margin-bottom:36px;color:#eef2ff}}
+.section-label{{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--amber);margin-bottom:12px}}
+.section-title{{font-family:var(--serif);font-size:1.6rem;font-weight:400;margin-bottom:36px;color:var(--text)}}
 
 /* Cards grid — 3 col desktop, 2 tablet, 1 mobile */
 .cards{{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}}
 
 /* Card — text-only, left amber border */
-.card{{background:#111520;border:1px solid #1e2433;border-left:3px solid {ACCENT};border-radius:8px;padding:22px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;display:flex;flex-direction:column}}
-.card:hover{{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.45);border-color:{ACCENT}}}
-.card:hover .card-title a{{color:{ACCENT}}}
+.card{{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:22px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;display:flex;flex-direction:column}}
+.card:hover{{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.45);border-color:var(--amber)}}
+.card:hover .card-title a{{color:var(--amber)}}
 
-/* Category pill — amber, above title */
-.card-cat{{display:inline-block;background:{ACCENT};color:#07080a;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 9px;border-radius:4px;margin-bottom:10px;align-self:flex-start}}
+/* Category pill */
+.card-cat{{display:inline-block;background:var(--amber);color:#07080a;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 9px;border-radius:4px;margin-bottom:10px;align-self:flex-start}}
 
 /* Title — 2-line clamp */
 .card-title{{font-size:1rem;font-weight:700;line-height:1.35;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
-.card-title a{{color:#eef2ff;transition:color .2s}}
+.card-title a{{color:var(--text);transition:color .2s}}
 
 /* Excerpt — 2-line clamp */
-.card-excerpt{{font-size:.875rem;color:#7c8aab;line-height:1.55;margin-bottom:auto;padding-bottom:16px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
+.card-excerpt{{font-size:.875rem;color:var(--text2);line-height:1.55;margin-bottom:auto;padding-bottom:16px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
 
 /* Meta row */
-.card-meta{{font-size:.72rem;color:#3d4a63;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding-top:14px;border-top:1px solid #1e2433;margin-top:auto}}
-.meta-sep{{color:#2a3347}}
+.card-meta{{font-size:.72rem;color:var(--text3);display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--border);margin-top:auto}}
+.meta-sep{{color:var(--text3)}}
 
 /* Podcast badge */
-.podcast-badge{{display:inline-flex;align-items:center;gap:4px;background:rgba(245,158,11,.12);color:{ACCENT};font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:20px;margin-left:auto}}
-
-/* Post page */
-.post-wrap{{max-width:780px;margin:0 auto;padding:48px 24px}}
-.post-breadcrumb{{font-size:.8rem;color:#3d4a63;margin-bottom:24px}}
-.post-breadcrumb a{{color:#7c8aab}}
-.post-breadcrumb a:hover{{color:#eef2ff;text-decoration:none}}
-.post-header{{margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid #1e2433}}
-.post-cat{{display:inline-block;background:{ACCENT};color:#07080a;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:3px 9px;border-radius:4px;margin-bottom:14px}}
-.post-title{{font-size:2rem;font-weight:800;line-height:1.25;margin-bottom:16px;color:#eef2ff;letter-spacing:-.3px}}
-.post-meta{{font-size:.85rem;color:#3d4a63;display:flex;gap:12px;flex-wrap:wrap}}
-.post-content{{color:#c8d0e7}}
-.post-content h2{{font-size:1.4rem;font-weight:700;margin:40px 0 14px;color:#eef2ff}}
-.post-content h3{{font-size:1.1rem;font-weight:700;margin:28px 0 10px;color:#eef2ff}}
-.post-content p{{margin-bottom:18px;line-height:1.75}}
-.post-content ul,.post-content ol{{margin:0 0 18px 24px}}
-.post-content li{{margin-bottom:8px}}
-.post-content strong{{color:#eef2ff}}
-.post-content a{{color:{ACCENT}}}
-.post-content a:hover{{color:{ACCENT_DARK}}}
-
-/* Podcast embed */
-.podcast-embed{{background:#111520;border:1px solid #1e2433;border-left:3px solid {ACCENT};border-radius:8px;padding:20px;margin:36px 0}}
-.podcast-embed p{{font-size:.85rem;font-weight:600;color:#7c8aab;margin-bottom:12px}}
-.podcast-embed iframe{{border-radius:6px}}
-
-/* Pagination */
-.pagination{{display:flex;gap:8px;justify-content:center;margin-top:48px;flex-wrap:wrap}}
-.page-btn{{padding:8px 16px;border:1px solid #1e2433;border-radius:6px;font-size:.875rem;color:#7c8aab;background:#111520}}
-.page-btn.active{{background:{ACCENT};color:#07080a;border-color:{ACCENT};font-weight:700}}
-.page-btn:hover{{border-color:{ACCENT};color:#eef2ff;text-decoration:none}}
-
-/* Category header */
-.cat-header{{background:#0a0c12;border-bottom:1px solid #1e2433;padding:48px 24px}}
-.cat-header h1{{font-size:1.8rem;font-weight:800;margin-bottom:8px;color:#eef2ff}}
-.cat-header p{{color:#7c8aab;font-size:.9rem}}
-
-/* Footer */
-.site-footer{{background:#0a0c12;border-top:1px solid #1e2433;color:#7c8aab;padding:56px 24px 28px;margin-top:80px}}
-.footer-inner{{max-width:1140px;margin:0 auto}}
-.footer-grid{{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}}
-.footer-logo{{font-size:1.2rem;font-weight:800;color:#eef2ff}}
-.footer-logo span{{color:{ACCENT}}}
-.footer-brand p{{font-size:.875rem;margin-top:12px;line-height:1.65}}
-.footer-col h4{{color:#eef2ff;font-size:.75rem;font-weight:700;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px}}
-.footer-col a{{display:block;font-size:.875rem;color:#7c8aab;margin-bottom:10px}}
-.footer-col a:hover{{color:#eef2ff;text-decoration:none}}
-.footer-bottom{{border-top:1px solid #1e2433;padding-top:24px;font-size:.75rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:#3d4a63}}
-.disclaimer{{font-size:.72rem;color:#3d4a63;margin-top:14px;line-height:1.6}}
+.podcast-badge{{display:inline-flex;align-items:center;gap:4px;background:var(--amber-dim);color:var(--amber);font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:20px;margin-left:auto}}
 
 /* ── Reading progress bar ─────────────────────────────────────────────────── */
-#reading-progress{{position:fixed;top:0;left:0;height:3px;width:0;background:{ACCENT};z-index:9999;transition:width .1s linear}}
+#reading-progress{{position:fixed;top:0;left:0;height:3px;width:0;background:var(--amber);z-index:9999;transition:width .1s linear}}
 
 /* ── Post page layout (2-col desktop) ────────────────────────────────────── */
-.post-container{{max-width:1000px;margin:0 auto;padding:48px 24px;display:grid;grid-template-columns:1fr 260px;gap:48px;align-items:start}}
+.post-container{{max-width:var(--max);margin:0 auto;padding:110px 24px 48px;display:grid;grid-template-columns:1fr 280px;gap:48px;align-items:start}}
 .post-main{{min-width:0}}
 
+/* Breadcrumb */
+.post-breadcrumb{{font-size:.8rem;color:var(--text3);margin-bottom:24px}}
+.post-breadcrumb a{{color:var(--text2);transition:color .15s}}
+.post-breadcrumb a:hover{{color:var(--text);text-decoration:none}}
+.post-breadcrumb .bc-sep{{margin:0 8px;color:var(--text3);opacity:.5}}
+
 /* Post header */
-.post-eyebrow{{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:{ACCENT};margin-bottom:12px}}
-.post-title{{font-size:2.2rem;font-weight:800;line-height:1.2;color:#fff;letter-spacing:-.3px;margin-bottom:20px}}
-.post-byline{{display:flex;align-items:center;gap:10px;font-size:.8rem;color:#3d4a63;padding-bottom:24px;border-bottom:1px solid #1e2433;margin-bottom:32px;flex-wrap:wrap}}
-.post-byline .sep{{color:#2a3347}}
+.post-eyebrow{{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--amber);margin-bottom:12px}}
+.post-title{{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.6rem);font-weight:400;line-height:1.15;color:var(--text);letter-spacing:-.3px;margin-bottom:20px}}
+.post-byline{{display:flex;align-items:center;gap:10px;font-size:.8rem;color:var(--text3);padding-bottom:24px;border-bottom:1px solid var(--border);margin-bottom:32px;flex-wrap:wrap}}
+.post-byline .sep{{color:var(--text3);opacity:.4}}
 
 /* Post body typography */
 .post-body{{font-size:17px;line-height:1.75;color:#e5e7eb}}
-.post-body h2{{font-size:1.5rem;font-weight:700;color:#fff;margin:48px 0 14px}}
+.post-body h2{{font-family:var(--serif);font-size:1.5rem;font-weight:400;color:var(--text);margin:48px 0 14px}}
 .post-body h3{{font-size:1.15rem;font-weight:600;color:#f3f4f6;margin:32px 0 10px}}
 .post-body p{{margin-bottom:20px}}
 .post-body ul,.post-body ol{{margin:0 0 20px 24px}}
 .post-body li{{margin-bottom:8px}}
 .post-body strong{{color:#fff}}
-.post-body a{{color:{ACCENT};text-decoration:underline;text-underline-offset:3px}}
-.post-body a:hover{{color:{ACCENT_DARK}}}
+.post-body a{{color:var(--amber);text-decoration:underline;text-underline-offset:3px}}
+.post-body a:hover{{color:var(--amber-light)}}
+
+/* ── LIGHT-MODE INLINE STYLE OVERRIDES ────────────────────────────────────── */
+/* Blog HTML content comes with hardcoded inline styles from 5-blog.py.
+   These use !important to override inline style="..." attributes.           */
+
+/* Override blue links inline-styled with color:#1a73e8 */
+.post-body a[style*="color:#1a73e8"],
+.post-body a[style*="color: #1a73e8"]{{
+  color:var(--amber)!important;
+}}
+.post-body a[style*="color:#1a73e8"]:hover,
+.post-body a[style*="color: #1a73e8"]:hover{{
+  color:var(--amber-light)!important;
+}}
+
+/* Override light background boxes: #f0f4ff, #f8f9fa, #fff8e1, #fff, #ffffff */
+.post-body div[style*="background:#f0f4ff"],
+.post-body div[style*="background: #f0f4ff"]{{
+  background:var(--surface)!important;
+  border-color:var(--amber-border)!important;
+}}
+.post-body div[style*="background:#f8f9fa"],
+.post-body div[style*="background: #f8f9fa"]{{
+  background:var(--surface)!important;
+  border-color:var(--border)!important;
+}}
+.post-body div[style*="background:#fff8e1"],
+.post-body div[style*="background: #fff8e1"]{{
+  background:rgba(245,158,11,.06)!important;
+  border-color:var(--amber-border)!important;
+}}
+.post-body div[style*="background:#fff"],
+.post-body div[style*="background: #fff"],
+.post-body div[style*="background:#ffffff"],
+.post-body div[style*="background: #ffffff"]{{
+  background:var(--surface)!important;
+}}
+
+/* Override blue solid backgrounds used in CTA blocks */
+.post-body div[style*="background:#1a73e8"],
+.post-body div[style*="background: #1a73e8"]{{
+  background:var(--surface)!important;
+  border:1px solid var(--amber-border)!important;
+}}
+.post-body div[style*="background:#1a73e8"] *,
+.post-body div[style*="background: #1a73e8"] *{{
+  color:var(--text)!important;
+}}
+.post-body div[style*="background:#1a73e8"] a,
+.post-body div[style*="background: #1a73e8"] a{{
+  background:var(--amber)!important;
+  color:#000!important;
+  border-radius:6px;
+  padding:12px 24px;
+}}
+
+/* Override CTA buttons styled with background:#ffffff on blue */
+.post-body a[style*="background:#ffffff"],
+.post-body a[style*="background: #ffffff"],
+.post-body a[style*="background:#fff"],
+.post-body a[style*="background: #fff"]{{
+  background:var(--amber)!important;
+  color:#000!important;
+}}
+
+/* Override inline blue borders */
+.post-body div[style*="border-left:4px solid #1a73e8"],
+.post-body div[style*="border-left: 4px solid #1a73e8"]{{
+  border-left-color:var(--amber)!important;
+}}
+.post-body div[style*="border:2px solid #1a73e8"],
+.post-body div[style*="border: 2px solid #1a73e8"]{{
+  border-color:var(--amber-border)!important;
+}}
+.post-body div[style*="border-left:4px solid #ffc107"]{{
+  border-left-color:var(--amber)!important;
+}}
+
+/* Override FAQ section: #f8f9fa bg with blue h3 */
+.post-body div[style*="background:#f8f9fa"] h3,
+.post-body div[style*="background: #f8f9fa"] h3{{
+  color:var(--amber)!important;
+  margin-top:0;
+}}
+.post-body div[style*="background:#f8f9fa"] h3[style*="color:#1a73e8"],
+.post-body div[style*="background: #f8f9fa"] h3[style*="color:#1a73e8"]{{
+  color:var(--amber)!important;
+}}
+.post-body div[style*="background:#f8f9fa"] p,
+.post-body div[style*="background: #f8f9fa"] p{{
+  color:var(--text2)!important;
+}}
+.post-body div[style*="background:#f8f9fa"] strong,
+.post-body div[style*="background: #f8f9fa"] strong{{
+  color:var(--text)!important;
+}}
+
+/* Override any heading with inline color:#1a73e8 */
+.post-body h2[style*="color:#1a73e8"],
+.post-body h3[style*="color:#1a73e8"],
+.post-body h4[style*="color:#1a73e8"]{{
+  color:var(--amber)!important;
+}}
+
+/* Override inline color on paragraphs/spans */
+.post-body p[style*="color:#1a73e8"],
+.post-body span[style*="color:#1a73e8"],
+.post-body p[style*="color:#333"],
+.post-body span[style*="color:#333"],
+.post-body p[style*="color:#000"],
+.post-body span[style*="color:#000"]{{
+  color:var(--text2)!important;
+}}
+
+/* Override CTA button backgrounds that are inline blue */
+.post-body a[style*="background:#1a73e8"],
+.post-body a[style*="background: #1a73e8"]{{
+  background:var(--amber)!important;
+  color:#000!important;
+}}
+
+/* General catch: any div in post-body with padding and border-radius looks like a box */
+.post-body div[style*="border-radius"]{{
+  color:var(--text2);
+}}
+
+/* ── END LIGHT-MODE OVERRIDES ─────────────────────────────────────────────── */
 
 /* TOC */
-.toc{{background:#0f1014;border:1px solid #1e2433;border-radius:8px;padding:20px 24px;margin:0 0 32px}}
-.toc-label{{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#3d4a63;margin-bottom:12px}}
+.toc{{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin:0 0 32px}}
+.toc-label{{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:12px}}
 .toc ol{{margin:0;padding-left:18px}}
 .toc li{{font-size:.9rem;line-height:1.9}}
-.toc a{{color:#7c8aab;text-decoration:none}}
-.toc a:hover{{color:{ACCENT};text-decoration:none}}
+.toc a{{color:var(--text2);text-decoration:none}}
+.toc a:hover{{color:var(--amber);text-decoration:none}}
 
 /* CTA boxes */
-.cta-intro{{background:#0f1117;border:1px solid {ACCENT};border-left:4px solid {ACCENT};border-radius:8px;padding:22px 26px;margin:0 0 32px}}
-.cta-intro .cta-headline{{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:{ACCENT};margin-bottom:8px}}
-.cta-intro p{{font-size:.9rem;color:#9ca3af;margin:0 0 16px;line-height:1.6}}
-.cta-inline{{background:#0f1014;border:1px solid #1e2433;border-radius:6px;padding:14px 18px;margin:28px 0;font-size:.875rem;color:#7c8aab;display:block}}
-.cta-inline a{{color:{ACCENT};font-weight:600;text-decoration:none}}
-.cta-inline a:hover{{color:{ACCENT_DARK}}}
-.cta-end{{background:linear-gradient(135deg,#111318 0%,#1a1d24 100%);border:1px solid {ACCENT};border-radius:12px;padding:36px 40px;text-align:center;margin:48px 0}}
-.cta-end h3{{font-size:1.35rem;font-weight:700;color:#fff;margin-bottom:12px}}
-.cta-end p{{font-size:.9rem;color:#9ca3af;margin:0 0 24px;max-width:440px;margin-left:auto;margin-right:auto}}
-.cta-end .fine{{font-size:.75rem;color:#6b7280;margin-top:12px}}
-.btn-amber{{display:inline-block;background:{ACCENT};color:#07080a;font-weight:700;font-size:.95rem;padding:13px 28px;border-radius:6px;text-decoration:none}}
-.btn-amber:hover{{background:{ACCENT_DARK};text-decoration:none}}
+.cta-intro{{background:var(--bg2);border:1px solid var(--amber-border);border-left:4px solid var(--amber);border-radius:8px;padding:22px 26px;margin:0 0 32px}}
+.cta-intro .cta-headline{{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--amber);margin-bottom:8px}}
+.cta-intro p{{font-size:.9rem;color:var(--text2);margin:0 0 16px;line-height:1.6}}
+.cta-inline{{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:28px 0;font-size:.875rem;color:var(--text2);display:block}}
+.cta-inline a{{color:var(--amber);font-weight:600;text-decoration:none}}
+.cta-inline a:hover{{color:var(--amber-light)}}
+.cta-end{{background:linear-gradient(135deg,var(--surface) 0%,var(--bg2) 100%);border:1px solid var(--amber-border);border-radius:12px;padding:36px 40px;text-align:center;margin:48px 0}}
+.cta-end h3{{font-family:var(--serif);font-size:1.35rem;font-weight:400;color:var(--text);margin-bottom:12px}}
+.cta-end p{{font-size:.9rem;color:var(--text2);margin:0 0 24px;max-width:440px;margin-left:auto;margin-right:auto}}
+.cta-end .fine{{font-size:.75rem;color:var(--text3);margin-top:12px}}
+.btn-amber{{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:#000;font-size:.9rem;font-weight:700;padding:13px 26px;border-radius:7px;transition:all .2s;text-decoration:none;box-shadow:0 4px 24px rgba(245,158,11,.25)}}
+.btn-amber:hover{{background:var(--amber-light);box-shadow:0 4px 32px rgba(245,158,11,.4);transform:translateY(-1px);text-decoration:none}}
 
 /* Pro tip callout */
-.callout{{border-left:3px solid {ACCENT};border-radius:0 6px 6px 0;padding:14px 18px;margin:28px 0}}
-.callout-tip{{background:rgba(245,158,11,.08)}}
+.callout{{border-left:3px solid var(--amber);border-radius:0 6px 6px 0;padding:14px 18px;margin:28px 0}}
+.callout-tip{{background:var(--amber-dim)}}
 .callout-note{{background:rgba(59,130,246,.08);border-left-color:#3b82f6}}
-.callout-label{{font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:{ACCENT};margin-bottom:6px}}
+.callout-label{{font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:6px}}
 .callout-note .callout-label{{color:#3b82f6}}
 .callout p{{font-size:.9rem;color:#d1d5db;margin:0;line-height:1.65}}
 
 /* Podcast embed */
-.podcast-embed{{background:#0f1014;border:1px solid #1e2433;border-left:3px solid {ACCENT};border-radius:8px;padding:20px;margin:36px 0}}
-.podcast-embed p{{font-size:.8rem;font-weight:600;color:#7c8aab;margin-bottom:12px}}
+.podcast-embed{{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:20px;margin:36px 0}}
+.podcast-embed p{{font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:12px}}
 .podcast-embed iframe{{border-radius:6px}}
-.podcast-link{{display:inline-flex;align-items:center;gap:8px;color:{ACCENT};font-size:.875rem;font-weight:600;text-decoration:none;margin-top:8px}}
-.podcast-link:hover{{color:{ACCENT_DARK};text-decoration:none}}
+.podcast-link{{display:inline-flex;align-items:center;gap:8px;color:var(--amber);font-size:.875rem;font-weight:600;text-decoration:none;margin-top:8px}}
+.podcast-link:hover{{color:var(--amber-light);text-decoration:none}}
 
 /* Author box */
-.author-box{{display:flex;gap:16px;align-items:flex-start;padding:24px 0;border-top:1px solid #1e2433;border-bottom:1px solid #1e2433;margin:40px 0}}
-.author-box .author-name{{font-weight:700;color:#fff;font-size:.95rem;margin-bottom:4px}}
-.author-box .author-bio{{font-size:.825rem;color:#7c8aab;line-height:1.6}}
+.author-box{{display:flex;gap:16px;align-items:flex-start;padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:40px 0}}
+.author-box .author-name{{font-weight:700;color:var(--text);font-size:.95rem;margin-bottom:4px}}
+.author-box .author-bio{{font-size:.825rem;color:var(--text2);line-height:1.6}}
 
 /* Related posts */
 .related-posts{{margin:48px 0 0}}
-.related-label{{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#3d4a63;margin-bottom:18px}}
+.related-label{{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--text3);margin-bottom:18px}}
 .related-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}}
-.related-card{{background:#0f1014;border:1px solid #1e2433;border-radius:8px;padding:16px;text-decoration:none;display:block;transition:border-color .2s}}
-.related-card:hover{{border-color:{ACCENT};text-decoration:none}}
-.related-card .r-tag{{font-size:.65rem;font-weight:700;color:{ACCENT};text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}}
+.related-card{{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;text-decoration:none;display:block;transition:border-color .2s}}
+.related-card:hover{{border-color:var(--amber);text-decoration:none}}
+.related-card .r-tag{{font-size:.65rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}}
 .related-card .r-title{{font-size:.85rem;font-weight:600;color:#e5e7eb;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
 
 /* Sidebar */
 .post-sidebar{{}}
-.sidebar-cta{{position:sticky;top:90px;background:#0f1014;border:1px solid {ACCENT};border-radius:10px;padding:22px 18px;text-align:center}}
-.sidebar-cta .s-headline{{font-size:.95rem;font-weight:700;color:#fff;margin-bottom:8px}}
-.sidebar-cta .s-sub{{font-size:.8rem;color:#9ca3af;margin-bottom:16px;line-height:1.5}}
-.sidebar-cta .s-fine{{font-size:.7rem;color:#3d4a63;margin-top:10px}}
+.sidebar-cta{{position:sticky;top:90px;background:var(--surface);border:1px solid var(--amber-border);border-radius:10px;padding:22px 18px;text-align:center}}
+.sidebar-cta .s-headline{{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:8px}}
+.sidebar-cta .s-sub{{font-size:.8rem;color:var(--text2);margin-bottom:16px;line-height:1.5}}
+.sidebar-cta .s-fine{{font-size:.7rem;color:var(--text3);margin-top:10px}}
+
+/* Pagination */
+.pagination{{display:flex;gap:8px;justify-content:center;margin-top:48px;flex-wrap:wrap}}
+.page-btn{{padding:8px 16px;border:1px solid var(--border);border-radius:6px;font-size:.875rem;color:var(--text2);background:var(--surface)}}
+.page-btn.active{{background:var(--amber);color:#07080a;border-color:var(--amber);font-weight:700}}
+.page-btn:hover{{border-color:var(--amber);color:var(--text);text-decoration:none}}
+
+/* Category header */
+.cat-header{{background:var(--bg2);border-bottom:1px solid var(--border);padding:110px 24px 48px}}
+.cat-header h1{{font-family:var(--serif);font-size:1.8rem;font-weight:400;margin-bottom:8px;color:var(--text)}}
+.cat-header p{{color:var(--text2);font-size:.9rem}}
+
+/* Hero (fallback, only used when homepage_hero.html is missing) */
+.hero{{background:var(--bg2);border-bottom:1px solid var(--border);padding:72px 24px;text-align:center}}
+.hero-eyebrow{{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--amber);margin-bottom:16px}}
+.hero h1{{font-family:var(--serif);font-size:2.8rem;font-weight:400;margin-bottom:16px;line-height:1.15;color:var(--text);letter-spacing:-.5px}}
+.hero p{{font-size:1.1rem;color:var(--text2);max-width:580px;margin:0 auto 32px;line-height:1.6}}
+.hero-btn{{background:var(--amber);color:#07080a;padding:14px 32px;border-radius:6px;font-weight:700;font-size:1rem;display:inline-block}}
+.hero-btn:hover{{background:var(--amber-light);text-decoration:none}}
+
+/* Footer — matching homepage */
+footer{{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80px}}
+.footer-inner{{max-width:var(--max);margin:0 auto}}
+.footer-top{{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}}
+.footer-logo{{font-family:var(--serif);font-size:1.2rem;margin-bottom:12px;color:var(--text)}}
+.footer-logo span{{color:var(--amber)}}
+.footer-desc{{font-size:.82rem;color:var(--text3);line-height:1.7;margin-bottom:14px}}
+.footer-disclaimer{{font-size:.74rem;color:var(--text3);line-height:1.6;opacity:.7}}
+.footer-col h4{{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);margin-bottom:16px}}
+.footer-col a{{display:block;font-size:.85rem;color:var(--text2);margin-bottom:10px;transition:color .15s}}
+.footer-col a:hover{{color:var(--text);text-decoration:none}}
+.footer-bottom{{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.76rem;color:var(--text3)}}
 
 @media(max-width:1024px){{
   .cards{{grid-template-columns:repeat(2,1fr)}}
-  .post-container{{grid-template-columns:1fr;padding:32px 20px}}
+  .post-container{{grid-template-columns:1fr;padding-top:90px}}
   .post-sidebar{{display:none}}
   .related-grid{{grid-template-columns:repeat(2,1fr)}}
 }}
 @media(max-width:640px){{
   .hero h1{{font-size:1.9rem}}
   .cards{{grid-template-columns:1fr}}
-  .footer-grid{{grid-template-columns:1fr}}
-  .site-nav .nav-links{{display:none}}
+  .footer-top{{grid-template-columns:1fr;gap:32px}}
+  .nav-links .nav-link{{display:none}}
   .post-title{{font-size:1.6rem}}
   .cta-end{{padding:24px 20px}}
   .related-grid{{grid-template-columns:1fr}}
+  .cat-header{{padding:90px 20px 36px}}
+  .footer-bottom{{flex-direction:column}}
 }}
 """
 
@@ -336,41 +513,39 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
 <style>{CSS}</style>
 </head>
 <body>
-<header class="site-header">
-  <div class="header-inner">
-    <a href="/" class="site-logo">GlobalHigh<span>Level</span></a>
-    <nav class="site-nav">
-      <span class="nav-links">
-        <a href="/">Home</a>
-        <a href="/category/gohighlevel-tutorials/">Tutorials</a>
-      </span>
-      <a href="{AFFILIATE}" class="nav-cta" target="_blank" rel="nofollow">Free 30-Day Trial →</a>
-    </nav>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">Global<span class="logo-amber">HighLevel</span></a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/category/gohighlevel-tutorials/" class="nav-link">Tutorials</a>
+      <a href="{AFFILIATE}" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial →</a>
+    </div>
   </div>
-</header>
+</nav>
 {body}
-<footer class="site-footer">
+<footer>
   <div class="footer-inner">
-    <div class="footer-grid">
+    <div class="footer-top">
       <div>
-        <div class="footer-logo">GlobalHigh<span>Level</span></div>
-        <p>Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide.</p>
-        <p class="disclaimer">Affiliate disclosure: Some links on this site are affiliate links. If you sign up through our link, we may earn a commission at no extra cost to you.</p>
+        <div class="footer-logo">Global<span>HighLevel</span></div>
+        <p class="footer-desc">Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide.</p>
+        <p class="footer-disclaimer">Affiliate disclosure: Some links on this site are affiliate links. If you sign up through our link, we may earn a commission at no extra cost to you. Not affiliated with GoHighLevel LLC.</p>
       </div>
       <div class="footer-col">
-        <h4>Quick Links</h4>
+        <h4>Site</h4>
         <a href="/">Home</a>
         <a href="/category/gohighlevel-tutorials/">Tutorials</a>
-        <a href="{AFFILIATE}" target="_blank" rel="nofollow">Free 30-Day Trial</a>
+        <a href="{AFFILIATE}" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
       </div>
       <div class="footer-col">
         <h4>Resources</h4>
-        <a href="https://help.gohighlevel.com" target="_blank" rel="nofollow noopener">GHL Help Center</a>
-        <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=footer&utm_campaign=pricing" target="_blank" rel="nofollow noopener">GHL Pricing</a>
+        <a href="https://help.gohighlevel.com" target="_blank" rel="noopener">GHL Help Center</a>
+        <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=footer&utm_campaign=pricing" target="_blank" rel="nofollow noopener">GHL Pricing & Plans</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© {datetime.now().year} GlobalHighLevel.com — All rights reserved</span>
+      <span>&copy; {datetime.now().year} GlobalHighLevel.com</span>
       <span>Not affiliated with GoHighLevel LLC</span>
     </div>
   </div>
@@ -428,6 +603,9 @@ def build_post_page(post: dict, all_posts: list = None):
     episode_id  = post.get("transistorEpisodeId", "")
     rtime       = read_time(html_content)
     canonical   = f"{SITE_URL}/blog/{slug}/"
+
+    # ── Sanitize content: strip in-content TOC and CTA boxes ──────────────────
+    html_content = sanitize_content(html_content)
 
     # ── Podcast section — always show Spotify link; embed player if episode exists ──
     if episode_id:
@@ -523,7 +701,7 @@ def build_post_page(post: dict, all_posts: list = None):
   <div class="sidebar-cta">
     <div class="s-headline">Try GoHighLevel Free</div>
     <div class="s-sub">30 days full access — set up everything in this guide at no cost.</div>
-    <a href="{AFFILIATE}&utm_campaign={slug}" class="btn-amber" style="display:block" target="_blank" rel="nofollow noopener">Start Free Trial →</a>
+    <a href="{AFFILIATE}&utm_campaign={slug}" class="btn-amber" style="display:block;text-align:center" target="_blank" rel="nofollow noopener">Start Free Trial →</a>
     <div class="s-fine">No credit card required</div>
   </div>
 </aside>"""
@@ -561,9 +739,12 @@ def build_post_page(post: dict, all_posts: list = None):
 <div id="reading-progress"></div>
 <div class="post-container">
   <main class="post-main">
-    <div class="post-eyebrow"><a href="/category/{cat_slug}/" style="color:{ACCENT};text-decoration:none">{category}</a></div>
-    <h1 class="post-title">{title}</h1>
-    <div class="post-byline">
+    <div class="post-breadcrumb fade-1">
+      <a href="/">Home</a><span class="bc-sep">›</span><a href="/category/{cat_slug}/">{category}</a><span class="bc-sep">›</span><span>{truncate(title, 50)}</span>
+    </div>
+    <div class="post-eyebrow fade-1"><a href="/category/{cat_slug}/" style="color:var(--amber);text-decoration:none">{category}</a></div>
+    <h1 class="post-title fade-2">{title}</h1>
+    <div class="post-byline fade-3">
       <span>By William Welch</span>
       {"<span class='sep'>·</span><span>" + date_str + "</span>" if date_str else ""}
       <span class="sep">·</span><span>{rtime}</span>
@@ -685,7 +866,7 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
         hero = ""
 
     body = f"""{hero}
-<div class="container">
+<div class="container" style="padding-top:{'80px' if page > 1 else '0'}">
   <div class="section">
     <div class="section-label">Tutorials</div>
     <div class="section-title">{"Latest Guides & Tutorials" if page == 1 else f"Page {page}"}</div>
@@ -740,8 +921,9 @@ def build_category_pages(posts: list[dict]):
         body = f"""
 <div class="cat-header">
   <div class="container">
-    <h1>{cat}</h1>
-    <p>{len(cat_posts)} guides and tutorials</p>
+    <div class="section-label fade-1">Category</div>
+    <h1 class="fade-2">{cat}</h1>
+    <p class="fade-3">{len(cat_posts)} guides and tutorials</p>
   </div>
 </div>
 <div class="container">
@@ -818,12 +1000,12 @@ All tutorials are free. Topics include GoHighLevel automations, AI conversation 
 
 
 def build_404():
-    body = """
-<div style="text-align:center;padding:100px 24px">
-  <h1 style="font-size:4rem;font-weight:800;color:#e2e8f0">404</h1>
-  <h2 style="font-size:1.5rem;margin-bottom:16px">Page Not Found</h2>
-  <p style="color:#6b7280;margin-bottom:32px">The page you're looking for doesn't exist.</p>
-  <a href="/" style="background:#1a73e8;color:#fff;padding:12px 28px;border-radius:6px;font-weight:700">Go Home</a>
+    body = f"""
+<div style="text-align:center;padding:160px 24px 100px">
+  <h1 style="font-family:var(--serif);font-size:5rem;font-weight:400;color:var(--amber);margin-bottom:8px">404</h1>
+  <h2 style="font-family:var(--serif);font-size:1.5rem;font-weight:400;margin-bottom:16px;color:var(--text)">Page Not Found</h2>
+  <p style="color:var(--text3);margin-bottom:32px">The page you're looking for doesn't exist.</p>
+  <a href="/" class="btn-amber">Go Home</a>
 </div>"""
     html = base_html("404 — Page Not Found | Global High Level", "Page not found.", f"{SITE_URL}/404", body)
     write(PUBLIC_DIR / "404.html", html)
