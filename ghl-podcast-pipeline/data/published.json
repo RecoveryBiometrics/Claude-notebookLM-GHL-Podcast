@@ -10,7 +10,11 @@
     "seoTitle": "How to Launch an SMS Campaign in GoHighLevel \u2014 Get More Leads",
     "driveAudioId": "15mCCZyvQY5gDFtvwodAu0ciSIgxivrPo",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Getting Started - Launch an SMS Campaign",
+    "blogSlug": "how-to-launch-sms-campaign-gohighlevel-get-more-leads",
+    "blogPostId": "how-to-launch-sms-campaign-gohighlevel-get-more-leads",
+    "blogPostedAt": "2026-03-13T17:17:04.219450"
   },
   {
     "articleId": "155000003296",
@@ -23,7 +27,11 @@
     "seoTitle": "How to Migrate from ActiveCampaign in GoHighLevel \u2014 No Data Loss",
     "driveAudioId": "1A6lscFbrQsgcwGFTyyw4IvFczE1YyDZh",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "ActiveCampaign to HighLevel (Migration Guide)",
+    "blogSlug": "how-to-migrate-from-activecampaign-to-gohighlevel-no-data-loss",
+    "blogPostId": "how-to-migrate-from-activecampaign-to-gohighlevel-no-data-loss",
+    "blogPostedAt": "2026-03-13T17:17:49.947567"
   },
   {
     "articleId": "155000006246",
@@ -35,7 +43,11 @@
     "driveAudioId": "1DvFQeiwmxiVn1q7l4SznuwHskV20734J",
     "publishedAt": "2026-03-06T08:00:00-05:00",
     "uploadedAt": "2026-03-05T17:23:27.000000",
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "HighLevel AI Agents Contest 2025 \u2013 $50K Prize Pool",
+    "blogSlug": "how-to-win-gohighlevel-ai-agents-contest-50k-prize",
+    "blogPostId": "how-to-win-gohighlevel-ai-agents-contest-50k-prize",
+    "blogPostedAt": "2026-03-13T17:18:35.845751"
   },
   {
     "articleId": "155000007449",
@@ -50,7 +62,11 @@
     "driveJsonId": "180mXq9PkNRuPg_0EpyA0uLXt_F03tvBY",
     "driveTranscriptId": "1fgvAqi3Fx69GB3qDLvUC1YwkXfSZC8pD",
     "affiliateLinkIncluded": false,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Google Analytics (GA4) Debug Checklist",
+    "blogSlug": "how-to-debug-ga4-in-gohighlevel-fix-tracking-fast",
+    "blogPostId": "how-to-debug-ga4-in-gohighlevel-fix-tracking-fast",
+    "blogPostedAt": "2026-03-13T17:19:19.056586"
   },
   {
     "articleId": "155000007434",
@@ -65,7 +81,8 @@
     "driveJsonId": "1eQY9YB4jTBStb9K9Hkxe138jKLmaflRk",
     "driveTranscriptId": "1SJyWbJzqMz_Dcw3JskOSxoD-yhX-ty0y",
     "affiliateLinkIncluded": false,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Track your product profitability with cost price and margin"
   },
   {
     "articleId": "155000007432",
@@ -80,7 +97,11 @@
     "driveJsonId": "1814TfvyoamXLs00O4-w8f9G0HVRNdDJR",
     "driveTranscriptId": "1orsBlXhS8TpHO77yUSkznA22kY_LUcQE",
     "affiliateLinkIncluded": false,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "How to Use Variables in HighLevel Agent Studio",
+    "blogSlug": "how-to-use-variables-in-gohighlevel-agent-studio-save-time",
+    "blogPostId": "how-to-use-variables-in-gohighlevel-agent-studio-save-time",
+    "blogPostedAt": "2026-03-13T17:20:49.884347"
   },
   {
     "articleId": "155000007426",
@@ -95,7 +116,11 @@
     "driveJsonId": "13xOzp3VCDqTKV41JE7zsRif_QGorvweE",
     "driveTranscriptId": "1FQ-WXqLrcFv-UsgWHx7BzXnoqNOn646w",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Add Prospects to a CRM Pipeline from Prospecting",
+    "blogSlug": "how-to-add-prospects-to-crm-pipelines-gohighlevel",
+    "blogPostId": "how-to-add-prospects-to-crm-pipelines-gohighlevel",
+    "blogPostedAt": "2026-03-13T17:21:28.694475"
   },
   {
     "articleId": "155000007425",
@@ -110,7 +135,11 @@
     "driveJsonId": "1bpTrd9TbyY_b_TdpwEpXImdqEJi3vnN5",
     "driveTranscriptId": "1F0_SdVkenDRJIGyvY5vRiD4hUAZyXcY_",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Test and Debug AI Conversations in Agent Studio",
+    "blogSlug": "how-to-test-debug-ai-agents-gohighlevel",
+    "blogPostId": "how-to-test-debug-ai-agents-gohighlevel",
+    "blogPostedAt": "2026-03-13T17:22:11.546129"
   },
   {
     "articleId": "155000007421",
@@ -125,7 +154,11 @@
     "driveJsonId": "1xGkCEyFYgA2FkKtJz6K9vCh1y2mRPhZf",
     "driveTranscriptId": "1FEmJzn95aZDhLv2hxMfWhY8WTkW8RPZH",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Response Style Settings for Conversation AI | HighLevel",
+    "blogSlug": "how-to-set-conversation-ai-response-styles-in-gohighlevel",
+    "blogPostId": "how-to-set-conversation-ai-response-styles-in-gohighlevel",
+    "blogPostedAt": "2026-03-13T17:22:52.966370"
   },
   {
     "articleId": "155000007418",
@@ -140,7 +173,11 @@
     "driveJsonId": "1LjtLS6Z4FQoNURJAoc4n8DzaT37_04fd",
     "driveTranscriptId": "1W7DLF6gWtJxKMGQK10GsiP_dk-W1nrqE",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Voice Dictation in HighLevel AI Builder & Assistant",
+    "blogSlug": "how-to-use-voice-dictation-in-gohighlevel-build-faster",
+    "blogPostId": "how-to-use-voice-dictation-in-gohighlevel-build-faster",
+    "blogPostedAt": "2026-03-13T17:23:39.355026"
   },
   {
     "articleId": "155000007417",
@@ -155,7 +192,11 @@
     "driveJsonId": "18dRA_A7wt7YnkZ11B57NFo0sym369UHA",
     "driveTranscriptId": "17r9IsMKvDqGoFtbkQ8quqpVgpVGDzQPi",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Managing Folders In Agent Studio",
+    "blogSlug": "how-to-manage-agent-studio-folders-gohighlevel-stay-organized",
+    "blogPostId": "how-to-manage-agent-studio-folders-gohighlevel-stay-organized",
+    "blogPostedAt": "2026-03-13T17:24:24.923157"
   },
   {
     "articleId": "155000007411",
@@ -170,7 +211,11 @@
     "driveJsonId": "1QvQXVdkM9SCs4WHcXBvm4dZFZvoOeQrz",
     "driveTranscriptId": "1RLKIZSTlo1144eQRMIj88Od5NVGVbunl",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Getting Started with A2P 10DLC Registration",
+    "blogSlug": "how-to-set-up-a2p-10dlc-registration-gohighlevel-stay-compliant",
+    "blogPostId": "how-to-set-up-a2p-10dlc-registration-gohighlevel-stay-compliant",
+    "blogPostedAt": "2026-03-13T17:25:09.366390"
   },
   {
     "articleId": "155000007409",
@@ -185,7 +230,11 @@
     "driveJsonId": "11MAZE9ecx2wqvN6dK67Kn7sAE6q87el4",
     "driveTranscriptId": "1BQloNokeKlMHJHOtBlkTABZ9PmRbgDg4",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Guide to Canva Integration in HighLevel Media Storage",
+    "blogSlug": "how-to-use-canva-integration-in-gohighlevel-save-time",
+    "blogPostId": "how-to-use-canva-integration-in-gohighlevel-save-time",
+    "blogPostedAt": "2026-03-13T17:25:49.980010"
   },
   {
     "articleId": "155000007407",
@@ -200,7 +249,11 @@
     "driveJsonId": "1i7gWN73bjhlOfY0wKY9yNlmlGdRx77L2",
     "driveTranscriptId": "1otnMmpYByogX7EA7t10O2MhG4PvY5Yvs",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Bulk Import Custom Object Records in HighLevel",
+    "blogSlug": "how-to-bulk-import-custom-object-records-in-gohighlevel-save-hours",
+    "blogPostId": "how-to-bulk-import-custom-object-records-in-gohighlevel-save-hours",
+    "blogPostedAt": "2026-03-13T17:26:33.855447"
   },
   {
     "articleId": "155000007404",
@@ -215,7 +268,11 @@
     "driveJsonId": "1xHbmZSwTfKIlDlM5bx6PQSboPWt9q91V",
     "driveTranscriptId": "1yXJmQggwZxsirgORep20RzEjtw8g0K3w",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Agent Studio Router: AI & Conditional Routing Guide",
+    "blogSlug": "how-to-use-agent-studio-router-in-gohighlevel-smarter-ai-flows",
+    "blogPostId": "how-to-use-agent-studio-router-in-gohighlevel-smarter-ai-flows",
+    "blogPostedAt": "2026-03-13T17:27:19.107742"
   },
   {
     "articleId": "155000007403",
@@ -230,7 +287,11 @@
     "driveJsonId": "1_XrXFO_AAYAthOKog35WVXno6T5rLzYm",
     "driveTranscriptId": "1bQ6wScKUVt0RsOMR28LYnv-TDojU54s-",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "How to Bulk Import Companies via CSV in HighLevel CRM",
+    "blogSlug": "how-to-bulk-import-companies-gohighlevel-save-hours",
+    "blogPostId": "how-to-bulk-import-companies-gohighlevel-save-hours",
+    "blogPostedAt": "2026-03-13T17:27:57.944710"
   },
   {
     "articleId": "155000007395",
@@ -245,7 +306,11 @@
     "driveJsonId": "1BDZVR_4ybCEi2uOX9qJM-6qpbGJq5Znb",
     "driveTranscriptId": "12qdCqdz4gWjoDBmWUkqgGTIb2aItlaKx",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Import Auto/Video from Media Storage in HighLevel Courses",
+    "blogSlug": "how-to-import-media-into-gohighlevel-courses-save-time",
+    "blogPostId": "how-to-import-media-into-gohighlevel-courses-save-time",
+    "blogPostedAt": "2026-03-13T17:28:40.617945"
   },
   {
     "articleId": "155000007394",
@@ -260,7 +325,11 @@
     "driveJsonId": "1bJVUuofAhd09kpNtO-jbBxZ58Jjk0crD",
     "driveTranscriptId": "1IocQfwJmaPx_bfsW6NWNGs28CoROCHXE",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Export Companies to CSV in HighLevel (Bulk Export)",
+    "blogSlug": "how-to-export-companies-to-csv-in-gohighlevel-bulk-export",
+    "blogPostId": "how-to-export-companies-to-csv-in-gohighlevel-bulk-export",
+    "blogPostedAt": "2026-03-13T17:29:18.403300"
   },
   {
     "articleId": "155000007393",
@@ -275,7 +344,11 @@
     "driveJsonId": "132PoHi9JbXTH0amwBBLJ4KdRr8-Upct6",
     "driveTranscriptId": "1xYMoqFP0vw5ABdQWtvs4GIeWohcQ2gPS",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "HighLevel Agent Studio Overview & Beginner Guide",
+    "blogSlug": "how-to-build-ai-agents-in-gohighlevel-agent-studio-guide",
+    "blogPostId": "how-to-build-ai-agents-in-gohighlevel-agent-studio-guide",
+    "blogPostedAt": "2026-03-13T17:29:59.364612"
   },
   {
     "articleId": "155000007387",
@@ -290,7 +363,11 @@
     "driveJsonId": "1Z0hvdeih3IUn3yb7nlRnvyg_nIcRVjdf",
     "driveTranscriptId": "1P6jK5TW-buYHC70mNk8gOpRYDNvOX1Nc",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Duplicate Suppression Management for Listings in HighLevel",
+    "blogSlug": "how-to-manage-duplicate-listings-in-gohighlevel-complete-guide",
+    "blogPostId": "how-to-manage-duplicate-listings-in-gohighlevel-complete-guide",
+    "blogPostedAt": "2026-03-13T17:30:45.442793"
   },
   {
     "articleId": "155000007382",
@@ -305,7 +382,11 @@
     "driveJsonId": "13GC5fzjvyELhV3g4z6Hkl5zh898Sml5U",
     "driveTranscriptId": "15Rh229FRtd-Sh1pU0Fg51i-zJy_nDL-2",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Email AI (Beta 2.0) \u2014 Faster, On-Brand Email Creation",
+    "blogSlug": "master-email-ai-in-gohighlevel-create-on-brand-emails",
+    "blogPostId": "master-email-ai-in-gohighlevel-create-on-brand-emails",
+    "blogPostedAt": "2026-03-13T17:31:23.431494"
   },
   {
     "articleId": "155000007377",
@@ -320,7 +401,11 @@
     "driveJsonId": "1uaDaJ9TZNaA2BL5SQsF2pDLFx9an3km3",
     "driveTranscriptId": "1SeGIeHU7k7mVDIl6GVrbMVuPMqRyt_9x",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Missing payment methods in Stripe checkout element",
+    "blogSlug": "fix-missing-payment-methods-gohighlevel-stripe-checkout",
+    "blogPostId": "fix-missing-payment-methods-gohighlevel-stripe-checkout",
+    "blogPostedAt": "2026-03-13T17:32:06.819480"
   },
   {
     "articleId": "155000007361",
@@ -335,7 +420,11 @@
     "driveJsonId": "1McG6Z7BzQ1lXKEZKbKUDN_I9YkPrEg0i",
     "driveTranscriptId": "1FF-CJau31R9u-IDE3wRFrsM98MlHa9Xv",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Prospecting Widgets Multi-Language Support | i18n Localization Update",
+    "blogSlug": "how-to-use-multi-language-widgets-gohighlevel-agency-localization",
+    "blogPostId": "how-to-use-multi-language-widgets-gohighlevel-agency-localization",
+    "blogPostedAt": "2026-03-13T17:32:48.525874"
   },
   {
     "articleId": "155000007406",
@@ -350,7 +439,8 @@
     "driveJsonId": "16N5GpYj4f02KwjIStTO_l-daP5IMsfCp",
     "driveTranscriptId": "1kTuDcAA72nZCy_w1KtZL2IJYu_AAjZsI",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "How to Generate Schema Markups in GHL Websites & Funnels"
   },
   {
     "articleId": "155000007360",
@@ -365,7 +455,11 @@
     "driveJsonId": "179g8wmTBttrtIIY1QP9ixlAP_cb80yS4",
     "driveTranscriptId": "1Vjnl5ia7YiW-s8ow9QG-pN041ZIKOy0e",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Reduce Inbound Spam Calls with Number Intelligence & IVR",
+    "blogSlug": "how-to-reduce-spam-calls-gohighlevel-ivr-number-intelligence",
+    "blogPostId": "how-to-reduce-spam-calls-gohighlevel-ivr-number-intelligence",
+    "blogPostedAt": "2026-03-13T17:34:15.559101"
   },
   {
     "articleId": "155000007340",
@@ -380,7 +474,11 @@
     "driveJsonId": "14T8K7Sv-638ulXFhfX_p9h0lU53XqRTy",
     "driveTranscriptId": "1vAk-Hxmf38h-BTaovjho5Mk_CdFDnSkI",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Conversations API -Add Inbound Message (with Contact ID)",
+    "blogSlug": "how-to-add-inbound-messages-gohighlevel-reduce-api-calls",
+    "blogPostId": "how-to-add-inbound-messages-gohighlevel-reduce-api-calls",
+    "blogPostedAt": "2026-03-13T17:34:56.322386"
   },
   {
     "articleId": "155000007334",
@@ -395,7 +493,11 @@
     "driveJsonId": "1KhuzcFmiIJhd1TDFf5zhOa6ImBciRUPG",
     "driveTranscriptId": "1t0GJd9LkAEzWQVMpL70-1G2BPNb2hmeo",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Using Global Sections in the Page Builder",
+    "blogSlug": "how-to-use-global-sections-in-gohighlevel-save-time-building",
+    "blogPostId": "how-to-use-global-sections-in-gohighlevel-save-time-building",
+    "blogPostedAt": "2026-03-13T17:35:41.484144"
   },
   {
     "articleId": "155000007333",
@@ -410,7 +512,11 @@
     "driveJsonId": "1ksbIM6z4W9pEHJ96jNV9lzXyt5OaaBCQ",
     "driveTranscriptId": "1sep2KE4E0MB81Ud7gPoMAQkmTtYtfkUO",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "How to Submit Feedback or Report a Bug in HighLevel",
+    "blogSlug": "how-to-report-bugs-in-gohighlevel-faster-support",
+    "blogPostId": "how-to-report-bugs-in-gohighlevel-faster-support",
+    "blogPostedAt": "2026-03-13T17:36:19.165229"
   },
   {
     "articleId": "155000007332",
@@ -425,7 +531,8 @@
     "driveJsonId": "12foIVMWN7Yduw7kGZ5aQ7vmzjT5pwK5B",
     "driveTranscriptId": "1jwSbLNFQrIOMkYcGLGnifKXuRmMw-74X",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "3DS Card Support for Affiliate Signup Page | HighLevel Guide"
   },
   {
     "articleId": "155000007328",
@@ -440,7 +547,11 @@
     "driveJsonId": "12JyB3rb__KEd9VYFXbkuGvSn-TLt97ms",
     "driveTranscriptId": "1IHS78qclUKlAFSn7-xH899qmdtvD0jLw",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Manage Service Appointments in the Appointment Modal",
+    "blogSlug": "how-to-manage-service-appointments-in-gohighlevel-faster-bookings",
+    "blogPostId": "how-to-manage-service-appointments-in-gohighlevel-faster-bookings",
+    "blogPostedAt": "2026-03-13T17:37:51.954998"
   },
   {
     "articleId": "155000007327",
@@ -455,7 +566,11 @@
     "driveJsonId": "14T66TvVRCrTGBfeDRGfYVZiDZu9Ysraz",
     "driveTranscriptId": "1mD4z_8C3YyZg5bv8hGOxo-UCdEeXO3gb",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Agency Dashboard: Summary Tab",
+    "blogSlug": "how-to-track-revenue-in-gohighlevel-agency-dashboard-guide",
+    "blogPostId": "how-to-track-revenue-in-gohighlevel-agency-dashboard-guide",
+    "blogPostedAt": "2026-03-13T17:38:36.483218"
   },
   {
     "articleId": "155000007325",
@@ -470,7 +585,11 @@
     "driveJsonId": "1o_UbpoWSnQ865ks0bKOR0QD6QQ3Z2ZQS",
     "driveTranscriptId": "1E6-cTWCkehwf9-ziYyL3SWNIWTy1rAv8",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Average Time on Site | HighLevel Site Analytics",
+    "blogSlug": "how-to-track-average-time-on-site-gohighlevel-boost-engagement",
+    "blogPostId": "how-to-track-average-time-on-site-gohighlevel-boost-engagement",
+    "blogPostedAt": "2026-03-13T17:39:20.416513"
   },
   {
     "articleId": "155000007321",
@@ -485,7 +604,11 @@
     "driveJsonId": "1JXvywG6GiZcMB-zHnn8yu-MweZALvRO1",
     "driveTranscriptId": "10VRWzWqTj_Yu4xapz09n79l7qC6u0WvN",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Mandatory 2FA for Phone Number Updates",
+    "blogSlug": "enable-2fa-phone-updates-gohighlevel-secure-account",
+    "blogPostId": "enable-2fa-phone-updates-gohighlevel-secure-account",
+    "blogPostedAt": "2026-03-13T17:39:58.880083"
   },
   {
     "articleId": "155000007318",
@@ -500,7 +623,11 @@
     "driveJsonId": "1HJObL1OjJmpf4JT4NBUBk5FGr6AYMR2I",
     "driveTranscriptId": "1IaQT62i2t4BcrVbklCdSeMSS50LL2QMU",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "HighLevel Agent Studio Template Library Overview Guide",
+    "blogSlug": "build-ai-agents-faster-gohighlevel-template-library-guide",
+    "blogPostId": "build-ai-agents-faster-gohighlevel-template-library-guide",
+    "blogPostedAt": "2026-03-13T17:40:43.689398"
   },
   {
     "articleId": "155000007314",
@@ -515,7 +642,11 @@
     "driveJsonId": "18DvZhbLm2Zlt3el4N6RxOOZJ6yOUXrkU",
     "driveTranscriptId": "1QMDFj787ghUVIz0TqII7gIfq8aXv_75w",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Delete SEO Site Projects in HighLevel (Quota & Rollback)",
+    "blogSlug": "delete-seo-site-projects-in-gohighlevel-free-up-quota",
+    "blogPostId": "delete-seo-site-projects-in-gohighlevel-free-up-quota",
+    "blogPostedAt": "2026-03-13T17:41:20.315050"
   },
   {
     "articleId": "155000007313",
@@ -530,7 +661,11 @@
     "driveJsonId": "1KksjMV_Ye8SpNh8zFZ9xSKI0u2fqyH0U",
     "driveTranscriptId": "1VRXYR5DVLEMnwPVNMTHLBvB7XyQcRjex",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "nowledge Base Overview | Summary View & Tabbed Data Sources",
+    "blogSlug": "master-gohighlevels-knowledge-base-ui-organize-content-fast",
+    "blogPostId": "master-gohighlevels-knowledge-base-ui-organize-content-fast",
+    "blogPostedAt": "2026-03-13T17:41:59.324748"
   },
   {
     "articleId": "155000007310",
@@ -545,7 +680,11 @@
     "driveJsonId": "1IpWoy-muHkik3zsnIPWeC6pY4Aj5jFmz",
     "driveTranscriptId": "1G43VoQJBW2L24VWhJMvvr08Y1mfOzLEL",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "How to Set Up Agent Studio Triggers for Real-Time Starts",
+    "blogSlug": "set-up-agent-studio-triggers-gohighlevel-real-time-automation",
+    "blogPostId": "set-up-agent-studio-triggers-gohighlevel-real-time-automation",
+    "blogPostedAt": "2026-03-13T17:42:47.195930"
   },
   {
     "articleId": "155000007297",
@@ -560,7 +699,11 @@
     "driveJsonId": "1b5QZRTKT2Jku1lMUwuKf1iWX_1OB5DMv",
     "driveTranscriptId": "1DAthKyP84Mdh70KSoT4jt2zcJABWNLZH",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Avoiding Call Loops when routing calls to Internal Phone Numbers",
+    "blogSlug": "avoid-call-loops-in-gohighlevel-expert-phone-routing",
+    "blogPostId": "avoid-call-loops-in-gohighlevel-expert-phone-routing",
+    "blogPostedAt": "2026-03-13T17:43:33.240997"
   },
   {
     "articleId": "155000007291",
@@ -575,7 +718,11 @@
     "driveJsonId": "17fYCS00DsAg2wRkTdqBsid99nU_vhaTo",
     "driveTranscriptId": "1alGtYShvKhEQi2vgleHcwhI1NwUv2rwO",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Preference Management (Email Unsubscription Management)",
+    "blogSlug": "master-email-preference-management-gohighlevel-boost-deliverability",
+    "blogPostId": "master-email-preference-management-gohighlevel-boost-deliverability",
+    "blogPostedAt": "2026-03-13T17:44:19.530656"
   },
   {
     "articleId": "155000007283",
@@ -590,7 +737,11 @@
     "driveJsonId": "1Sg0oEj36e69vyrWR29MnFDP726cF1LfM",
     "driveTranscriptId": "1239r5CoXL26i7Ijrd4V2c3oNExdk-mhF",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Schedule Automated Listings Performance Reports in HighLevel",
+    "blogSlug": "how-to-schedule-automated-reports-in-gohighlevel-save-hours",
+    "blogPostId": "how-to-schedule-automated-reports-in-gohighlevel-save-hours",
+    "blogPostedAt": "2026-03-13T17:44:58.443926"
   },
   {
     "articleId": "155000007275",
@@ -605,7 +756,11 @@
     "driveJsonId": "139MjOVVzuPRvdYy5Rwr191WQ_kCoxLbi",
     "driveTranscriptId": "1aBDMhx2SrqUkCacjCdZnW4IJptSMhKX6",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Gmail Error: 4.7.28 \u2013 Unusual Rate of Unsolicited Mail Detected",
+    "blogSlug": "fix-gmail-4728-errors-gohighlevel-improve-deliverability",
+    "blogPostId": "fix-gmail-4728-errors-gohighlevel-improve-deliverability",
+    "blogPostedAt": "2026-03-13T17:45:41.029771"
   },
   {
     "articleId": "155000007263",
@@ -620,7 +775,11 @@
     "driveJsonId": "1UUawHuvmd8TcWzfWXwgyURP64K56AVYi",
     "driveTranscriptId": "11hUAWsl6YokN8oEcbAQsoYbh0f3VMRXo",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Create a Brand Voice from Text or URL in HighLevel",
+    "blogSlug": "how-to-create-brand-voice-gohighlevel-ai-content",
+    "blogPostId": "how-to-create-brand-voice-gohighlevel-ai-content",
+    "blogPostedAt": "2026-03-13T17:46:24.348101"
   },
   {
     "articleId": "155000007249",
@@ -635,7 +794,8 @@
     "driveJsonId": "1Ck0FXkACZ4N4Kvy_LimyAQjY_nHjmNGH",
     "driveTranscriptId": "1EaIu8Nk0tCZ_5U9sgnCGmikxfbGzsQrW",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "How Sender Domains Work in LC Email Campaigns"
   },
   {
     "articleId": "155000007424",
@@ -650,7 +810,11 @@
     "driveJsonId": "19nVPBfD28ScrS_6FGb8tFgyTU5gCGB89",
     "driveTranscriptId": "1itG4PyCTBPvRG0tQkphlauH1LD960BkL",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Notes for Custom Objects in HighLevel (with association to contacts and other entities)",
+    "blogSlug": "how-to-use-notes-in-gohighlevel-custom-objects-guide",
+    "blogPostId": "how-to-use-notes-in-gohighlevel-custom-objects-guide",
+    "blogPostedAt": "2026-03-13T17:47:52.302881"
   },
   {
     "articleId": "155000007244",
@@ -665,7 +829,11 @@
     "driveJsonId": "1uAwBAzQBcJJq6yHTS0DdiggI7gq2nVX_",
     "driveTranscriptId": "1Tg3JUAxo8xPGNp0sv-OmYBGlujevXkck",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "HighLevel: Fix Affiliate Campaign Registration Linking",
+    "blogSlug": "how-to-reassign-affiliate-contacts-in-gohighlevel-fix-duplicates",
+    "blogPostId": "how-to-reassign-affiliate-contacts-in-gohighlevel-fix-duplicates",
+    "blogPostedAt": "2026-03-13T17:48:34.958589"
   },
   {
     "articleId": "155000007241",
@@ -680,7 +848,11 @@
     "driveJsonId": "1JE4XjPtTfrQeZi0bRSs7Wx3Kmo0dLYZO",
     "driveTranscriptId": "11NPEbqgUzvNPGOvcEWWKb__h6e8VjcwS",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "HighLevel: Forward Emails from Conversations Inbox",
+    "blogSlug": "how-to-forward-emails-in-gohighlevel-streamline-client-handoffs",
+    "blogPostId": "how-to-forward-emails-in-gohighlevel-streamline-client-handoffs",
+    "blogPostedAt": "2026-03-13T17:49:18.319154"
   },
   {
     "articleId": "155000007237",
@@ -695,7 +867,11 @@
     "driveJsonId": "1mgNFjiDpZtWcxnswmDbTv-BPKThqmd1T",
     "driveTranscriptId": "1Totwys1XEuG0U6LGLxoI7oJAfLluTdsd",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "HighLevel A2P Opt\u2011In Compliance",
+    "blogSlug": "how-to-get-a2p-approved-gohighlevel-sms-compliance",
+    "blogPostId": "how-to-get-a2p-approved-gohighlevel-sms-compliance",
+    "blogPostedAt": "2026-03-13T17:50:06.518568"
   },
   {
     "articleId": "155000007236",
@@ -710,7 +886,11 @@
     "driveJsonId": "1y1apPWM3LtoRC8ohoYrhz-soIl2uvGT3",
     "driveTranscriptId": "19QLqP8eR6ECM0ZOLxEBms36PsZeH_prT",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Automatically Create & Associate Companies in HighLevel",
+    "blogSlug": "how-to-create-associate-companies-gohighlevel-auto-workflows",
+    "blogPostId": "how-to-create-associate-companies-gohighlevel-auto-workflows",
+    "blogPostedAt": "2026-03-13T17:50:49.668111"
   },
   {
     "articleId": "155000007213",
@@ -725,7 +905,11 @@
     "driveJsonId": "1aeBq5lrOBwACaRlkHyes4R2EjTh2I7WX",
     "driveTranscriptId": "1AEVdyvx0lhUT8aBHUEfuwKX8ZW2y_1n0",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "SaaS Mode Playbook for Agencies: Scale with Systems & Growth",
+    "blogSlug": "build-saas-mode-systems-gohighlevel-scale-agency",
+    "blogPostId": "build-saas-mode-systems-gohighlevel-scale-agency",
+    "blogPostedAt": "2026-03-13T17:51:34.716381"
   },
   {
     "articleId": "155000007212",
@@ -740,7 +924,11 @@
     "driveJsonId": "1b1NBPpxO0ooqjIBcVBNt-1rdigjStgaR",
     "driveTranscriptId": "14Xfr3Qrgy1ar5apEube0DNnQHszjmsVL",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Google Business Profile Post Scheduler in HighLevel",
+    "blogSlug": "how-to-schedule-gbp-posts-in-gohighlevel-boost-local-visibility",
+    "blogPostId": "how-to-schedule-gbp-posts-in-gohighlevel-boost-local-visibility",
+    "blogPostedAt": "2026-03-13T17:52:17.558496"
   },
   {
     "articleId": "155000007203",
@@ -755,7 +943,11 @@
     "driveJsonId": "1a1QRoH9fgqgOiiwqAIrrOk_IWwLovvci",
     "driveTranscriptId": "144wYL-tr7KYXOajS8C6RpPMuBPDUXEDn",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "HighLevel Voice AI: Book Across Multiple Calendars",
+    "blogSlug": "book-across-multiple-calendars-gohighlevel-voice-ai",
+    "blogPostId": "book-across-multiple-calendars-gohighlevel-voice-ai",
+    "blogPostedAt": "2026-03-13T17:53:03.615125"
   },
   {
     "articleId": "155000007194",
@@ -770,7 +962,11 @@
     "driveJsonId": "1x-n4jy3zBJNnEjBdSFTGVA3nV9Mqve7F",
     "driveTranscriptId": "19t1nM-Tv3ubrJ5Arc6rvi2SbSt6d6n8s",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Agency App Reselling Config API",
+    "blogSlug": "resell-apps-gohighlevel-white-label-pricing",
+    "blogPostId": "resell-apps-gohighlevel-white-label-pricing",
+    "blogPostedAt": "2026-03-13T17:53:48.174582"
   },
   {
     "articleId": "155000007191",
@@ -785,7 +981,11 @@
     "driveJsonId": "12FwjzJXpFxYtYpzexDJP1csfXMGSg1Ug",
     "driveTranscriptId": "1eXop7PqdRkUwFrbahqcqUjfCQbzZx8Gt",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Custom Dispositions for Voice Calls",
+    "blogSlug": "how-to-use-custom-dispositions-in-gohighlevel-call-automation",
+    "blogPostId": "how-to-use-custom-dispositions-in-gohighlevel-call-automation",
+    "blogPostedAt": "2026-03-13T17:54:29.724557"
   },
   {
     "articleId": "155000007171",
@@ -800,7 +1000,11 @@
     "driveJsonId": "1MKfZVKDbw8xifTJt6qidHOth_ccSqoaG",
     "driveTranscriptId": "11lWA8s2DFjU5uq_55iooqwObKRDqyuUE",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Timezone Adaptation in Countdown Timers",
+    "blogSlug": "how-to-use-timezone-adaptation-gohighlevel-global-timer-control",
+    "blogPostId": "how-to-use-timezone-adaptation-gohighlevel-global-timer-control",
+    "blogPostedAt": "2026-03-13T17:55:12.832242"
   },
   {
     "articleId": "155000007168",
@@ -815,7 +1019,11 @@
     "driveJsonId": "1p14bJhIE0-IgbuHy5KSxww06gkdf9yq3",
     "driveTranscriptId": "1PzXPxkDyXR_lM1aooK0YE7uLOTlRLlNk",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "AI Schedule: Smart Send Time Optimization | HighLevel",
+    "blogSlug": "master-ai-schedule-gohighlevel-optimize-email-send-times",
+    "blogPostId": "master-ai-schedule-gohighlevel-optimize-email-send-times",
+    "blogPostedAt": "2026-03-13T17:55:57.076498"
   },
   {
     "articleId": "155000007166",
@@ -830,7 +1038,11 @@
     "driveJsonId": "19jQLnNaNNnICYJ1YRn-fZCSthup5GA2D",
     "driveTranscriptId": "1OGR10pQb9_gZ6JgcJ7xiN2egn2QULA2x",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Voice AI Consent Check: Forms, Surveys & Calendars",
+    "blogSlug": "how-to-enable-voice-ai-consent-checks-gohighlevel",
+    "blogPostId": "how-to-enable-voice-ai-consent-checks-gohighlevel",
+    "blogPostedAt": "2026-03-13T17:56:34.852768"
   },
   {
     "articleId": "155000007159",
@@ -845,7 +1057,11 @@
     "driveJsonId": "1ncXH_neKzhS1tC2O-Ur7a9GrH14gGtHt",
     "driveTranscriptId": "1CkhzvK4KnFt_wkAnC_v3iO70OLbncs4L",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Export or Download Subscriptions as CSV",
+    "blogSlug": "how-to-export-subscriptions-gohighlevel-revenue-analytics",
+    "blogPostId": "how-to-export-subscriptions-gohighlevel-revenue-analytics",
+    "blogPostedAt": "2026-03-13T17:57:15.097027"
   },
   {
     "articleId": "155000007158",
@@ -860,7 +1076,11 @@
     "driveJsonId": "10rDasOG4af5rWUp4Qd2azvkoBZ5kElF7",
     "driveTranscriptId": "15Q_BmwZblS6uvMj7UnVHLiBlybtGEfz2",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Export or Download Orders as CSV",
+    "blogSlug": "how-to-export-orders-as-csv-in-gohighlevel-financial-reporting",
+    "blogPostId": "how-to-export-orders-as-csv-in-gohighlevel-financial-reporting",
+    "blogPostedAt": "2026-03-13T17:57:54.870269"
   },
   {
     "articleId": "155000007157",
@@ -875,7 +1095,11 @@
     "driveJsonId": "1ItugII9Ka4Li898HFJBMoH4lTOMk8UC_",
     "driveTranscriptId": "1lML4JS3mv5u2jWqc9yci_fM0jKxB3shL",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Export or Download Transactions as CSV in HighLevel",
+    "blogSlug": "how-to-export-transactions-in-gohighlevel-csv-reports",
+    "blogPostId": "how-to-export-transactions-in-gohighlevel-csv-reports",
+    "blogPostedAt": "2026-03-13T17:58:27.785936"
   },
   {
     "articleId": "155000007151",
@@ -890,7 +1114,11 @@
     "driveJsonId": "1UkDeJwRegBZ1KVw2GkP01IB7FVFuP2dA",
     "driveTranscriptId": "1RautaXtPRmRB-Iyfo7HS7FLj6idS-sc0",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Client Portal - Edit Default Email Templates",
+    "blogSlug": "edit-client-portal-email-templates-gohighlevel-brand-personalization",
+    "blogPostId": "edit-client-portal-email-templates-gohighlevel-brand-personalization",
+    "blogPostedAt": "2026-03-13T17:59:10.810785"
   },
   {
     "articleId": "155000007147",
@@ -905,7 +1133,11 @@
     "driveJsonId": "1h3Mr3zbKVaCHHNLynDrCd-z4mn8JsUfA",
     "driveTranscriptId": "1j-XiR7SqDn64NpxKpeHshqPI-k_TqTO-",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "5% Stripe Markup Removed From Phone System Charges",
+    "blogSlug": "verify-stripe-markup-removal-gohighlevel",
+    "blogPostId": "verify-stripe-markup-removal-gohighlevel",
+    "blogPostedAt": "2026-03-13T17:59:50.498531"
   },
   {
     "articleId": "155000007096",
@@ -920,7 +1152,11 @@
     "driveJsonId": "1fK3XpdgN-CbkdfhLKa-JX57p4Ob9noNC",
     "driveTranscriptId": "1Cn-Sh2s1w3M8iTMW0QU6ADrnAdGJgA-5",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "API Center of Excellence| Python and PHP SDks",
+    "blogSlug": "master-gohighlevel-apis-ship-integrations-faster-sdks",
+    "blogPostId": "master-gohighlevel-apis-ship-integrations-faster-sdks",
+    "blogPostedAt": "2026-03-13T18:00:32.517912"
   },
   {
     "articleId": "155000007078",
@@ -935,7 +1171,11 @@
     "driveJsonId": "12MFIihcid4WNfXCkiujML9k-jqvMtfka",
     "driveTranscriptId": "155QVav8S_4sG_WDFjRYXPqZbgi00ou09",
     "affiliateLinkIncluded": true,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "HighLevel Webhook Logs Dashboard Overview",
+    "blogSlug": "how-to-debug-webhooks-gohighlevel-real-time-logs",
+    "blogPostId": "how-to-debug-webhooks-gohighlevel-real-time-logs",
+    "blogPostedAt": "2026-03-13T18:01:17.992777"
   },
   {
     "articleId": "155000007437",
@@ -950,9 +1190,11 @@
     "driveJsonId": "1nW9_xdoF9Lrv_P8K6DsGJ5Vxme8oCNwq",
     "driveTranscriptId": "1CgFnrLH7SGU7myrb1s02mBNpIrU6XWT6",
     "affiliateLinkIncluded": true,
-    "blogPostId": "69b0a1376704168453adc16c",
+    "blogPostId": "master-a2p-registration-gohighlevel-reduce-carrier-rejections",
     "blogSlug": "master-a2p-registration-gohighlevel-reduce-carrier-rejections",
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Pre-Built A2P Campaign (Widget-First) Registration Flow",
+    "blogPostedAt": "2026-03-13T18:02:06.632306"
   },
   {
     "articleId": "155000007423",
@@ -967,15 +1209,27 @@
     "driveJsonId": "11G2GTs_w-NVzUF9Fk83frOv93Z57nkpm",
     "driveTranscriptId": "1hWi9eIIPDxfDQMbhoVHqsj4X3rP_mDyr",
     "affiliateLinkIncluded": true,
-    "blogPostId": "69b0a5216704166c02adf5c9",
+    "blogPostId": "how-to-manage-rental-taxes-in-gohighlevel-complete-guide",
     "blogSlug": "how-to-manage-rental-taxes-in-gohighlevel-complete-guide",
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Taxes for Rentals",
+    "blogPostedAt": "2026-03-13T18:02:45.956365"
   },
   {
     "articleId": "155000007342",
-    "title": "Can HighLevel Websites Be Exported? : HighLevel Support Portal",
-    "status": "failed",
-    "failedAt": "2026-03-10T17:16:39.335937"
+    "title": "Can HighLevel Websites Be Exported?",
+    "category": "",
+    "status": "published",
+    "transistorEpisodeId": "3087850",
+    "publishedAt": "2026-03-12T08:00:00-05:00",
+    "uploadedAt": "2026-03-11T17:23:53.113544",
+    "seoTitle": "Export GoHighLevel Websites \u2014 What You Need to Know",
+    "driveAudioId": "1jv3tlPwbA7lJU8P2RuJvZXozr4-4SVRr",
+    "driveJsonId": "1HYM8kePAuFMOxYp7WYAEx9b_G39vqYmN",
+    "driveTranscriptId": "1u8spjx4anRSMLMCpTxYKsWxFAfrE_H2v",
+    "affiliateLinkIncluded": true,
+    "streams": 0,
+    "seoDescription": "Can HighLevel Websites Be Exported?"
   },
   {
     "articleId": "155000007316",
@@ -990,9 +1244,11 @@
     "driveJsonId": "1-wl_WyH_6usaqMx-CnBD78uWN495ja8i",
     "driveTranscriptId": "11zohV1wZHMlxrF9otoOiANgAdQ7Tqiwe",
     "affiliateLinkIncluded": true,
-    "blogPostId": "69b0a9a5916696462189f8e2",
+    "blogPostId": "force-sync-listings-gohighlevel-speed-up-updates",
     "blogSlug": "force-sync-listings-gohighlevel-speed-up-updates",
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Force Sync for Listings: Yext & Uberall | HighLevel",
+    "blogPostedAt": "2026-03-13T18:04:15.138291"
   },
   {
     "articleId": "155000007154",
@@ -1007,15 +1263,30 @@
     "driveJsonId": "1_T8LUBOOuZ5JBjBAOKuXyFKHTEotbV_4",
     "driveTranscriptId": "1JnjRbsJM_2GnGoWUSdQLYCpLC3UoewUU",
     "affiliateLinkIncluded": true,
-    "blogPostId": "69b0ad816704164476ae6f29",
-    "blogSlug": "how-to-fix-google-ads-rejections-in-gohighlevel-url-redirect-solutions",
-    "streams": 0
+    "blogPostId": "fix-google-ads-rejections-gohighlevel-url-redirect-solutions",
+    "blogSlug": "fix-google-ads-rejections-gohighlevel-url-redirect-solutions",
+    "streams": 0,
+    "seoDescription": "Fixing Google Ads Rejections Caused by Funnel URL Redirects or Extra Paths",
+    "blogPostedAt": "2026-03-13T18:04:59.893416"
   },
   {
     "articleId": "155000007071",
-    "title": "Automated Webhook Retries : HighLevel Support Portal",
-    "status": "failed",
-    "failedAt": "2026-03-10T18:11:50.346759"
+    "title": "Automated Webhook Retries",
+    "category": "",
+    "status": "published",
+    "transistorEpisodeId": "3087860",
+    "publishedAt": "2026-03-12T08:45:00-05:00",
+    "uploadedAt": "2026-03-11T17:37:32.600194",
+    "seoTitle": "Master Webhook Retries in GoHighLevel \u2014 Never Lose Data",
+    "driveAudioId": "1Sr4eZDlsO1qPeukvxs2imFrG4H1SCu2F",
+    "driveJsonId": "1bRC8EOWI5kXMrl0JtQiUo3utSWxYxINu",
+    "driveTranscriptId": "1h9qt7HPMoKHbLf_IhBvXiwXyfj5bKIrb",
+    "affiliateLinkIncluded": true,
+    "streams": 0,
+    "seoDescription": "Automated Webhook Retries",
+    "blogSlug": "master-webhook-retries-gohighlevel-never-lose-data",
+    "blogPostId": "master-webhook-retries-gohighlevel-never-lose-data",
+    "blogPostedAt": "2026-03-13T18:05:38.652436"
   },
   {
     "articleId": "155000007070",
@@ -1032,7 +1303,8 @@
     "affiliateLinkIncluded": true,
     "blogPostId": null,
     "blogSlug": null,
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "HighLevel Trust Center: Revamped A2P Registration Guide"
   },
   {
     "articleId": "155000007068",
@@ -1047,9 +1319,11 @@
     "driveJsonId": "1opdsCL9nGtnlG4CyNciVrzbt380aEjc1",
     "driveTranscriptId": "13EvPU4Iwp7syBr0_wApshgAuHxt1Ltqm",
     "affiliateLinkIncluded": true,
-    "blogPostId": "69b0ba786704161d71af3030",
+    "blogPostId": "master-app-installer-details-api-gohighlevel-agency-branding",
     "blogSlug": "master-app-installer-details-api-gohighlevel-agency-branding",
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Marketplace API \u2013 App Installer Details | HighLevel",
+    "blogPostedAt": "2026-03-13T18:07:18.435120"
   },
   {
     "articleId": "155000007065",
@@ -1064,9 +1338,11 @@
     "driveJsonId": "1BMs1utUECjuSkBK3jACQ_--YFF5fFwDU",
     "driveTranscriptId": "1Gh7TlBCeh5uP0EsE9Qpa0vuZq7J_DS-z",
     "affiliateLinkIncluded": true,
-    "blogPostId": "69b0be200fecd7dd7cd77e62",
+    "blogPostId": "fix-email-blocks-gohighlevel-restore-deliverability",
     "blogSlug": "fix-email-blocks-gohighlevel-restore-deliverability",
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "LC Email: Email Service Provider Block Notification - Email Sending Temporarily Restricted (Action Required)",
+    "blogPostedAt": "2026-03-13T18:08:05.513830"
   },
   {
     "articleId": "155000007032",
@@ -1081,9 +1357,11 @@
     "driveJsonId": "1ThfFhcdUL3nLgPvvKHYPDgPX8SZgqDXL",
     "driveTranscriptId": "1mXoyVmVyX5hNiPhE6UEAnvZq2oKTZiW3",
     "affiliateLinkIncluded": true,
-    "blogPostId": "69b0c1940fecd71e6ed7b618",
+    "blogPostId": "how-to-set-up-adyen-payments-in-gohighlevel-accept-global-payments",
     "blogSlug": "how-to-set-up-adyen-payments-in-gohighlevel-accept-global-payments",
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "How to set up the Adyen integration? | Payments Integration",
+    "blogPostedAt": "2026-03-13T18:08:50.184509"
   },
   {
     "articleId": "155000007009",
@@ -1100,7 +1378,8 @@
     "affiliateLinkIncluded": true,
     "blogPostId": "69b0c5780fecd7a513d7f325",
     "blogSlug": "how-to-collect-video-testimonials-in-gohighlevel-build-trust",
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "How to Collect & Showcase Video Testimonials in HighLevel"
   },
   {
     "articleId": "155000007005",
@@ -1115,9 +1394,11 @@
     "driveJsonId": "16-SCxqTt7rO4hFyDIyyMPghnWyf8WThV",
     "driveTranscriptId": "19rzswMcPPtFdxrJ2sieG2kQrGM6baofN",
     "affiliateLinkIncluded": true,
-    "blogPostId": "69b0c95a670416f227b0384f",
-    "blogSlug": "how-to-use-file-type-filter-gohighlevel-find-media",
-    "streams": 0
+    "blogPostId": "how-to-use-file-type-filter-in-gohighlevel-find-media-instantly",
+    "blogSlug": "how-to-use-file-type-filter-in-gohighlevel-find-media-instantly",
+    "streams": 0,
+    "seoDescription": "HighLevel Media Center: File Type Filter How\u2011To Guide",
+    "blogPostedAt": "2026-03-13T18:10:20.021958"
   },
   {
     "articleId": "155000007004",
@@ -1132,9 +1413,11 @@
     "driveJsonId": "1TuGXoMDCcwSHdvczh1cMRK0CLjuZ72Cr",
     "driveTranscriptId": "1Vmd793AHOelj9HzrdhT3CCcv3KvwbdR_",
     "affiliateLinkIncluded": true,
-    "blogPostId": "69b0cd4e6704164106b07364",
+    "blogPostId": "how-to-use-listings-add-ons-gohighlevel-food-healthcare",
     "blogSlug": "how-to-use-listings-add-ons-gohighlevel-food-healthcare",
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "HighLevel Listings: Food & HealthCare Add\u2011ons Guide",
+    "blogPostedAt": "2026-03-13T18:11:03.513249"
   },
   {
     "articleId": "155000006997",
@@ -1149,9 +1432,11 @@
     "driveJsonId": "1v3JXv27xVH0Eet4t4PF7681v81_5I-1i",
     "driveTranscriptId": "1ykD_7HH0ekRlRTdDehYa6ya-v5hifnSw",
     "affiliateLinkIncluded": true,
-    "blogPostId": "69b0d1276704162352b0ab01",
+    "blogPostId": "track-mrr-accurately-gohighlevel-vs-profitwell",
     "blogSlug": "track-mrr-accurately-gohighlevel-vs-profitwell",
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "HighLevel vs Profitwell vs Stripe MRR",
+    "blogPostedAt": "2026-03-13T18:11:44.571210"
   },
   {
     "articleId": "155000006991",
@@ -1166,9 +1451,11 @@
     "driveJsonId": "1CXqQnO2HGZ6h7nuVaw9-hNOUyYOQaRc_",
     "driveTranscriptId": "1oeyKKVzjZ9V_qYv-gOqMrsiX3L4PKphP",
     "affiliateLinkIncluded": true,
-    "blogPostId": "69b0d510916696cd4b8c9bab",
+    "blogPostId": "how-to-use-saas-analytics-mrr-gohighlevel-dashboard",
     "blogSlug": "how-to-use-saas-analytics-mrr-gohighlevel-dashboard",
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Understanding SaaS Analytics & MRR in Agency Dashboard",
+    "blogPostedAt": "2026-03-13T18:12:23.486697"
   },
   {
     "articleId": "155000006990",
@@ -1183,9 +1470,11 @@
     "driveJsonId": "18Ka4p-8T_Ca82REfPN9N7-v4vdQY71Tx",
     "driveTranscriptId": "1FvDq_1W4o_PiGuVmq8nskUzCa1yP2bwK",
     "affiliateLinkIncluded": true,
-    "blogPostId": "69b0d8d60fecd74abcd8f9b2",
+    "blogPostId": "how-to-complete-kyc-verification-in-gohighlevel-best-practices",
     "blogSlug": "how-to-complete-kyc-verification-in-gohighlevel-best-practices",
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "KYC Verification on Persona \u2014 Best Practices",
+    "blogPostedAt": "2026-03-13T18:13:05.063909"
   },
   {
     "articleId": "155000006989",
@@ -1200,9 +1489,11 @@
     "driveJsonId": "108H94q6CIZW3fmc1dmO2tovp5aJ1FlqG",
     "driveTranscriptId": "1deZa2jqr0S-AHEP9zOG5K3OnQDIL3gaw",
     "affiliateLinkIncluded": true,
-    "blogPostId": "69b0dc2b916696283b8cf944",
+    "blogPostId": "how-to-set-up-google-lead-ads-in-gohighlevel-auto-sync-leads",
     "blogSlug": "how-to-set-up-google-lead-ads-in-gohighlevel-auto-sync-leads",
-    "streams": 0
+    "streams": 0,
+    "seoDescription": "Google Lead Ads Integration",
+    "blogPostedAt": "2026-03-13T18:13:46.258025"
   },
   {
     "articleId": "155000006987",
@@ -1217,9 +1508,11 @@
     "driveJsonId": "1pp3LnSHB-643Tu1ws7rzV_Sa6IelKQ0e",
     "driveTranscriptId": "1U8Noj53VApse_kdczshFHFYJqF-g8REo",
     "affiliateLinkIncluded": true,
-    "blogPostId": null,
-    "blogSlug": null,
-    "streams": 0
+    "blogPostId": "how-to-send-gift-cards-in-gohighlevel-boost-customer-loyalty",
+    "blogSlug": "how-to-send-gift-cards-in-gohighlevel-boost-customer-loyalty",
+    "streams": 0,
+    "seoDescription": "How to Send Gift Cards to Customers Using HighLevel",
+    "blogPostedAt": "2026-03-13T18:14:30.257195"
   },
   {
     "articleId": "155000006986",
@@ -1234,8 +1527,490 @@
     "driveJsonId": "1sJN84XrCYeg8HQEztWjRVfsU8ThNHnxa",
     "driveTranscriptId": "1Ny02ShtpHrHZgXFntY3f72uvqdv48-52",
     "affiliateLinkIncluded": true,
-    "blogPostId": "69b0e3ce0fecd7648dd9872f",
-    "blogSlug": "how-to-sell-gift-cards-in-gohighlevel-multiple-channels",
-    "streams": 0
+    "blogPostId": "how-to-sell-gift-cards-gohighlevel-multiple-channels",
+    "blogSlug": "how-to-sell-gift-cards-gohighlevel-multiple-channels",
+    "streams": 0,
+    "seoDescription": "Sell Gift Cards in HighLevel: Link, Embed, QR, Checkouts",
+    "blogPostedAt": "2026-03-13T18:15:11.422625"
+  },
+  {
+    "articleId": "155000007495",
+    "title": "HighLevel Achieves SOC 2 Type II Certification",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3087883",
+    "publishedAt": "2026-03-12T09:30:00-05:00",
+    "uploadedAt": "2026-03-11T17:57:44.914509",
+    "seoTitle": "Build Client Trust in GoHighLevel \u2014 SOC 2 Type II Security",
+    "driveAudioId": "1PhAC05eEk0sfApN8N2HADn_0RPh_pjdP",
+    "driveJsonId": "1zBxhZhA9swr-eKgFZKDiGnl-B1xdC0it",
+    "driveTranscriptId": "1JcweMiIVi4cNd-D0gm4uRMYcckNsRDog",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "build-client-trust-gohighlevel-soc-2-type-ii-security",
+    "blogSlug": "build-client-trust-gohighlevel-soc-2-type-ii-security",
+    "streams": 0,
+    "seoDescription": "HighLevel Achieves SOC 2 Type II Certification"
+  },
+  {
+    "articleId": "155000007392",
+    "title": "Generate Marketing Audit Reports via Workflows | HighLevel",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3087923",
+    "publishedAt": "2026-03-12T10:15:00-05:00",
+    "uploadedAt": "2026-03-11T18:14:17.478135",
+    "seoTitle": "How to Generate Marketing Audit Reports in GoHighLevel",
+    "driveAudioId": "1Wwp6MYtj-zy6PYMNK3eA6fsa0BxLIwav",
+    "driveJsonId": "11lek5XhQ2EdN26TuQbDby6LonBBydo3J",
+    "driveTranscriptId": "1nWLN9aF9iIyR6PY0nJYKRQVbt9vdR8cR",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-generate-marketing-audit-reports-in-gohighlevel",
+    "blogSlug": "how-to-generate-marketing-audit-reports-in-gohighlevel",
+    "streams": 0,
+    "seoDescription": "Generate Marketing Audit Reports via Workflows | HighLevel"
+  },
+  {
+    "articleId": "155000007008",
+    "title": "Service (v2) Appointments in the HighLevel Mobile App",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3087936",
+    "publishedAt": "2026-03-12T11:00:00-05:00",
+    "uploadedAt": "2026-03-11T18:30:57.512303",
+    "seoTitle": "How to Book Service Appointments in GoHighLevel \u2014 Mobile App",
+    "driveAudioId": "1L8qL-t_lZJO48QHBDL47Q3wpP-UbvvLe",
+    "driveJsonId": "1urKJVRNiycTrJJscu_BmGNFAKmyY8jPb",
+    "driveTranscriptId": "1yeM2pVpgw39gNCOkPPM2P_uOlfOWbh84",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-book-service-appointments-gohighlevel-mobile-app",
+    "blogSlug": "how-to-book-service-appointments-gohighlevel-mobile-app",
+    "streams": 0,
+    "seoDescription": "Service (v2) Appointments in the HighLevel Mobile App"
+  },
+  {
+    "articleId": "155000006981",
+    "title": "Track Gift Card Performance & Analytics | HighLevel",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3087952",
+    "publishedAt": "2026-03-12T11:45:00-05:00",
+    "uploadedAt": "2026-03-11T18:50:26.735186",
+    "seoTitle": "How to Track Gift Card Performance in GoHighLevel \u2014 Analytics",
+    "driveAudioId": "183M_3TtuqCFHKDZcVp5TCcw-IdlEoIq_",
+    "driveJsonId": "15y4kUo1ad19f5OvF_S30DmDIY_fbuZAW",
+    "driveTranscriptId": "1bWTOHq1A3AtGUaGqd60HHTrItpWQQBoU",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-track-gift-card-performance-gohighlevel-analytics",
+    "blogSlug": "how-to-track-gift-card-performance-gohighlevel-analytics",
+    "streams": 0,
+    "seoDescription": "Track Gift Card Performance & Analytics | HighLevel"
+  },
+  {
+    "articleId": "155000006980",
+    "title": "Gift Cards in HighLevel: Create, Sell, Send & Redeem",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3087970",
+    "publishedAt": "2026-03-12T12:30:00-05:00",
+    "uploadedAt": "2026-03-11T19:07:57.236748",
+    "seoTitle": "How to Create & Sell Gift Cards in GoHighLevel \u2014 Boost Sales",
+    "driveAudioId": "1TQP_xnvkFmV4BKKj58QUvjzMojDHLIfr",
+    "driveJsonId": "1u1SWKpjdefkLQVQ90iIQCrVBnDOTf-8a",
+    "driveTranscriptId": "1bQDhwmfKeHhrnB1uiDbpDY0vi-iZ0Wsy",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-create-sell-gift-cards-gohighlevel",
+    "blogSlug": "how-to-create-sell-gift-cards-gohighlevel",
+    "streams": 0,
+    "seoDescription": "Gift Cards in HighLevel: Create, Sell, Send & Redeem"
+  },
+  {
+    "articleId": "155000006962",
+    "title": "AI Recommended Prospects for New Agencies in HighLevel",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3087991",
+    "publishedAt": "2026-03-12T13:15:00-05:00",
+    "uploadedAt": "2026-03-11T19:27:14.348644",
+    "seoTitle": "How to Find Qualified Prospects in GoHighLevel \u2014 AI Lead Generation",
+    "driveAudioId": "1m6g2zSWhkTJymC3tnNlbPBYFOxqDceYQ",
+    "driveJsonId": "1nLfgdVciNOtUeFoOLa-v2NQVk0yp3GmF",
+    "driveTranscriptId": "1oGh1y-rB0Ehx5jyEvGZnVurv2XCYwXRQ",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-find-qualified-prospects-in-gohighlevel-ai-lead-generation",
+    "blogSlug": "how-to-find-qualified-prospects-in-gohighlevel-ai-lead-generation",
+    "streams": 0,
+    "seoDescription": "AI Recommended Prospects for New Agencies in HighLevel"
+  },
+  {
+    "articleId": "155000006943",
+    "title": "Spam Filter Blocks - Improve Content and Sender Reputation",
+    "category": "",
+    "status": "published",
+    "transistorEpisodeId": "3092100",
+    "publishedAt": "2026-03-14T08:00:00-05:00",
+    "uploadedAt": "2026-03-13T12:39:23.813729",
+    "seoTitle": "Fix Spam Filter Blocks in GoHighLevel \u2014 Boost Deliverability",
+    "driveAudioId": "1jGAQj4CE5sYgzylwO1BboYZrXwATOjzw",
+    "driveJsonId": "10fXCDlZqJuAz_gP6BW_YaK2kOLmvrF4z",
+    "driveTranscriptId": "1bJ4JO_prXSP3FRFiJpcfnkWmAuvq8U4q",
+    "affiliateLinkIncluded": true,
+    "streams": 0,
+    "seoDescription": "Spam Filter Blocks - Improve Content and Sender Reputation",
+    "blogSlug": "fix-spam-filter-blocks-gohighlevel-boost-deliverability",
+    "blogPostId": "fix-spam-filter-blocks-gohighlevel-boost-deliverability",
+    "blogPostedAt": "2026-03-13T18:15:53.710879"
+  },
+  {
+    "articleId": "155000006932",
+    "title": "Email Standards Compliance: Resolving RFC 5322 Violations",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3088916",
+    "publishedAt": "2026-03-12T14:00:00-05:00",
+    "uploadedAt": "2026-03-12T08:17:35.550231",
+    "seoTitle": "Fix Email Deliverability in GoHighLevel \u2014 RFC 5322 Compliance",
+    "driveAudioId": "1zFreFSkI7jGfqGW2GKFnIcxyoRLiEic9",
+    "driveJsonId": "1v0Fl0tWRu2S4ScenzF__-mjpyaF7AD57",
+    "driveTranscriptId": "1FWiYcENj9SjyVhCU0V8iOvIJWHY7Vg11",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "fix-email-deliverability-gohighlevel-rfc-5322-compliance",
+    "blogSlug": "fix-email-deliverability-gohighlevel-rfc-5322-compliance",
+    "streams": 0,
+    "seoDescription": "Email Standards Compliance: Resolving RFC 5322 Violations"
+  },
+  {
+    "articleId": "155000006923",
+    "title": "Blacklisted Domain or IP - Remove from Blocklists and Restore Delivery",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3088959",
+    "publishedAt": "2026-03-12T14:45:00-05:00",
+    "uploadedAt": "2026-03-12T08:38:36.631415",
+    "seoTitle": "How to Remove Blacklisted Domains in GoHighLevel \u2014 Restore Email Delivery",
+    "driveAudioId": "1rRlKueuV-BbINcZVke9C3P-dn3Oo9rWq",
+    "driveJsonId": "1JMBBxacVjJnLfHpqSOOZdPCuwT7aGtRs",
+    "driveTranscriptId": "1iM1aMdojbP5Ef239cmAPWpHnxedMnMcn",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-remove-blacklisted-domains-gohighlevel",
+    "blogSlug": "how-to-remove-blacklisted-domains-gohighlevel",
+    "streams": 0,
+    "seoDescription": "Blacklisted Domain or IP - Remove from Blocklists and Restore Delivery"
+  },
+  {
+    "articleId": "155000006922",
+    "title": "Mail Loop Detected - Resolve Email Routing Conflicts",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3089029",
+    "publishedAt": "2026-03-12T15:30:00-05:00",
+    "uploadedAt": "2026-03-12T08:55:09.780497",
+    "seoTitle": "How to Fix Mail Loop Errors in GoHighLevel \u2014 Resolve Email Issues",
+    "driveAudioId": "1wkAnKsdgRjSTTY3E-CypoVqxfNKTlbvw",
+    "driveJsonId": "1dcKQeHaejdKD8TgINUpiw2vz8IwLxer5",
+    "driveTranscriptId": "1C_VeDgmuYq5wgY_1a7D9F-5d0dKOw0b2",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-fix-mail-loop-errors-in-gohighlevel-resolve-email-issues",
+    "blogSlug": "how-to-fix-mail-loop-errors-in-gohighlevel-resolve-email-issues",
+    "streams": 0,
+    "seoDescription": "Mail Loop Detected - Resolve Email Routing Conflicts"
+  },
+  {
+    "articleId": "155000006913",
+    "title": "Map Quiz Results Directly to CRM Custom Fields!",
+    "category": "",
+    "status": "published",
+    "transistorEpisodeId": "3092115",
+    "publishedAt": "2026-03-14T08:45:00-05:00",
+    "uploadedAt": "2026-03-13T12:51:56.079506",
+    "seoTitle": "Map Quiz Results to CRM Fields in GoHighLevel \u2014 Auto-Populate Data",
+    "driveAudioId": "1fQnDrwxuE031Q7d29G-VRQEzbM6DWSVV",
+    "driveJsonId": "1MX3aGtRmj9R36sUnPoR57hBuFzJYvea6",
+    "driveTranscriptId": "1qzx6d-8n295mhUBr5_yN5vDqeuDHHJlw",
+    "affiliateLinkIncluded": true,
+    "streams": 0,
+    "seoDescription": "Map Quiz Results Directly to CRM Custom Fields!",
+    "blogSlug": "map-quiz-results-to-crm-fields-gohighlevel",
+    "blogPostId": "map-quiz-results-to-crm-fields-gohighlevel",
+    "blogPostedAt": "2026-03-13T18:16:36.104676"
+  },
+  {
+    "articleId": "155000006911",
+    "title": "WhatsApp Settings",
+    "category": "",
+    "status": "published",
+    "transistorEpisodeId": "3092134",
+    "publishedAt": "2026-03-14T09:30:00-05:00",
+    "uploadedAt": "2026-03-13T13:05:24.020231",
+    "seoTitle": "How to Manage WhatsApp Settings in GoHighLevel \u2014 Complete Guide",
+    "driveAudioId": "1QbGNDnoDQj8S5bUqP9R90hRplJZhYP_L",
+    "driveJsonId": "1aGn9rlhCYRQLIqUO5wnI86RU5wTR8Po-",
+    "driveTranscriptId": "1F6w5r0QRuFdTofpwxJun_DsmdHsH2Abr",
+    "affiliateLinkIncluded": true,
+    "streams": 0,
+    "seoDescription": "WhatsApp Settings",
+    "blogSlug": "how-to-manage-whatsapp-settings-in-gohighlevel-complete-guide",
+    "blogPostId": "how-to-manage-whatsapp-settings-in-gohighlevel-complete-guide",
+    "blogPostedAt": "2026-03-13T18:17:17.188434"
+  },
+  {
+    "articleId": "155000006881",
+    "title": "Phone Number Edit Configuration | Incoming Call Settings & Timeout Guidance",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3089155",
+    "publishedAt": "2026-03-12T16:15:00-05:00",
+    "uploadedAt": "2026-03-12T09:45:16.695976",
+    "seoTitle": "Configure Incoming Calls in GoHighLevel \u2014 Call Routing Mastery",
+    "driveAudioId": "1KpJzwj9_EXT4-vDrnKhtiLw6Cn72h67Q",
+    "driveJsonId": "1zqZgLYd2pA-3AF0SKo4BC0A0cgYhBHxi",
+    "driveTranscriptId": "1O6NL-PcZA2iT2d9TJDMaiJoQzf49J5l8",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "configure-incoming-calls-gohighlevel-call-routing-mastery",
+    "blogSlug": "configure-incoming-calls-gohighlevel-call-routing-mastery",
+    "streams": 0,
+    "seoDescription": "Phone Number Edit Configuration | Incoming Call Settings & Timeout Guidance"
+  },
+  {
+    "articleId": "155000006819",
+    "title": "WhatsApp Countdown Timer Buttons in HighLevel",
+    "category": "",
+    "status": "published",
+    "transistorEpisodeId": "3092143",
+    "publishedAt": "2026-03-14T10:15:00-05:00",
+    "uploadedAt": "2026-03-13T13:15:56.749766",
+    "seoTitle": "How to Add Countdown Timers in GoHighLevel \u2014 Drive WhatsApp Urgency",
+    "driveAudioId": "1HHCfSdHuAd2YoO-yJfzVDVGDPkc3f2z3",
+    "driveJsonId": "1WlwR8ahZj5MQCGRGktzGlhFDRQNfrORE",
+    "driveTranscriptId": "1EH5x_r837TF1Hrk5eUfsCJm4atX_pPhb",
+    "affiliateLinkIncluded": true,
+    "streams": 0,
+    "seoDescription": "WhatsApp Countdown Timer Buttons in HighLevel",
+    "blogSlug": "how-to-add-countdown-timers-in-gohighlevel-drive-whatsapp-urgency",
+    "blogPostId": "how-to-add-countdown-timers-in-gohighlevel-drive-whatsapp-urgency",
+    "blogPostedAt": "2026-03-13T18:18:04.995219"
+  },
+  {
+    "articleId": "155000006814",
+    "title": "Dashboard Summary AI",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3089226",
+    "publishedAt": "2026-03-12T17:00:00-05:00",
+    "uploadedAt": "2026-03-12T10:15:54.620193",
+    "seoTitle": "How to Use Dashboard Summary AI in GoHighLevel \u2014 Instant Insights",
+    "driveAudioId": "1tfiChz0bQpSdeQzqj4rcr6f8XxDk02rw",
+    "driveJsonId": "1ZXv8QYkIU6CVVuGz4wcNKa2QXIsjAmd-",
+    "driveTranscriptId": "1FVKuHK8rUL-pVQL0QGBunPLpxc5Gb2gv",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-use-dashboard-summary-ai-in-gohighlevel-instant-insights",
+    "blogSlug": "how-to-use-dashboard-summary-ai-in-gohighlevel-instant-insights",
+    "streams": 0,
+    "seoDescription": "Dashboard Summary AI",
+    "blogPostedAt": "2026-03-13T18:18:47.319082"
+  },
+  {
+    "articleId": "155000006793",
+    "title": "Email Authentication Errors - Fix SPF, DKIM, and DMARC Issues",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3089285",
+    "publishedAt": "2026-03-12T17:45:00-05:00",
+    "uploadedAt": "2026-03-12T10:38:26.332722",
+    "seoTitle": "Fix Email Authentication in GoHighLevel \u2014 SPF, DKIM, DMARC",
+    "driveAudioId": "1CimjPPcxFafEcc_wUt_2Qs_BF_b5jPpN",
+    "driveJsonId": "18Av9bS2VXh3c5-httFcAUFL6pi_ErlNS",
+    "driveTranscriptId": "19ZyuivmGRiSbtTBxB9Gl1JmtTZjojoEL",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "fix-email-authentication-gohighlevel-spf-dkim-dmarc",
+    "blogSlug": "fix-email-authentication-gohighlevel-spf-dkim-dmarc",
+    "streams": 0,
+    "seoDescription": "Email Authentication Errors - Fix SPF, DKIM, and DMARC Issues",
+    "blogPostedAt": "2026-03-13T18:19:32.749745"
+  },
+  {
+    "articleId": "155000006779",
+    "title": "Accessibility at HighLevel",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3089329",
+    "publishedAt": "2026-03-12T18:30:00-05:00",
+    "uploadedAt": "2026-03-12T10:59:32.626528",
+    "seoTitle": "How to Ensure Accessibility in GoHighLevel \u2014 WCAG 2.1 Compliance",
+    "driveAudioId": "1Zm22jjhuyBZRgjP3nMs74n7zB76Idlv7",
+    "driveJsonId": "1O5_rtu5lI8eEL6L4DftoCJO8hC2xIFuS",
+    "driveTranscriptId": "1w_Ko3DRqDtiOpiyF5AEfnGAnjhi1PQgQ",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-ensure-accessibility-in-gohighlevel-wcag-21-compliance",
+    "blogSlug": "how-to-ensure-accessibility-in-gohighlevel-wcag-21-compliance",
+    "streams": 0,
+    "seoDescription": "Accessibility at HighLevel"
+  },
+  {
+    "articleId": "155000006772",
+    "title": "Overview of Traffic Source Analytics for Sites in HighLevel",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3089370",
+    "publishedAt": "2026-03-12T19:15:00-05:00",
+    "uploadedAt": "2026-03-12T11:18:57.596707",
+    "seoTitle": "How to Analyze Traffic Sources in GoHighLevel \u2014 Track Performance",
+    "driveAudioId": "1yUlScWhosGU9OiKDULBlzUXGHsl7tN2_",
+    "driveJsonId": "18hzh6wKBH0NQPEe59BwA2Lz_oqtxd_7k",
+    "driveTranscriptId": "1HHV7G7uQ7hqR6MN6rYlZrthWe5s_UwIO",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-analyze-traffic-sources-in-gohighlevel-track-performance",
+    "blogSlug": "how-to-analyze-traffic-sources-in-gohighlevel-track-performance",
+    "streams": 0,
+    "seoDescription": "Overview of Traffic Source Analytics for Sites in HighLevel"
+  },
+  {
+    "articleId": "155000007510",
+    "title": "Use Brand Voice and Brand Kit in Agent Studio",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3092255",
+    "publishedAt": "2026-03-14T11:00:00-05:00",
+    "uploadedAt": "2026-03-13T13:38:50.789673",
+    "seoTitle": "How to Use Brand Voice in GoHighLevel \u2014 Agent Studio Guide",
+    "driveAudioId": "1rkecf1VxOf4lUzi05aQK6qwHKH2u1sms",
+    "driveJsonId": "1IPzzdCJKX8flpmpv5nnYL0J64q-64VEM",
+    "driveTranscriptId": "1A651s3OwiVSNlOU8yGDKjSOaH8IHKCn6",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-use-brand-voice-in-gohighlevel-agent-studio-guide",
+    "blogSlug": "how-to-use-brand-voice-in-gohighlevel-agent-studio-guide",
+    "streams": 0,
+    "seoDescription": "Use Brand Voice and Brand Kit in Agent Studio"
+  },
+  {
+    "articleId": "155000007508",
+    "title": "Manage Prospect Statuses and Onboarding in Prospecting",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3092290",
+    "publishedAt": "2026-03-14T11:45:00-05:00",
+    "uploadedAt": "2026-03-13T13:55:28.222757",
+    "seoTitle": "How to Manage Prospect Statuses in GoHighLevel \u2014 Faster Onboarding",
+    "driveAudioId": "18pKiE7UcIdodi72_PoVpFKob5Zci2GTA",
+    "driveJsonId": "1_ZGCXJ_dfggbSo2Yaa3wkl83U8K81g32",
+    "driveTranscriptId": "1iSOAuaZ5E7VGhcD3T8YoBtXI6LhkbMZ_",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-manage-prospect-statuses-in-gohighlevel-faster-onboarding",
+    "blogSlug": "how-to-manage-prospect-statuses-in-gohighlevel-faster-onboarding",
+    "streams": 0,
+    "seoDescription": "Manage Prospect Statuses and Onboarding in Prospecting"
+  },
+  {
+    "articleId": "155000007506",
+    "title": "How to Duplicate Pipelines and Copy Pipelines to Sub-Accounts",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3092313",
+    "publishedAt": "2026-03-14T12:30:00-05:00",
+    "uploadedAt": "2026-03-13T14:09:18.165439",
+    "seoTitle": "How to Duplicate Pipelines in GoHighLevel \u2014 Save Agency Time",
+    "driveAudioId": "1VKhUUaqBTrFSrZ-wPYxmS0MgXuBStKKH",
+    "driveJsonId": "1PxtTYLz5Hnmfl5h00Exkyv7NBSko6D0i",
+    "driveTranscriptId": "1UDAFINp-fZb8VbsRJ9aZqfJ96lOvl1Po",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-duplicate-pipelines-in-gohighlevel-save-agency-time",
+    "blogSlug": "how-to-duplicate-pipelines-in-gohighlevel-save-agency-time",
+    "streams": 0,
+    "seoDescription": "How to Duplicate Pipelines and Copy Pipelines to Sub-Accounts"
+  },
+  {
+    "articleId": "155000007504",
+    "title": "Clone Agent Studio AI Agents Using Account Snapshots",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3092333",
+    "publishedAt": "2026-03-14T13:15:00-05:00",
+    "uploadedAt": "2026-03-13T14:23:37.676720",
+    "seoTitle": "Clone AI Agents in GoHighLevel \u2014 Scale Across Sub-Accounts",
+    "driveAudioId": "1H71hAT-mg9FqDYTujy4PZdXxL2MseNle",
+    "driveJsonId": "1zBwbXxwnEC2Dvz8aoXkjuzQ7r1hTsAoG",
+    "driveTranscriptId": "12ZJaFJS0MEGy1SIqzqEYtNNuiC2MRDsn",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "clone-ai-agents-gohighlevel-scale-sub-accounts",
+    "blogSlug": "clone-ai-agents-gohighlevel-scale-sub-accounts",
+    "streams": 0,
+    "seoDescription": "Clone Agent Studio AI Agents Using Account Snapshots"
+  },
+  {
+    "articleId": "155000007499",
+    "title": "Export Email Marketing Data from Email Statistics",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3092352",
+    "publishedAt": "2026-03-14T14:00:00-05:00",
+    "uploadedAt": "2026-03-13T14:39:07.087751",
+    "seoTitle": "How to Export Email Marketing Data in GoHighLevel \u2014 Track Performance",
+    "driveAudioId": "1-wXcCfuK_IwqsJx60sleDEZbpt4mUfDj",
+    "driveJsonId": "1dD6XjVgWTWFsgIMBaxOpfO4quPHGxVhu",
+    "driveTranscriptId": "1qR705gzeo5zIvhwnnFLpgMFJSeBRIc2b",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-export-email-marketing-data-gohighlevel-track-performance",
+    "blogSlug": "how-to-export-email-marketing-data-gohighlevel-track-performance",
+    "streams": 0,
+    "seoDescription": "Export Email Marketing Data from Email Statistics"
+  },
+  {
+    "articleId": "155000007497",
+    "title": "ACH - bank transfer support on NMI",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3092368",
+    "publishedAt": "2026-03-14T14:45:00-05:00",
+    "uploadedAt": "2026-03-13T14:52:58.978115",
+    "seoTitle": "How to Enable ACH Bank Transfers in GoHighLevel \u2014 NMI Setup",
+    "driveAudioId": "1aosFFAByc464_HLi8mRjbZBaR6f7C9jG",
+    "driveJsonId": "1bGexdoSdTWTOGgJJofAbz2t9SLNo6sTy",
+    "driveTranscriptId": "1CX4D7opv8Iov2U0IA3VJun5GAzVxI_tp",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-enable-ach-bank-transfers-gohighlevel-nmi-setup",
+    "blogSlug": "how-to-enable-ach-bank-transfers-gohighlevel-nmi-setup",
+    "streams": 0,
+    "seoDescription": "ACH - bank transfer support on NMI"
+  },
+  {
+    "articleId": "155000007493",
+    "title": "Notes on Custom Objects in HighLevel CRM",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3092383",
+    "publishedAt": "2026-03-14T15:30:00-05:00",
+    "uploadedAt": "2026-03-13T15:09:04.715359",
+    "seoTitle": "Master Custom Objects Notes in GoHighLevel \u2014 Complete Guide",
+    "driveAudioId": "1qQtIMXi6bgaPEP3nfwlxFYOvKhbZmlAz",
+    "driveJsonId": "10bGZDOPOMlY05AgxrdrTlv-nBa34ulSM",
+    "driveTranscriptId": "15xyjsRl8kLoE6CvJwdQyM8Kkf0xwjYa-",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "master-custom-objects-notes-gohighlevel-complete-guide",
+    "blogSlug": "master-custom-objects-notes-gohighlevel-complete-guide",
+    "streams": 0,
+    "seoDescription": "Notes on Custom Objects in HighLevel CRM"
+  },
+  {
+    "articleId": "155000006767",
+    "title": "Enable Tap to Pay on your Whitelabelled Mobile App",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3092411",
+    "publishedAt": "2026-03-14T16:15:00-05:00",
+    "uploadedAt": "2026-03-13T15:25:06.510981",
+    "seoTitle": "How to Enable Tap to Pay in GoHighLevel \u2014 Mobile Payments",
+    "driveAudioId": "1wnVy7X-uSVmV4lkfTSJRFjJZQgbLdUPm",
+    "driveJsonId": "1hv5gK2mn-mk2YspYXcotsdVXTF3zvKud",
+    "driveTranscriptId": "1Bn8EyR46rwNUwQ344hH_UOzEn5MaaMay",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-enable-tap-to-pay-in-gohighlevel-mobile-payments",
+    "blogSlug": "how-to-enable-tap-to-pay-in-gohighlevel-mobile-payments",
+    "streams": 0,
+    "seoDescription": "Enable Tap to Pay on your Whitelabelled Mobile App"
+  },
+  {
+    "articleId": "155000006757",
+    "title": "HighLevel Calendar View Enhancements \u2013 Simplified Scheduling & Filters : HighLevel Support Portal",
+    "status": "failed",
+    "failedAt": "2026-03-13T15:50:29.736255"
   }
 ]
