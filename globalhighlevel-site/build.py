@@ -24,6 +24,7 @@ BASE_DIR       = Path(__file__).parent
 POSTS_DIR      = BASE_DIR / "posts"
 PUBLIC_DIR     = BASE_DIR / "public"
 PUBLISHED_JSON = BASE_DIR / ".." / "ghl-podcast-pipeline" / "data" / "published.json"
+CATEGORIES_JSON = BASE_DIR / "categories.json"
 
 SITE_URL     = "https://globalhighlevel.com"
 SITE_NAME    = "Global High Level"
@@ -33,13 +34,17 @@ AFFILIATE    = "https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-te
 ACCENT       = "#f59e0b"   # amber
 ACCENT_DARK  = "#d97706"
 
+# Module-level categories — loaded in main()
+CATEGORIES = []
+
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 # Categories that bleed through from CMS and mean nothing to readers
 _BAD_CATS = {"home", "uncategorized", "blog", "general", ""}
 
 def slugify(text: str) -> str:
-    return re.sub(r"[^a-z0-9-]", "", text.lower().replace(" ", "-"))
+    slug = re.sub(r"[^a-z0-9-]", "", text.lower().replace(" ", "-"))
+    return re.sub(r"-{2,}", "-", slug).strip("-")
 
 def fmt_date(iso: str) -> str:
     try:
@@ -94,6 +99,12 @@ def get_related(post: dict, all_posts: list, n: int = 3) -> list:
     same = [p for p in all_posts if p.get("slug") != slug and p.get("category") == cat]
     other = [p for p in all_posts if p.get("slug") != slug and p.get("category") != cat]
     return (same + other)[:n]
+
+def load_categories() -> list[dict]:
+    """Load category definitions from categories.json."""
+    if CATEGORIES_JSON.exists():
+        return json.loads(CATEGORIES_JSON.read_text())
+    return []
 
 def write(path: Path, html: str):
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -186,6 +197,11 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.85);bac
 .nav-link:hover::after{{width:100%}}
 .nav-cta{{font-size:.8rem;font-weight:700;color:#000;background:var(--amber);padding:7px 16px;border-radius:100px;transition:background .15s}}
 .nav-cta:hover{{background:var(--amber-light);text-decoration:none}}
+.nav-dropdown{{position:relative}}
+.nav-dropdown-menu{{display:none;position:absolute;top:calc(100% + 8px);left:-12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 0;min-width:220px;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.5)}}
+.nav-dropdown:hover .nav-dropdown-menu{{display:block}}
+.nav-dropdown-menu a{{display:block;padding:8px 20px;font-size:.82rem;color:var(--text2);transition:color .15s,background .15s}}
+.nav-dropdown-menu a:hover{{color:var(--text);background:rgba(255,255,255,.05);text-decoration:none}}
 
 /* ── CONTAINER ────────────────────────────────────────────────────────────── */
 .container{{max-width:var(--max);margin:0 auto;padding:0 24px}}
@@ -218,7 +234,8 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.85);bac
 
 /* ── FLAT EDITORIAL CARDS (article list items) ────────────────────────────── */
 .card{{padding:24px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column}}
-.card-cat{{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:8px}}
+.card-cat{{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:8px;text-decoration:none;display:inline-block}}
+a.card-cat:hover{{color:var(--amber-light);text-decoration:none}}
 .card-title{{font-family:var(--sans);font-size:1.1rem;font-weight:700;line-height:1.35;margin-bottom:8px}}
 .card-title a{{color:var(--text);transition:color .15s}}
 .card-title a:hover{{color:var(--amber);text-decoration:none}}
@@ -246,6 +263,10 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.85);bac
 .sidebar-cta .s-headline{{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px}}
 .sidebar-cta .s-sub{{font-size:.8rem;color:var(--text2);margin-bottom:14px;line-height:1.5}}
 .sidebar-cta .s-fine{{font-size:.7rem;color:var(--text3);margin-top:10px}}
+.sidebar-cat-link{{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--text2);transition:color .15s}}
+.sidebar-cat-link:last-child{{border-bottom:none}}
+.sidebar-cat-link:hover{{color:var(--text);text-decoration:none}}
+.sidebar-cat-count{{font-size:.75rem;color:var(--text3);background:rgba(255,255,255,.04);padding:2px 8px;border-radius:12px}}
 
 /* ── Cards grid (for category pages) ──────────────────────────────────────── */
 .cards-grid{{display:flex;flex-direction:column;gap:0}}
@@ -483,6 +504,18 @@ footer{{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80p
 
 def base_html(title: str, description: str, canonical: str, body: str, og_image: str = "") -> str:
     og_img = og_image or "https://storage.googleapis.com/msgsndr/VL5PlkLBYG4mKk3N6PGw/media/65c56a906c059c625980d9ac.jpeg"
+    cats = CATEGORIES
+
+    # Nav dropdown links
+    dropdown_links = ""
+    for c in cats:
+        dropdown_links += f'    <a href="/category/{c["slug"]}/">{c["name"]}</a>\n'
+
+    # Footer category links (top 4)
+    footer_cat_links = ""
+    for c in cats[:4]:
+        footer_cat_links += f'        <a href="/category/{c["slug"]}/">{c["name"]}</a>\n'
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -508,7 +541,11 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
     <a href="/" class="logo">Global<span class="logo-amber">HighLevel</span></a>
     <div class="nav-links">
       <a href="/" class="nav-link">Home</a>
-      <a href="/category/gohighlevel-tutorials/" class="nav-link">Tutorials</a>
+      <div class="nav-dropdown">
+        <a class="nav-link">Topics <span style="font-size:10px">&#9662;</span></a>
+        <div class="nav-dropdown-menu">
+{dropdown_links}        </div>
+      </div>
       <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="nav-link" target="_blank" rel="noopener">Podcast</a>
       <a href="{AFFILIATE}" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
     </div>
@@ -524,16 +561,13 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
         <p class="footer-disclaimer">Affiliate disclosure: Some links on this site are affiliate links. If you sign up through our link, we may earn a commission at no extra cost to you. Not affiliated with GoHighLevel LLC.</p>
       </div>
       <div class="footer-col">
-        <h4>Site</h4>
-        <a href="/">Home</a>
-        <a href="/category/gohighlevel-tutorials/">Tutorials</a>
-        <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
-        <a href="{AFFILIATE}" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
-      </div>
+        <h4>Topics</h4>
+{footer_cat_links}      </div>
       <div class="footer-col">
         <h4>Resources</h4>
+        <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
         <a href="https://help.gohighlevel.com" target="_blank" rel="noopener">GHL Help Center</a>
-        <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=footer&utm_campaign=pricing" target="_blank" rel="nofollow noopener">GHL Pricing & Plans</a>
+        <a href="{AFFILIATE}" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -768,7 +802,7 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
         date_str = fmt_date(p.get("publishedAt", p.get("uploadedAt", "")))
         ep_id    = p.get("transistorEpisodeId", "")
         rtime    = read_time(p.get("html_content", desc))
-        cat_html = f'<span class="card-cat">{cat}</span>' if cat else ""
+        cat_html = f'<a href="/category/{slugify(cat)}/" class="card-cat">{cat}</a>' if cat else ""
         podcast  = '<span class="podcast-badge">Podcast</span>' if ep_id else ""
         return f"""
 <article class="card">
@@ -808,7 +842,7 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
         lead_cat = display_cat(lead.get("category", ""))
         lead_date = fmt_date(lead.get("publishedAt", lead.get("uploadedAt", "")))
         lead_rtime = read_time(lead.get("html_content", lead_desc))
-        lead_cat_html = f'<div class="hp-lead-cat">{lead_cat}</div>' if lead_cat else ""
+        lead_cat_html = f'<a href="/category/{slugify(lead_cat)}/" class="hp-lead-cat" style="text-decoration:none;display:inline-block">{lead_cat}</a>' if lead_cat else ""
 
         stack_html = ""
         for sp in stack_posts:
@@ -816,7 +850,7 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
             sp_title = sp.get("title", sp.get("seoTitle", ""))
             sp_cat = display_cat(sp.get("category", ""))
             sp_date = fmt_date(sp.get("publishedAt", sp.get("uploadedAt", "")))
-            sp_cat_html = f'<div class="hp-stack-cat">{sp_cat}</div>' if sp_cat else ""
+            sp_cat_html = f'<a href="/category/{slugify(sp_cat)}/" class="hp-stack-cat" style="text-decoration:none;display:inline-block">{sp_cat}</a>' if sp_cat else ""
             stack_html += f"""
 <div class="hp-stack-item">
   {sp_cat_html}
@@ -840,6 +874,16 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
   <div class="trending-title"><a href="/blog/{tp_slug}/">{tp_title}</a></div>
 </div>"""
 
+        # Topics sidebar
+        topics_html = ""
+        for c in CATEGORIES:
+            c_count = len([p for p in posts if slugify(p.get("category", "")) == c["slug"]])
+            topics_html += f"""
+<a href="/category/{c['slug']}/" class="sidebar-cat-link">
+  <span>{c['name']}</span>
+  <span class="sidebar-cat-count">{c_count}</span>
+</a>"""
+
         body = f"""
 <div class="container" style="padding-top:56px">
   <div class="hp-featured fade-1">
@@ -861,6 +905,10 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
       <div class="sidebar-section">
         <div class="section-label">Trending</div>
         <div class="sidebar-trending">{trending_html}</div>
+      </div>
+      <div class="sidebar-section">
+        <div class="section-label">Topics</div>
+        <div class="sidebar-trending">{topics_html}</div>
       </div>
       <div class="sidebar-section">
         <div class="sidebar-podcast">
@@ -923,7 +971,7 @@ def build_category_pages(posts: list[dict]):
             ep_id    = p.get("transistorEpisodeId", "")
             rtime    = read_time(p.get("html_content", desc))
             cat_label = display_cat(cat)
-            cat_html  = f'<span class="card-cat">{cat_label}</span>' if cat_label else ""
+            cat_html  = f'<a href="/category/{slugify(cat_label)}/" class="card-cat">{cat_label}</a>' if cat_label else ""
             podcast   = '<span class="podcast-badge">Podcast</span>' if ep_id else ""
             cards_html += f"""
 <article class="card">
@@ -937,12 +985,16 @@ def build_category_pages(posts: list[dict]):
   </div>
 </article>"""
 
+        cat_config = next((c for c in CATEGORIES if c["slug"] == cat_slug), None)
+        cat_desc = cat_config["description"] if cat_config else f"Free GoHighLevel {cat.lower()} guides and tutorials."
+
         body = f"""
 <div class="cat-header">
   <div class="container">
     <div class="section-label fade-1" style="border-bottom:none;padding-bottom:0;margin-bottom:8px">Category</div>
     <h1 class="fade-2">{cat}</h1>
-    <p class="fade-3">{len(cat_posts)} guides and tutorials</p>
+    <p class="fade-3">{cat_desc}</p>
+    <p class="fade-3" style="font-size:.8rem;color:var(--text3);margin-top:6px">{len(cat_posts)} guides</p>
   </div>
 </div>
 <div class="container">
@@ -961,6 +1013,8 @@ def build_category_pages(posts: list[dict]):
 
 def build_sitemap(posts: list[dict]):
     urls = [f"  <url><loc>{SITE_URL}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>"]
+    for c in CATEGORIES:
+        urls.append(f'  <url><loc>{SITE_URL}/category/{c["slug"]}/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>')
     for p in posts:
         slug = p.get("slug", "")
         date = p.get("publishedAt", p.get("uploadedAt", ""))[:10]
@@ -1041,12 +1095,16 @@ def main():
     if ROBOTS_SRC.exists():
         shutil.copy(ROBOTS_SRC, PUBLIC_DIR / "robots.txt")
 
+    global CATEGORIES
+    CATEGORIES = load_categories()
+
     posts     = load_posts()
     published = load_published()
     merged    = merge_data(posts, published)
 
     print(f"  Posts found: {len(posts)}")
     print(f"  Episodes in published.json: {len(published)}")
+    print(f"  Categories: {len(CATEGORIES)}")
     print(f"  Merged: {len(merged)}\n")
 
     # Individual post pages

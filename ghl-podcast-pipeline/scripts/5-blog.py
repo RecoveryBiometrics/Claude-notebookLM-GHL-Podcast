@@ -27,6 +27,7 @@ load_dotenv()
 BASE_DIR   = Path(__file__).parent.parent
 LOG_FILE   = BASE_DIR / "logs" / "pipeline.log"
 SITE_POSTS = BASE_DIR.parent / "globalhighlevel-site" / "posts"
+CATEGORIES_FILE = BASE_DIR.parent / "globalhighlevel-site" / "categories.json"
 
 ANTHROPIC_API_KEY  = os.getenv("ANTHROPIC_API_KEY")
 GHL_AFFILIATE_LINK = os.getenv("GHL_AFFILIATE_LINK")
@@ -254,6 +255,21 @@ Return a JSON object with these exact keys:
     return result
 
 
+# ── Category Classification ───────────────────────────────────────────────────
+def classify_post(title: str) -> str:
+    """Classify a post into a category by keyword matching against the title."""
+    if not CATEGORIES_FILE.exists():
+        return "GoHighLevel Tutorials"
+    categories = json.loads(CATEGORIES_FILE.read_text())
+    title_lower = title.lower()
+    for cat in categories:
+        sorted_kw = sorted(cat["keywords"], key=len, reverse=True)
+        for kw in sorted_kw:
+            if kw in title_lower:
+                return cat["name"]
+    return categories[-1]["name"] if categories else "GoHighLevel Tutorials"
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 def create_blog_post(article: dict) -> dict:
     """
@@ -298,7 +314,7 @@ def create_blog_post(article: dict) -> dict:
         "title":        title,
         "description":  post_data["meta_description"],
         "html_content": post_data["html_content"],
-        "category":     article.get("category", "GoHighLevel Tutorials"),
+        "category":     classify_post(title),
         "articleId":    str(article.get("id", "")),
         "publishedAt":  datetime.now().isoformat(),
     }
