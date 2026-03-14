@@ -10,7 +10,7 @@ import json
 import os
 import re
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import requests
@@ -21,10 +21,17 @@ load_dotenv()
 BASE_DIR = Path(__file__).parent.parent
 PUBLISHED_FILE = BASE_DIR / "data" / "published.json"
 TOPIC_WEIGHTS_FILE = BASE_DIR / "data" / "topic-weights.json"
+GSC_DATA_FILE = BASE_DIR / "data" / "gsc-stats.json"
 LOG_FILE = BASE_DIR / "logs" / "pipeline.log"
 
 TRANSISTOR_API_KEY = os.getenv("TRANSISTOR_API_KEY")
 TRANSISTOR_SHOW_ID = os.getenv("TRANSISTOR_SHOW_ID")
+
+# Google Search Console
+GSC_TOKEN_FILE = BASE_DIR / "token-gsc.json"
+CREDENTIALS_FILE = BASE_DIR / os.getenv("GOOGLE_CREDENTIALS_FILE", "credentials.json")
+GSC_SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
+GSC_SITE_URL = "https://globalhighlevel.com/"
 
 
 def log(msg: str):
@@ -189,6 +196,118 @@ def print_report(weights: dict):
         log("  Hot keywords: " + ", ".join(kws[:8]))
 
 
+# ── Google Search Console ─────────────────────────────────────────────────────
+def get_gsc_service():
+    """Authenticate with Google Search Console API."""
+    from google.oauth2.credentials import Credentials
+    from google_auth_oauthlib.flow import InstalledAppFlow
+    from google.auth.transport.requests import Request
+    from googleapiclient.discovery import build
+
+    creds = None
+    if GSC_TOKEN_FILE.exists():
+        creds = Credentials.from_authorized_user_file(str(GSC_TOKEN_FILE), GSC_SCOPES)
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                str(CREDENTIALS_FILE), GSC_SCOPES
+            )
+            creds = flow.run_local_server(port=0)
+        with open(GSC_TOKEN_FILE, "w") as f:
+            f.write(creds.to_json())
+    return build("searchconsole", "v1", credentials=creds)
+
+
+def fetch_gsc_data() -> dict:
+    """Pull search performance data from Google Search Console for the last 28 days."""
+    try:
+        service = get_gsc_service()
+
+        end_date = (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d")
+        start_date = (datetime.now() - timedelta(days=31)).strftime("%Y-%m-%d")
+
+        # Per-page data
+        page_response = service.searchanalytics().query(
+            siteUrl=GSC_SITE_URL,
+            body={
+                "startDate": start_date,
+                "endDate": end_date,
+                "dimensions": ["page"],
+                "rowLimit": 500,
+            }
+        ).execute()
+
+        # Top queries
+        query_response = service.searchanalytics().query(
+            siteUrl=GSC_SITE_URL,
+            body={
+                "startDate": start_date,
+                "endDate": end_date,
+                "dimensions": ["query"],
+                "rowLimit": 50,
+            }
+        ).execute()
+
+        # Site-wide totals
+        totals_response = service.searchanalytics().query(
+            siteUrl=GSC_SITE_URL,
+            body={
+                "startDate": start_date,
+                "endDate": end_date,
+            }
+        ).execute()
+
+        pages = []
+        for row in page_response.get("rows", []):
+            pages.append({
+                "page": row["keys"][0],
+                "clicks": row.get("clicks", 0),
+                "impressions": row.get("impressions", 0),
+                "ctr": round(row.get("ctr", 0) * 100, 1),
+                "position": round(row.get("position", 0), 1),
+            })
+
+        queries = []
+        for row in query_response.get("rows", []):
+            queries.append({
+                "query": row["keys"][0],
+                "clicks": row.get("clicks", 0),
+                "impressions": row.get("impressions", 0),
+                "ctr": round(row.get("ctr", 0) * 100, 1),
+                "position": round(row.get("position", 0), 1),
+            })
+
+        totals_rows = totals_response.get("rows", [{}])
+        totals = totals_rows[0] if totals_rows else {}
+
+        gsc_data = {
+            "updated_at": datetime.now().isoformat(),
+            "period": f"{start_date} to {end_date}",
+            "totals": {
+                "clicks": totals.get("clicks", 0),
+                "impressions": totals.get("impressions", 0),
+                "ctr": round(totals.get("ctr", 0) * 100, 1),
+                "position": round(totals.get("position", 0), 1),
+            },
+            "pages": sorted(pages, key=lambda x: x["clicks"], reverse=True),
+            "queries": sorted(queries, key=lambda x: x["impressions"], reverse=True),
+        }
+
+        with open(GSC_DATA_FILE, "w") as f:
+            json.dump(gsc_data, f, indent=2)
+
+        log(f"  GSC: {gsc_data['totals']['clicks']} clicks, {gsc_data['totals']['impressions']} impressions (last 28 days)")
+        log(f"  GSC: {len(pages)} pages tracked, {len(queries)} queries")
+        return gsc_data
+
+    except Exception as e:
+        log(f"  GSC fetch failed: {e}")
+        log(f"  (Run analytics.py manually to authorize GSC: venv/bin/python3 scripts/analytics.py)")
+        return {}
+
+
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
     log("=" * 60)
@@ -198,13 +317,13 @@ def main():
         log("ERROR: TRANSISTOR_API_KEY or TRANSISTOR_SHOW_ID missing from .env")
         return
 
-    log("Step 1/3 — Fetching episode downloads from Transistor...")
+    log("Step 1/4 — Fetching episode downloads from Transistor...")
     downloads = fetch_episode_analytics()
 
-    log("Step 2/3 — Updating stream counts in published.json...")
+    log("Step 2/4 — Updating stream counts in published.json...")
     records = update_published_streams(downloads)
 
-    log("Step 3/3 — Building topic weights...")
+    log("Step 3/4 — Building topic weights...")
     weights = build_topic_weights(records)
 
     if weights:
@@ -212,6 +331,9 @@ def main():
             json.dump(weights, f, indent=2)
         log(f"  Saved topic-weights.json")
         print_report(weights)
+
+    log("Step 4/4 — Fetching Google Search Console data...")
+    fetch_gsc_data()
 
     log("Analytics complete")
     log("=" * 60)

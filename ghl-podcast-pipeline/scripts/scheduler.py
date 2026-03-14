@@ -48,6 +48,7 @@ SCRIPTS_DIR = Path(__file__).parent
 STATE_FILE = BASE_DIR / "logs" / "scheduler-state.json"
 PUBLISHED_FILE = BASE_DIR / "data" / "published.json"
 TOPIC_WEIGHTS_FILE = BASE_DIR / "data" / "topic-weights.json"
+GSC_DATA_FILE = BASE_DIR / "data" / "gsc-stats.json"
 
 CYCLE_HOURS = 25
 GMAIL_ADDRESS = os.getenv("GMAIL_ADDRESS", "bill@reiamplifi.com")
@@ -235,6 +236,108 @@ HOT KEYWORDS (SEO is targeting these)
         except Exception:
             analytics_text = ""
 
+    # --- Top 20 podcast episodes by downloads ---
+    top_episodes_text = ""
+    if PUBLISHED_FILE.exists():
+        try:
+            with open(PUBLISHED_FILE) as f:
+                all_eps = json.load(f)
+            eps_with_streams = [
+                e for e in all_eps
+                if e.get("status") == "published" and e.get("streams", 0) > 0
+            ]
+            eps_with_streams.sort(key=lambda x: x.get("streams", 0), reverse=True)
+            top_20 = eps_with_streams[:20]
+            if top_20:
+                ep_lines = "\n".join(
+                    f"  {e.get('streams', 0):>6} — {(e.get('seoTitle') or e.get('title', ''))[:60]}"
+                    for e in top_20
+                )
+                top_episodes_text = f"""
+TOP 20 PODCAST EPISODES (by downloads)
+{ep_lines}
+"""
+        except Exception:
+            top_episodes_text = ""
+
+    # --- Google Search Console ---
+    gsc_text = ""
+    if GSC_DATA_FILE.exists():
+        try:
+            with open(GSC_DATA_FILE) as f:
+                gsc = json.load(f)
+            t = gsc.get("totals", {})
+            period = gsc.get("period", "last 28 days")
+
+            # Top pages by clicks
+            top_pages = gsc.get("pages", [])[:10]
+            page_lines = "\n".join(
+                f"  {p['clicks']:>4} clicks | {p['impressions']:>6} imp | pos {p['position']:>4} — {p['page'].replace('https://globalhighlevel.com','')[:50]}"
+                for p in top_pages
+            ) or "  (no data yet)"
+
+            # Top queries
+            top_queries = gsc.get("queries", [])[:15]
+            query_lines = "\n".join(
+                f"  {q['clicks']:>4} clicks | {q['impressions']:>6} imp | pos {q['position']:>4} — {q['query'][:50]}"
+                for q in top_queries
+            ) or "  (no data yet)"
+
+            # Category rollup — match page URLs to categories
+            categories_file = BASE_DIR.parent / "globalhighlevel-site" / "categories.json"
+            cat_rollup_text = ""
+            if categories_file.exists():
+                cats = json.loads(categories_file.read_text())
+                site_posts_dir = BASE_DIR.parent / "globalhighlevel-site" / "posts"
+                # Build slug→category map
+                slug_to_cat = {}
+                if site_posts_dir.exists():
+                    for pf in site_posts_dir.glob("*.json"):
+                        try:
+                            pd = json.loads(pf.read_text())
+                            slug_to_cat[pd.get("slug", "")] = pd.get("category", "")
+                        except Exception:
+                            pass
+
+                # Aggregate GSC data by category
+                cat_clicks = {}
+                cat_impressions = {}
+                for page_data in gsc.get("pages", []):
+                    url = page_data["page"]
+                    # Extract slug from URL
+                    slug_match = url.split("/blog/")
+                    if len(slug_match) > 1:
+                        slug = slug_match[1].strip("/")
+                        cat = slug_to_cat.get(slug, "Other")
+                        cat_clicks[cat] = cat_clicks.get(cat, 0) + page_data.get("clicks", 0)
+                        cat_impressions[cat] = cat_impressions.get(cat, 0) + page_data.get("impressions", 0)
+
+                if cat_clicks:
+                    cat_lines = "\n".join(
+                        f"  {cat_clicks[c]:>4} clicks | {cat_impressions[c]:>6} imp — {c}"
+                        for c in sorted(cat_clicks, key=cat_clicks.get, reverse=True)
+                    )
+                    cat_rollup_text = f"""
+  By category:
+{cat_lines}
+"""
+
+            gsc_text = f"""
+GOOGLE SEARCH CONSOLE ({period})
+  Total clicks:         {t.get('clicks', 0)}
+  Total impressions:    {t.get('impressions', 0)}
+  Avg CTR:              {t.get('ctr', 0)}%
+  Avg position:         {t.get('position', 0)}
+{cat_rollup_text}
+  Top pages:
+{page_lines}
+
+  Top search queries:
+{query_lines}
+"""
+        except Exception:
+            gsc_text = ""
+
     summary = f"""GHL Podcast Pipeline — Daily Report
 Cycle #{cycle_num} | {datetime.now().strftime("%B %d, %Y %I:%M %p")}
 
@@ -255,7 +358,7 @@ ALL TIME
 
 NEXT RUN
   {next_run.strftime("%B %d, %Y at %I:%M %p")}
-{site_text}{analytics_text}
+{site_text}{gsc_text}{analytics_text}{top_episodes_text}
 TODAY'S EPISODES
 {titles_text}
 
