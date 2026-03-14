@@ -157,6 +157,53 @@ def build_summary(cycle_num: int, next_run: datetime) -> str:
 
     needs_action = failed_today > 0 and total_failed > 0
 
+    # --- Site updates section ---
+    site_text = ""
+    site_posts_dir = BASE_DIR.parent / "globalhighlevel-site" / "posts"
+    categories_file = BASE_DIR.parent / "globalhighlevel-site" / "categories.json"
+    if site_posts_dir.exists():
+        try:
+            site_posts = []
+            new_today = []
+            for f in sorted(site_posts_dir.glob("*.json")):
+                try:
+                    data = json.loads(f.read_text())
+                    site_posts.append(data)
+                    pub_date = data.get("publishedAt", "")
+                    if pub_date.startswith(today):
+                        new_today.append(data.get("title", data.get("slug", "")))
+                except Exception:
+                    pass
+
+            # Category breakdown
+            cat_counts = {}
+            for sp in site_posts:
+                cat = sp.get("category", "Uncategorized")
+                cat_counts[cat] = cat_counts.get(cat, 0) + 1
+
+            # Sort by count descending
+            cat_lines = "\n".join(
+                f"  {count:>3} — {cat}"
+                for cat, count in sorted(cat_counts.items(), key=lambda x: -x[1])
+            )
+
+            new_today_text = "\n".join(f"  • {t[:70]}" for t in new_today) if new_today else "  (none today)"
+
+            site_text = f"""
+GLOBALHIGHLEVEL.COM
+  Total posts live:     {len(site_posts)}
+  New today:            {len(new_today)}
+  Categories:           {len(cat_counts)}
+
+  Posts by category:
+{cat_lines}
+
+  New posts deployed today:
+{new_today_text}
+"""
+        except Exception:
+            site_text = ""
+
     # --- Analytics section ---
     analytics_text = ""
     if TOPIC_WEIGHTS_FILE.exists():
@@ -208,7 +255,7 @@ ALL TIME
 
 NEXT RUN
   {next_run.strftime("%B %d, %Y at %I:%M %p")}
-{analytics_text}
+{site_text}{analytics_text}
 TODAY'S EPISODES
 {titles_text}
 
