@@ -21,9 +21,10 @@ https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12
 
 ## Websites
 - **globalhighlevel.com** — main SEO content hub (all new blog posts go here)
-  - Hosted: Netlify (free, auto-deploys from GitHub)
+  - Hosted: **Cloudflare Pages** (free, auto-deploys from GitHub on push to main)
+  - Cloudflare Pages URL: claude-notebooklm-ghl-podcast.pages.dev
+  - DNS: Cloudflare (nameservers: kyrie.ns.cloudflare.com, lara.ns.cloudflare.com)
   - Registrar: Namecheap (login: wcw1985)
-  - Netlify URL: courageous-taiyaki-2c1846.netlify.app
   - GitHub repo: https://github.com/RecoveryBiometrics/Claude-notebookLM-GHL-Podcast
   - Google Search Console: verified ✅ sitemap submitted ✅
   - GSC verification code: TqqkuU1JDcd_0KnXbs_wGvyamJucFYVZiSLx9ICbeq4
@@ -37,7 +38,7 @@ Runs every 25 hours via systemd. Cycle order:
 2. **retry-failed.py** — recovers partial failures from previous cycle
 3. **run-pipeline.py** — generates + publishes 20 podcast episodes + 1 blog post each
 4. **6-india-blog.py** — publishes 5 India blog topics
-5. **deploy_site()** — git pushes new posts/*.json → Netlify rebuilds globalhighlevel.com in ~30 seconds
+5. **deploy_site()** — git pushes new posts/*.json → Cloudflare Pages rebuilds globalhighlevel.com
 6. Sends daily email summary to bill@reiamplifi.com
 7. Sleeps 25 hours, repeats
 
@@ -50,7 +51,7 @@ Runs every 25 hours via systemd. Cycle order:
 | 3-seo.py | SEO Writer | Claude Haiku writes SEO title, description, tags + bakes in affiliate link |
 | 4-upload.py | Publisher | Downloads audio from Drive → uploads to Transistor.fm → schedules episode. Gemini Flash transcribes audio → saves to Drive (Transcripts/ subfolder) |
 | 5-blog.py | Blog Writer | DuckDuckGo SERP + Reddit research → Claude Haiku writes SEO blog post → saves to globalhighlevel-site/posts/{slug}.json → auto-deploys to globalhighlevel.com |
-| run-pipeline.py | Orchestrator | Runs steps 1-4 per episode. Blog failure is non-fatal. |
+| run-pipeline.py | Orchestrator | Runs steps 1-4 per episode. Blog failure is non-fatal. NotebookLM timeout/failure halts the entire cycle immediately — does NOT skip and continue. Failed episode saved for retry-failed.py next cycle. |
 | retry-failed.py | Recovery | Retries failed episodes from previous cycle |
 | analytics.py | Analytics | Pulls Transistor download data, updates topic weights |
 
@@ -74,7 +75,7 @@ Runs every 25 hours via systemd. Cycle order:
 - GHL starts at $97/month
 
 ### Site Builder (globalhighlevel-site/build.py)
-Runs automatically on Netlify on every GitHub push. Generates:
+Runs automatically on Cloudflare Pages on every GitHub push. Generates:
 - public/index.html — homepage (uses homepage_hero.html if present)
 - public/blog/{slug}/index.html — individual post pages
 - public/category/{slug}/index.html — category pages
@@ -91,7 +92,7 @@ cd globalhighlevel-site
 - **Designer Agent** (claude-opus-4-6) — writes full homepage HTML
 - **Manager Agent** (claude-opus-4-6) — reviews against zero-tolerance checklist
 - Uses verified facts only — see VERIFIED_FACTS block in the script
-- Output: homepage_hero.html → picked up by build.py on next Netlify deploy
+- Output: homepage_hero.html → picked up by build.py on next Cloudflare Pages deploy
 
 ## Blog Agent — How It Works (5-blog.py)
 - **SERP:** DuckDuckGo HTML scrape (no API key) — top 5 results drive H2 structure
@@ -112,13 +113,13 @@ Every 25 hours (automated):
     4-upload.py      → upload to Transistor.fm → transcribe
     5-blog.py        → write blog post → save to globalhighlevel-site/posts/
   6-india-blog.py    → write 5 India posts → save to globalhighlevel-site/posts/
-  deploy_site()      → git push → Netlify rebuilds globalhighlevel.com
+  deploy_site()      → git push → Cloudflare Pages rebuilds globalhighlevel.com
   send email         → daily summary to bill@reiamplifi.com
   sleep 25 hours
 ```
 
 ## Tech Stack
-Python, anthropic SDK, notebooklm SDK, Google Drive API, Transistor.fm API, Gemini Flash (transcription), requests + BeautifulSoup (scraping), Netlify (static hosting), GitHub (auto-deploy trigger)
+Python, anthropic SDK, notebooklm SDK, Google Drive API, Transistor.fm API, Gemini Flash (transcription), requests + BeautifulSoup (scraping), Cloudflare Pages (static hosting), GitHub (auto-deploy trigger)
 
 ## .env Keys
 - TRANSISTOR_API_KEY, TRANSISTOR_SHOW_ID
@@ -139,6 +140,5 @@ Python, anthropic SDK, notebooklm SDK, Google Drive API, Transistor.fm API, Gemi
 ## User Context
 - Not a developer — explain in plain English
 - Chromebook with Linux (Crostini) — NOT a Mac
-- IDE: Kiro (VS Code-based)
 - Budget: ~$70/month
 - Active GHL user — use native GHL features before third-party tools
