@@ -27,7 +27,7 @@ Goal: fully automated content engine driving GHL affiliate signups via podcast +
 ## ✅ globalhighlevel.com — Built & Live
 
 - [x] Domain purchased — globalhighlevel.com on Namecheap (wcw1985), Mar 11, 2026, ~$12/year
-- [x] Netlify free hosting — auto-deploys from GitHub on every push
+- [x] ~~Netlify free hosting~~ ⛔ HIT USAGE LIMIT — site paused. Migrating to Cloudflare Pages (see #1 priority)
 - [x] Static site generator (build.py) — homepage, post pages, category pages, sitemap, 404, llms.txt
 - [x] DNS pointed to Netlify — CNAME records set in Namecheap
 - [x] SSL certificate live — HTTPS enabled on globalhighlevel.com ✅ Mar 11, 2026
@@ -44,7 +44,25 @@ Goal: fully automated content engine driving GHL affiliate signups via podcast +
 
 ---
 
+## ✅ Cloudflare Pages Migration — DONE (Mar 15, 2026)
+
+- [x] Migrated from Netlify → Cloudflare Pages (free tier, unlimited bandwidth)
+- [x] DNS moved from Namecheap BasicDNS → Cloudflare nameservers (kyrie.ns.cloudflare.com, lara.ns.cloudflare.com)
+- [x] CNAME records pointed to claude-notebooklm-ghl-podcast.pages.dev
+- [x] Custom domains: globalhighlevel.com + www.globalhighlevel.com
+- [x] Build: root=globalhighlevel-site, command=python3 build.py, output=public
+- [ ] Delete Netlify site (once Cloudflare fully verified)
+- [ ] Update CLAUDE.md references from Netlify → Cloudflare
+
+---
+
 ## 🔜 Next Up — In Priority Order
+
+
+### 🚨 #2 — Affiliate Tracker
+- [ ] **Test affiliate-tracker.py** — script is built, needs first test run with `--headed` flag to verify browser navigation works correctly. Run: `venv/bin/python3 scripts/affiliate-tracker.py --headed`. If selectors miss, check screenshots in `logs/` and fix. Once working, wire into scheduler (runs daily before analytics.py). Scrapes: Referrals, Customers, Clicks, Unpaid Earnings → saves to `data/affiliate-stats.json`.
+
+---
 
 ### globalhighlevel.com
 - [ ] **Homepage redesign** — current design needs a full rethink. Reference Raycast.com, Resend.com, Framer.com. Write directly — do not use AI agents (token limit causes truncation). Amber accent, Instrument Serif, editorial layout are the right direction — execution needs work.
@@ -55,6 +73,34 @@ Goal: fully automated content engine driving GHL affiliate signups via podcast +
 - [ ] **GSC indexing check** — ⚠️ Visit search.google.com/search-console in 3-5 days to confirm globalhighlevel.com pages are indexed by Google
 
 ### SEO
+
+#### 🚨 GSC Intelligence Agent (7-gsc-agent.py) — NEW
+Two-part system that turns Google Search Console data into automated content actions.
+
+**Agent 1 — GSC Analyst (gsc-analyst.py)**
+Connects to GSC API, runs weekly analysis:
+- **Keyword gaps** — queries where site appears on page 2-3 (positions 11-30) that need dedicated content
+- **Cannibalization** — multiple pages competing for the same query, killing each other's rankings
+- **Declining pages** — posts losing impressions/clicks over 7/14/30 day windows
+- **High-impression / low-CTR** — pages ranking but not getting clicks (title/description needs work)
+- **Zero-click queries** — queries with impressions but 0 clicks (featured snippet opportunity)
+- **New keyword opportunities** — queries driving traffic that don't have dedicated content yet
+- **Content freshness** — pages that haven't been updated in 60+ days on competitive queries
+- Outputs: `data/gsc-report.json` with prioritized action items + includes in daily email summary
+
+**Agent 2 — Content Gap Builder (gsc-content-builder.py)**
+Reads `data/gsc-report.json` and takes automated action:
+- Creates new posts targeting keyword gaps (feeds into 5-blog.py)
+- Rewrites titles/meta descriptions for low-CTR pages
+- Merges or redirects cannibalized pages
+- Refreshes stale content with updated info
+- Builds new pillar pages when cluster of related gaps detected
+- Logs all actions to `data/gsc-actions-log.json`
+
+**Architecture note:** This is a reusable pattern — build it site-agnostic so every new site gets the same GSC intelligence automatically. Config per site: GSC property URL, posts directory, blog agent script.
+
+---
+
 - [ ] **Internal Linking Agent** — on each new post, search published.json for related posts, inject 2-3 internal links. Biggest SEO gap right now.
 - [ ] **Pillar pages** — 4-5 long-form hub pages (3,000+ words) that smaller posts link back to. Builds topical authority. Examples: "Complete GoHighLevel Guide for Agencies", "GoHighLevel Automation Masterclass"
 - [ ] **Author + About page** — Google E-E-A-T rewards real author profiles. "About William Welch" page + author bio on every post.
@@ -105,5 +151,6 @@ Goal: fully automated content engine driving GHL affiliate signups via podcast +
 - All episode data in published.json — single source of truth for all agents
 - Pipeline is stable — good foundation to build agents on top of
 - Namecheap login: wcw1985 (stored in .env)
-- Netlify site: courageous-taiyaki-2c1846.netlify.app → globalhighlevel.com
+- ~~Netlify site: courageous-taiyaki-2c1846.netlify.app~~ — DEPRECATED, hit usage limit. Migrating to Cloudflare Pages.
+- **Never use Netlify again** — bandwidth cap (100GB/mo) is incompatible with our content volume
 - GSC verified: TqqkuU1JDcd_0KnXbs_wGvyamJucFYVZiSLx9ICbeq4 (stored in .env)

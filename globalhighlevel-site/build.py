@@ -886,10 +886,15 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
 
         body = f"""
 <div class="container" style="padding-top:56px">
+  <div class="hp-hero fade-1" style="text-align:center;padding:48px 0 40px">
+    <h1 style="font-family:var(--sans);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:var(--text);line-height:1.15;letter-spacing:-.5px;margin:0 0 12px">GoHighLevel Tutorials, Tips &amp; 30-Day Free Trial</h1>
+    <p style="font-size:1.1rem;color:var(--muted);max-width:640px;margin:0 auto 20px;line-height:1.6">Learn how to automate your agency with GoHighLevel. Free tutorials, podcast episodes &amp; step-by-step guides — updated daily.</p>
+    <a href="{AFFILIATE}&utm_campaign=hero" class="btn-amber" style="font-size:.9rem;padding:12px 28px" target="_blank" rel="nofollow noopener">Start Your 30-Day Free Trial</a>
+  </div>
   <div class="hp-featured fade-1">
     <div class="hp-lead">
       {lead_cat_html}
-      <h1 class="hp-lead-title"><a href="/blog/{lead_slug}/">{lead_title}</a></h1>
+      <h2 class="hp-lead-title"><a href="/blog/{lead_slug}/">{lead_title}</a></h2>
       <p class="hp-lead-desc">{lead_desc}</p>
       <div class="hp-lead-meta">{lead_date} &middot; {lead_rtime}</div>
     </div>
