@@ -280,8 +280,8 @@ async def process_one(article: dict, published_today: int) -> dict | None:
     log("Step 1/3 — Generating audio via NotebookLM")
     result = await notebooklm.process_article(article)
     if not result:
-        log(f"FAILED at NotebookLM — skipping")
-        return None
+        log(f"FAILED at NotebookLM — halting cycle")
+        return {"status": "notebooklm_failed"}
     time.sleep(3)
 
     # Step 2: SEO agents
@@ -398,6 +398,19 @@ async def main():
                 log("Halting pipeline. Run retry-failed.py after fixing the issue.")
                 save_published(published)
                 return
+        elif result and result.get("status") == "notebooklm_failed":
+            # NotebookLM timed out or hit API limits — stop now, let it rest until next cycle
+            published.append({
+                "articleId": article["id"],
+                "title": article.get("title", ""),
+                "status": "failed",
+                "failedAt": datetime.now().isoformat(),
+            })
+            published_ids.add(article["id"])
+            failed += 1
+            log("ERROR: NotebookLM failure — halting pipeline. Will retry next cycle.")
+            save_published(published)
+            return
         else:
             # Check if failure was at upload stage (audio on Drive but no Transistor ID)
             drive_id = None
