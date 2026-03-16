@@ -107,13 +107,15 @@ venv/bin/python3 scripts/retry-failed.py
 
 Each episode record contains:
 - `articleId` — GHL help article ID
-- `transistorEpisodeId` — live on Transistor.fm
+- `transistorEpisodeId` — numeric Transistor episode ID
+- `transistorEmbedHash` — hash for embed URLs (e.g., `share.transistor.fm/e/{hash}`)
 - `driveAudioId` — audio file on Google Drive
 - `driveJsonId` — original article body on Google Drive (for future blog posts)
 - `driveTranscriptId` — full transcript on Google Drive (for future use)
 - `seoTitle`, `seoDescription`, `seoTags` — what listeners see
 - `publishedAt` — when it goes live
 - `streams` — play count (update manually from Transistor dashboard)
+- `blogSlug` — matching blog post slug on globalhighlevel.com
 
 ---
 
