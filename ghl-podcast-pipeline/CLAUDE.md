@@ -49,8 +49,8 @@ Runs every 25 hours via systemd. Cycle order:
 | 1-scraper.py | Scraper | Scrapes GHL help articles from help.gohighlevel.com → saves JSON to data/articles/ |
 | 2-notebooklm.py | Content Generator | Claude enriches articles → NotebookLM generates podcast audio → uploads to Google Drive (Audio/ subfolder) |
 | 3-seo.py | SEO Writer | Claude Haiku writes SEO title, description, tags + bakes in affiliate link |
-| 4-upload.py | Publisher | Downloads audio from Drive → uploads to Transistor.fm → schedules episode. Gemini Flash transcribes audio → saves to Drive (Transcripts/ subfolder) |
-| 5-blog.py | Blog Writer | DuckDuckGo SERP + Reddit research → Claude Haiku writes SEO blog post → saves to globalhighlevel-site/posts/{slug}.json → auto-deploys to globalhighlevel.com |
+| 4-upload.py | Publisher | Downloads audio from Drive → uploads to Transistor.fm → schedules episode → extracts embed hash for blog embeds. Gemini Flash transcribes audio → saves to Drive (Transcripts/ subfolder) |
+| 5-blog.py | Blog Writer | DuckDuckGo SERP + Reddit research → Claude Haiku writes SEO blog post → saves to globalhighlevel-site/posts/{slug}.json (includes transistorEpisodeId embed hash for iframe player) → auto-deploys to globalhighlevel.com |
 | run-pipeline.py | Orchestrator | Runs steps 1-4 per episode. Blog failure is non-fatal. NotebookLM timeout/failure halts the entire cycle immediately — does NOT skip and continue. Failed episode saved for retry-failed.py next cycle. |
 | retry-failed.py | Recovery | Retries failed episodes from previous cycle |
 | analytics.py | Analytics | Pulls Transistor download data, updates topic weights |
