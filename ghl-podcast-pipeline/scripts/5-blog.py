@@ -316,6 +316,7 @@ def create_blog_post(article: dict) -> dict:
         "html_content": post_data["html_content"],
         "category":     classify_post(title),
         "articleId":    str(article.get("id", "")),
+        "transistorEpisodeId": article.get("transistorEmbedHash", ""),
         "publishedAt":  datetime.now().isoformat(),
     }
     post_file = SITE_POSTS / f"{post_data['slug']}.json"

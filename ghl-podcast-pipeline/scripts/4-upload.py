@@ -11,6 +11,7 @@ Three-step Transistor upload process:
 import json
 import os
 import io
+import re
 import tempfile
 import requests
 from google import genai
@@ -287,13 +288,18 @@ def upload_episode(article: dict, published_today: int = 0) -> dict:
         audio_url, title, description, tags, publish_time, transcript
     )
     episode_id = result_data["data"]["id"]
+    # Extract embed hash from Transistor's embed_html (e.g., "...src=\"https://share.transistor.fm/e/93df003f\"...")
+    embed_html = result_data["data"].get("attributes", {}).get("embed_html", "")
+    embed_match = re.search(r'/e/([a-f0-9]+)', embed_html)
+    embed_hash = embed_match.group(1) if embed_match else ""
 
-    log(f"Episode live on Transistor — ID: {episode_id}")
+    log(f"Episode live on Transistor — ID: {episode_id}, embed: {embed_hash}")
 
     return {
         **article,
         "status": "published",
         "transistorEpisodeId": episode_id,
+        "transistorEmbedHash": embed_hash,
         "publishedAt": publish_time.isoformat(),
         "uploadedAt": datetime.now().isoformat(),
         "driveTranscriptId": drive_transcript_id,
