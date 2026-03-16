@@ -1,0 +1,15 @@
+[Unit]
+Description=GHL Podcast Pipeline Scheduler
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/williamcourterwelch/Claude_notebookLM_GHL_Podcast/ghl-podcast-pipeline
+ExecStart=/home/williamcourterwelch/Claude_notebookLM_GHL_Podcast/ghl-podcast-pipeline/venv/bin/python3 scripts/scheduler.py
+Restart=on-failure
+RestartSec=30
+StandardOutput=append:/home/williamcourterwelch/Claude_notebookLM_GHL_Podcast/ghl-podcast-pipeline/logs/scheduler.log
+StandardError=append:/home/williamcourterwelch/Claude_notebookLM_GHL_Podcast/ghl-podcast-pipeline/logs/scheduler.log
+
+[Install]
+WantedBy=default.target
