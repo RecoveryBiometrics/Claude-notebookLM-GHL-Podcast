@@ -90,7 +90,12 @@
       "Bash(find /home/williamcourterwelch -maxdepth 3 -name \"*.json\" 2>/dev/null | grep -i \"safe\\\\|path\" | head -10)",
       "Bash(find /home/williamcourterwelch/safebath -name \"credentials*.json\" -o -name \"token*.json\" -o -name \"*.env\" -o -name \".env\" 2>/dev/null | head -10)",
       "Bash(find /home/williamcourterwelch/safebath -name \"*.json\" 2>/dev/null | xargs grep -l \"client_id\\\\|client_secret\\\\|gmail\\\\|smtp\" 2>/dev/null | head -10)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(git remote:*)",
+      "Bash(grep:*)",
+      "WebFetch(domain:share.transistor.fm)",
+      "Bash(source:*)",
+      "Bash(ghl-podcast-pipeline/venv/bin/python3 ghl-podcast-pipeline/scripts/backfill-embed-hashes.py)"
     ]
   }
 }

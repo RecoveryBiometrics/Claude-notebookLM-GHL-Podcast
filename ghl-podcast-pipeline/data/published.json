@@ -2472,5 +2472,39 @@
     "blogSlug": "how-to-build-smarter-emails-in-gohighlevel-email-campaign-agent",
     "streams": 0,
     "transistorEmbedHash": "44438948"
+  },
+  {
+    "articleId": "155000006668",
+    "title": "Unique Field Support for Custom Objects in HighLevel",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3098013",
+    "publishedAt": "2026-03-17T08:00:00-05:00",
+    "uploadedAt": "2026-03-17T04:53:42.425514",
+    "seoTitle": "How to Use Unique Fields in GoHighLevel \u2014 Prevent Data Duplication",
+    "driveAudioId": "1AviKoNobeaxpeYUAokcbFOe8DsjbbIwd",
+    "driveJsonId": "1n_1-Nooh23LNYVFjv-X1DOOF1o4ytL0_",
+    "driveTranscriptId": "1whR0ckctvglaoafZej8L2_OO_pWn5xAH",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-use-unique-fields-in-gohighlevel-prevent-data-duplication",
+    "blogSlug": "how-to-use-unique-fields-in-gohighlevel-prevent-data-duplication",
+    "streams": 0
+  },
+  {
+    "articleId": "155000006667",
+    "title": "Audit Logs: Introducing the New Design Experience (UI)",
+    "category": "Home",
+    "status": "published",
+    "transistorEpisodeId": "3098030",
+    "publishedAt": "2026-03-17T08:45:00-05:00",
+    "uploadedAt": "2026-03-17T05:07:33.180822",
+    "seoTitle": "How to Use Audit Logs in GoHighLevel \u2014 Track All Account Changes",
+    "driveAudioId": "1rzCm4vYvU51nWfurZyiI_p_X76uLUD50",
+    "driveJsonId": "1BjwzCyq_4t814L-rToz226lRiZ9xzRQQ",
+    "driveTranscriptId": "1GHeLp3uBqSzeObStSs3xWqQNW5AZTTJ4",
+    "affiliateLinkIncluded": true,
+    "blogPostId": "how-to-use-audit-logs-in-gohighlevel-track-account-changes",
+    "blogSlug": "how-to-use-audit-logs-in-gohighlevel-track-account-changes",
+    "streams": 0
   }
 ]
