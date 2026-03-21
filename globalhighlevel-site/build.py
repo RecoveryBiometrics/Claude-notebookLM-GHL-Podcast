@@ -1099,6 +1099,9 @@ def main():
     PUBLIC_DIR.mkdir(parents=True)
     if ROBOTS_SRC.exists():
         shutil.copy(ROBOTS_SRC, PUBLIC_DIR / "robots.txt")
+    REDIRECTS_SRC = BASE_DIR / "_redirects"
+    if REDIRECTS_SRC.exists():
+        shutil.copy(REDIRECTS_SRC, PUBLIC_DIR / "_redirects")
 
     global CATEGORIES
     CATEGORIES = load_categories()
