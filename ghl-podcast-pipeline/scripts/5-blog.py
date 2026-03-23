@@ -19,6 +19,8 @@ from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 import anthropic
+import sys; sys.path.insert(0, os.path.expanduser("~/.claude"))
+from cost_logger import log_api_cost
 from bs4 import BeautifulSoup
 
 load_dotenv()
@@ -242,6 +244,7 @@ Return a JSON object with these exact keys:
         max_tokens=6000,
         messages=[{"role": "user", "content": prompt}],
     )
+    log_api_cost(response, script="5-blog")
 
     raw = response.content[0].text.strip()
 

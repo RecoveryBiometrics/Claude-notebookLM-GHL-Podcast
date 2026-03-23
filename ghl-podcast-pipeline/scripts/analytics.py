@@ -52,7 +52,7 @@ def fetch_episode_analytics() -> dict:
     end = datetime.now().strftime("%Y-%m-%d")
 
     url = f"https://api.transistor.fm/v1/analytics/{TRANSISTOR_SHOW_ID}/episodes"
-    params = {"start_date": "2025-01-01", "end_date": end}
+    params = {"start_date": "01-01-2025", "end_date": datetime.now().strftime("%d-%m-%Y")}
 
     try:
         r = requests.get(url, headers=headers, params=params, timeout=30)

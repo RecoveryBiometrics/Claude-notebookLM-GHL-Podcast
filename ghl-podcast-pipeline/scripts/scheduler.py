@@ -554,9 +554,15 @@ async def main():
 
     cycle = 1
     while True:
+        cycle_started = datetime.now()
         await run_cycle(cycle)
-        log(f"Sleeping {CYCLE_HOURS} hours...")
-        await asyncio.sleep(CYCLE_HOURS * 3600)
+
+        # Sleep in short chunks so Mac sleep doesn't stall the timer.
+        # Check wall-clock time each loop — if 25 real hours have passed, go.
+        target = cycle_started + timedelta(hours=CYCLE_HOURS)
+        log(f"Next cycle at {target.strftime('%Y-%m-%d %H:%M:%S')} — sleeping...")
+        while datetime.now() < target:
+            await asyncio.sleep(300)  # wake every 5 min to check clock
         cycle += 1
 
 

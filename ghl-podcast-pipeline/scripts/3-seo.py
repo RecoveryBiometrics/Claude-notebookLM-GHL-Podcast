@@ -11,6 +11,8 @@ from datetime import datetime
 from pathlib import Path
 
 import anthropic
+import sys; sys.path.insert(0, os.path.expanduser("~/.claude"))
+from cost_logger import log_api_cost
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -80,10 +82,11 @@ STEP 1 — GENERATE:
 
 1. TITLE: Under 70 characters. Formula: "How to [Action] in GoHighLevel — [Specific Benefit]". Must contain "GoHighLevel".
 
-2. DESCRIPTION: Exactly 3 paragraphs:
-   - Paragraph 1: 2-3 sentences on what this episode covers. Use "GoHighLevel" naturally.
-   - Paragraph 2: "In this episode you'll learn:" followed by 3-4 bullet points (use • symbol).
-   - Paragraph 3 (exact wording): "Ready to try GoHighLevel yourself? Get a FREE 30-day trial — double the standard 14-day trial — and see why thousands of agencies run their entire business on one platform: {AFFILIATE_LINK}"
+2. DESCRIPTION: Exactly 4 paragraphs:
+   - Paragraph 1 (exact wording): "🚀 Start your FREE 30-day GoHighLevel trial: https://globalhighlevel.com/trial"
+   - Paragraph 2: 2-3 sentences on what this episode covers. Use "GoHighLevel" naturally.
+   - Paragraph 3: "In this episode you'll learn:" followed by 3-4 bullet points (use • symbol).
+   - Paragraph 4 (exact wording): "Ready to try GoHighLevel yourself? The link above gets you a FREE 30-day trial — double the standard 14-day trial. See why thousands of agencies run their entire business on one platform."
 
 3. TAGS: Exactly 8 comma-separated tags. Must include: gohighlevel, go high level, GHL, CRM, marketing automation, agency software. Add 2 specific tags for this topic.
 
@@ -108,6 +111,7 @@ Return only this JSON, no other text:
         max_tokens=1024,
         messages=[{"role": "user", "content": prompt}]
     )
+    log_api_cost(message, script="3-seo")
 
     raw = message.content[0].text.strip()
 
@@ -125,7 +129,7 @@ Return only this JSON, no other text:
         "seoDescription": result["description"],
         "seoTags": result["tags"],
         "seoGeneratedAt": datetime.now().isoformat(),
-        "affiliateLinkIncluded": AFFILIATE_LINK in result["description"],
+        "affiliateLinkIncluded": "globalhighlevel.com/trial" in result["description"],
     }
 
 

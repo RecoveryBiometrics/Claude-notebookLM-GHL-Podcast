@@ -24,6 +24,8 @@ from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 import anthropic
+import sys; sys.path.insert(0, os.path.expanduser("~/.claude"))
+from cost_logger import log_api_cost
 from bs4 import BeautifulSoup
 
 load_dotenv()
@@ -277,6 +279,7 @@ Return JSON with these exact keys:
         max_tokens=4000,
         messages=[{"role": "user", "content": prompt}],
     )
+    log_api_cost(response, script="6-india-blog-write")
 
     raw = response.content[0].text.strip()
     json_match = re.search(r'\{[\s\S]*\}', raw)
@@ -322,6 +325,7 @@ Return JSON:
         max_tokens=6000,
         messages=[{"role": "user", "content": prompt}],
     )
+    log_api_cost(response, script="6-india-blog-factcheck")
 
     raw = response.content[0].text.strip()
     json_match = re.search(r'\{[\s\S]*\}', raw)

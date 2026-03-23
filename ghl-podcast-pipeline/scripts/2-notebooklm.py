@@ -17,6 +17,8 @@ from pathlib import Path
 from datetime import datetime
 
 import anthropic
+import sys; sys.path.insert(0, os.path.expanduser("~/.claude"))
+from cost_logger import log_api_cost
 import requests as http_requests
 from dotenv import load_dotenv
 from notebooklm import NotebookLMClient
@@ -111,6 +113,7 @@ Write in plain conversational English — flowing paragraphs only, no headers, n
         }]
     )
 
+    log_api_cost(message, script="2-notebooklm-enrich")
     enriched = message.content[0].text.strip()
     log(f"  Enriched: {len(body)} → {len(enriched)} chars")
     return enriched
@@ -153,6 +156,7 @@ Return the cleaned content only — no commentary, no notes about what you chang
         }]
     )
 
+    log_api_cost(message, script="2-notebooklm-factcheck")
     verified = message.content[0].text.strip()
     log(f"  Fact-check complete — {len(verified)} chars verified")
     return verified

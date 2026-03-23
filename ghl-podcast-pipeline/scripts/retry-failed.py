@@ -23,6 +23,8 @@ from datetime import datetime
 from pathlib import Path
 
 import anthropic
+import sys; sys.path.insert(0, os.path.expanduser("~/.claude"))
+from cost_logger import log_api_cost
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -138,6 +140,7 @@ Respond in this exact JSON format (no other text):
 }}"""
         }]
     )
+    log_api_cost(message, script="retry-failed")
 
     try:
         # Extract JSON from response
