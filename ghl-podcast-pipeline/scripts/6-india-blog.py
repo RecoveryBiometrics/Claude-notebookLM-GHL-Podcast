@@ -476,6 +476,63 @@ def main():
             log(f"Created india-topics.json with {len(topics)} topics")
 
     pending = [t for t in topics if not is_published(t, published)]
+
+    # Auto-generate new topics when running low
+    # First check if GSC generated any India topics
+    if len(pending) < 10 and not args.topic:
+        gsc_topics_file = BASE_DIR / "data" / "gsc-topics.json"
+        if gsc_topics_file.exists():
+            try:
+                gsc_data = json.load(open(gsc_topics_file))
+                gsc_india = gsc_data.get("india_topics", [])
+                if gsc_india:
+                    existing_lower = {t.lower() for t in topics}
+                    added = 0
+                    for t in gsc_india:
+                        if t.lower() not in existing_lower:
+                            topics.append(t)
+                            added += 1
+                    if added:
+                        with open(TOPICS_FILE, "w") as f:
+                            json.dump(topics, f, indent=2)
+                        pending = [t for t in topics if not is_published(t, published)]
+                        log(f"Added {added} GSC-sourced India topics — now {len(pending)} pending")
+            except Exception:
+                pass
+
+    if len(pending) < 10 and not args.topic:
+        log(f"Only {len(pending)} topics left — generating 25 more...")
+        try:
+            client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+            already_done = [t for t in topics if is_published(t, published)]
+            done_list = "\n".join(f"- {t}" for t in already_done[-30:])
+            msg = client.messages.create(
+                model="claude-haiku-4-5-20251001",
+                max_tokens=2000,
+                messages=[{"role": "user", "content": f"""Generate 25 blog post topics about GoHighLevel for Indian businesses and agencies.
+
+These topics have already been covered — do NOT repeat them:
+{done_list}
+
+Requirements:
+- Each topic must be specific and actionable (not generic)
+- Target Indian digital marketing agencies, freelancers, and local businesses
+- Include India-specific angles: WhatsApp, Razorpay/UPI, rupee pricing, Zoho comparisons, Indian cities/industries
+- Mix of: how-to guides, comparisons, industry-specific (real estate, healthcare, education, etc.), and automation use cases
+- Each topic should be a single line, suitable as a blog post title
+
+Return ONLY the 25 topics, one per line, no numbering, no bullets, no other text."""}]
+            )
+            log_api_cost(msg, script="6-india-blog-topics")
+            new_topics = [line.strip() for line in msg.content[0].text.strip().splitlines() if line.strip()]
+            topics.extend(new_topics)
+            with open(TOPICS_FILE, "w") as f:
+                json.dump(topics, f, indent=2)
+            pending = [t for t in topics if not is_published(t, published)]
+            log(f"Generated {len(new_topics)} new topics — now {len(pending)} pending")
+        except Exception as e:
+            log(f"Topic generation failed (continuing with existing): {e}")
+
     if args.limit and args.limit > 0:
         pending = pending[:args.limit]
     log(f"Topics pending: {len(pending)} / {len(topics)}")

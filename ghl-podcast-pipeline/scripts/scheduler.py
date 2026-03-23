@@ -461,13 +461,21 @@ async def run_cycle(cycle_num: int):
     log("=" * 60)
     log(f"Cycle #{cycle_num} starting")
 
-    # Step 0: Pull analytics data to update stream counts + topic weights
-    log("Step 0/2 — Running analytics.py...")
+    # Step 0a: Pull analytics data to update stream counts + topic weights
+    log("Step 0a — Running analytics.py...")
     try:
         analytics = load_script("analytics.py")
         analytics.main()
     except Exception as e:
         log(f"  analytics.py error (non-fatal): {e}")
+
+    # Step 0b: Generate topics from GSC search data
+    log("Step 0b — Running gsc-topics.py...")
+    try:
+        gsc_topics = load_script("gsc-topics.py")
+        gsc_topics.main()
+    except Exception as e:
+        log(f"  gsc-topics.py error (non-fatal): {e}")
 
     # Send start notification email
     log("Sending start notification email...")
@@ -502,7 +510,7 @@ You'll get a summary email when it's done.
         log(f"  run-pipeline.py error: {e}")
 
     # Step 3: Run India blog agent (5 topics per cycle)
-    log("Step 3/3 — Running 6-india-blog.py (up to 5 topics)...")
+    log("Step 3/5 — Running 6-india-blog.py (up to 5 topics)...")
     try:
         import sys
         sys.argv = ["6-india-blog.py", "--limit", "5"]
@@ -512,8 +520,19 @@ You'll get a summary email when it's done.
     except Exception as e:
         log(f"  6-india-blog.py error (non-fatal): {e}")
 
-    # Step 4: Deploy new posts to globalhighlevel.com via GitHub → Netlify
-    log("Step 4/4 — Deploying new posts to globalhighlevel.com...")
+    # Step 4: Run Spanish blog agent (5 topics per cycle)
+    log("Step 4/5 — Running 7-spanish-blog.py (up to 5 topics)...")
+    try:
+        import sys
+        sys.argv = ["7-spanish-blog.py", "--limit", "5"]
+        spanish = load_script("7-spanish-blog.py")
+        spanish.main()
+        sys.argv = [sys.argv[0]]
+    except Exception as e:
+        log(f"  7-spanish-blog.py error (non-fatal): {e}")
+
+    # Step 5: Deploy new posts to globalhighlevel.com via GitHub → Cloudflare Pages
+    log("Step 5/5 — Deploying new posts to globalhighlevel.com...")
     try:
         deploy_site()
     except Exception as e:

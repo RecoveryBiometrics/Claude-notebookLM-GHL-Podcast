@@ -31,7 +31,7 @@ TRANSISTOR_SHOW_ID = os.getenv("TRANSISTOR_SHOW_ID")
 GSC_TOKEN_FILE = BASE_DIR / "token-gsc.json"
 CREDENTIALS_FILE = BASE_DIR / os.getenv("GOOGLE_CREDENTIALS_FILE", "credentials.json")
 GSC_SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
-GSC_SITE_URL = "https://globalhighlevel.com/"
+GSC_SITE_URL = "sc-domain:globalhighlevel.com"
 
 
 def log(msg: str):
@@ -211,8 +211,11 @@ def get_gsc_service():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
+            gsc_creds_file = BASE_DIR / "credentials-gsc.json"
+            if not gsc_creds_file.exists():
+                gsc_creds_file = CREDENTIALS_FILE
             flow = InstalledAppFlow.from_client_secrets_file(
-                str(CREDENTIALS_FILE), GSC_SCOPES
+                str(gsc_creds_file), GSC_SCOPES
             )
             creds = flow.run_local_server(port=0)
         with open(GSC_TOKEN_FILE, "w") as f:
