@@ -89,7 +89,7 @@ async def get_all_article_links(page) -> list[dict]:
     its category, and subcategory.
     """
     log(f"Loading solutions index: {SOLUTIONS_URL}")
-    await page.goto(SOLUTIONS_URL, wait_until="networkidle")
+    await page.goto(SOLUTIONS_URL, wait_until="networkidle", timeout=60000)
     await asyncio.sleep(DELAY_BETWEEN_REQUESTS)
 
     article_links = []
@@ -119,7 +119,7 @@ async def get_all_article_links(page) -> list[dict]:
 
         try:
             log(f"  Crawling category: {cat['text'] or cat_url}")
-            await page.goto(cat_url, wait_until="networkidle")
+            await page.goto(cat_url, wait_until="networkidle", timeout=60000)
             await asyncio.sleep(DELAY_BETWEEN_REQUESTS)
 
             # Collect article links from this category page
@@ -165,7 +165,7 @@ async def get_all_article_links(page) -> list[dict]:
 async def scrape_article(page, url: str, category: str) -> dict | None:
     """Visit a single article page and extract its content."""
     try:
-        await page.goto(url, wait_until="networkidle")
+        await page.goto(url, wait_until="networkidle", timeout=60000)
         await asyncio.sleep(DELAY_BETWEEN_REQUESTS)
 
         # Title

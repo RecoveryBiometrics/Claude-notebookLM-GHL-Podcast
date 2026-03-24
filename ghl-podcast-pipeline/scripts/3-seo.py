@@ -11,8 +11,10 @@ from datetime import datetime
 from pathlib import Path
 
 import anthropic
-import sys; sys.path.insert(0, os.path.expanduser("~/.claude"))
-from cost_logger import log_api_cost
+try:
+    from cost_logger import log_api_cost
+except ImportError:
+    def log_api_cost(*a, **kw): return {}
 from dotenv import load_dotenv
 
 load_dotenv()

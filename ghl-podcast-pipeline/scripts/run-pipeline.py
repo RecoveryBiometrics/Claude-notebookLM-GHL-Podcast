@@ -111,7 +111,7 @@ async def build_articles_cache() -> list:
 
         # Step 1: Get all category folder links from the solutions index
         log("  Loading solutions index...")
-        await page.goto(SOLUTIONS_URL, wait_until="networkidle")
+        await page.goto(SOLUTIONS_URL, wait_until="networkidle", timeout=60000)
         await asyncio.sleep(2)
 
         # Collect article links directly on the solutions page
@@ -136,7 +136,7 @@ async def build_articles_cache() -> list:
             visited_folders.add(folder_url)
 
             try:
-                await page.goto(folder_url, wait_until="networkidle")
+                await page.goto(folder_url, wait_until="networkidle", timeout=60000)
                 await asyncio.sleep(1)
 
                 # Articles on this folder page
@@ -224,7 +224,7 @@ async def scrape_one(published_ids: set) -> dict | None:
             "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         ))
 
-        await page.goto(target["url"], wait_until="networkidle")
+        await page.goto(target["url"], wait_until="networkidle", timeout=60000)
         await asyncio.sleep(2)
 
         title = (await page.title()).replace(

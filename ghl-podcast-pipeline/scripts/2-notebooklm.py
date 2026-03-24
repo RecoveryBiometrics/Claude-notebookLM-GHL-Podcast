@@ -17,8 +17,10 @@ from pathlib import Path
 from datetime import datetime
 
 import anthropic
-import sys; sys.path.insert(0, os.path.expanduser("~/.claude"))
-from cost_logger import log_api_cost
+try:
+    from cost_logger import log_api_cost
+except ImportError:
+    def log_api_cost(*a, **kw): return {}
 import requests as http_requests
 from dotenv import load_dotenv
 from notebooklm import NotebookLMClient
@@ -170,7 +172,7 @@ async def find_related_urls(article: dict, page) -> list[str]:
     """
     try:
         category_url = f"{GHL_SOLUTIONS_BASE}"
-        await page.goto(category_url, wait_until="networkidle")
+        await page.goto(category_url, wait_until="networkidle", timeout=60000)
         await asyncio.sleep(2)
 
         all_links = await page.eval_on_selector_all(

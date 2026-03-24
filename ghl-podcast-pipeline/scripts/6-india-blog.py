@@ -24,8 +24,10 @@ from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 import anthropic
-import sys; sys.path.insert(0, os.path.expanduser("~/.claude"))
-from cost_logger import log_api_cost
+try:
+    from cost_logger import log_api_cost
+except ImportError:
+    def log_api_cost(*a, **kw): return {}
 from bs4 import BeautifulSoup
 
 load_dotenv()
@@ -37,22 +39,9 @@ DATA_FILE   = BASE_DIR / "data" / "india-published.json"
 TOPICS_FILE = BASE_DIR / "data" / "india-topics.json"
 
 ANTHROPIC_API_KEY  = os.getenv("ANTHROPIC_API_KEY")
-GHL_API_KEY        = os.getenv("GHL_API_KEY")
-GHL_LOCATION_ID    = os.getenv("GHL_LOCATION_ID")
 GHL_AFFILIATE_LINK = os.getenv("GHL_AFFILIATE_LINK")
 
-GHL_API_BASE = "https://services.leadconnectorhq.com"
-
-# India blog config
-INDIA_BLOG_ID     = "ICGLk7OTn2N6jL6pgxgu"
-INDIA_CATEGORY_ID = "69b07af891669681ae873ae5"
-AUTHOR_ID         = "680b01f0c55be738c7e7287a"
-
-HEADERS_GHL = {
-    "Authorization": f"Bearer {GHL_API_KEY}",
-    "Content-Type": "application/json",
-    "Version": "2021-07-28",
-}
+SITE_POSTS = BASE_DIR.parent / "globalhighlevel-site" / "posts"
 
 # ── Phase 1-3 Topic Queue ──────────────────────────────────────────────────────
 DEFAULT_TOPICS = [
@@ -349,24 +338,11 @@ Return JSON:
     return result
 
 
-# ── GHL Publisher ──────────────────────────────────────────────────────────────
-def check_slug_exists(slug: str) -> bool:
-    try:
-        resp = requests.get(
-            f"{GHL_API_BASE}/blogs/posts/url-slug-exists",
-            headers=HEADERS_GHL,
-            params={"locationId": GHL_LOCATION_ID, "urlSlug": slug},
-            timeout=15,
-        )
-        return resp.json().get("exists", False)
-    except Exception:
-        return False
-
-
+# ── Publisher (saves to globalhighlevel-site/posts/) ──────────────────────────
 def make_unique_slug(slug: str) -> str:
     base = slug
     counter = 1
-    while check_slug_exists(slug):
+    while (SITE_POSTS / f"{slug}.json").exists():
         slug = f"{base}-{counter}"
         counter += 1
     return slug
@@ -374,37 +350,23 @@ def make_unique_slug(slug: str) -> str:
 
 def publish(topic: str, html_content: str, meta_description: str, slug: str) -> str:
     log(f"Publishing: {topic[:60]}")
+    SITE_POSTS.mkdir(parents=True, exist_ok=True)
     unique_slug = make_unique_slug(slug)
 
-    payload = {
-        "locationId": GHL_LOCATION_ID,
-        "title": topic,
-        "blogId": INDIA_BLOG_ID,
-        "author": AUTHOR_ID,
-        "categories": [INDIA_CATEGORY_ID],
-        "description": meta_description,
-        "rawHTML": html_content,
-        "status": "PUBLISHED",
-        "urlSlug": unique_slug,
-        "publishedAt": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.000Z"),
-        "imageUrl": "https://storage.googleapis.com/msgsndr/VL5PlkLBYG4mKk3N6PGw/media/65c56a906c059c625980d9ac.jpeg",
-        "imageAltText": f"{topic} — GoHighLevel India",
-        "tags": ["india", "gohighlevel", "crm", "agency"],
+    site_post = {
+        "slug":         unique_slug,
+        "title":        topic,
+        "description":  meta_description,
+        "html_content": html_content,
+        "category":     "GoHighLevel India",
+        "publishedAt":  datetime.now().isoformat(),
     }
+    post_file = SITE_POSTS / f"{unique_slug}.json"
+    with open(post_file, "w") as f:
+        json.dump(site_post, f, indent=2)
 
-    resp = requests.post(
-        f"{GHL_API_BASE}/blogs/posts",
-        headers=HEADERS_GHL,
-        json=payload,
-        timeout=30,
-    )
-
-    if not resp.ok:
-        raise RuntimeError(f"GHL publish failed ({resp.status_code}): {resp.text}")
-
-    post_id = resp.json().get("blogPost", {}).get("_id", "unknown")
-    log(f"  Published! ID: {post_id} — /{unique_slug}")
-    return post_id
+    log(f"  Published to globalhighlevel.com → posts/{unique_slug}.json")
+    return unique_slug
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────

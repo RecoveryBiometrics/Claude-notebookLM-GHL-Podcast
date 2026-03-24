@@ -23,8 +23,10 @@ from datetime import datetime
 from pathlib import Path
 
 import anthropic
-import sys; sys.path.insert(0, os.path.expanduser("~/.claude"))
-from cost_logger import log_api_cost
+try:
+    from cost_logger import log_api_cost
+except ImportError:
+    def log_api_cost(*a, **kw): return {}
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -243,7 +245,7 @@ async def retry_full_pipeline(article_id: str, published_ids: set, published_tod
             "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         ))
 
-        await page.goto(article_url, wait_until="networkidle")
+        await page.goto(article_url, wait_until="networkidle", timeout=60000)
         await asyncio.sleep(2)
 
         title = (await page.title()).replace(" – GoHighLevel Support", "").replace(" | GoHighLevel", "").strip()

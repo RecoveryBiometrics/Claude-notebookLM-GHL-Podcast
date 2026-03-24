@@ -27,8 +27,10 @@ from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 import anthropic
-import sys; sys.path.insert(0, os.path.expanduser("~/.claude"))
-from cost_logger import log_api_cost
+try:
+    from cost_logger import log_api_cost
+except ImportError:
+    def log_api_cost(*a, **kw): return {}
 from bs4 import BeautifulSoup
 
 load_dotenv()

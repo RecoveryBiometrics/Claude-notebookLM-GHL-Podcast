@@ -412,7 +412,7 @@ def deploy_site():
         # Check if there's anything new to commit in posts/
         result = subprocess.run(
             ["git", "status", "--porcelain", "globalhighlevel-site/posts/"],
-            cwd=repo_dir, capture_output=True, text=True
+            cwd=repo_dir, capture_output=True, text=True, timeout=30
         )
         if not result.stdout.strip():
             log("  deploy_site: no new posts to push — skipping")
@@ -424,24 +424,26 @@ def deploy_site():
         # Stage only the posts directory
         subprocess.run(
             ["git", "add", "globalhighlevel-site/posts/"],
-            cwd=repo_dir, check=True, capture_output=True
+            cwd=repo_dir, check=True, capture_output=True, timeout=30
         )
 
         # Commit
         msg = f"Auto-deploy: {new_files} new post(s) — {datetime.now().strftime('%Y-%m-%d %H:%M')}"
         subprocess.run(
             ["git", "commit", "-m", msg],
-            cwd=repo_dir, check=True, capture_output=True
+            cwd=repo_dir, check=True, capture_output=True, timeout=30
         )
 
         # Push
         subprocess.run(
             ["git", "push", "origin", "main"],
-            cwd=repo_dir, check=True, capture_output=True
+            cwd=repo_dir, check=True, capture_output=True, timeout=120
         )
 
         log(f"  deploy_site: pushed {new_files} post(s) → Netlify deploying globalhighlevel.com")
 
+    except subprocess.TimeoutExpired:
+        log("  deploy_site: git command timed out (non-fatal)")
     except subprocess.CalledProcessError as e:
         log(f"  deploy_site error (non-fatal): {e}")
 
@@ -460,6 +462,9 @@ async def run_cycle(cycle_num: int):
     cycle_started = datetime.now()
     log("=" * 60)
     log(f"Cycle #{cycle_num} starting")
+
+    # Save state NOW so restarts wait out the 25h window instead of re-running immediately
+    save_state(cycle_started)
 
     # Step 0a: Pull analytics data to update stream counts + topic weights
     log("Step 0a — Running analytics.py...")
