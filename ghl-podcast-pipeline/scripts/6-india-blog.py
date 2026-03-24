@@ -348,10 +348,34 @@ def make_unique_slug(slug: str) -> str:
     return slug
 
 
+def ensure_affiliate_links(html: str) -> str:
+    """Replace bare gohighlevel.com links with trial redirect and inject CTA if missing."""
+    trial_url = "https://globalhighlevel.com/trial"
+    html = re.sub(
+        r'https?://(?:www\.)?gohighlevel\.com(?!/highlevel-bootcamp)[^\s"<]*(?!fp_ref)',
+        trial_url, html
+    )
+    if trial_url not in html and "fp_ref" not in html:
+        cta = (
+            '<p style="background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 16px;'
+            'border-radius:4px;"><strong>🚀 Try GoHighLevel FREE for 30 days</strong>'
+            f' — No credit card required. <a href="{trial_url}" target="_blank">'
+            'Start your free trial here →</a></p>'
+        )
+        html = cta + html
+    return html
+
+
 def publish(topic: str, html_content: str, meta_description: str, slug: str) -> str:
     log(f"Publishing: {topic[:60]}")
     SITE_POSTS.mkdir(parents=True, exist_ok=True)
     unique_slug = make_unique_slug(slug)
+
+    # Force affiliate links
+    html_content = ensure_affiliate_links(html_content)
+    # Truncate meta description if too long
+    if len(meta_description) > 160:
+        meta_description = meta_description[:157] + "..."
 
     site_post = {
         "slug":         unique_slug,

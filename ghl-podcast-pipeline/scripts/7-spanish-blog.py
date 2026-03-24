@@ -359,6 +359,26 @@ def classify_post(topic: str) -> str:
     return "AI & Automation"
 
 
+def ensure_affiliate_links(html: str) -> str:
+    """Replace bare gohighlevel.com links with trial redirect and inject CTA if missing."""
+    trial_url = "https://globalhighlevel.com/trial"
+    # Replace bare GHL links with trial redirect
+    html = re.sub(
+        r'https?://(?:www\.)?gohighlevel\.com(?!/highlevel-bootcamp)[^\s"<]*(?!fp_ref)',
+        trial_url, html
+    )
+    # If still no affiliate link, inject CTA banner at top
+    if trial_url not in html and "fp_ref" not in html:
+        cta = (
+            '<p style="background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 16px;'
+            'border-radius:4px;"><strong>🚀 Prueba GoHighLevel GRATIS por 30 días</strong>'
+            f' — Sin tarjeta de crédito. <a href="{trial_url}" target="_blank">'
+            'Empieza tu prueba gratis aquí →</a></p>'
+        )
+        html = cta + html
+    return html
+
+
 def save_post(topic: str, blog_data: dict, final_html: str) -> str:
     """Save post as JSON to globalhighlevel-site/posts/ for Cloudflare Pages deploy."""
     slug = blog_data.get("slug", "")
@@ -374,10 +394,17 @@ def save_post(topic: str, blog_data: dict, final_html: str) -> str:
         counter += 1
 
     title = blog_data.get("title", topic)
+    # Force affiliate links into the HTML
+    final_html = ensure_affiliate_links(final_html)
+    # Truncate meta description if too long
+    meta_desc = blog_data.get("meta_description", "")
+    if len(meta_desc) > 160:
+        meta_desc = meta_desc[:157] + "..."
+
     post_data = {
         "title": title,
         "slug": slug,
-        "description": blog_data.get("meta_description", ""),
+        "description": meta_desc,
         "html_content": final_html,
         "category": "GoHighLevel en Español",
         "tags": ["gohighlevel", "español", "latinoamérica", "agencia", "crm"],
