@@ -198,7 +198,8 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.85);bac
 .nav-cta{{font-size:.8rem;font-weight:700;color:#000;background:var(--amber);padding:7px 16px;border-radius:100px;transition:background .15s}}
 .nav-cta:hover{{background:var(--amber-light);text-decoration:none}}
 .nav-dropdown{{position:relative}}
-.nav-dropdown-menu{{display:none;position:absolute;top:calc(100% + 8px);left:-12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 0;min-width:220px;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.5)}}
+.nav-dropdown-menu{{display:none;position:absolute;top:100%;left:-12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 0;min-width:220px;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.5);padding-top:16px}}
+.nav-dropdown-menu::before{{content:'';position:absolute;top:-8px;left:0;right:0;height:16px}}
 .nav-dropdown:hover .nav-dropdown-menu{{display:block}}
 .nav-dropdown-menu a{{display:block;padding:8px 20px;font-size:.82rem;color:var(--text2);transition:color .15s,background .15s}}
 .nav-dropdown-menu a:hover{{color:var(--text);background:rgba(255,255,255,.05);text-decoration:none}}
