@@ -374,14 +374,12 @@ def save_post(topic: str, blog_data: dict, final_html: str) -> str:
         counter += 1
 
     title = blog_data.get("title", topic)
-    category = classify_post(topic)
-
     post_data = {
         "title": title,
         "slug": slug,
         "description": blog_data.get("meta_description", ""),
-        "body": final_html,
-        "category": category,
+        "html_content": final_html,
+        "category": "GoHighLevel en Español",
         "tags": ["gohighlevel", "español", "latinoamérica", "agencia", "crm"],
         "language": "es",
         "publishedAt": datetime.now().isoformat(),

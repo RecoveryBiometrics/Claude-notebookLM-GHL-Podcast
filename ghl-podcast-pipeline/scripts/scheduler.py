@@ -401,18 +401,18 @@ def deploy_site():
     Push new blog post JSON files to GitHub → Netlify auto-rebuilds and deploys.
     Only commits if there are actual new/changed files in globalhighlevel-site/posts/.
     """
-    repo_dir = BASE_DIR.parent  # Claude_notebookLM_GHL_Podcast root
-    posts_dir = repo_dir / "globalhighlevel-site" / "posts"
+    site_dir = BASE_DIR.parent / "globalhighlevel-site"
+    posts_dir = site_dir / "posts"
 
     if not posts_dir.exists():
         log("  deploy_site: posts/ dir not found — skipping")
         return
 
     try:
-        # Check if there's anything new to commit in posts/
+        # Check if there's anything new to commit
         result = subprocess.run(
-            ["git", "status", "--porcelain", "globalhighlevel-site/posts/"],
-            cwd=repo_dir, capture_output=True, text=True, timeout=30
+            ["git", "status", "--porcelain", "posts/"],
+            cwd=site_dir, capture_output=True, text=True, timeout=30
         )
         if not result.stdout.strip():
             log("  deploy_site: no new posts to push — skipping")
@@ -421,26 +421,26 @@ def deploy_site():
         # Count new files
         new_files = len(result.stdout.strip().splitlines())
 
-        # Stage only the posts directory
+        # Stage posts and categories
         subprocess.run(
-            ["git", "add", "globalhighlevel-site/posts/"],
-            cwd=repo_dir, check=True, capture_output=True, timeout=30
+            ["git", "add", "posts/", "categories.json"],
+            cwd=site_dir, check=True, capture_output=True, timeout=30
         )
 
         # Commit
         msg = f"Auto-deploy: {new_files} new post(s) — {datetime.now().strftime('%Y-%m-%d %H:%M')}"
         subprocess.run(
             ["git", "commit", "-m", msg],
-            cwd=repo_dir, check=True, capture_output=True, timeout=30
+            cwd=site_dir, check=True, capture_output=True, timeout=30
         )
 
         # Push
         subprocess.run(
             ["git", "push", "origin", "main"],
-            cwd=repo_dir, check=True, capture_output=True, timeout=120
+            cwd=site_dir, check=True, capture_output=True, timeout=120
         )
 
-        log(f"  deploy_site: pushed {new_files} post(s) → Netlify deploying globalhighlevel.com")
+        log(f"  deploy_site: pushed {new_files} post(s) → Cloudflare Pages deploying globalhighlevel.com")
 
     except subprocess.TimeoutExpired:
         log("  deploy_site: git command timed out (non-fatal)")
