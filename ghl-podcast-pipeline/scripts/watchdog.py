@@ -288,7 +288,9 @@ def check_recent_errors():
 
     try:
         lines = LOG_FILE.read_text().splitlines()
-        recent = lines[-500:]  # Last 500 lines
+        # Only look at lines from the last hour to avoid alerting on stale errors
+        one_hour_ago = (datetime.now() - timedelta(hours=1)).strftime("%Y-%m-%d %H:%M")
+        recent = [l for l in lines[-500:] if l[1:17] >= one_hour_ago]
 
         # Count errors in recent logs
         errors = [l for l in recent if "ERROR" in l or "FAILED" in l]
