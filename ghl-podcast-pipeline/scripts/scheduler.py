@@ -403,15 +403,30 @@ def deploy_site():
     """
     site_dir = BASE_DIR.parent / "globalhighlevel-site"
     posts_dir = site_dir / "posts"
+    # Cloudflare Pages builds from globalhighlevel-site/ subdirectory
+    cf_posts_dir = site_dir / "globalhighlevel-site" / "posts"
 
     if not posts_dir.exists():
         log("  deploy_site: posts/ dir not found — skipping")
         return
 
     try:
+        # Sync root posts/ into the subdirectory that Cloudflare Pages builds from
+        if cf_posts_dir.exists():
+            import shutil
+            for f in posts_dir.glob("*.json"):
+                dest = cf_posts_dir / f.name
+                if not dest.exists() or f.stat().st_mtime > dest.stat().st_mtime:
+                    shutil.copy2(f, dest)
+            # Also sync categories.json
+            root_cats = site_dir / "categories.json"
+            cf_cats = site_dir / "globalhighlevel-site" / "categories.json"
+            if root_cats.exists():
+                shutil.copy2(root_cats, cf_cats)
+
         # Check if there's anything new to commit
         result = subprocess.run(
-            ["git", "status", "--porcelain", "posts/"],
+            ["git", "status", "--porcelain", "posts/", "globalhighlevel-site/posts/"],
             cwd=site_dir, capture_output=True, text=True, timeout=30
         )
         if not result.stdout.strip():
@@ -421,9 +436,9 @@ def deploy_site():
         # Count new files
         new_files = len(result.stdout.strip().splitlines())
 
-        # Stage posts and categories
+        # Stage both locations + categories
         subprocess.run(
-            ["git", "add", "posts/", "categories.json"],
+            ["git", "add", "posts/", "globalhighlevel-site/posts/", "categories.json", "globalhighlevel-site/categories.json"],
             cwd=site_dir, check=True, capture_output=True, timeout=30
         )
 
