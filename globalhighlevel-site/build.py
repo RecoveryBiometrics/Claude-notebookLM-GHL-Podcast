@@ -423,6 +423,16 @@ a.card-cat:hover{{color:var(--amber-light);text-decoration:none}}
   background:var(--amber)!important;
   color:#000!important;
 }}
+.post-body p[style*="background:#f0fdf4"],
+.post-body p[style*="background: #f0fdf4"]{{
+  background:var(--surface)!important;
+  border-color:var(--amber-border)!important;
+  color:var(--text)!important;
+}}
+.post-body p[style*="background:#f0fdf4"] a,
+.post-body p[style*="background: #f0fdf4"] a{{
+  color:var(--amber)!important;
+}}
 .post-body div[style*="border-radius"]{{
   color:var(--text2);
 }}

@@ -247,7 +247,7 @@ REQUISITOS PARA LATINOAMÉRICA:
 
 ESTRUCTURA DEL BLOG:
 0. PRIMERA LÍNEA — antes de cualquier heading — incluir este banner CTA:
-   <p style="background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 16px;border-radius:4px;"><strong>🚀 Prueba GoHighLevel GRATIS por 30 días</strong> — Sin tarjeta de crédito. <a href="{trial_url}" target="_blank">Empieza tu prueba gratis aquí →</a></p>
+   <p style="background:#111520;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:4px;color:#eef2ff;"><strong>🚀 Prueba GoHighLevel GRATIS por 30 días</strong> — Sin tarjeta de crédito. <a href="{trial_url}" style="color:#f59e0b;" target="_blank">Empieza tu prueba gratis aquí →</a></p>
 1. Hook — hablar de un problema específico de agencias latinas
 2. Agitar — hacer el problema real con contexto latinoamericano
 3. Presentar GHL como la solución
@@ -370,9 +370,9 @@ def ensure_affiliate_links(html: str) -> str:
     # If still no affiliate link, inject CTA banner at top
     if trial_url not in html and "fp_ref" not in html:
         cta = (
-            '<p style="background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 16px;'
-            'border-radius:4px;"><strong>🚀 Prueba GoHighLevel GRATIS por 30 días</strong>'
-            f' — Sin tarjeta de crédito. <a href="{trial_url}" target="_blank">'
+            '<p style="background:#111520;border-left:4px solid #f59e0b;padding:12px 16px;'
+            'border-radius:4px;color:#eef2ff;"><strong>🚀 Prueba GoHighLevel GRATIS por 30 días</strong>'
+            f' — Sin tarjeta de crédito. <a href="{trial_url}" style="color:#f59e0b;" target="_blank">'
             'Empieza tu prueba gratis aquí →</a></p>'
         )
         html = cta + html

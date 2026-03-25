@@ -241,7 +241,7 @@ INDIA-SPECIFIC REQUIREMENTS:
 
 BLOG STRUCTURE:
 0. FIRST LINE of the post — before any heading — include this CTA banner:
-   <p style="background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 16px;border-radius:4px;"><strong>🚀 Try GoHighLevel FREE for 30 days</strong> — No credit card required. <a href="{affiliate_url}" target="_blank">Start your free trial here →</a></p>
+   <p style="background:#111520;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:4px;color:#eef2ff;"><strong>🚀 Try GoHighLevel FREE for 30 days</strong> — No credit card required. <a href="{affiliate_url}" style="color:#f59e0b;" target="_blank">Start your free trial here →</a></p>
 1. Hook — speak to a specific Indian agency pain point
 2. Agitate — make the problem feel real with Indian context
 3. Introduce GHL as the solution
@@ -357,9 +357,9 @@ def ensure_affiliate_links(html: str) -> str:
     )
     if trial_url not in html and "fp_ref" not in html:
         cta = (
-            '<p style="background:#f0fdf4;border-left:4px solid #16a34a;padding:12px 16px;'
-            'border-radius:4px;"><strong>🚀 Try GoHighLevel FREE for 30 days</strong>'
-            f' — No credit card required. <a href="{trial_url}" target="_blank">'
+            '<p style="background:#111520;border-left:4px solid #f59e0b;padding:12px 16px;'
+            'border-radius:4px;color:#eef2ff;"><strong>🚀 Try GoHighLevel FREE for 30 days</strong>'
+            f' — No credit card required. <a href="{trial_url}" style="color:#f59e0b;" target="_blank">'
             'Start your free trial here →</a></p>'
         )
         html = cta + html
