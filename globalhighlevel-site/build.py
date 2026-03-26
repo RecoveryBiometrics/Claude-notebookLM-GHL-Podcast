@@ -1131,12 +1131,19 @@ def main():
     for p in merged:
         build_post_page(p, all_posts=merged)
 
-    # Homepage (paginated)
+    # Homepage (paginated) — English only
     print("\nBuilding homepage...")
+    NON_ENGLISH_CATEGORIES = {"gohighlevel india", "gohighlevel en español"}
+    homepage_posts = [
+        p for p in merged
+        if p.get("category", "").lower() not in NON_ENGLISH_CATEGORIES
+        and p.get("language", "en") == "en"
+    ]
+    print(f"  Homepage posts (English only): {len(homepage_posts)} of {len(merged)} total")
     per_page = 18
-    total_pages = max(1, -(-len(merged) // per_page))
+    total_pages = max(1, -(-len(homepage_posts) // per_page))
     for page in range(1, total_pages + 1):
-        build_index(merged, page=page, per_page=per_page)
+        build_index(homepage_posts, page=page, per_page=per_page)
 
     # Category pages
     print("\nBuilding category pages...")
