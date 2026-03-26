@@ -51,7 +51,7 @@ TOPIC_WEIGHTS_FILE = BASE_DIR / "data" / "topic-weights.json"
 GSC_DATA_FILE = BASE_DIR / "data" / "gsc-stats.json"
 
 CYCLE_HOURS = 25
-GMAIL_ADDRESS = os.getenv("GMAIL_ADDRESS", "bill@reiamplifi.com")
+GMAIL_ADDRESS = os.getenv("GMAIL_ADDRESS", "")
 GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "")
 
 

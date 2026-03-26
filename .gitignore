@@ -1,12 +1,30 @@
+# Claude / MCP
 .mcp.json
-.env
 .claude.json
+CLAUDE.md
+ghl-podcast-pipeline/CLAUDE.md
+ghl-podcast-pipeline/.claude/
+
+# Secrets & credentials
+.env
+*.env
 token.json
+token-gsc.json
+credentials.json
+credentials-gsc.json
+client_secret*.json
+storage_state*.json
+ghl-podcast-pipeline/token.json
+ghl-podcast-pipeline/token-gsc.json
+ghl-podcast-pipeline/credentials.json
+ghl-podcast-pipeline/credentials-gsc.json
+
+# Python
 venv/
 __pycache__/
 *.pyc
+
+# Data & logs
 ghl-podcast-pipeline/data/articles/
 ghl-podcast-pipeline/logs/
 globalhighlevel-site/public/
-ghl-podcast-pipeline/credentials-gsc.json
-ghl-podcast-pipeline/token-gsc.json

@@ -8,7 +8,7 @@ Goal: fully automated content engine driving GHL affiliate signups via podcast +
 
 - [x] Full automated pipeline (scrape → audio → SEO → transcript → publish)
 - [x] Scheduler runs every 25 hours forever via systemd (survives reboots)
-- [x] Daily email summary (start + completion) to bill@reiamplifi.com
+- [x] Daily email summary (start + completion) to configured in .env
 - [x] Safe restarts — waits out remaining cycle time if restarted early
 - [x] Retry agent for failed episodes (runs each cycle before main pipeline)
 - [x] Full article discovery — 1,565 GHL help articles, newest first
@@ -26,7 +26,7 @@ Goal: fully automated content engine driving GHL affiliate signups via podcast +
 
 ## ✅ globalhighlevel.com — Built & Live
 
-- [x] Domain purchased — globalhighlevel.com on Namecheap (wcw1985), Mar 11, 2026, ~$12/year
+- [x] Domain purchased — globalhighlevel.com on Namecheap, Mar 11, 2026, ~$12/year
 - [x] ~~Netlify free hosting~~ ⛔ HIT USAGE LIMIT — site paused. Migrating to Cloudflare Pages (see #1 priority)
 - [x] Static site generator (build.py) — homepage, post pages, category pages, sitemap, 404, llms.txt
 - [x] DNS pointed to Netlify — CNAME records set in Namecheap
@@ -150,7 +150,7 @@ Reads `data/gsc-report.json` and takes automated action:
 - Transcript stored as driveTranscriptId — ready for repurposing agent
 - All episode data in published.json — single source of truth for all agents
 - Pipeline is stable — good foundation to build agents on top of
-- Namecheap login: wcw1985 (stored in .env)
-- ~~Netlify site: courageous-taiyaki-2c1846.netlify.app~~ — DEPRECATED, hit usage limit. Migrating to Cloudflare Pages.
+- Namecheap login: stored in .env
+- ~~Netlify site~~ — DEPRECATED, hit usage limit. Migrated to Cloudflare Pages.
 - **Never use Netlify again** — bandwidth cap (100GB/mo) is incompatible with our content volume
-- GSC verified: TqqkuU1JDcd_0KnXbs_wGvyamJucFYVZiSLx9ICbeq4 (stored in .env)
+- GSC verified: verification code stored in .env

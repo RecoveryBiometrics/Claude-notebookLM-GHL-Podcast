@@ -26,10 +26,10 @@ PUBLIC_DIR     = BASE_DIR / "public"
 PUBLISHED_JSON = BASE_DIR / ".." / "ghl-podcast-pipeline" / "data" / "published.json"
 CATEGORIES_JSON = BASE_DIR / "categories.json"
 
-SITE_URL     = "https://globalhighlevel.com"
-SITE_NAME    = "Global High Level"
-SITE_TAGLINE = "GoHighLevel Tutorials, Guides & Strategies for Agencies Worldwide"
-AFFILIATE    = "https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=site&utm_campaign=nav"
+SITE_URL     = os.getenv("SITE_URL", "https://globalhighlevel.com")
+SITE_NAME    = os.getenv("SITE_NAME", "Global High Level")
+SITE_TAGLINE = os.getenv("SITE_TAGLINE", "GoHighLevel Tutorials, Guides & Strategies for Agencies Worldwide")
+AFFILIATE    = os.getenv("GHL_AFFILIATE_LINK", "")
 
 ACCENT       = "#f59e0b"   # amber
 ACCENT_DARK  = "#d97706"
@@ -503,7 +503,7 @@ footer{{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80p
 # ── Base template ─────────────────────────────────────────────────────────────
 
 def base_html(title: str, description: str, canonical: str, body: str, og_image: str = "") -> str:
-    og_img = og_image or "https://storage.googleapis.com/msgsndr/VL5PlkLBYG4mKk3N6PGw/media/65c56a906c059c625980d9ac.jpeg"
+    og_img = og_image or os.getenv("OG_IMAGE_URL", "")
     cats = CATEGORIES
 
     # Nav dropdown links

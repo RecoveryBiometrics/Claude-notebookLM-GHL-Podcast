@@ -36,10 +36,7 @@ def load_hot_keywords() -> list:
     except Exception:
         return []
 
-AFFILIATE_LINK = os.getenv(
-    "GHL_AFFILIATE_LINK",
-    "https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12"
-)
+AFFILIATE_LINK = os.getenv("GHL_AFFILIATE_LINK", "")
 MODEL = "claude-haiku-4-5-20251001"
 
 REQUIRED_TAGS = ["gohighlevel", "go high level", "GHL", "CRM", "marketing automation", "agency software"]

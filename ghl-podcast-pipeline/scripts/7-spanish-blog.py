@@ -44,7 +44,7 @@ SITE_POSTS  = Path("/opt/globalhighlevel-site/posts") if Path("/opt/globalhighle
 CATEGORIES_FILE = Path("/opt/globalhighlevel-site/categories.json") if Path("/opt/globalhighlevel-site/categories.json").exists() else BASE_DIR.parent / "globalhighlevel-site" / "categories.json"
 
 ANTHROPIC_API_KEY  = os.getenv("ANTHROPIC_API_KEY")
-GHL_AFFILIATE_LINK = os.getenv("GHL_AFFILIATE_LINK", "https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12")
+GHL_AFFILIATE_LINK = os.getenv("GHL_AFFILIATE_LINK", "")
 MODEL = "claude-haiku-4-5-20251001"
 
 DEFAULT_TOPICS = [

@@ -14,7 +14,7 @@ The scheduler is set up as a **systemd service** — it starts automatically eve
 Every 25 hours it:
 1. Retries any failed episodes from the previous cycle
 2. Runs a fresh batch of 20 new episodes
-3. Emails a daily summary to bill@reiamplifi.com
+3. Emails a daily summary to your configured email
 4. Sleeps 25 hours and repeats
 
 **You will get one email per day.** If it says "All good" — do nothing. If it flags failures — check the log.
@@ -152,7 +152,7 @@ logs/
 | GMAIL_APP_PASSWORD | Daily summary email | Free |
 | TRANSISTOR_API_KEY | Transistor.fm hosting | $19/month |
 | GOOGLE credentials | Drive + NotebookLM auth | Free |
-| NOTEBOOKLM account | bill@reiamplifi.com (Pro, 20/day) | ~$20/month |
+| NOTEBOOKLM account | your configured email (Pro, 20/day) | ~$20/month |
 
 **Total running cost: ~$40-50/month**
 

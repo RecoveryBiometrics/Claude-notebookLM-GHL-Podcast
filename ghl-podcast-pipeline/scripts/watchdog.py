@@ -41,7 +41,7 @@ PUBLISHED_BACKUP = BASE_DIR / "data" / "published.json.bak"
 TOKEN_FILE = BASE_DIR / "token.json"
 AUDIO_DIR = BASE_DIR / "data" / "audio"
 
-GMAIL_ADDRESS = os.getenv("GMAIL_ADDRESS", "bill@reiamplifi.com")
+GMAIL_ADDRESS = os.getenv("GMAIL_ADDRESS", "")
 GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "")
 
 MAX_LOG_SIZE_MB = 50
