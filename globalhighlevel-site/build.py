@@ -508,6 +508,9 @@ footer{{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80p
   .footer-top{{grid-template-columns:1fr;gap:32px}}
   .footer-bottom{{flex-direction:column}}
   .share-row{{flex-wrap:wrap}}
+  .trial-grid{{grid-template-columns:1fr!important}}
+  .coupon-compare{{grid-template-columns:1fr!important}}
+  .coupon-features{{grid-template-columns:1fr!important}}
 }}
 """
 
@@ -678,12 +681,12 @@ def build_post_page(post: dict, all_posts: list = None):
 
     # ── CTA #1 — Below byline (compact one-liner) ─────────────────────────────
     cta1 = f"""
-<p class="cta-byline">Follow along &mdash; <a href="{AFFILIATE}&utm_campaign={slug}" target="_blank" rel="nofollow noopener">get 30 days free &rarr;</a></p>"""
+<p class="cta-byline">Follow along &mdash; <a href="/trial/">get 30 days free &rarr;</a></p>"""
 
     # ── CTA #2 — Mid-article inline ───────────────────────────────────────────
     cta_mid = f"""
 <p class="cta-inline">This is built into GoHighLevel.
-<a href="{AFFILIATE}&utm_campaign={slug}" target="_blank" rel="nofollow noopener">Try it free for 30 days &rarr;</a></p>"""
+<a href="/trial/">Try it free for 30 days &rarr;</a></p>"""
     body_with_ctas = inject_inline_ctas(html_content, cta_mid)
 
     # ── CTA #3 — End of article box ───────────────────────────────────────────
@@ -937,8 +940,8 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
         <div class="sidebar-cta">
           <div class="s-headline">Try GoHighLevel Free</div>
           <div class="s-sub">30 days full access — double the standard 14-day trial.</div>
-          <a href="{AFFILIATE}&utm_campaign=sidebar" class="btn-amber" style="display:block;text-align:center;font-size:.8rem" target="_blank" rel="nofollow noopener">Start Free Trial</a>
-          <div class="s-fine">No credit card required</div>
+          <a href="/trial/" class="btn-amber" style="display:block;text-align:center;font-size:.8rem">Start Free Trial</a>
+          <div class="s-fine">Cancel anytime &mdash; $0 for 30 days</div>
         </div>
       </div>
     </aside>
@@ -1029,6 +1032,8 @@ def build_category_pages(posts: list[dict]):
 
 def build_sitemap(posts: list[dict]):
     urls = [f"  <url><loc>{SITE_URL}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>"]
+    urls.append(f"  <url><loc>{SITE_URL}/trial/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>")
+    urls.append(f"  <url><loc>{SITE_URL}/coupon/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>")
     for c in CATEGORIES:
         urls.append(f'  <url><loc>{SITE_URL}/category/{c["slug"]}/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>')
     for p in posts:
@@ -1084,6 +1089,351 @@ All tutorials are free. Topics include GoHighLevel automations, AI conversation 
 - Podcast: https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV
 """
     write(PUBLIC_DIR / "llms.txt", content)
+
+
+def build_trial_page():
+    """Build SEO-optimized /trial/ landing page targeting free trial keywords."""
+    canonical = f"{SITE_URL}/trial/"
+    title = "GoHighLevel Free Trial — 30 Days Free (2026)"
+    description = "Get a 30-day GoHighLevel free trial instead of the standard 14 days. Full access to CRM, funnels, automations, AI tools and more. Cancel anytime."
+
+    faq_schema = json.dumps({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How long is the GoHighLevel free trial?",
+                "acceptedAnswer": {"@type": "Answer", "text": "The standard GoHighLevel free trial is 14 days. Through GlobalHighLevel.com, you get an extended 30-day free trial — double the time to explore every feature."}
+            },
+            {
+                "@type": "Question",
+                "name": "Do I need a credit card for the GoHighLevel free trial?",
+                "acceptedAnswer": {"@type": "Answer", "text": "No. The 30-day GoHighLevel free trial does not require a credit card. You can cancel anytime during the trial with no charge."}
+            },
+            {
+                "@type": "Question",
+                "name": "What do I get with the GoHighLevel free trial?",
+                "acceptedAnswer": {"@type": "Answer", "text": "Full access to GoHighLevel's CRM, funnel builder, email & SMS marketing, workflow automations, AI conversation bots, calendar booking, reputation management, and more. Nothing is locked during the trial."}
+            },
+            {
+                "@type": "Question",
+                "name": "How much does GoHighLevel cost after the free trial?",
+                "acceptedAnswer": {"@type": "Answer", "text": "GoHighLevel starts at $97/month after the trial ends. You can cancel anytime during your 30-day free trial if it's not the right fit."}
+            },
+            {
+                "@type": "Question",
+                "name": "Is this GoHighLevel free trial legitimate?",
+                "acceptedAnswer": {"@type": "Answer", "text": "Yes. This is an official GoHighLevel extended trial offered through their affiliate program. You sign up directly on GoHighLevel's website with full access to all features."}
+            },
+            {
+                "@type": "Question",
+                "name": "GoHighLevel 14-day trial vs 30-day trial — what's the difference?",
+                "acceptedAnswer": {"@type": "Answer", "text": "The features are identical. The only difference is time. The standard trial from gohighlevel.com gives you 14 days. Through this page, you get 30 days — enough time to set up funnels, migrate contacts, and see real results before deciding."}
+            }
+        ]
+    })
+
+    offer_schema = json.dumps({
+        "@context": "https://schema.org",
+        "@type": "Offer",
+        "name": "GoHighLevel 30-Day Free Trial",
+        "description": "Extended 30-day free trial for GoHighLevel — CRM, funnels, automations, and AI tools for agencies.",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "url": canonical,
+        "seller": {"@type": "Organization", "name": "GoHighLevel"}
+    })
+
+    body = f"""
+<div class="post-container" style="max-width:740px;padding-top:100px">
+
+  <div class="fade-1" style="text-align:center;margin-bottom:48px">
+    <p style="font-size:.82rem;color:var(--text3);margin-bottom:24px">Already know you want in? <a href="{AFFILIATE}&utm_campaign=trial-page-skip" target="_blank" rel="nofollow noopener" style="color:var(--amber)">Go straight to GoHighLevel &rarr;</a></p>
+    <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px">Extended Offer</p>
+    <h1 style="font-family:var(--sans);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px">GoHighLevel Free Trial — 30 Days Free</h1>
+    <p style="font-size:1.15rem;color:var(--text2);line-height:1.7;max-width:580px;margin:0 auto 28px">Get a <strong style="color:var(--text)">30-day GHL free trial</strong> instead of the standard 14 days. Full access to every GoHighLevel feature — CRM, funnels, automations, AI tools, and more.</p>
+    <a href="{AFFILIATE}&utm_campaign=trial-page-hero" class="btn-amber" style="font-size:1rem;padding:14px 36px" target="_blank" rel="nofollow noopener">Start Your 30-Day Free Trial &rarr;</a>
+    <p style="font-size:.8rem;color:var(--text3);margin-top:12px">Cancel anytime &middot; $0 for 30 days</p>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px" class="fade-2">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">Why Get a 30-Day GHL Free Trial Instead of 14?</h2>
+    <p style="font-size:1.05rem;color:var(--text2);line-height:1.75;margin-bottom:20px">The standard GoHighLevel free trial is 14 days. That's often not enough time to set up your funnels, migrate contacts, build automations, and actually see results.</p>
+    <p style="font-size:1.05rem;color:var(--text2);line-height:1.75;margin-bottom:20px">Through this page, you get an <strong style="color:var(--text)">extended 30-day GoHighLevel free trial</strong> — double the time to explore every feature, follow our step-by-step tutorials, and decide if GHL is the right platform for your agency or business.</p>
+    <p style="font-size:1.05rem;color:var(--text2);line-height:1.75">Cancel anytime during the trial — $0 for the first 30 days.</p>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px" class="fade-2">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">What's Included in Your GHL Free Trial</h2>
+    <div class="trial-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px">
+        <div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:6px">CRM &amp; Pipeline Management</div>
+        <p style="font-size:.82rem;color:var(--text2);line-height:1.6;margin:0">Contacts, deals, tags, smart lists, and custom pipelines to manage every lead.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px">
+        <div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:6px">Funnel &amp; Website Builder</div>
+        <p style="font-size:.82rem;color:var(--text2);line-height:1.6;margin:0">Drag-and-drop pages, forms, surveys, and full websites — no code needed.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px">
+        <div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:6px">Email &amp; SMS Marketing</div>
+        <p style="font-size:.82rem;color:var(--text2);line-height:1.6;margin:0">Bulk campaigns, drip sequences, and two-way conversations in one inbox.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px">
+        <div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:6px">Workflow Automations</div>
+        <p style="font-size:.82rem;color:var(--text2);line-height:1.6;margin:0">If/else logic, triggers, wait steps, webhooks — automate your entire client journey.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px">
+        <div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:6px">AI Conversation Bots</div>
+        <p style="font-size:.82rem;color:var(--text2);line-height:1.6;margin:0">Agent Studio, brand voice AI, and automated chat/SMS bots that book appointments.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px">
+        <div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:6px">Calendar &amp; Booking</div>
+        <p style="font-size:.82rem;color:var(--text2);line-height:1.6;margin:0">Booking widgets, round-robin scheduling, Google/Outlook sync, and reminders.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px">
+        <div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:6px">Reputation Management</div>
+        <p style="font-size:.82rem;color:var(--text2);line-height:1.6;margin:0">Automated review requests, Google review widget, and review response tools.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px">
+        <div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:6px">White-Label SaaS Mode</div>
+        <p style="font-size:.82rem;color:var(--text2);line-height:1.6;margin:0">Rebrand GHL as your own platform and resell to clients at your own price.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">GoHighLevel Free Trial — Frequently Asked Questions</h2>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">How long is the GoHighLevel free trial?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">The standard GoHighLevel free trial is 14 days. Through GlobalHighLevel.com, you get an extended <strong style="color:var(--text)">30-day free trial</strong> — double the time to explore every feature.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">Do I need a credit card for the GoHighLevel free trial?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">No. The 30-day GoHighLevel free trial does not require a credit card. You can cancel anytime during the trial with no charge.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">What do I get with the GoHighLevel free trial?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">Full access to GoHighLevel's CRM, funnel builder, email &amp; SMS marketing, workflow automations, AI conversation bots, calendar booking, reputation management, and more. Nothing is locked during the trial.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">How much does GoHighLevel cost after the free trial?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">GoHighLevel starts at <strong style="color:var(--text)">$97/month</strong> after the trial ends. You can cancel anytime during your 30-day free trial if it's not the right fit.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">Is this GoHighLevel free trial legitimate?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">Yes. This is an official GoHighLevel extended trial offered through their affiliate program. You sign up directly on GoHighLevel's website with full access to all features.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">GoHighLevel 14-day trial vs 30-day trial — what's the difference?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">The features are identical. The only difference is time. The standard trial from gohighlevel.com gives you 14 days. Through this page, you get 30 days — enough time to set up funnels, migrate contacts, and see real results before deciding.</p>
+    </div>
+  </div>
+
+  <div class="cta-end" style="margin-bottom:48px">
+    <h3>Start Your GoHighLevel Free Trial</h3>
+    <p>30 days full access. Cancel anytime. Set up your funnels, automations, and AI bots — and follow along with our <a href="/" style="color:var(--amber)">free tutorials</a>.</p>
+    <a href="{AFFILIATE}&utm_campaign=trial-page-bottom" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free 30-Day Trial &rarr;</a>
+    <div class="fine">$0 for the first 30 days &middot; then $97/mo &middot; cancel anytime</div>
+  </div>
+
+  <div style="text-align:center;margin-bottom:32px">
+    <p style="font-size:.85rem;color:var(--text2)">Looking for a discount? <a href="/coupon/" style="color:var(--amber)">See our GoHighLevel coupon code page</a> or <a href="/" style="color:var(--amber)">browse all GoHighLevel guides</a>.</p>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:32px">
+    <p style="font-size:.8rem;color:var(--text3);line-height:1.7;text-align:center">Affiliate disclosure: If you sign up through the links on this page, GlobalHighLevel.com may earn a commission at no extra cost to you. We only recommend tools we use ourselves. Not affiliated with GoHighLevel LLC.</p>
+  </div>
+
+</div>
+<script type="application/ld+json">{faq_schema}</script>
+<script type="application/ld+json">{offer_schema}</script>"""
+
+    html = base_html(
+        title=f"{title} | {SITE_NAME}",
+        description=description,
+        canonical=canonical,
+        body=body
+    )
+    write(PUBLIC_DIR / "trial" / "index.html", html)
+
+
+def build_coupon_page():
+    """Build SEO-optimized /coupon/ landing page targeting promo/discount keywords."""
+    canonical = f"{SITE_URL}/coupon/"
+    title = "GoHighLevel Coupon Code 2026 — 30 Days Free"
+    description = "Looking for a GoHighLevel coupon code or promo code? Get a 30-day free trial instead of the standard 14 days. No discount code needed."
+
+    faq_schema = json.dumps({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Is there a GoHighLevel coupon code?",
+                "acceptedAnswer": {"@type": "Answer", "text": "GoHighLevel doesn't offer traditional coupon codes or promo codes. Instead, you can get an extended 30-day free trial through affiliate partners like GlobalHighLevel.com — double the standard 14-day trial. No code needed."}
+            },
+            {
+                "@type": "Question",
+                "name": "How do I get a GoHighLevel discount?",
+                "acceptedAnswer": {"@type": "Answer", "text": "The best GoHighLevel discount is the extended 30-day free trial. That's 16 extra free days compared to signing up directly. After the trial, plans start at $97/month. There are no publicly available coupon codes or promo codes."}
+            },
+            {
+                "@type": "Question",
+                "name": "Does GoHighLevel have a promo code for 2026?",
+                "acceptedAnswer": {"@type": "Answer", "text": "There is no GoHighLevel promo code for 2026. GoHighLevel runs its discounts through extended trial offers via affiliate partners. Through this page, you get 30 days free instead of 14 — the best deal currently available."}
+            },
+            {
+                "@type": "Question",
+                "name": "Can I get GoHighLevel cheaper than $97/month?",
+                "acceptedAnswer": {"@type": "Answer", "text": "GoHighLevel starts at $97/month and there are no publicly available coupon codes to reduce that. The best way to save is by starting with the extended 30-day free trial to make sure it's the right fit before paying anything."}
+            },
+            {
+                "@type": "Question",
+                "name": "What is the best GoHighLevel deal right now?",
+                "acceptedAnswer": {"@type": "Answer", "text": "The best deal is the extended 30-day free trial — double the standard 14 days. Full access to every feature, no credit card required, cancel anytime. This is better than any coupon code because you pay $0 for a full month."}
+            }
+        ]
+    })
+
+    body = f"""
+<div class="post-container" style="max-width:740px;padding-top:100px">
+
+  <div class="fade-1" style="text-align:center;margin-bottom:48px">
+    <p style="font-size:.82rem;color:var(--text3);margin-bottom:24px">Already know you want in? <a href="{AFFILIATE}&utm_campaign=coupon-page-skip" target="_blank" rel="nofollow noopener" style="color:var(--amber)">Go straight to GoHighLevel &rarr;</a></p>
+    <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px">Better Than a Coupon</p>
+    <h1 style="font-family:var(--sans);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px">GoHighLevel Coupon Code 2026</h1>
+    <p style="font-size:1.15rem;color:var(--text2);line-height:1.7;max-width:580px;margin:0 auto 12px">There's no GoHighLevel coupon code or promo code. But there's something better:</p>
+    <p style="font-size:1.3rem;font-weight:800;color:var(--text);margin-bottom:28px">30 days free instead of 14 &mdash; no code needed.</p>
+    <a href="{AFFILIATE}&utm_campaign=coupon-page-hero" class="btn-amber" style="font-size:1rem;padding:14px 36px" target="_blank" rel="nofollow noopener">Start Your 30-Day Free Trial &rarr;</a>
+    <p style="font-size:.8rem;color:var(--text3);margin-top:12px">No credit card required &middot; No coupon code needed &middot; Cancel anytime</p>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px" class="fade-2">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">Why There's No GoHighLevel Coupon Code</h2>
+    <p style="font-size:1.05rem;color:var(--text2);line-height:1.75;margin-bottom:20px">GoHighLevel doesn't typically offer coupon codes, promo codes, or discount codes. Instead, they run promotions through extended trial offers.</p>
+    <p style="font-size:1.05rem;color:var(--text2);line-height:1.75;margin-bottom:20px">Instead, GoHighLevel offers <strong style="color:var(--text)">extended free trials</strong> through affiliate partners. The standard trial on gohighlevel.com is 14 days. Through this page, you get <strong style="color:var(--text)">30 days free</strong> — that's 16 extra days at no cost.</p>
+    <p style="font-size:1.05rem;color:var(--text2);line-height:1.75">No code to enter. No checkout trick. Just click the link and your 30-day trial starts automatically.</p>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px" class="fade-2">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">30-Day Free Trial vs Coupon Code — The Math</h2>
+    <div class="coupon-compare" style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px;text-align:center">
+        <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text3);margin-bottom:12px">Typical Coupon Code</div>
+        <div style="font-size:2rem;font-weight:800;color:var(--text3);margin-bottom:8px;text-decoration:line-through">10-20% off</div>
+        <p style="font-size:.85rem;color:var(--text3);line-height:1.6;margin:0">Saves $10-19 on first month. Still pay $78-87 immediately. 14-day trial only.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--amber-border);border-radius:8px;padding:24px;text-align:center">
+        <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px">Extended Free Trial</div>
+        <div style="font-size:2rem;font-weight:800;color:var(--amber);margin-bottom:8px">$0 for 30 days</div>
+        <p style="font-size:.85rem;color:var(--text2);line-height:1.6;margin:0">Pay nothing for a full month. Full access to every feature. Cancel anytime.</p>
+      </div>
+    </div>
+    <p style="font-size:.95rem;color:var(--text2);line-height:1.7;margin-top:20px;text-align:center">Even a 20% coupon code only saves ~$19. The extended trial gives you <strong style="color:var(--text)">16 extra free days</strong> — more time to build before you pay anything.</p>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">What You Get During the GHL Free Trial</h2>
+    <div class="coupon-features" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="padding:14px 18px;border:1px solid var(--border);border-radius:6px">
+        <span style="font-size:.85rem;color:var(--text)">CRM &amp; Pipeline Management</span>
+      </div>
+      <div style="padding:14px 18px;border:1px solid var(--border);border-radius:6px">
+        <span style="font-size:.85rem;color:var(--text)">Funnel &amp; Website Builder</span>
+      </div>
+      <div style="padding:14px 18px;border:1px solid var(--border);border-radius:6px">
+        <span style="font-size:.85rem;color:var(--text)">Email &amp; SMS Marketing</span>
+      </div>
+      <div style="padding:14px 18px;border:1px solid var(--border);border-radius:6px">
+        <span style="font-size:.85rem;color:var(--text)">Workflow Automations</span>
+      </div>
+      <div style="padding:14px 18px;border:1px solid var(--border);border-radius:6px">
+        <span style="font-size:.85rem;color:var(--text)">AI Conversation Bots</span>
+      </div>
+      <div style="padding:14px 18px;border:1px solid var(--border);border-radius:6px">
+        <span style="font-size:.85rem;color:var(--text)">Calendar &amp; Booking</span>
+      </div>
+      <div style="padding:14px 18px;border:1px solid var(--border);border-radius:6px">
+        <span style="font-size:.85rem;color:var(--text)">Reputation Management</span>
+      </div>
+      <div style="padding:14px 18px;border:1px solid var(--border);border-radius:6px">
+        <span style="font-size:.85rem;color:var(--text)">White-Label SaaS Mode</span>
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:var(--text3);margin-top:14px;text-align:center">Explore all of these during your 30-day GHL free trial.</p>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">GoHighLevel Pricing After the Trial</h2>
+    <div style="background:var(--surface);border:1px solid var(--amber-border);border-radius:8px;padding:28px;text-align:center">
+      <p style="font-size:.85rem;color:var(--text2);margin-bottom:8px">GoHighLevel plans start at</p>
+      <div style="font-size:2.5rem;font-weight:800;color:var(--text);margin-bottom:8px">$97<span style="font-size:1rem;color:var(--text3)">/month</span></div>
+      <p style="font-size:.9rem;color:var(--text2);margin:0">But you pay <strong style="color:var(--amber)">$0 for the first 30 days</strong> with the extended trial. No coupon code or promo code will beat that.</p>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">GoHighLevel Coupon Code FAQ</h2>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">Is there a GoHighLevel coupon code?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">GoHighLevel doesn't offer traditional coupon codes or promo codes. Instead, you can get an extended <strong style="color:var(--text)">30-day free trial</strong> through affiliate partners like GlobalHighLevel.com — double the standard 14-day trial. No code needed.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">How do I get a GoHighLevel discount?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">The best GoHighLevel discount is the extended 30-day free trial. That's 16 extra free days compared to signing up directly. After the trial, plans start at $97/month. There are no publicly available coupon codes or promo codes.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">Does GoHighLevel have a promo code for 2026?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">There is no GoHighLevel promo code for 2026. GoHighLevel runs its discounts through extended trial offers via affiliate partners. Through this page, you get 30 days free instead of 14 — the best deal currently available.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">Can I get GoHighLevel cheaper than $97/month?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">GoHighLevel starts at $97/month and there are no publicly available coupon codes to reduce that. The best way to save is by starting with the extended 30-day free trial to make sure it's the right fit before paying anything.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">What is the best GoHighLevel deal right now?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">The best deal is the extended 30-day free trial — double the standard 14 days. Full access to every feature, no credit card required, cancel anytime. This is better than any coupon code because you pay <strong style="color:var(--text)">$0 for a full month</strong>.</p>
+    </div>
+  </div>
+
+  <div class="cta-end" style="margin-bottom:48px">
+    <h3>Skip the Coupon Code &mdash; Get 30 Days Free</h3>
+    <p>No promo code, no discount code, no checkout tricks. Just a full month of GoHighLevel at $0. Follow along with our <a href="/" style="color:var(--amber)">free tutorials</a> while you build.</p>
+    <a href="{AFFILIATE}&utm_campaign=coupon-page-bottom" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free 30-Day Trial &rarr;</a>
+    <div class="fine">$0 for the first 30 days &middot; then $97/mo &middot; cancel anytime</div>
+  </div>
+
+  <div style="text-align:center;margin-bottom:32px">
+    <p style="font-size:.85rem;color:var(--text2)">Looking for tutorials instead? <a href="/trial/" style="color:var(--amber)">Learn more about the free trial</a> or <a href="/" style="color:var(--amber)">browse all GoHighLevel guides</a>.</p>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:32px">
+    <p style="font-size:.8rem;color:var(--text3);line-height:1.7;text-align:center">Affiliate disclosure: If you sign up through the links on this page, GlobalHighLevel.com may earn a commission at no extra cost to you. We only recommend tools we use ourselves. Not affiliated with GoHighLevel LLC.</p>
+  </div>
+
+</div>
+<script type="application/ld+json">{faq_schema}</script>"""
+
+    html = base_html(
+        title=f"{title} | {SITE_NAME}",
+        description=description,
+        canonical=canonical,
+        body=body
+    )
+    write(PUBLIC_DIR / "coupon" / "index.html", html)
 
 
 def build_404():
@@ -1152,6 +1502,12 @@ def main():
     # Sitemap
     print("\nBuilding sitemap...")
     build_sitemap(merged)
+
+    # Landing pages
+    print("\nBuilding trial page...")
+    build_trial_page()
+    print("Building coupon page...")
+    build_coupon_page()
 
     # llms.txt (AI discoverability)
     build_llms_txt(merged)

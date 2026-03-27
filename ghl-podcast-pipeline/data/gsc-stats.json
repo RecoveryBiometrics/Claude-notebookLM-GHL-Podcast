@@ -1,0 +1,616 @@
+{
+  "updated_at": "2026-03-27T14:42:11.306451",
+  "period": "2026-02-24 to 2026-03-24",
+  "totals": {
+    "clicks": 3,
+    "impressions": 1747,
+    "ctr": 0.2,
+    "position": 14.1
+  },
+  "pages": [
+    {
+      "page": "https://globalhighlevel.com/blog/build-ai-agents-faster-gohighlevel-template-library-guide/",
+      "clicks": 1,
+      "impressions": 109,
+      "ctr": 0.9,
+      "position": 10.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/custom-objects-in-gohighlevel-unlock-unlimited-data-tracking/",
+      "clicks": 1,
+      "impressions": 26,
+      "ctr": 3.8,
+      "position": 16.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-reduce-spam-calls-gohighlevel-ivr-number-intelligence/",
+      "clicks": 1,
+      "impressions": 224,
+      "ctr": 0.4,
+      "position": 8.4
+    },
+    {
+      "page": "http://globalhighlevel.com/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 18
+    },
+    {
+      "page": "https://globalhighlevel.com/",
+      "clicks": 0,
+      "impressions": 178,
+      "ctr": 0,
+      "position": 26.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automate-client-support-ask-ai-agent-studio-gohighlevel/",
+      "clicks": 0,
+      "impressions": 104,
+      "ctr": 0,
+      "position": 10.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/color-code-pipelines-gohighlevel-smart-tags-prioritize-deals/",
+      "clicks": 0,
+      "impressions": 48,
+      "ctr": 0,
+      "position": 9.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/enable-audio-response-gohighlevel-boost-engagement/",
+      "clicks": 0,
+      "impressions": 68,
+      "ctr": 0,
+      "position": 9.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-automate-workflows-gohighlevel-cross-object-actions/",
+      "clicks": 0,
+      "impressions": 402,
+      "ctr": 0,
+      "position": 19.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-color-code-pipelines-gohighlevel-smart-tags-guide/",
+      "clicks": 0,
+      "impressions": 20,
+      "ctr": 0,
+      "position": 6.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-configure-global-settings-gohighlevel-rental-business/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 8.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-create-coupons-in-gohighlevel-boost-conversions/",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 20.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-debug-webhooks-gohighlevel-real-time-logs/",
+      "clicks": 0,
+      "impressions": 54,
+      "ctr": 0,
+      "position": 9.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-enable-3d-secure-payments-in-gohighlevel-fraud-protection/",
+      "clicks": 0,
+      "impressions": 43,
+      "ctr": 0,
+      "position": 5.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-find-qualified-prospects-in-gohighlevel-ai-lead-generation/",
+      "clicks": 0,
+      "impressions": 20,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-manage-rentals-in-gohighlevel-calendar-view/",
+      "clicks": 0,
+      "impressions": 23,
+      "ctr": 0,
+      "position": 11.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-preview-meta-ads-in-gohighlevel-share-with-team/",
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 12.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-taxes-fees-gohighlevel-boost-revenue/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-share-whitelabel-email-templates-gohighlevel/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 13.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-track-click-performance-in-gohighlevel-email-analytics/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 13.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-file-type-filter-in-gohighlevel-find-media-instantly/",
+      "clicks": 0,
+      "impressions": 20,
+      "ctr": 0,
+      "position": 8.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-kanban-view-in-gohighlevel-manage-deals-better/",
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 10.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-public-apis-gohighlevel-agent-studio/",
+      "clicks": 0,
+      "impressions": 27,
+      "ctr": 0,
+      "position": 12.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/leverage-ai-pricing-updates-gohighlevel-save-more/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 9.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-advanced-filters-gohighlevel-smart-lists/",
+      "clicks": 0,
+      "impressions": 62,
+      "ctr": 0,
+      "position": 8.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-app-installer-details-api-gohighlevel-agency-branding/",
+      "clicks": 0,
+      "impressions": 54,
+      "ctr": 0,
+      "position": 10.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-ask-ai-upgrades-gohighlevel-work-smarter/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 6.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-company-based-workflows-gohighlevel-b2b-automation/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 21.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-email-statistics-gohighlevel-boost-campaign-performance/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 13.1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-gohighlevel-apis-ship-integrations-faster-sdks/",
+      "clicks": 0,
+      "impressions": 78,
+      "ctr": 0,
+      "position": 12.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-gohighlevels-new-contact-detail-page-agency-crm/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 12
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-multi-object-tasks-gohighlevel-never-lose-context/",
+      "clicks": 0,
+      "impressions": 53,
+      "ctr": 0,
+      "position": 11.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/send-files-in-gohighlevel-live-chat-faster-client-support/",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 9.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/track-mrr-accurately-gohighlevel-vs-profitwell/",
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 8.6
+    },
+    {
+      "page": "https://globalhighlevel.com/category/agency-platform/",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 12.7
+    },
+    {
+      "page": "https://globalhighlevel.com/category/analytics-reporting/",
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 21.9
+    }
+  ],
+  "queries": [
+    {
+      "query": "go high level",
+      "clicks": 0,
+      "impressions": 33,
+      "ctr": 0,
+      "position": 27.5
+    },
+    {
+      "query": "ghl",
+      "clicks": 0,
+      "impressions": 23,
+      "ctr": 0,
+      "position": 16.0
+    },
+    {
+      "query": "gohighlevel automation",
+      "clicks": 0,
+      "impressions": 22,
+      "ctr": 0,
+      "position": 31.5
+    },
+    {
+      "query": "gohighlevel",
+      "clicks": 0,
+      "impressions": 21,
+      "ctr": 0,
+      "position": 28.8
+    },
+    {
+      "query": "gohighlevel automations",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 37.4
+    },
+    {
+      "query": "ghl automations",
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 44.8
+    },
+    {
+      "query": "go high level automation",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 20.5
+    },
+    {
+      "query": "gohighlevel agent studio features 2026",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 8.2
+    },
+    {
+      "query": "go high level workflows",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 20
+    },
+    {
+      "query": "ghl workflow automation",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 38.8
+    },
+    {
+      "query": "gohighlevel agency",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 36
+    },
+    {
+      "query": "ask ai ghl",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "query": "ghl automation",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 47.3
+    },
+    {
+      "query": "go high level api integration",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 51.3
+    },
+    {
+      "query": "ghl ask ai",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "query": "ghl automation workflows",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 10.5
+    },
+    {
+      "query": "global level",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 74.5
+    },
+    {
+      "query": "go hi level",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 21
+    },
+    {
+      "query": "go high level for cleaning services",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 79.5
+    },
+    {
+      "query": "go high level partners",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 54
+    },
+    {
+      "query": "goal high level",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "query": "gohighlevel agent studio",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 41
+    },
+    {
+      "query": "gohighlevel api rate limits 2026",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "query": "gohighlevel automation workflow",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 28.5
+    },
+    {
+      "query": "contact go high level support",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 43
+    },
+    {
+      "query": "g high level",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "query": "ghl agency",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 45
+    },
+    {
+      "query": "ghl automation setup service",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 59
+    },
+    {
+      "query": "ghl global",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "query": "ghl gohighlevel",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "query": "ghl tasks",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 53
+    },
+    {
+      "query": "ghl tutorials",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 30
+    },
+    {
+      "query": "global ghl",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "query": "go hgih level",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 18
+    },
+    {
+      "query": "go high level agent builder",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "query": "go high level automation examples",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 17
+    },
+    {
+      "query": "go high level automation setup service",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 85
+    },
+    {
+      "query": "go high level automation tutorial",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 23
+    },
+    {
+      "query": "go high level case study",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 50
+    },
+    {
+      "query": "go high level consulting",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 68
+    },
+    {
+      "query": "go high level documentation",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 83
+    },
+    {
+      "query": "go high level services",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 68
+    },
+    {
+      "query": "go high level workflow",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 18
+    },
+    {
+      "query": "go high level.com",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 47
+    },
+    {
+      "query": "go high levle",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 49
+    },
+    {
+      "query": "go highlevel",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 23
+    },
+    {
+      "query": "gogighlevel",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "query": "gohighlevel api support",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 23
+    },
+    {
+      "query": "gohighlevel automation agency",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 66
+    },
+    {
+      "query": "gohighlevel automation tutorial",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 24
+    }
+  ]
+}

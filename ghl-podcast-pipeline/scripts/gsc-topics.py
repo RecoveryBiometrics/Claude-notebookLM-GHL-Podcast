@@ -32,6 +32,8 @@ LOG_FILE = BASE_DIR / "logs" / "pipeline.log"
 GSC_DATA_FILE = BASE_DIR / "data" / "gsc-stats.json"
 SITE_POSTS_DIR = Path("/opt/globalhighlevel-site/posts") if Path("/opt/globalhighlevel-site/posts").exists() else BASE_DIR.parent / "globalhighlevel-site" / "posts"
 TOPICS_OUTPUT = BASE_DIR / "data" / "gsc-topics.json"
+SEO_COOLDOWN_FILE = BASE_DIR / "data" / "seo-cooldown.json"
+COOLDOWN_DAYS = 28  # Don't re-flag a page for at least 28 days after a suggestion
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 MODEL = "claude-haiku-4-5-20251001"
@@ -75,6 +77,48 @@ def load_existing_titles() -> list:
             except Exception:
                 pass
     return titles
+
+
+# ── SEO Cooldown — don't re-flag pages that were recently suggested ───────────
+
+def load_cooldowns() -> dict:
+    """Load cooldown records: {slug: {"action": ..., "flagged_at": ..., "metrics": {...}}}"""
+    if not SEO_COOLDOWN_FILE.exists():
+        return {}
+    try:
+        with open(SEO_COOLDOWN_FILE) as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def save_cooldowns(cooldowns: dict):
+    with open(SEO_COOLDOWN_FILE, "w") as f:
+        json.dump(cooldowns, f, indent=2)
+
+
+def is_on_cooldown(slug: str, cooldowns: dict) -> bool:
+    """Check if a slug was flagged within the last COOLDOWN_DAYS days."""
+    if slug not in cooldowns:
+        return False
+    flagged_at = cooldowns[slug].get("flagged_at", "")
+    if not flagged_at:
+        return False
+    try:
+        flagged_date = datetime.fromisoformat(flagged_at)
+        days_since = (datetime.now() - flagged_date).days
+        return days_since < COOLDOWN_DAYS
+    except Exception:
+        return False
+
+
+def record_suggestion(slug: str, action: str, metrics: dict, cooldowns: dict):
+    """Record that a suggestion was made for this slug."""
+    cooldowns[slug] = {
+        "action": action,
+        "flagged_at": datetime.now().isoformat(),
+        "metrics_at_flag": metrics,
+    }
 
 
 # ── Strategy 1: Gap Finder ────────────────────────────────────────────────────
@@ -232,34 +276,59 @@ Return ONLY the 10 topics, one per line, no numbering, no bullets."""
 
 # ── Improvement Suggestions ───────────────────────────────────────────────────
 def generate_improvements(low_ctr: list, almost_ranking: list) -> list:
-    """Generate specific improvement suggestions for existing pages."""
+    """Generate specific improvement suggestions for existing pages.
+    Respects a 28-day cooldown — won't re-flag pages that were recently suggested.
+    """
     if not low_ctr and not almost_ranking:
         return []
 
+    cooldowns = load_cooldowns()
     suggestions = []
+    skipped = 0
 
     for page in low_ctr[:5]:
         slug = page["page"].split("/blog/")[-1].strip("/") if "/blog/" in page["page"] else ""
-        if slug:
-            suggestions.append({
-                "slug": slug,
-                "action": "rewrite_meta",
-                "reason": f"High impressions ({page['impressions']}) but low CTR ({page['ctr']}%) — title and description need to be more compelling",
-                "impressions": page["impressions"],
-                "ctr": page["ctr"],
-                "position": page["position"],
-            })
+        if not slug:
+            continue
+        if is_on_cooldown(slug, cooldowns):
+            skipped += 1
+            continue
+        suggestions.append({
+            "slug": slug,
+            "action": "rewrite_meta",
+            "reason": f"High impressions ({page['impressions']}) but low CTR ({page['ctr']}%) — title and description need to be more compelling",
+            "impressions": page["impressions"],
+            "ctr": page["ctr"],
+            "position": page["position"],
+        })
+        record_suggestion(slug, "rewrite_meta", {
+            "impressions": page["impressions"],
+            "ctr": page["ctr"],
+            "position": page["position"],
+        }, cooldowns)
 
     for page in almost_ranking[:5]:
         slug = page["page"].split("/blog/")[-1].strip("/") if "/blog/" in page["page"] else ""
-        if slug:
-            suggestions.append({
-                "slug": slug,
-                "action": "expand_content",
-                "reason": f"Ranking at position {page['position']:.0f} with {page['impressions']} impressions — add more depth to push to page 1",
-                "impressions": page["impressions"],
-                "position": page["position"],
-            })
+        if not slug:
+            continue
+        if is_on_cooldown(slug, cooldowns):
+            skipped += 1
+            continue
+        suggestions.append({
+            "slug": slug,
+            "action": "expand_content",
+            "reason": f"Ranking at position {page['position']:.0f} with {page['impressions']} impressions — add more depth to push to page 1",
+            "impressions": page["impressions"],
+            "position": page["position"],
+        })
+        record_suggestion(slug, "expand_content", {
+            "impressions": page["impressions"],
+            "position": page["position"],
+        }, cooldowns)
+
+    save_cooldowns(cooldowns)
+    if skipped:
+        log(f"  Skipped {skipped} pages on cooldown (flagged within last {COOLDOWN_DAYS} days)")
 
     return suggestions
 

@@ -1,3 +1,6 @@
-/trial https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=redirect&utm_campaign=trial 302
-/free-trial https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=redirect&utm_campaign=free-trial 302
-/start https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=redirect&utm_campaign=start 302
+/free-trial /trial/ 301
+/start /trial/ 301
+/promo /coupon/ 301
+/promo-code /coupon/ 301
+/discount /coupon/ 301
+/coupon-code /coupon/ 301
