@@ -29,7 +29,7 @@ CATEGORIES_JSON = BASE_DIR / "categories.json"
 SITE_URL     = os.getenv("SITE_URL", "https://globalhighlevel.com")
 SITE_NAME    = os.getenv("SITE_NAME", "Global High Level")
 SITE_TAGLINE = os.getenv("SITE_TAGLINE", "GoHighLevel Tutorials, Guides & Strategies for Agencies Worldwide")
-AFFILIATE    = os.getenv("GHL_AFFILIATE_LINK", "")
+AFFILIATE    = os.getenv("GHL_AFFILIATE_LINK", "https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=website")
 
 ACCENT       = "#f59e0b"   # amber
 ACCENT_DARK  = "#d97706"

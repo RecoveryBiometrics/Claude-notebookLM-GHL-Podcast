@@ -4,21 +4,6 @@
   publish = "public"
 
 [[redirects]]
-  from   = "/trial"
-  to     = "https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=redirect&utm_campaign=trial"
-  status = 302
-
-[[redirects]]
-  from   = "/free-trial"
-  to     = "https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=redirect&utm_campaign=free-trial"
-  status = 302
-
-[[redirects]]
-  from   = "/start"
-  to     = "https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=redirect&utm_campaign=start"
-  status = 302
-
-[[redirects]]
   from   = "/*"
   to     = "/404.html"
   status = 404
