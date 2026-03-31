@@ -197,6 +197,21 @@ nav{{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.85);bac
 .nav-link:hover::after{{width:100%}}
 .nav-cta{{font-size:.8rem;font-weight:700;color:#000;background:var(--amber);padding:7px 16px;border-radius:100px;transition:background .15s}}
 .nav-cta:hover{{background:var(--amber-light);text-decoration:none}}
+
+/* ── HAMBURGER MENU ──────────────────────────────────────────────────────── */
+.hamburger{{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;margin-left:auto;z-index:301}}
+.hamburger span{{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all .3s ease}}
+.mobile-menu{{display:none;position:fixed;top:56px;inset-x:0;background:var(--bg);border-bottom:1px solid var(--border);padding:16px 24px 24px;z-index:199;flex-direction:column;gap:0}}
+.mobile-menu a{{display:block;padding:12px 0;font-size:.95rem;font-weight:500;color:var(--text2);border-bottom:1px solid var(--border);transition:color .15s}}
+.mobile-menu a:last-child{{border-bottom:none}}
+.mobile-menu a:hover{{color:var(--text);text-decoration:none}}
+.mobile-menu .nav-cta{{display:block;text-align:center;margin-top:16px;padding:12px;border-radius:8px;border-bottom:none;color:#000}}
+#mobile-toggle{{display:none}}
+#mobile-toggle:checked ~ .mobile-menu{{display:flex}}
+#mobile-toggle:checked ~ .hamburger span:nth-child(1){{transform:rotate(45deg) translate(5px,5px)}}
+#mobile-toggle:checked ~ .hamburger span:nth-child(2){{opacity:0}}
+#mobile-toggle:checked ~ .hamburger span:nth-child(3){{transform:rotate(-45deg) translate(5px,-5px)}}
+
 .nav-dropdown{{position:relative}}
 .nav-dropdown-menu{{display:none;position:absolute;top:100%;left:-12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 0;min-width:220px;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.5);padding-top:16px}}
 .nav-dropdown-menu::before{{content:'';position:absolute;top:-8px;left:0;right:0;height:16px}}
@@ -499,7 +514,8 @@ footer{{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80p
 }}
 @media(max-width:640px){{
   .hp-sidebar{{grid-template-columns:1fr}}
-  .nav-links .nav-link{{display:none}}
+  .nav-links{{display:none}}
+  .hamburger{{display:flex}}
   .post-title{{font-size:1.8rem}}
   .hp-lead-title{{font-size:1.8rem}}
   .cta-end{{padding:24px 20px}}
@@ -566,6 +582,16 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
       </div>
       <a href="/services/" class="nav-link">Services</a>
       <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="nav-link" target="_blank" rel="noopener">Podcast</a>
+      <a href="{AFFILIATE}" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+    </div>
+    <input type="checkbox" id="mobile-toggle">
+    <label for="mobile-toggle" class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </label>
+    <div class="mobile-menu">
+      <a href="/">Home</a>
+      <a href="/services/">Services</a>
+{dropdown_links}      <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
       <a href="{AFFILIATE}" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
     </div>
   </div>
