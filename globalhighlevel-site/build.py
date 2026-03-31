@@ -1474,7 +1474,7 @@ def build_services_page():
     title = "GoHighLevel Automation Services — $497/mo"
     description = "AI automation systems built inside GoHighLevel. Content pipelines, lead follow-up, appointment setting, SEO engines, and more. A la carte, no contracts."
 
-    WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/VL5PlkLBYG4mKk3N6PGw/webhook-trigger/8e3ea90f-d72e-49ec-ace8-ec10678d6bc4"
+    WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/VL5PlkLBYG4mKk3N6PGw/webhook-trigger/98cc6f29-7cee-4b59-845f-8908cdbe9575"
 
     services = [
         {
