@@ -511,6 +511,10 @@ footer{{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80p
   .trial-grid{{grid-template-columns:1fr!important}}
   .coupon-compare{{grid-template-columns:1fr!important}}
   .coupon-features{{grid-template-columns:1fr!important}}
+  .services-grid{{grid-template-columns:1fr!important}}
+  .services-steps{{grid-template-columns:1fr!important}}
+  .services-pricing{{grid-template-columns:1fr!important}}
+  .form-row{{grid-template-columns:1fr!important}}
 }}
 """
 
@@ -560,6 +564,7 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
         <div class="nav-dropdown-menu">
 {dropdown_links}        </div>
       </div>
+      <a href="/services/" class="nav-link">Services</a>
       <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="nav-link" target="_blank" rel="noopener">Podcast</a>
       <a href="{AFFILIATE}" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
     </div>
@@ -1034,6 +1039,7 @@ def build_sitemap(posts: list[dict]):
     urls = [f"  <url><loc>{SITE_URL}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>"]
     urls.append(f"  <url><loc>{SITE_URL}/trial/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>")
     urls.append(f"  <url><loc>{SITE_URL}/coupon/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>")
+    urls.append(f"  <url><loc>{SITE_URL}/services/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>")
     for c in CATEGORIES:
         urls.append(f'  <url><loc>{SITE_URL}/category/{c["slug"]}/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>')
     for p in posts:
@@ -1436,6 +1442,307 @@ def build_coupon_page():
     write(PUBLIC_DIR / "coupon" / "index.html", html)
 
 
+def build_services_page():
+    """Build /services/ page — a la carte AI automation services."""
+    canonical = f"{SITE_URL}/services/"
+    title = "GoHighLevel Automation Services — $497/mo"
+    description = "AI automation systems built inside GoHighLevel. Content pipelines, lead follow-up, appointment setting, SEO engines, and more. A la carte, no contracts."
+
+    WEBHOOK_URL = "https://services.leadconnectorhq.com/hooks/VL5PlkLBYG4mKk3N6PGw/webhook-trigger/8e3ea90f-d72e-49ec-ace8-ec10678d6bc4"
+
+    services = [
+        {
+            "name": "AI Content Pipeline",
+            "desc": "Automated blog posts and podcast episodes generated from your existing content, published on autopilot.",
+            "includes": "Source scraping, AI audio generation, transcription, SEO blog posts, podcast distribution",
+        },
+        {
+            "name": "SEO Engine",
+            "desc": "Google Search Console monitoring with auto-generated topics, landing pages, and content gap analysis.",
+            "includes": "GSC integration, keyword tracking, auto-generated pages, 28-day optimization cycles",
+        },
+        {
+            "name": "AI Lead Follow-Up",
+            "desc": "Claude-powered SMS and email sequences that respond intelligently to inbound leads. Opt-in only.",
+            "includes": "AI conversation flows, smart nurture sequences, re-engagement campaigns, CRM tagging",
+        },
+        {
+            "name": "AI Appointment Setter",
+            "desc": "Conversation bot that qualifies leads and books calls on your calendar — no human needed.",
+            "includes": "GHL Agent Studio setup, calendar integration, qualification logic, handoff workflows",
+        },
+        {
+            "name": "Direct Mail Campaigns",
+            "desc": "AI-written postcards and letters with multi-touch sequences that drive inbound responses.",
+            "includes": "6-touch campaign copywriting, QR tracking, CRM integration, follow-up automation",
+        },
+        {
+            "name": "CRM Setup &amp; Workflow Automation",
+            "desc": "Pipelines, triggers, and workflows configured to automate your entire client journey.",
+            "includes": "Pipeline design, workflow automation, tagging logic, reporting dashboards",
+        },
+        {
+            "name": "Multi-Location SEO Pages",
+            "desc": "Hundreds of geo-targeted landing pages generated at scale for local service businesses.",
+            "includes": "Dynamic page generation, local schema markup, city/county targeting, sitemap automation",
+        },
+        {
+            "name": "Reputation Management",
+            "desc": "Automated review requests after jobs, AI-written responses, and Google review monitoring.",
+            "includes": "Review request workflows, AI response drafting, sentiment tracking, review widgets",
+        },
+    ]
+
+    services_html = ""
+    for s in services:
+        services_html += f"""
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px;transition:border-color .2s">
+        <div style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">{s['name']}</div>
+        <p style="font-size:.9rem;color:var(--text2);line-height:1.65;margin-bottom:12px">{s['desc']}</p>
+        <p style="font-size:.78rem;color:var(--text3);line-height:1.6;margin:0"><strong style="color:var(--text2)">Includes:</strong> {s['includes']}</p>
+      </div>"""
+
+    faq_schema = json.dumps({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How much do GoHighLevel automation services cost?",
+                "acceptedAnswer": {"@type": "Answer", "text": "Each automation system is $497/month plus API usage at 6x cost. Pick only the systems you need — no bundles, no contracts. API usage covers Claude, Gemini, and other AI services powering your automations."}
+            },
+            {
+                "@type": "Question",
+                "name": "Do you do unsolicited outbound SMS?",
+                "acceptedAnswer": {"@type": "Answer", "text": "No. All SMS and email automation is opt-in only. We don't support cold outreach, skip-traced lists, or unsolicited messaging. This protects your numbers from being banned and keeps you compliant with TCPA and A2P 10DLC regulations. Read more at globalhighlevel.com/blog/unsolicited-sms-gohighlevel-compliance-risk/"}
+            },
+            {
+                "@type": "Question",
+                "name": "What AI tools do you use for GoHighLevel automation?",
+                "acceptedAnswer": {"@type": "Answer", "text": "We use Claude (Anthropic) for intelligent conversations, copywriting, and decision-making. Gemini for transcription and content processing. NotebookLM for podcast generation. All integrated directly into your GoHighLevel account."}
+            },
+            {
+                "@type": "Question",
+                "name": "How long does setup take?",
+                "acceptedAnswer": {"@type": "Answer", "text": "Most systems are live within 3-5 business days. Complex multi-system setups may take 1-2 weeks. We use AI to accelerate the build process so you are not waiting months for delivery."}
+            },
+            {
+                "@type": "Question",
+                "name": "Do I need a GoHighLevel account?",
+                "acceptedAnswer": {"@type": "Answer", "text": "Yes. We build inside your GHL account so you own everything. Don't have one yet? Start a 30-day free trial at globalhighlevel.com/trial and we'll set up your first system during the trial period."}
+            }
+        ]
+    })
+
+    service_schema = json.dumps({
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "GoHighLevel AI Automation Services",
+        "description": "Done-for-you AI automation systems built inside GoHighLevel. Content pipelines, lead follow-up, appointment setting, SEO engines, and more.",
+        "provider": {"@type": "Organization", "name": "GlobalHighLevel", "url": SITE_URL},
+        "url": canonical,
+        "offers": {
+            "@type": "Offer",
+            "price": "497",
+            "priceCurrency": "USD",
+            "description": "Per automation system per month, plus API usage"
+        }
+    })
+
+    body = f"""
+<div class="post-container" style="max-width:780px;padding-top:100px">
+
+  <div class="fade-1" style="text-align:center;margin-bottom:48px">
+    <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px">AI Automation Services</p>
+    <h1 style="font-family:var(--sans);font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px">GoHighLevel Automation Services — AI Systems That Run Your Business</h1>
+    <p style="font-size:1.1rem;color:var(--text2);line-height:1.7;max-width:600px;margin:0 auto 16px">Pick the automations you need. We build them inside your GHL account. They run 24/7. You pay monthly.</p>
+    <p style="font-size:1.3rem;font-weight:800;color:var(--text);margin-bottom:8px">$497/mo per system + API usage</p>
+    <p style="font-size:.85rem;color:var(--text3)">API usage billed at 6x cost &middot; No contracts &middot; Cancel anytime</p>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px" class="fade-2">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:8px">GHL Automation Services — Pick What You Need</h2>
+    <p style="font-size:.9rem;color:var(--text3);margin-bottom:24px">Each system is $497/mo. Pick one, pick all eight. No bundles, no upsells.</p>
+    <div class="services-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+{services_html}
+    </div>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">How It Works</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px" class="services-steps">
+      <div style="text-align:center">
+        <div style="font-size:2rem;font-weight:800;color:var(--amber);margin-bottom:8px">1</div>
+        <div style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px">You Pick</div>
+        <p style="font-size:.82rem;color:var(--text2);line-height:1.6;margin:0">Choose the automations you need from the menu above.</p>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:2rem;font-weight:800;color:var(--amber);margin-bottom:8px">2</div>
+        <div style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px">We Build</div>
+        <p style="font-size:.82rem;color:var(--text2);line-height:1.6;margin:0">We set everything up inside your GoHighLevel account. Live in 3-5 days.</p>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:2rem;font-weight:800;color:var(--amber);margin-bottom:8px">3</div>
+        <div style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px">It Runs</div>
+        <p style="font-size:.82rem;color:var(--text2);line-height:1.6;margin:0">Your systems run 24/7. You pay monthly. Cancel anytime.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">GoHighLevel Consulting &amp; Setup Pricing</h2>
+    <div style="background:var(--surface);border:1px solid var(--amber-border);border-radius:8px;padding:32px;text-align:center;margin-bottom:20px">
+      <div style="font-size:2.5rem;font-weight:800;color:var(--text)">$497<span style="font-size:1rem;color:var(--text3)">/mo per system</span></div>
+      <p style="font-size:.95rem;color:var(--text2);margin:12px 0 0">+ API usage at 6x cost (typically $30-150/mo depending on volume)</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="services-pricing">
+      <div style="padding:16px;border:1px solid var(--border);border-radius:6px">
+        <div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:4px">1 system</div>
+        <div style="font-size:.82rem;color:var(--text2)">$497/mo + API</div>
+      </div>
+      <div style="padding:16px;border:1px solid var(--border);border-radius:6px">
+        <div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:4px">3 systems</div>
+        <div style="font-size:.82rem;color:var(--text2)">$1,491/mo + API</div>
+      </div>
+      <div style="padding:16px;border:1px solid var(--border);border-radius:6px">
+        <div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:4px">5 systems</div>
+        <div style="font-size:.82rem;color:var(--text2)">$2,485/mo + API</div>
+      </div>
+      <div style="padding:16px;border:1px solid var(--border);border-radius:8px;border-color:var(--amber-border)">
+        <div style="font-size:.85rem;font-weight:700;color:var(--amber);margin-bottom:4px">All 8 systems</div>
+        <div style="font-size:.82rem;color:var(--text2)">$3,976/mo + API</div>
+      </div>
+    </div>
+    <p style="font-size:.8rem;color:var(--text3);text-align:center;margin-top:14px">No setup fees &middot; No contracts &middot; Cancel any system anytime</p>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--amber-border);border-radius:8px;padding:24px;margin-bottom:48px">
+    <div style="display:flex;align-items:flex-start;gap:12px">
+      <div style="font-size:1.2rem;line-height:1">&#9888;</div>
+      <div>
+        <div style="font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px">Opt-In Only — No Unsolicited SMS</div>
+        <p style="font-size:.85rem;color:var(--text2);line-height:1.65;margin:0">All SMS and email automation we build is <strong style="color:var(--text)">opt-in only</strong>. We do not support cold outreach, skip-traced lists, or unsolicited messaging. This protects your phone numbers from being banned and keeps you compliant with TCPA and A2P 10DLC regulations. <a href="/blog/unsolicited-sms-gohighlevel-compliance-risk/" style="color:var(--amber)">Read why this matters &rarr;</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">GoHighLevel Setup Service FAQ</h2>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">How much do GoHighLevel automation services cost?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">Each automation system is $497/month plus API usage at 6x cost. Pick only the systems you need — no bundles, no contracts. API usage covers Claude, Gemini, and other AI services powering your automations.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">Do you do unsolicited outbound SMS?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">No. All SMS and email automation is opt-in only. We don't support cold outreach, skip-traced lists, or unsolicited messaging. This protects your numbers from being banned and keeps you compliant with TCPA and A2P 10DLC regulations. <a href="/blog/unsolicited-sms-gohighlevel-compliance-risk/" style="color:var(--amber)">Read why this matters</a>.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">What AI tools do you use?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">We use Claude (Anthropic) for intelligent conversations, copywriting, and decision-making. Gemini for transcription and content processing. NotebookLM for podcast generation. All integrated directly into your GoHighLevel account.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">How long does setup take?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">Most systems are live within 3-5 business days. Complex multi-system setups may take 1-2 weeks. We use AI to accelerate the build process so you're not waiting months for delivery.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">Do I need a GoHighLevel account?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">Yes. We build inside your GHL account so you own everything. Don't have one yet? <a href="/trial/" style="color:var(--amber)">Start a 30-day free trial</a> and we'll set up your first system during the trial period.</p>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px" id="contact">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:8px">Get Started</h2>
+    <p style="font-size:.9rem;color:var(--text2);margin-bottom:24px">Tell us what you need. We'll get back to you within 24 hours.</p>
+    <form id="services-form" style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="form-row">
+        <div>
+          <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:6px">First Name</label>
+          <input type="text" name="firstName" required style="width:100%;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.9rem;font-family:var(--sans)">
+        </div>
+        <div>
+          <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:6px">Last Name</label>
+          <input type="text" name="lastName" required style="width:100%;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.9rem;font-family:var(--sans)">
+        </div>
+      </div>
+      <div>
+        <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:6px">Email</label>
+        <input type="email" name="email" required style="width:100%;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.9rem;font-family:var(--sans)">
+      </div>
+      <div>
+        <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:6px">Phone</label>
+        <input type="tel" name="phone" style="width:100%;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.9rem;font-family:var(--sans)">
+      </div>
+      <div>
+        <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:6px">Which systems are you interested in?</label>
+        <textarea name="services" rows="3" placeholder="e.g. AI Content Pipeline, AI Lead Follow-Up, CRM Setup" style="width:100%;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.9rem;font-family:var(--sans);resize:vertical"></textarea>
+      </div>
+      <div>
+        <label style="font-size:.78rem;font-weight:600;color:var(--text2);display:block;margin-bottom:6px">Tell us about your business</label>
+        <textarea name="message" rows="3" placeholder="What industry, how many leads/mo, what are you trying to automate?" style="width:100%;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.9rem;font-family:var(--sans);resize:vertical"></textarea>
+      </div>
+      <button type="submit" class="btn-amber" style="width:100%;text-align:center;padding:14px;font-size:.95rem;border:none;cursor:pointer">Send Inquiry &rarr;</button>
+      <div id="form-status" style="font-size:.85rem;text-align:center;display:none"></div>
+    </form>
+  </div>
+
+  <div style="text-align:center;margin-bottom:32px">
+    <p style="font-size:.85rem;color:var(--text2)">Not ready for services? <a href="/trial/" style="color:var(--amber)">Start a free 30-day GHL trial</a>, check our <a href="/coupon/" style="color:var(--amber)">coupon page</a>, or explore our <a href="/" style="color:var(--amber)">free tutorials</a>.</p>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:32px">
+    <p style="font-size:.8rem;color:var(--text3);line-height:1.7;text-align:center">GlobalHighLevel.com is an independent automation consultancy. We are not affiliated with GoHighLevel LLC or Anthropic. GoHighLevel is a registered trademark of HighLevel Inc.</p>
+  </div>
+
+</div>
+<script type="application/ld+json">{faq_schema}</script>
+<script type="application/ld+json">{service_schema}</script>
+<script>
+(function(){{
+  var form=document.getElementById('services-form');
+  var status=document.getElementById('form-status');
+  if(!form)return;
+  form.addEventListener('submit',function(e){{
+    e.preventDefault();
+    var data={{}};
+    new FormData(form).forEach(function(v,k){{data[k]=v}});
+    status.style.display='block';
+    status.style.color='var(--text2)';
+    status.textContent='Sending...';
+    fetch('{WEBHOOK_URL}',{{
+      method:'POST',
+      headers:{{'Content-Type':'application/json'}},
+      body:JSON.stringify(data)
+    }}).then(function(r){{
+      if(r.ok){{
+        status.style.color='var(--amber)';
+        status.textContent='Sent! We\\'ll be in touch within 24 hours.';
+        form.reset();
+      }}else{{
+        status.style.color='#ef4444';
+        status.textContent='Something went wrong. Email us instead.';
+      }}
+    }}).catch(function(){{
+      status.style.color='#ef4444';
+      status.textContent='Something went wrong. Email us instead.';
+    }});
+  }});
+}})();
+</script>"""
+
+    html = base_html(
+        title=f"{title} | {SITE_NAME}",
+        description=description,
+        canonical=canonical,
+        body=body
+    )
+    write(PUBLIC_DIR / "services" / "index.html", html)
+
+
 def build_404():
     body = f"""
 <div style="text-align:center;padding:160px 24px 100px">
@@ -1508,6 +1815,8 @@ def main():
     build_trial_page()
     print("Building coupon page...")
     build_coupon_page()
+    print("Building services page...")
+    build_services_page()
 
     # llms.txt (AI discoverability)
     build_llms_txt(merged)
