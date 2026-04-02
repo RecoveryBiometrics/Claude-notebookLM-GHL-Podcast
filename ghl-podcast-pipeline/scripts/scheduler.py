@@ -568,6 +568,13 @@ You'll get a summary email when it's done.
     subject = f"GHL Podcast — Cycle #{cycle_num} | {datetime.now().strftime('%b %d')}"
     send_email(subject, summary)
 
+    # Weekly Slack SEO report (sends once per 7 days automatically)
+    try:
+        weekly_report = load_script("weekly-slack-report.py")
+        weekly_report.main()
+    except Exception as e:
+        log(f"  Weekly Slack report error (non-fatal): {e}")
+
     log(f"Cycle #{cycle_num} complete.")
     log(f"Next cycle: {next_run.strftime('%Y-%m-%d %H:%M:%S')}")
     log("=" * 60)
