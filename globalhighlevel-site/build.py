@@ -31,6 +31,7 @@ SITE_NAME    = os.getenv("SITE_NAME", "Global High Level")
 SITE_TAGLINE = os.getenv("SITE_TAGLINE", "GoHighLevel Tutorials, Guides & Strategies for Agencies Worldwide")
 AFFILIATE    = os.getenv("GHL_AFFILIATE_LINK", "https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=website")
 
+GA_ID        = "G-J8RZMH4EPZ"
 ACCENT       = "#f59e0b"   # amber
 ACCENT_DARK  = "#d97706"
 
@@ -674,6 +675,19 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
 {{"@context":"https://schema.org","@type":"WebSite","name":"{SITE_NAME}","url":"{SITE_URL}"}}
 </script>
 <style>{CSS}</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}
+gtag('js',new Date());gtag('config','{GA_ID}');
+document.addEventListener('click',function(e){{
+  var a=e.target.closest('a[href*="gohighlevel.com"],a[href*="/trial/"],a.nav-cta,a.btn-amber');
+  if(a)gtag('event','cta_click',{{
+    link_url:a.href,
+    link_text:a.textContent.trim().slice(0,50),
+    page_path:location.pathname
+  }});
+}});
+</script>
 </head>
 <body>
 <nav>
