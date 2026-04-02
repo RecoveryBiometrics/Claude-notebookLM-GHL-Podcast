@@ -576,8 +576,12 @@ a.card-cat:hover{{color:var(--amber-light);text-decoration:none}}
 
 /* Author box */
 .author-box{{display:flex;gap:16px;align-items:flex-start;padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:40px 0}}
-.author-box .author-name{{font-weight:700;color:var(--text);font-size:.95rem;margin-bottom:4px}}
+.author-box .author-name{{font-weight:700;color:var(--accent);font-size:.95rem;margin-bottom:2px;text-decoration:none}}
+.author-box .author-name:hover{{text-decoration:underline}}
+.author-box .author-role{{font-size:.8rem;color:var(--text2);margin-bottom:6px;font-weight:500}}
 .author-box .author-bio{{font-size:.825rem;color:var(--text2);line-height:1.6}}
+.author-box .author-bio a{{color:var(--accent);text-decoration:none}}
+.author-box .author-bio a:hover{{text-decoration:underline}}
 
 /* Related posts */
 .related-posts{{margin:48px 0 0}}
@@ -710,6 +714,7 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
 {dropdown_links}        </div>
       </div>
       <a href="/services/" class="nav-link">Services</a>
+      <a href="/about/" class="nav-link">About</a>
       <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="nav-link" target="_blank" rel="noopener">Podcast</a>
       <a href="{AFFILIATE}" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
     </div>
@@ -720,6 +725,7 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
     <div class="mobile-menu">
       <a href="/">Home</a>
       <a href="/services/">Services</a>
+      <a href="/about/">About</a>
 {dropdown_links}      <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
       <a href="{AFFILIATE}" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
     </div>
@@ -877,8 +883,9 @@ def build_post_page(post: dict, all_posts: list = None):
     author_html = f"""
 <div class="author-box">
   <div>
-    <div class="author-name">William Welch</div>
-    <div class="author-bio">GoHighLevel user and affiliate. Runs GlobalHighLevel.com — free tutorials, guides, and strategies for agencies and businesses using GHL worldwide.</div>
+    <a href="/about/" class="author-name">William Welch</a>
+    <div class="author-role">GoHighLevel Consultant &amp; Agency Automation Specialist</div>
+    <div class="author-bio">I help agencies replace 5-10 disconnected tools with one platform. I've built and managed GoHighLevel automations across CRM, email, SMS, WhatsApp, and AI — and I publish everything I learn here. <a href="/about/">More about me &rarr;</a></div>
   </div>
 </div>"""
 
@@ -910,8 +917,26 @@ def build_post_page(post: dict, all_posts: list = None):
         "headline": title,
         "description": description,
         "datePublished": post.get("publishedAt", post.get("uploadedAt", "")),
-        "author": {"@type": "Person", "name": "William Welch"},
-        "publisher": {"@type": "Organization", "name": SITE_NAME, "url": SITE_URL},
+        "dateModified": post.get("publishedAt", post.get("uploadedAt", "")),
+        "author": {
+            "@type": "Person",
+            "name": "William Welch",
+            "url": f"{SITE_URL}/about/",
+            "jobTitle": "GoHighLevel Consultant & Agency Automation Specialist",
+            "sameAs": [
+                "https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV"
+            ]
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": SITE_NAME,
+            "url": SITE_URL,
+            "logo": {
+                "@type": "ImageObject",
+                "url": f"{SITE_URL}/logo.png"
+            }
+        },
+        "mainEntityOfPage": {"@type": "WebPage", "@id": canonical},
         "url": canonical
     })
 
@@ -1199,6 +1224,7 @@ def build_sitemap(posts: list[dict]):
     urls.append(f"  <url><loc>{SITE_URL}/trial/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>")
     urls.append(f"  <url><loc>{SITE_URL}/coupon/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>")
     urls.append(f"  <url><loc>{SITE_URL}/services/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>")
+    urls.append(f"  <url><loc>{SITE_URL}/about/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>")
     for c in CATEGORIES:
         urls.append(f'  <url><loc>{SITE_URL}/category/{c["slug"]}/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>')
     for p in posts:
@@ -1902,6 +1928,81 @@ def build_services_page():
     write(PUBLIC_DIR / "services" / "index.html", html)
 
 
+def build_about_page(total_posts: int = 0):
+    """Build /about/ page — E-E-A-T authority page for author."""
+    canonical = f"{SITE_URL}/about/"
+    title = "About William Welch — GoHighLevel Consultant | GlobalHighLevel"
+    description = "William Welch helps agencies automate with GoHighLevel. 300+ tutorials, a top GHL podcast, and hands-on experience building automations for agencies worldwide."
+
+    person_schema = json.dumps({
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "mainEntity": {
+            "@type": "Person",
+            "name": "William Welch",
+            "jobTitle": "GoHighLevel Consultant & Agency Automation Specialist",
+            "url": canonical,
+            "sameAs": [
+                "https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV"
+            ],
+            "worksFor": {
+                "@type": "Organization",
+                "name": "REI Amplifi",
+                "url": "https://reiamplifi.com"
+            },
+            "knowsAbout": [
+                "GoHighLevel", "CRM automation", "agency operations",
+                "WhatsApp marketing", "AI agents", "workflow automation",
+                "email deliverability", "SaaS platforms"
+            ]
+        }
+    })
+
+    body = f"""
+<article class="post-content" style="padding-top:140px;max-width:720px;margin:0 auto">
+  <div class="post-eyebrow"><a href="/">Home</a> &rsaquo; About</div>
+  <h1 style="font-family:var(--sans);font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.15;letter-spacing:-.5px;margin-bottom:16px">About William Welch</h1>
+  <div class="author-role" style="font-size:1rem;color:var(--amber);margin-bottom:32px;font-weight:600">GoHighLevel Consultant &amp; Agency Automation Specialist</div>
+
+  <h2>What I Do</h2>
+  <p>I help digital marketing agencies stop paying for 5-10 disconnected tools and move everything into GoHighLevel. CRM, email, SMS, WhatsApp, funnels, calendars, AI agents, payments — one platform, fully automated.</p>
+  <p>I've built GoHighLevel systems for agencies across the US, India, and Latin America — from solo operators to teams managing 50+ sub-accounts. If it can be automated in GHL, I've probably built it.</p>
+
+  <h2>Why I Built This Site</h2>
+  <p>GoHighLevel is powerful but the learning curve is real. The official docs cover features — they don't show you how to actually set things up for your specific business.</p>
+  <p>GlobalHighLevel.com is where I publish everything I learn. Every tutorial comes from real implementation work, not theory. When I figure out how to solve a problem in GHL, I write it up so you don't have to waste the same hours I did.</p>
+
+  <h2>By the Numbers</h2>
+  <ul>
+    <li><strong>{total_posts}+ published tutorials</strong> covering every major GHL feature</li>
+    <li><strong>Go High Level podcast</strong> — <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">380+ followers on Spotify</a>, 6,400+ total streams</li>
+    <li><strong>10 content categories</strong> — from AI &amp; Automation to international markets (India, Latin America)</li>
+    <li><strong>New content daily</strong> — tutorials, podcast episodes, and guides published every cycle</li>
+  </ul>
+
+  <h2>My Approach</h2>
+  <p>Every piece of content on this site follows three rules:</p>
+  <ol>
+    <li><strong>Based on real usage</strong> — I only write about features I've actually configured and tested</li>
+    <li><strong>Fact-checked</strong> — every tutorial runs through an automated fact-checking agent before publishing</li>
+    <li><strong>Actionable</strong> — step-by-step instructions you can follow inside your GHL account right now</li>
+  </ol>
+
+  <h2>Work With Me</h2>
+  <p>If you need hands-on help setting up GoHighLevel for your agency, I offer consulting and implementation services through <a href="https://reiamplifi.com" target="_blank" rel="noopener">REI Amplifi</a>.</p>
+
+  <div class="cta-end" style="margin-top:48px">
+    <h3>Try GoHighLevel Free</h3>
+    <p>30 days free — double the standard 14-day trial. No credit card required.</p>
+    <a href="{AFFILIATE}&utm_campaign=about" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free 30-Day Trial</a>
+  </div>
+</article>
+<script type="application/ld+json">{person_schema}</script>"""
+
+    html = base_html(title, description, canonical, body)
+    write(PUBLIC_DIR / "about" / "index.html", html)
+
+
 def build_404():
     body = f"""
 <div style="text-align:center;padding:160px 24px 100px">
@@ -1976,6 +2077,10 @@ def main():
     build_coupon_page()
     print("Building services page...")
     build_services_page()
+
+    # About page (E-E-A-T)
+    print("Building about page...")
+    build_about_page(total_posts=len(merged))
 
     # llms.txt (AI discoverability)
     build_llms_txt(merged)
