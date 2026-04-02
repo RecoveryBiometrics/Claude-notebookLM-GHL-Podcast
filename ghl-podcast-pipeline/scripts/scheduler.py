@@ -53,7 +53,6 @@ GSC_DATA_FILE = BASE_DIR / "data" / "gsc-stats.json"
 CYCLE_HOURS = 25
 GMAIL_ADDRESS = os.getenv("GMAIL_ADDRESS", "")
 GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "")
-OPS_LOG_WEBHOOK = os.getenv("OPS_LOG_WEBHOOK_URL", "")
 
 
 # ── Logging ───────────────────────────────────────────────────────────────────
@@ -373,34 +372,31 @@ To check logs: tail -f ~/Claude_notebookLM_GHL_Podcast/ghl-podcast-pipeline/logs
     return summary
 
 
-def send_ops_log(cycle_num: int, published: int, failed: int, blogs: int, india: int, spanish: int, error: str = None):
-    """Post structured cycle status to #ops-log for centralized monitoring."""
-    if not OPS_LOG_WEBHOOK:
-        log("  No OPS_LOG_WEBHOOK_URL set — skipping ops-log")
-        return
-
+def write_ops_status(cycle_num: int, published: int, failed: int, blogs: int, india: int, spanish: int, error: str = None):
+    """Write structured cycle status to ops-status.json for Pipeline Doctor to read."""
     try:
-        from urllib.request import Request, urlopen
-        date_str = datetime.now().strftime("%Y-%m-%d %H:%M")
-        if error:
-            msg = f"`[GHL] [Podcast Pipeline] {date_str} — CYCLE #{cycle_num} ERROR: {error[:200]}. Action needed: yes.`"
-        else:
-            msg = (
-                f"`[GHL] [Podcast Pipeline] {date_str} — Cycle #{cycle_num} complete. "
-                f"Episodes: {published}. Failed: {failed}. "
-                f"Blogs: {blogs} EN + {india} India + {spanish} ES. "
-                f"Action needed: {'yes' if failed > 0 else 'no'}.`"
+        status = {
+            "service": "ghl-podcast-pipeline",
+            "business": "GHL",
+            "timestamp": datetime.now().isoformat(),
+            "cycle": cycle_num,
+            "status": "error" if error else ("warning" if failed > 0 else "ok"),
+            "episodes_published": published,
+            "episodes_failed": failed,
+            "blogs_en": blogs,
+            "blogs_india": india,
+            "blogs_spanish": spanish,
+            "error": error[:300] if error else None,
+            "summary": (
+                f"Cycle #{cycle_num} complete. Episodes: {published}. Failed: {failed}. "
+                f"Blogs: {blogs} EN + {india} India + {spanish} ES."
             )
-
-        data = json.dumps({"text": msg}).encode("utf-8")
-        req = Request(OPS_LOG_WEBHOOK, data=data, headers={"Content-Type": "application/json"})
-        with urlopen(req, timeout=30) as resp:
-            if resp.status == 200:
-                log("  Ops-log webhook posted")
-            else:
-                log(f"  Ops-log returned status {resp.status}")
+        }
+        status_file = BASE_DIR / "data" / "ops-status.json"
+        status_file.write_text(json.dumps(status, indent=2))
+        log("  Ops status written to data/ops-status.json")
     except Exception as e:
-        log(f"  Ops-log webhook failed (non-fatal): {e}")
+        log(f"  Ops status write failed (non-fatal): {e}")
 
 
 def send_daily_slack(summary: str, cycle_num: int):
@@ -684,7 +680,7 @@ You'll get a summary email when it's done.
                 for r in json.load(f):
                     if r.get("publishedAt", "").startswith(today):
                         spanish_today += 1
-        send_ops_log(cycle_num, ep_today, fail_today, blog_today, india_today, spanish_today)
+        write_ops_status(cycle_num, ep_today, fail_today, blog_today, india_today, spanish_today)
     except Exception as e:
         log(f"  Ops-log stats failed (non-fatal): {e}")
 
