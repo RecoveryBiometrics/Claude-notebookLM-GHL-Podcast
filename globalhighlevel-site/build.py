@@ -31,7 +31,7 @@ SITE_NAME    = os.getenv("SITE_NAME", "Global High Level")
 SITE_TAGLINE = os.getenv("SITE_TAGLINE", "GoHighLevel Tutorials, Guides & Strategies for Agencies Worldwide")
 AFFILIATE    = os.getenv("GHL_AFFILIATE_LINK", "https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=website")
 
-GA_ID        = "G-J8RZMH4EPZ"
+GA_ID        = ""  # Set GA4 measurement ID here (G-XXXXXXXXXX)
 ACCENT       = "#f59e0b"   # amber
 ACCENT_DARK  = "#d97706"
 
@@ -643,6 +643,27 @@ footer{{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80p
 
 # ── Base template ─────────────────────────────────────────────────────────────
 
+def _ga_snippet() -> str:
+    """Return GA4 + CTA click tracking script, or empty string if no GA_ID."""
+    if not GA_ID:
+        return ""
+    return (
+        f'<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>\n'
+        f"<script>\n"
+        f"window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}\n"
+        f'gtag("js",new Date());gtag("config","{GA_ID}");\n'
+        f'document.addEventListener("click",function(e){{\n'
+        f'  var a=e.target.closest(\'a[href*="gohighlevel.com"],a[href*="/trial/"],a.nav-cta,a.btn-amber\');\n'
+        f'  if(a)gtag("event","cta_click",{{\n'
+        f"    link_url:a.href,\n"
+        f"    link_text:a.textContent.trim().slice(0,50),\n"
+        f"    page_path:location.pathname\n"
+        f"  }});\n"
+        f"}});\n"
+        f"</script>"
+    )
+
+
 def base_html(title: str, description: str, canonical: str, body: str, og_image: str = "") -> str:
     og_img = og_image or os.getenv("OG_IMAGE_URL", "")
     cats = CATEGORIES
@@ -675,19 +696,7 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
 {{"@context":"https://schema.org","@type":"WebSite","name":"{SITE_NAME}","url":"{SITE_URL}"}}
 </script>
 <style>{CSS}</style>
-<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
-<script>
-window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}
-gtag('js',new Date());gtag('config','{GA_ID}');
-document.addEventListener('click',function(e){{
-  var a=e.target.closest('a[href*="gohighlevel.com"],a[href*="/trial/"],a.nav-cta,a.btn-amber');
-  if(a)gtag('event','cta_click',{{
-    link_url:a.href,
-    link_text:a.textContent.trim().slice(0,50),
-    page_path:location.pathname
-  }});
-}});
-</script>
+{_ga_snippet()}
 </head>
 <body>
 <nav>
