@@ -33,6 +33,12 @@ CREDENTIALS_FILE = BASE_DIR / os.getenv("GOOGLE_CREDENTIALS_FILE", "credentials.
 GSC_SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
 GSC_SITE_URL = "sc-domain:globalhighlevel.com"
 
+# Google Analytics 4
+GA4_TOKEN_FILE = BASE_DIR / "token-ga4.json"
+GA4_SCOPES = ["https://www.googleapis.com/auth/analytics.readonly"]
+GA4_PROPERTY_ID = os.getenv("GA4_PROPERTY_ID", "531015433")
+GA4_DATA_FILE = BASE_DIR / "data" / "ga4-stats.json"
+
 
 def log(msg: str):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -311,6 +317,162 @@ def fetch_gsc_data() -> dict:
         return {}
 
 
+# ── Google Analytics 4 ───────────────────────────────────────────────────────
+def get_ga4_service():
+    """Authenticate with Google Analytics Data API."""
+    from google.oauth2.credentials import Credentials
+    from google_auth_oauthlib.flow import InstalledAppFlow
+    from google.auth.transport.requests import Request
+    from googleapiclient.discovery import build
+
+    creds = None
+    if GA4_TOKEN_FILE.exists():
+        creds = Credentials.from_authorized_user_file(str(GA4_TOKEN_FILE), GA4_SCOPES)
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            gsc_creds_file = BASE_DIR / "credentials-gsc.json"
+            if not gsc_creds_file.exists():
+                gsc_creds_file = CREDENTIALS_FILE
+            flow = InstalledAppFlow.from_client_secrets_file(
+                str(gsc_creds_file), GA4_SCOPES
+            )
+            creds = flow.run_local_server(port=0)
+        with open(GA4_TOKEN_FILE, "w") as f:
+            f.write(creds.to_json())
+    return build("analyticsdata", "v1beta", credentials=creds)
+
+
+def fetch_ga4_data() -> dict:
+    """Pull traffic and engagement data from GA4 for the last 7 days."""
+    try:
+        service = get_ga4_service()
+        property_id = f"properties/{GA4_PROPERTY_ID}"
+
+        # Overall metrics — last 7 days
+        response = service.properties().runReport(
+            property=property_id,
+            body={
+                "dateRanges": [{"startDate": "7daysAgo", "endDate": "yesterday"}],
+                "metrics": [
+                    {"name": "activeUsers"},
+                    {"name": "sessions"},
+                    {"name": "screenPageViews"},
+                    {"name": "averageSessionDuration"},
+                    {"name": "bounceRate"},
+                    {"name": "eventCount"},
+                ],
+            }
+        ).execute()
+
+        totals = {}
+        if response.get("rows"):
+            row = response["rows"][0]
+            metric_names = ["active_users", "sessions", "pageviews", "avg_session_duration", "bounce_rate", "event_count"]
+            for i, name in enumerate(metric_names):
+                val = row["metricValues"][i]["value"]
+                totals[name] = round(float(val), 2) if "." in val else int(val)
+
+        # Top pages by pageviews
+        pages_response = service.properties().runReport(
+            property=property_id,
+            body={
+                "dateRanges": [{"startDate": "7daysAgo", "endDate": "yesterday"}],
+                "dimensions": [{"name": "pagePath"}],
+                "metrics": [
+                    {"name": "screenPageViews"},
+                    {"name": "activeUsers"},
+                    {"name": "averageSessionDuration"},
+                ],
+                "orderBys": [{"metric": {"metricName": "screenPageViews"}, "desc": True}],
+                "limit": 20,
+            }
+        ).execute()
+
+        pages = []
+        for row in pages_response.get("rows", []):
+            pages.append({
+                "page": row["dimensionValues"][0]["value"],
+                "pageviews": int(row["metricValues"][0]["value"]),
+                "users": int(row["metricValues"][1]["value"]),
+                "avg_duration": round(float(row["metricValues"][2]["value"]), 1),
+            })
+
+        # Traffic sources
+        sources_response = service.properties().runReport(
+            property=property_id,
+            body={
+                "dateRanges": [{"startDate": "7daysAgo", "endDate": "yesterday"}],
+                "dimensions": [{"name": "sessionDefaultChannelGroup"}],
+                "metrics": [
+                    {"name": "sessions"},
+                    {"name": "activeUsers"},
+                ],
+                "orderBys": [{"metric": {"metricName": "sessions"}, "desc": True}],
+                "limit": 10,
+            }
+        ).execute()
+
+        sources = []
+        for row in sources_response.get("rows", []):
+            sources.append({
+                "channel": row["dimensionValues"][0]["value"],
+                "sessions": int(row["metricValues"][0]["value"]),
+                "users": int(row["metricValues"][1]["value"]),
+            })
+
+        # CTA click events
+        cta_response = service.properties().runReport(
+            property=property_id,
+            body={
+                "dateRanges": [{"startDate": "7daysAgo", "endDate": "yesterday"}],
+                "dimensionFilter": {
+                    "filter": {
+                        "fieldName": "eventName",
+                        "stringFilter": {"value": "cta_click"},
+                    }
+                },
+                "dimensions": [{"name": "pagePath"}],
+                "metrics": [{"name": "eventCount"}],
+                "orderBys": [{"metric": {"metricName": "eventCount"}, "desc": True}],
+                "limit": 10,
+            }
+        ).execute()
+
+        cta_clicks = []
+        total_cta = 0
+        for row in cta_response.get("rows", []):
+            count = int(row["metricValues"][0]["value"])
+            total_cta += count
+            cta_clicks.append({
+                "page": row["dimensionValues"][0]["value"],
+                "clicks": count,
+            })
+
+        ga4_data = {
+            "updated_at": datetime.now().isoformat(),
+            "period": "last 7 days",
+            "totals": totals,
+            "top_pages": pages,
+            "traffic_sources": sources,
+            "cta_clicks": cta_clicks,
+            "total_cta_clicks": total_cta,
+        }
+
+        with open(GA4_DATA_FILE, "w") as f:
+            json.dump(ga4_data, f, indent=2)
+
+        log(f"  GA4: {totals.get('active_users', 0)} users, {totals.get('sessions', 0)} sessions, {totals.get('pageviews', 0)} pageviews (last 7 days)")
+        log(f"  GA4: {total_cta} CTA clicks, {len(pages)} pages tracked")
+        return ga4_data
+
+    except Exception as e:
+        log(f"  GA4 fetch failed: {e}")
+        log(f"  (Run analytics.py manually to authorize GA4: venv/bin/python3 scripts/analytics.py)")
+        return {}
+
+
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
     log("=" * 60)
@@ -335,8 +497,11 @@ def main():
         log(f"  Saved topic-weights.json")
         print_report(weights)
 
-    log("Step 4/4 — Fetching Google Search Console data...")
+    log("Step 4/5 — Fetching Google Search Console data...")
     fetch_gsc_data()
+
+    log("Step 5/5 — Fetching Google Analytics 4 data...")
+    fetch_ga4_data()
 
     log("Analytics complete")
     log("=" * 60)

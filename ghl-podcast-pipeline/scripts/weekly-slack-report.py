@@ -27,6 +27,8 @@ INDIA_PUBLISHED = DATA_DIR / "india-published.json"
 SPANISH_PUBLISHED = DATA_DIR / "spanish-published.json"
 WEEKLY_STATE_FILE = DATA_DIR / "weekly-report-state.json"
 
+GA4_DATA_FILE = DATA_DIR / "ga4-stats.json"
+
 SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL", "")
 SITE_NAME = os.getenv("SITE_NAME", "GlobalHighLevel")
 
@@ -61,6 +63,13 @@ def load_gsc_data() -> dict:
     return {}
 
 
+def load_ga4_data() -> dict:
+    """Load latest GA4 stats from file."""
+    if GA4_DATA_FILE.exists():
+        return json.loads(GA4_DATA_FILE.read_text())
+    return {}
+
+
 def load_published_counts() -> dict:
     """Count total and recent posts from published data files."""
     counts = {"episodes": 0, "episodes_7d": 0, "india": 0, "india_7d": 0, "spanish": 0, "spanish_7d": 0}
@@ -92,6 +101,7 @@ def load_published_counts() -> dict:
 def build_slack_message() -> dict:
     """Build the weekly Slack message payload."""
     gsc = load_gsc_data()
+    ga4 = load_ga4_data()
     counts = load_published_counts()
     totals = gsc.get("totals", {})
     pages = gsc.get("pages", [])
@@ -150,6 +160,41 @@ _{period}_
         msg += f"""
 *Almost Page 1* (positions 8-20, worth optimizing)
 {almost_text}"""
+
+    # GA4 section
+    ga4_totals = ga4.get("totals", {})
+    if ga4_totals:
+        bounce = ga4_totals.get('bounce_rate', 0)
+        bounce_str = f"{bounce:.0%}" if isinstance(bounce, float) and bounce < 1 else f"{bounce}%"
+        avg_dur = ga4_totals.get('avg_session_duration', 0)
+        dur_min = int(avg_dur) // 60
+        dur_sec = int(avg_dur) % 60
+
+        msg += f"""
+*Google Analytics (last 7 days)*
+> Users: *{ga4_totals.get('active_users', 0)}* | Sessions: *{ga4_totals.get('sessions', 0)}* | Pageviews: *{ga4_totals.get('pageviews', 0)}* | Bounce: *{bounce_str}* | Avg Duration: *{dur_min}m {dur_sec}s*
+"""
+
+        # Traffic sources
+        sources = ga4.get("traffic_sources", [])
+        if sources:
+            sources_text = ""
+            for s in sources[:5]:
+                sources_text += f"  • {s['channel']} — {s['sessions']} sessions, {s['users']} users\n"
+            msg += f"""*Traffic Sources*
+{sources_text}"""
+
+        # CTA clicks
+        total_cta = ga4.get("total_cta_clicks", 0)
+        cta_clicks = ga4.get("cta_clicks", [])
+        if total_cta > 0:
+            cta_text = ""
+            for c in cta_clicks[:5]:
+                cta_text += f"  • `{c['page']}` — {c['clicks']} clicks\n"
+            msg += f"""*CTA Clicks: {total_cta} total*
+{cta_text}"""
+        else:
+            msg += "*CTA Clicks:* 0 this week\n"
 
     msg += f"""
 *Content This Week*
