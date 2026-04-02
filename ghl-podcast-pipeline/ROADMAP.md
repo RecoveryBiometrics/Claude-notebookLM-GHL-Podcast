@@ -59,6 +59,10 @@ Goal: fully automated content engine driving GHL affiliate signups via podcast +
 ## 🔜 Next Up — In Priority Order
 
 
+### 🚨 #1 — Google Analytics 4 (BLOCKING — no visibility into traffic or clicks)
+- [ ] **Set up GA4** — create property at analytics.google.com, get G-XXXXXXXXXX measurement ID, inject gtag.js snippet into `globalhighlevel-site/build.py` base template `<head>`. This is the #1 priority — without it we can't tell if anyone is visiting, clicking CTAs, or where they drop off. Must be in place before scaling blog output.
+- [ ] **Set up CTA click event tracking** — add GA4 custom events on all affiliate link clicks (nav CTA, inline CTA, end-of-post CTA, sidebar CTA). Lets us see which CTA placements actually convert.
+
 ### 🚨 #2 — Affiliate Tracker
 - [ ] **Test affiliate-tracker.py** — script is built, needs first test run with `--headed` flag to verify browser navigation works correctly. Run: `venv/bin/python3 scripts/affiliate-tracker.py --headed`. If selectors miss, check screenshots in `logs/` and fix. Once working, wire into scheduler (runs daily before analytics.py). Scrapes: Referrals, Customers, Clicks, Unpaid Earnings → saves to `data/affiliate-stats.json`.
 
@@ -68,7 +72,7 @@ Goal: fully automated content engine driving GHL affiliate signups via podcast +
 - [ ] **Homepage redesign** — current design needs a full rethink. Reference Raycast.com, Resend.com, Framer.com. Write directly — do not use AI agents (token limit causes truncation). Amber accent, Instrument Serif, editorial layout are the right direction — execution needs work.
 - [ ] **Migrate 48 existing GHL blog posts** — one-off script: fetch from GHL API → save as posts/{slug}.json → push → Netlify deploys. Do before reaching 100 posts.
 - [ ] **301 redirects** — reiamplifi.com/blog/* → globalhighlevel.com/blog/* after migration
-- [ ] **Google Analytics 4** — create GA4 property at analytics.google.com, get G-XXXXXXXXXX measurement ID, inject into build.py base template. Do after traffic starts coming in.
+- [x] **Google Analytics 4** — moved to #1 priority above
 - [ ] **GSC Monitoring Agent** — weekly script using GSC API: checks pages indexed, flags crawl errors, includes report in daily email
 - [ ] **GSC indexing check** — ⚠️ Visit search.google.com/search-console in 3-5 days to confirm globalhighlevel.com pages are indexed by Google
 
@@ -101,7 +105,7 @@ Reads `data/gsc-report.json` and takes automated action:
 
 ---
 
-- [ ] **Internal Linking Agent** — on each new post, search published.json for related posts, inject 2-3 internal links. Biggest SEO gap right now.
+- [x] **Internal Linking Agent** — `inject_internal_links()` in build.py: 5 contextual cross-links per post at build time, keyword matching from titles, same-category preferred. Applied to all 312 posts on next deploy.
 - [ ] **Pillar pages** — 4-5 long-form hub pages (3,000+ words) that smaller posts link back to. Builds topical authority. Examples: "Complete GoHighLevel Guide for Agencies", "GoHighLevel Automation Masterclass"
 - [ ] **Author + About page** — Google E-E-A-T rewards real author profiles. "About William Welch" page + author bio on every post.
 - [ ] **Featured images** — each post should have a unique image (auto-generate with AI)

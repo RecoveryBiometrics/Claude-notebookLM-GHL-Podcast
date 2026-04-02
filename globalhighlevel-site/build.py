@@ -100,6 +100,112 @@ def get_related(post: dict, all_posts: list, n: int = 3) -> list:
     other = [p for p in all_posts if p.get("slug") != slug and p.get("category") != cat]
     return (same + other)[:n]
 
+
+def _build_link_index(all_posts: list) -> list[tuple[str, str, str, list[str]]]:
+    """Build an index of (slug, title, category, keywords) for internal linking.
+    Keywords are extracted from the title — split into meaningful phrases."""
+    index = []
+    stop = {"in", "the", "a", "an", "to", "for", "of", "and", "or", "how",
+            "is", "it", "on", "at", "by", "with", "your", "you", "this",
+            "that", "from", "its", "are", "be", "do", "was", "has", "can",
+            "my", "our", "all", "no", "not", "what", "why", "when", "use",
+            "set", "up", "get", "go", "new", "vs", "best", "top", "way"}
+    for p in all_posts:
+        title = p.get("title", p.get("seoTitle", ""))
+        slug = p.get("slug", "")
+        cat = p.get("category", "")
+        if not title or not slug:
+            continue
+        # Extract 2-4 word phrases from title as linkable keywords
+        words = re.sub(r"[^a-z0-9\s]", " ", title.lower()).split()
+        meaningful = [w for w in words if w not in stop and len(w) > 2]
+        phrases = []
+        # Single important words (4+ chars)
+        for w in meaningful:
+            if len(w) >= 5:
+                phrases.append(w)
+        # Bigrams from meaningful words
+        for i in range(len(meaningful) - 1):
+            phrases.append(f"{meaningful[i]} {meaningful[i+1]}")
+        index.append((slug, title, cat, phrases))
+    return index
+
+
+def inject_internal_links(html: str, post: dict, all_posts: list, max_links: int = 5) -> str:
+    """Inject contextual internal links into post body.
+
+    Scans paragraphs for keyword matches against other posts.
+    Links are added as natural in-text hyperlinks, max one link per paragraph,
+    max max_links total per post. Same-category posts preferred."""
+    if not all_posts:
+        return html
+
+    slug = post.get("slug", "")
+    cat = post.get("category", "")
+    link_index = _build_link_index(all_posts)
+
+    # Score candidates: same category gets a boost
+    candidates = []
+    for s, title, c, phrases in link_index:
+        if s == slug:
+            continue
+        score = 2 if c == cat else 1
+        candidates.append((s, title, c, phrases, score))
+
+    # Shuffle within score tiers so we don't always link the same posts
+    import random
+    rng = random.Random(slug)  # deterministic per post
+    rng.shuffle(candidates)
+    candidates.sort(key=lambda x: x[4], reverse=True)
+
+    # Find paragraphs and inject links
+    linked_slugs = set()
+    links_added = 0
+    parts = re.split(r'(<p[^>]*>.*?</p>)', html, flags=re.DOTALL)
+
+    for i, part in enumerate(parts):
+        if links_added >= max_links:
+            break
+        if not part.startswith('<p'):
+            continue
+        # Skip short paragraphs and paragraphs that already have links
+        text_only = re.sub(r'<[^>]+>', '', part)
+        if len(text_only) < 80 or '<a ' in part:
+            continue
+
+        text_lower = text_only.lower()
+        for c_slug, c_title, c_cat, c_phrases, c_score in candidates:
+            if c_slug in linked_slugs:
+                continue
+            # Find the best matching phrase in this paragraph
+            best_match = None
+            best_len = 0
+            for phrase in c_phrases:
+                if phrase in text_lower and len(phrase) > best_len:
+                    # Find the actual-case version in the text
+                    idx = text_lower.find(phrase)
+                    if idx >= 0:
+                        best_match = phrase
+                        best_len = len(phrase)
+
+            if best_match and best_len >= 5:
+                # Find the match position in the original HTML paragraph
+                idx = part.lower().find(best_match)
+                if idx < 0:
+                    continue
+                # Make sure we're not inside an HTML tag
+                before = part[:idx]
+                if before.count('<') > before.count('>'):
+                    continue
+                original_text = part[idx:idx + len(best_match)]
+                link = f'<a href="/blog/{c_slug}/">{original_text}</a>'
+                parts[i] = part[:idx] + link + part[idx + len(best_match):]
+                linked_slugs.add(c_slug)
+                links_added += 1
+                break  # one link per paragraph
+
+    return "".join(parts)
+
 def load_categories() -> list[dict]:
     """Load category definitions from categories.json."""
     if CATEGORIES_JSON.exists():
@@ -677,6 +783,10 @@ def build_post_page(post: dict, all_posts: list = None):
 
     # ── Sanitize content: strip in-content TOC and CTA boxes ──────────────────
     html_content = sanitize_content(html_content)
+
+    # ── Internal links: cross-link to related posts for SEO ──────────────────
+    if all_posts:
+        html_content = inject_internal_links(html_content, post, all_posts)
 
     # ── Podcast section ───────────────────────────────────────────────────────
     if episode_id:
