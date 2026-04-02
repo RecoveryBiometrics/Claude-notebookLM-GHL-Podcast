@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Add Inbound Messages in GoHighLevel — Reduce API Calls | Global High Level</title>
+<meta name="description" content="Learn how to add inbound messages to GoHighLevel using the Conversations API. Reduce API calls, lower integration costs, and log SMS responses efficiently.">
+<link rel="canonical" href="https://globalhighlevel.com/blog/how-to-add-inbound-messages-gohighlevel-reduce-api-calls/">
+<meta property="og:title" content="How to Add Inbound Messages in GoHighLevel — Reduce API Calls | Global High Level">
+<meta property="og:description" content="Learn how to add inbound messages to GoHighLevel using the Conversations API. Reduce API calls, lower integration costs, and log SMS responses efficiently.">
+<meta property="og:url" content="https://globalhighlevel.com/blog/how-to-add-inbound-messages-gohighlevel-reduce-api-calls/">
+<meta property="og:image" content="">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Global High Level","url":"https://globalhighlevel.com"}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
+
+:root{
+  --bg:#07080a;
+  --bg2:#0c0e14;
+  --surface:#111520;
+  --amber:#f59e0b;
+  --amber-light:#fbbf24;
+  --amber-dim:rgba(245,158,11,0.12);
+  --amber-border:rgba(245,158,11,0.22);
+  --text:#eef2ff;
+  --text2:#a0aec8;
+  --text3:#6b7ea8;
+  --border:rgba(255,255,255,0.06);
+  --max:1120px;
+  --content:665px;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--amber);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;height:auto}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-1{animation:fadeUp .6s ease both}
+.fade-2{animation:fadeUp .6s .15s ease both}
+.fade-3{animation:fadeUp .6s .3s ease both}
+
+/* ── NAV — fixed, backdrop blur, animated underlines ──────────────────────── */
+nav{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--sans);font-size:1.15rem;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:0;color:var(--text)}
+.logo-amber{color:var(--amber)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-link{font-size:.82rem;font-weight:500;color:var(--text2);letter-spacing:.1px;transition:color .15s;position:relative;padding:4px 0}
+.nav-link::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--amber);transition:width .2s ease-in-out}
+.nav-link:hover{color:var(--text);text-decoration:none}
+.nav-link:hover::after{width:100%}
+.nav-cta{font-size:.8rem;font-weight:700;color:#000;background:var(--amber);padding:7px 16px;border-radius:100px;transition:background .15s}
+.nav-cta:hover{background:var(--amber-light);text-decoration:none}
+.nav-dropdown{position:relative}
+.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:-12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 0;min-width:220px;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.nav-dropdown:hover .nav-dropdown-menu{display:block}
+.nav-dropdown-menu a{display:block;padding:8px 20px;font-size:.82rem;color:var(--text2);transition:color .15s,background .15s}
+.nav-dropdown-menu a:hover{color:var(--text);background:rgba(255,255,255,.05);text-decoration:none}
+
+/* ── CONTAINER ────────────────────────────────────────────────────────────── */
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* ── SECTION LABELS ───────────────────────────────────────────────────────── */
+.section-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--amber);display:inline-block}
+
+/* ── HOMEPAGE — Featured + stack ──────────────────────────────────────────── */
+.hp-featured{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;padding:88px 0 48px;border-bottom:1px solid var(--border)}
+.hp-lead{display:flex;flex-direction:column;justify-content:center}
+.hp-lead-cat{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.hp-lead-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);margin-bottom:14px;letter-spacing:-.5px}
+.hp-lead-title a{color:var(--text);transition:color .2s}
+.hp-lead-title a:hover{color:var(--amber);text-decoration:none}
+.hp-lead-desc{font-size:1rem;color:var(--text2);line-height:1.65;margin-bottom:16px}
+.hp-lead-meta{font-size:13px;color:var(--text3);letter-spacing:.2px}
+.hp-stack{display:flex;flex-direction:column;gap:0}
+.hp-stack-item{padding:20px 0;border-bottom:1px solid var(--border)}
+.hp-stack-item:first-child{padding-top:0}
+.hp-stack-item:last-child{border-bottom:none}
+.hp-stack-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:6px}
+.hp-stack-title{font-family:var(--sans);font-size:1rem;font-weight:700;line-height:1.35;margin-bottom:6px}
+.hp-stack-title a{color:var(--text);transition:color .15s}
+.hp-stack-title a:hover{color:var(--amber);text-decoration:none}
+.hp-stack-meta{font-size:12px;color:var(--text3)}
+
+/* ── HOMEPAGE — Main grid + sidebar ───────────────────────────────────────── */
+.hp-body{display:grid;grid-template-columns:1fr 320px;gap:48px;padding:48px 0 80px}
+.hp-articles{display:flex;flex-direction:column;gap:0}
+
+/* ── FLAT EDITORIAL CARDS (article list items) ────────────────────────────── */
+.card{padding:24px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column}
+.card-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:8px;text-decoration:none;display:inline-block}
+a.card-cat:hover{color:var(--amber-light);text-decoration:none}
+.card-title{font-family:var(--sans);font-size:1.1rem;font-weight:700;line-height:1.35;margin-bottom:8px}
+.card-title a{color:var(--text);transition:color .15s}
+.card-title a:hover{color:var(--amber);text-decoration:none}
+.card-excerpt{font-size:.9rem;color:var(--text2);line-height:1.55;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-meta{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.meta-sep{color:var(--text3)}
+.podcast-badge{display:inline-flex;align-items:center;gap:4px;background:var(--amber-dim);color:var(--amber);font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto}
+
+/* ── HOMEPAGE SIDEBAR ─────────────────────────────────────────────────────── */
+.hp-sidebar{position:sticky;top:72px;align-self:start}
+.sidebar-section{margin-bottom:36px}
+.sidebar-section .section-label{font-size:11px;margin-bottom:12px;padding-bottom:8px}
+.sidebar-trending{display:flex;flex-direction:column;gap:0}
+.trending-item{padding:12px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.trending-item:last-child{border-bottom:none}
+.trending-num{font-family:var(--sans);font-size:1.3rem;font-weight:800;color:rgba(245,158,11,.3);line-height:1;min-width:24px}
+.trending-title{font-size:.85rem;font-weight:600;line-height:1.35}
+.trending-title a{color:var(--text2);transition:color .15s}
+.trending-title a:hover{color:var(--text);text-decoration:none}
+.sidebar-podcast{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:24px}
+.sidebar-podcast p{font-size:.85rem;color:var(--text2);margin-bottom:12px;line-height:1.5}
+.btn-spotify{display:inline-flex;align-items:center;gap:6px;background:#1DB954;color:#000;font-size:.8rem;font-weight:700;padding:8px 16px;border-radius:6px;transition:opacity .15s}
+.btn-spotify:hover{opacity:.88;text-decoration:none}
+.sidebar-cta{background:var(--surface);border:1px solid var(--amber-border);border-radius:8px;padding:20px;text-align:center}
+.sidebar-cta .s-headline{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.sidebar-cta .s-sub{font-size:.8rem;color:var(--text2);margin-bottom:14px;line-height:1.5}
+.sidebar-cta .s-fine{font-size:.7rem;color:var(--text3);margin-top:10px}
+.sidebar-cat-link{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--text2);transition:color .15s}
+.sidebar-cat-link:last-child{border-bottom:none}
+.sidebar-cat-link:hover{color:var(--text);text-decoration:none}
+.sidebar-cat-count{font-size:.75rem;color:var(--text3);background:rgba(255,255,255,.04);padding:2px 8px;border-radius:12px}
+
+/* ── Cards grid (for category pages) ──────────────────────────────────────── */
+.cards-grid{display:flex;flex-direction:column;gap:0}
+
+/* ── Reading progress bar ─────────────────────────────────────────────────── */
+#reading-progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--amber);z-index:9999;transition:width .1s linear}
+
+/* ── POST PAGE — single-column centered ───────────────────────────────────── */
+.post-container{max-width:var(--content);margin:0 auto;padding:100px 24px 48px}
+
+/* Breadcrumb */
+.post-breadcrumb{font-size:.8rem;color:var(--text3);margin-bottom:24px}
+.post-breadcrumb a{color:var(--text2);transition:color .15s}
+.post-breadcrumb a:hover{color:var(--text);text-decoration:none}
+.post-breadcrumb .bc-sep{margin:0 8px;color:var(--text3);opacity:.5}
+
+/* Post header */
+.post-eyebrow{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.post-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px}
+.post-byline{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text3);padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:8px;flex-wrap:wrap}
+.post-byline .sep{color:var(--text3);opacity:.4}
+
+/* Share row */
+.share-row{display:flex;align-items:center;gap:12px;padding:12px 0 28px;border-bottom:1px solid var(--border);margin-bottom:32px;font-size:13px;color:var(--text3)}
+.share-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;color:var(--text2);background:transparent;cursor:pointer;transition:border-color .15s,color .15s}
+.share-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* CTA — below byline (compact one-liner) */
+.cta-byline{font-size:.9rem;color:var(--text2);margin:0 0 32px;padding:12px 0}
+.cta-byline a{color:var(--amber);font-weight:600}
+.cta-byline a:hover{color:var(--amber-light)}
+
+/* CTA — mid-article inline */
+.cta-inline{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:28px 0;font-size:.9rem;color:var(--text2);display:block}
+.cta-inline a{color:var(--amber);font-weight:600;text-decoration:none}
+.cta-inline a:hover{color:var(--amber-light)}
+
+/* CTA — end of article box */
+.cta-end{background:var(--surface);border:1px solid var(--amber-border);border-radius:10px;padding:32px;text-align:center;margin:48px 0}
+.cta-end h3{font-family:var(--sans);font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:10px}
+.cta-end p{font-size:.9rem;color:var(--text2);margin:0 0 20px;max-width:440px;margin-left:auto;margin-right:auto}
+.cta-end .fine{font-size:.75rem;color:var(--text3);margin-top:12px}
+.btn-amber{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:#000;font-size:.85rem;font-weight:700;padding:11px 22px;border-radius:6px;transition:all .2s;text-decoration:none}
+.btn-amber:hover{background:var(--amber-light);transform:translateY(-1px);text-decoration:none}
+
+/* Post body typography */
+.post-body{font-size:19px;line-height:1.75;color:#e5e7eb}
+.post-body h2{font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin:48px 0 14px}
+.post-body h3{font-size:1.15rem;font-weight:700;color:#f3f4f6;margin:32px 0 10px}
+.post-body p{margin-bottom:20px}
+.post-body ul,.post-body ol{margin:0 0 20px 24px}
+.post-body li{margin-bottom:8px}
+.post-body strong{color:#fff}
+.post-body a{color:var(--amber);text-decoration:underline;text-underline-offset:3px}
+.post-body a:hover{color:var(--amber-light)}
+
+/* ── LIGHT-MODE INLINE STYLE OVERRIDES ────────────────────────────────────── */
+.post-body a[style*="color:#1a73e8"],
+.post-body a[style*="color: #1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body a[style*="color:#1a73e8"]:hover,
+.post-body a[style*="color: #1a73e8"]:hover{
+  color:var(--amber-light)!important;
+}
+.post-body div[style*="background:#f0f4ff"],
+.post-body div[style*="background: #f0f4ff"]{
+  background:var(--surface)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#f8f9fa"],
+.post-body div[style*="background: #f8f9fa"]{
+  background:var(--surface)!important;
+  border-color:var(--border)!important;
+}
+.post-body div[style*="background:#fff8e1"],
+.post-body div[style*="background: #fff8e1"]{
+  background:rgba(245,158,11,.06)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#fff"],
+.post-body div[style*="background: #fff"],
+.post-body div[style*="background:#ffffff"],
+.post-body div[style*="background: #ffffff"]{
+  background:var(--surface)!important;
+}
+.post-body div[style*="background:#1a73e8"],
+.post-body div[style*="background: #1a73e8"]{
+  background:var(--surface)!important;
+  border:1px solid var(--amber-border)!important;
+}
+.post-body div[style*="background:#1a73e8"] *,
+.post-body div[style*="background: #1a73e8"] *{
+  color:var(--text)!important;
+}
+.post-body div[style*="background:#1a73e8"] a,
+.post-body div[style*="background: #1a73e8"] a{
+  background:var(--amber)!important;
+  color:#000!important;
+  border-radius:6px;
+  padding:12px 24px;
+}
+.post-body a[style*="background:#ffffff"],
+.post-body a[style*="background: #ffffff"],
+.post-body a[style*="background:#fff"],
+.post-body a[style*="background: #fff"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-left:4px solid #1a73e8"],
+.post-body div[style*="border-left: 4px solid #1a73e8"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="border:2px solid #1a73e8"],
+.post-body div[style*="border: 2px solid #1a73e8"]{
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="border-left:4px solid #ffc107"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] h3,
+.post-body div[style*="background: #f8f9fa"] h3{
+  color:var(--amber)!important;
+  margin-top:0;
+}
+.post-body div[style*="background:#f8f9fa"] h3[style*="color:#1a73e8"],
+.post-body div[style*="background: #f8f9fa"] h3[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] p,
+.post-body div[style*="background: #f8f9fa"] p{
+  color:var(--text2)!important;
+}
+.post-body div[style*="background:#f8f9fa"] strong,
+.post-body div[style*="background: #f8f9fa"] strong{
+  color:var(--text)!important;
+}
+.post-body h2[style*="color:#1a73e8"],
+.post-body h3[style*="color:#1a73e8"],
+.post-body h4[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body p[style*="color:#1a73e8"],
+.post-body span[style*="color:#1a73e8"],
+.post-body p[style*="color:#333"],
+.post-body span[style*="color:#333"],
+.post-body p[style*="color:#000"],
+.post-body span[style*="color:#000"]{
+  color:var(--text2)!important;
+}
+.post-body a[style*="background:#1a73e8"],
+.post-body a[style*="background: #1a73e8"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-radius"]{
+  color:var(--text2);
+}
+
+/* TOC */
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:0 0 32px}
+.toc-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:12px}
+.toc ol{margin:0;padding-left:18px}
+.toc li{font-size:.9rem;line-height:1.9}
+.toc a{color:var(--text2);text-decoration:none}
+.toc a:hover{color:var(--amber);text-decoration:none}
+
+/* Podcast embed */
+.podcast-embed{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:20px;margin:36px 0}
+.podcast-embed p{font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:12px}
+.podcast-embed iframe{border-radius:6px}
+.podcast-link{display:inline-flex;align-items:center;gap:8px;color:var(--amber);font-size:.875rem;font-weight:600;text-decoration:none;margin-top:8px}
+.podcast-link:hover{color:var(--amber-light);text-decoration:none}
+
+/* Author box */
+.author-box{display:flex;gap:16px;align-items:flex-start;padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:40px 0}
+.author-box .author-name{font-weight:700;color:var(--text);font-size:.95rem;margin-bottom:4px}
+.author-box .author-bio{font-size:.825rem;color:var(--text2);line-height:1.6}
+
+/* Related posts */
+.related-posts{margin:48px 0 0}
+.related-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:18px}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.related-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;text-decoration:none;display:block;transition:border-color .2s}
+.related-card:hover{border-color:var(--amber);text-decoration:none}
+.related-card .r-tag{font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.related-card .r-title{font-size:.85rem;font-weight:600;color:#e5e7eb;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Pagination */
+.pagination{display:flex;gap:8px;justify-content:center;margin-top:48px;flex-wrap:wrap}
+.page-btn{padding:8px 16px;border:1px solid var(--border);border-radius:6px;font-size:.875rem;color:var(--text2);background:var(--surface)}
+.page-btn.active{background:var(--amber);color:#07080a;border-color:var(--amber);font-weight:700}
+.page-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* Category header */
+.cat-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:100px 24px 40px}
+.cat-header h1{font-family:var(--sans);font-size:1.8rem;font-weight:800;margin-bottom:8px;color:var(--text)}
+.cat-header p{color:var(--text2);font-size:.9rem}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80px}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-logo{font-family:var(--sans);font-size:1.1rem;font-weight:800;margin-bottom:12px;color:var(--text)}
+.footer-logo span{color:var(--amber)}
+.footer-desc{font-size:.82rem;color:var(--text3);line-height:1.7;margin-bottom:14px}
+.footer-disclaimer{font-size:.74rem;color:var(--text3);line-height:1.6;opacity:.7}
+.footer-col h4{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);margin-bottom:16px}
+.footer-col a{display:block;font-size:.85rem;color:var(--text2);margin-bottom:10px;transition:color .15s}
+.footer-col a:hover{color:var(--text);text-decoration:none}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.76rem;color:var(--text3)}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
+@media(max-width:1024px){
+  .hp-featured{grid-template-columns:1fr}
+  .hp-body{grid-template-columns:1fr}
+  .hp-sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .related-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .hp-sidebar{grid-template-columns:1fr}
+  .nav-links .nav-link{display:none}
+  .post-title{font-size:1.8rem}
+  .hp-lead-title{font-size:1.8rem}
+  .cta-end{padding:24px 20px}
+  .related-grid{grid-template-columns:1fr}
+  .cat-header{padding:90px 20px 36px}
+  .footer-top{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column}
+  .share-row{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">Global<span class="logo-amber">HighLevel</span></a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <div class="nav-dropdown">
+        <a class="nav-link">Topics <span style="font-size:10px">&#9662;</span></a>
+        <div class="nav-dropdown-menu">
+    <a href="/category/ai-automation/">AI & Automation</a>
+    <a href="/category/email-deliverability/">Email & Deliverability</a>
+    <a href="/category/sms-messaging/">SMS & Messaging</a>
+    <a href="/category/crm-contacts/">CRM & Contacts</a>
+    <a href="/category/payments-commerce/">Payments & Commerce</a>
+    <a href="/category/analytics-reporting/">Analytics & Reporting</a>
+    <a href="/category/phone-voice/">Phone & Voice</a>
+    <a href="/category/agency-platform/">Agency & Platform</a>
+    <a href="/category/gohighlevel-india/">GoHighLevel India</a>
+    <a href="/category/gohighlevel-espanol/">GoHighLevel en Español</a>
+        </div>
+      </div>
+      <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="nav-link" target="_blank" rel="noopener">Podcast</a>
+      <a href="" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+    </div>
+  </div>
+</nav>
+
+<div id="reading-progress"></div>
+<div class="post-container">
+  <div class="post-breadcrumb fade-1">
+    <a href="/">Home</a><span class="bc-sep">&rsaquo;</span><a href="/category/phone-voice/">Phone & Voice</a><span class="bc-sep">&rsaquo;</span><span>How to Add Inbound Messages in GoHighLevel —…</span>
+  </div>
+  <div class="post-eyebrow fade-1"><a href="/category/phone-voice/" style="color:var(--amber);text-decoration:none">Phone & Voice</a></div>
+  <h1 class="post-title fade-2">How to Add Inbound Messages in GoHighLevel — Reduce API Calls</h1>
+  <div class="post-byline fade-3">
+    <span>By William Welch</span>
+    <span class='sep'>&middot;</span><span>March 13, 2026</span>
+    <span class="sep">&middot;</span><span>8 min read</span>
+  </div>
+  
+<div class="share-row">
+  <span>Share</span>
+  <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fhow-to-add-inbound-messages-gohighlevel-reduce-api-calls%2F&text=How%20to%20Add%20Inbound%20Messages%20in%20GoHighLevel%20—%20Reduce%20API%20Calls" target="_blank" rel="noopener" class="share-btn">X</a>
+  <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fhow-to-add-inbound-messages-gohighlevel-reduce-api-calls%2F" target="_blank" rel="noopener" class="share-btn">LinkedIn</a>
+  <button class="share-btn" onclick="navigator.clipboard.writeText('https://globalhighlevel.com/blog/how-to-add-inbound-messages-gohighlevel-reduce-api-calls/');this.textContent='Copied!'">Copy Link</button>
+</div>
+  
+<p class="cta-byline">Follow along &mdash; <a href="&utm_campaign=how-to-add-inbound-messages-gohighlevel-reduce-api-calls" target="_blank" rel="nofollow noopener">get 30 days free &rarr;</a></p>
+  
+<div class="toc">
+  <div class="toc-label">In This Guide</div>
+  <ol><li><a href="#section-1">Understanding the Add Inbound Message API Endpoint</a></li><li><a href="#section-2">Required Fields: conversationId vs. contactId</a></li><li><a href="#section-3">Step-by-Step: Adding Your First Inbound Message</a></li><li><a href="#section-4">Why This Reduces API Calls (The Economics)</a></li><li><a href="#section-5">Common Integration Scenarios</a></li><li><a href="#section-6">Troubleshooting Inbound Messages Not Appearing</a></li></ol>
+</div>
+  
+<div class="podcast-embed">
+  <p>Listen to this episode</p>
+  <iframe width="100%" height="180" frameborder="no" scrolling="no" seamless
+    src="https://share.transistor.fm/e/9432d002" loading="lazy"></iframe>
+  <a class="podcast-link" href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">
+    Follow the podcast on Spotify
+  </a>
+</div>
+  <div class="post-body"><p>If you're managing multiple client accounts in GoHighLevel or building integrations that handle inbound SMS, you know the API call costs can add up fast. Every message sync, every contact lookup, every conversation fetch—they all consume your monthly API quota. But here's what most agencies miss: <strong>you can add inbound messages directly to GoHighLevel conversations without the expensive overhead of constant API polling.</strong> In this guide, I'll show you exactly how to use the Conversations API to log inbound messages efficiently, reduce your API footprint, and keep your integration costs lean. Whether you're connecting Twilio, ClickSend, or a custom SMS provider, this is the strategy that separates high-performing agencies from those bleeding money on unnecessary API calls. Ready to optimize? Let's dive in. And if you want to master the full GoHighLevel ecosystem, <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=blog&utm_medium=article&utm_campaign=how-to-add-inbound-messages-in-gohighlevel--reduce-api-calls">check out the HighLevel Bootcamp</a> for comprehensive training.</p>
+
+
+
+<h2 id="section-1">Understanding the Add Inbound Message API Endpoint</h2>
+
+<p>The GoHighLevel Conversations API gives you a direct path to insert inbound messages into any conversation or contact record. This is fundamentally different from passive webhooks that only receive data—you're actively pushing message data into the system, which means you have complete control over timing, batching, and efficiency.</p>
+
+<p>The endpoint lives at the POST method on the Conversations API, specifically the "Add Inbound Message" operation. When you POST to this endpoint with the right parameters, GoHighLevel doesn't make additional lookups. It doesn't spawn polling tasks. It simply writes the message to the conversation thread in real-time.</p>
+
+<p>This is the efficiency gain most agencies don't understand: <strong>instead of syncing conversations constantly (which burns API quota), you only send data when an actual message arrives.</strong> No polling. No redundant checks. Message received → Message posted → Done.</p>
+
+<h2 id="section-2">Required Fields: conversationId vs. contactId</h2>
+
+<p>The critical part of the API call is understanding that you need either a <code>conversationId</code> OR a <code>contactId</code>—not both, and definitely not neither.</p>
+
+<p><strong>Using conversationId:</strong> This is the fastest path. If you already have an active conversation ID from your integration (Twilio, ClickSend, etc.), you can post directly to it. The message lands in the exact conversation thread you're targeting. Zero ambiguity.</p>
+
+<p><strong>Using contactId:</strong> If you don't have a conversation ID, GoHighLevel will either attach the message to the most recent conversation with that contact, or it will create a new conversation. This is useful when you're onboarding a new contact or receiving a message from someone who hasn't messaged before.</p>
+
+<p>Beyond those identifiers, you'll also need:</p>
+
+<ul>
+<li><strong>body:</strong> The actual message text</li>
+<li><strong>messageType:</strong> Usually "sms" or "email" depending on the channel</li>
+<li><strong>source:</strong> The platform it came from (Twilio, ClickSend, your custom system, etc.)</li>
+<li><strong>timestamp (optional):</strong> When the message was received—defaults to now if omitted</li>
+</ul>
+
+<div style="background:#fff8e1;border-left:4px solid #ffc107;padding:16px 20px;margin:24px 0;border-radius:4px;">
+<p style="font-weight:700;margin:0 0 6px 0;">💡 Pro Tip</p>
+<p style="margin:0;">Always use <code>conversationId</code> when available. It's faster, more reliable, and eliminates the risk of GoHighLevel creating duplicate conversations for the same contact.</p>
+</div>
+
+<h2 id="section-3">Step-by-Step: Adding Your First Inbound Message</h2>
+
+<p><strong>Step 1: Gather Your Authentication Details</strong><br />
+You'll need your GoHighLevel API key. Find this in your account under Settings > Integrations > API Keys. Copy your API key—you'll use it in the Authorization header of every request.</p>
+
+<p><strong>Step 2: Identify Your Conversation or Contact</strong><br />
+Decide whether you're posting to a known conversation ID or a contact ID. If you're integrating with Twilio or ClickSend, their webhooks will typically include a contact or conversation reference. Store this value.</p>
+
+<p><strong>Step 3: Build Your API Request</strong><br />
+Create a POST request to:<br />
+<code>https://api.gohighlevel.com/v1/conversations/messages</code></p>
+
+<p>Your request body should look like:</p>
+
+<pre style="background:#2d2d2d;color:#f8f8f2;padding:16px;border-radius:4px;overflow-x:auto;"><code>{
+  "contactId": "your-contact-id-here",
+  "body": "Hi, I'm interested in learning more about your services.",
+  "messageType": "sms",
+  "source": "twilio",
+  "timestamp": "2024-01-15T14:30:00Z"
+}</code></pre>
+
+<p>Or if you have a conversation ID:</p>
+
+<pre style="background:#2d2d2d;color:#f8f8f2;padding:16px;border-radius:4px;overflow-x:auto;"><code>{
+  "conversationId": "your-conversation-id-here",
+  "body": "Thanks for reaching out!",
+  "messageType": "sms",
+  "source": "twilio",
+  "timestamp": "2024-01-15T14:35:00Z"
+}</code></pre>
+
+<p><strong>Step 4: Set Your Headers</strong><br />
+Include:</p>
+
+<pre style="background:#2d2d2d;color:#f8f8f2;padding:16px;border-radius:4px;overflow-x:auto;"><code>Authorization: Bearer YOUR_API_KEY
+Content-Type: application/json</code></pre>
+
+<p><strong>Step 5: Send and Verify</strong><br />
+Execute the request. A successful response (201 or 200) means your message is now in the conversation. Check GoHighLevel—the message should appear in the contact's conversation thread immediately.</p>
+
+
+
+
+<p class="cta-inline">This is built into GoHighLevel.
+<a href="&utm_campaign=how-to-add-inbound-messages-gohighlevel-reduce-api-calls" target="_blank" rel="nofollow noopener">Try it free for 30 days &rarr;</a></p><h2 id="section-4">Why This Reduces API Calls (The Economics)</h2>
+
+<p>Let's talk numbers. Most agencies managing SMS integrations use one of two (inefficient) approaches:</p>
+
+<p><strong>The Polling Approach:</strong> Check for new messages every 5 minutes. That's 288 calls per contact per day. For 50 contacts? 14,400 calls daily. At typical GoHighLevel pricing, you're looking at massive overage costs.</p>
+
+<p><strong>The Webhook Approach (Passive):</strong> Your integration receives webhooks but doesn't write directly to GoHighLevel. Instead, you trigger separate API calls to log messages, then separate calls to update contact fields, then separate calls to trigger automations. You're multiplying your API usage by 3–5x.</p>
+
+<p><strong>The Direct Inbound Message Approach:</strong> Your SMS provider (Twilio, ClickSend, etc.) sends a webhook to your backend. You immediately POST to the Conversations API with the message data. One call. Message appears. Done.</p>
+
+<p>The math is stark: <strong>one API call per inbound message versus five to ten calls using traditional methods.</strong> For agencies managing 100+ conversations daily, that's the difference between staying within quota and paying thousands in overages.</p>
+
+<h2 id="section-5">Common Integration Scenarios</h2>
+
+<p><strong>Twilio to GoHighLevel:</strong> Twilio sends an inbound SMS webhook to your backend. Extract the phone number and message body. Query your database or GoHighLevel's contacts to find the matching contactId. POST the message to the Conversations API. The conversation thread now shows the inbound message in real-time.</p>
+
+<p><strong>ClickSend SMS Connector:</strong> ClickSend handles outbound messages through GoHighLevel's native integration, but inbound responses often don't sync automatically. Use the Conversations API to manually log inbound replies. This ensures you never miss a customer response.</p>
+
+<p><strong>Custom SMS Provider:</strong> If you're building your own SMS system, you have full control. Receive the inbound message, authenticate with GoHighLevel's API, and post it directly. Your system becomes the single source of truth for all message activity.</p>
+
+<p><strong>Multi-Channel (SMS + Email):</strong> The same endpoint handles SMS, email, and other message types. Change the <code>messageType</code> parameter, and you can log inbound emails, Instagram DMs (if connected), or any channel GoHighLevel supports.</p>
+
+<h2 id="section-6">Troubleshooting Inbound Messages Not Appearing</h2>
+
+<p><strong>Message Posted but Not Visible:</strong> Ensure the contactId or conversationId is correct. If you're using contactId, GoHighLevel might attach it to a different conversation than expected. Always verify the contact ID matches the phone number or email in your integration.</p>
+
+<p><strong>API Returns 400 or 422 Error:</strong> Check that all required fields are present and properly formatted. The timestamp, if included, must be ISO 8601 format. The messageType must match GoHighLevel's accepted values (sms, email, etc.).</p>
+
+<p><strong>Rate Limiting (429 Response):</strong> You're hitting the API rate limit. Implement exponential backoff and queue your message posts. Don't hammer the endpoint; batch requests if possible.</p>
+
+<p><strong>Message Appears but Automation Doesn't Trigger:</strong> Inbound messages via API might not trigger automations the same way as native channel messages. Check your automation rules—they may be scoped to specific channels or require additional conditions.</p>
+
+<div style="background:#f8f9fa;padding:24px;border-radius:8px;margin:36px 0;">
+<h2 style="margin-top:0;">Frequently Asked Questions</h2>
+
+<h3>Do I need a conversationId or contactId?</h3>
+<p>You need one or the other. If you have an active conversation ID from a previous message exchange, use that—it's more precise. If you're logging a message from a new contact or don't have a conversation ID, use contactId instead.</p>
+
+<h3>Will inbound messages via API trigger automations like native SMS messages?</h3>
+<p>Inbound messages logged via API will appear in the conversation thread, but they may not trigger automations if those automations are configured to respond only to messages from specific channels. Test your automation rules to confirm behavior.</p>
+
+<h3>Can I batch multiple inbound messages in a single API call?</h3>
+<p>No. The endpoint accepts one message per POST request. If you have many inbound messages to log, queue them and POST individually. This actually protects you from rate limiting and makes debugging easier.</p>
+
+<h3>What's the difference between inbound and outbound in GoHighLevel's API?</h3>
+<p>Outbound messages are sent from GoHighLevel to contacts. Inbound messages are logged from contacts back to your system. The Conversations API handles both, but the endpoint for inbound messages specifically is the "Add Inbound Message" operation.</p>
+
+<h3>How do I know if my Twilio integration is properly logging inbound messages?</h3>
+<p>Check the conversation thread in GoHighLevel. If you see inbound messages from the contact appearing with timestamps matching when they replied, your integration is working. If outbound messages appear but inbound doesn't, your Twilio webhook isn't configured to POST to the Conversations API.</p>
+</div>
+
+
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do I need a conversationId or contactId?","acceptedAnswer":{"@type":"Answer","text":"You need one or the other. If you have an active conversation ID from a previous message exchange, use that—it's more precise. If you're logging a message from a new contact or don't have a conversation ID, use contactId instead."}},{"@type":"Question","name":"Will inbound messages via API trigger automations like native SMS messages?","acceptedAnswer":{"@type":"Answer","text":"Inbound messages logged via API will appear in the conversation thread, but they may not trigger automations if those automations are configured to respond only to messages from specific channels. Test your automation rules to confirm behavior."}},{"@type":"Question","name":"Can I batch multiple inbound messages in a single API call?","acceptedAnswer":{"@type":"Answer","text":"No. The endpoint accepts one message per POST request. If you have many inbound messages to log, queue them and POST individually. This actually protects you from rate limiting and makes debugging easier."}},{"@type":"Question","name":"What's the difference between inbound and outbound in GoHighLevel's API?","acceptedAnswer":{"@type":"Answer","text":"Outbound messages are sent from GoHighLevel to contacts. Inbound messages are logged from contacts back to your system. The Conversations API handles both, but the endpoint for inbound messages specifically is the 'Add Inbound Message' operation."}},{"@type":"Question","name":"How do I know if my Twilio integration is properly logging inbound messages?","acceptedAnswer":{"@type":"Answer","text":"Check the conversation thread in GoHighLevel. If you see inbound messages from the contact appearing with timestamps matching when they replied, your integration is working. If outbound messages appear but inbound doesn't, your Twilio webhook isn't configured to POST to the Conversations API."}}]}
+</script></div>
+  
+<div class="cta-end">
+  <h3>Ready to try this?</h3>
+  <p>30 days free, no credit card required. Set up everything in this guide inside your trial.</p>
+  <a href="&utm_campaign=how-to-add-inbound-messages-gohighlevel-reduce-api-calls" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free 30-Day Trial</a>
+  <div class="fine">Cancel anytime &mdash; $0 for the first 30 days</div>
+</div>
+  
+<div class="author-box">
+  <div>
+    <div class="author-name">William Welch</div>
+    <div class="author-bio">GoHighLevel user and affiliate. Runs GlobalHighLevel.com — free tutorials, guides, and strategies for agencies and businesses using GHL worldwide.</div>
+  </div>
+</div>
+  
+<div class="related-posts">
+  <div class="related-label">Keep Reading</div>
+  <div class="related-grid">
+<a href="/blog/enable-audio-response-gohighlevel-voice-powered-conversations/" class="related-card">
+  <div class="r-tag">Phone & Voice</div>
+  <div class="r-title">Enable Audio Response in GoHighLevel — Voice-Powered Conversations</div>
+</a>
+<a href="/blog/how-to-manage-multi-location-calls-in-gohighlevel-never-miss-leads/" class="related-card">
+  <div class="r-tag">Phone & Voice</div>
+  <div class="r-title">How to Manage Multi-Location Calls in GoHighLevel — Never Miss Leads</div>
+</a>
+<a href="/blog/avoid-call-loops-in-gohighlevel-expert-phone-routing/" class="related-card">
+  <div class="r-tag">Phone & Voice</div>
+  <div class="r-title">Avoid Call Loops in GoHighLevel — Expert Phone Routing</div>
+</a></div>
+</div>
+</div>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Add Inbound Messages in GoHighLevel \u2014 Reduce API Calls", "description": "Learn how to add inbound messages to GoHighLevel using the Conversations API. Reduce API calls, lower integration costs, and log SMS responses efficiently.", "datePublished": "2026-03-13T17:34:56.321863", "author": {"@type": "Person", "name": "William Welch"}, "publisher": {"@type": "Organization", "name": "Global High Level", "url": "https://globalhighlevel.com"}, "url": "https://globalhighlevel.com/blog/how-to-add-inbound-messages-gohighlevel-reduce-api-calls/"}</script>
+
+<script>
+(function(){
+  var bar=document.getElementById('reading-progress');
+  if(!bar)return;
+  window.addEventListener('scroll',function(){
+    var body=document.querySelector('.post-body');
+    if(!body)return;
+    var top=body.getBoundingClientRect().top+window.scrollY;
+    var h=body.offsetHeight-window.innerHeight;
+    var pct=h>0?Math.min(100,Math.max(0,(window.scrollY-top+window.innerHeight*0.1)/h*100)):100;
+    bar.style.width=pct+'%';
+  },{passive:true});
+})();
+</script>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Global<span>HighLevel</span></div>
+        <p class="footer-desc">Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide.</p>
+        <p class="footer-disclaimer">Affiliate disclosure: Some links on this site are affiliate links. If you sign up through our link, we may earn a commission at no extra cost to you. Not affiliated with GoHighLevel LLC.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Topics</h4>
+        <a href="/category/ai-automation/">AI & Automation</a>
+        <a href="/category/email-deliverability/">Email & Deliverability</a>
+        <a href="/category/sms-messaging/">SMS & Messaging</a>
+        <a href="/category/crm-contacts/">CRM & Contacts</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
+        <a href="https://help.gohighlevel.com" target="_blank" rel="noopener">GHL Help Center</a>
+        <a href="" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 GlobalHighLevel.com</span>
+      <span>Not affiliated with GoHighLevel LLC</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

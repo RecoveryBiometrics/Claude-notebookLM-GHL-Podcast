@@ -59,9 +59,9 @@ Goal: fully automated content engine driving GHL affiliate signups via podcast +
 ## 🔜 Next Up — In Priority Order
 
 
-### 🚨 #1 — Google Analytics 4 (BLOCKING — no visibility into traffic or clicks)
-- [ ] **Set up GA4** — create property at analytics.google.com, get G-XXXXXXXXXX measurement ID, inject gtag.js snippet into `globalhighlevel-site/build.py` base template `<head>`. This is the #1 priority — without it we can't tell if anyone is visiting, clicking CTAs, or where they drop off. Must be in place before scaling blog output.
-- [ ] **Set up CTA click event tracking** — add GA4 custom events on all affiliate link clicks (nav CTA, inline CTA, end-of-post CTA, sidebar CTA). Lets us see which CTA placements actually convert.
+### ✅ #1 — Google Analytics 4 — DONE (Apr 2, 2026)
+- [x] **GA4 property created** — Measurement ID: G-J8RZMH4EPZ, injected into `globalhighlevel-site/build.py` base_html `<head>` on all pages
+- [x] **CTA click event tracking** — custom `cta_click` event fires on all affiliate links, /trial/ links, nav CTAs, and amber buttons. Captures link_url, link_text, page_path.
 
 ### 🚨 #2 — Affiliate Tracker
 - [ ] **Test affiliate-tracker.py** — script is built, needs first test run with `--headed` flag to verify browser navigation works correctly. Run: `venv/bin/python3 scripts/affiliate-tracker.py --headed`. If selectors miss, check screenshots in `logs/` and fix. Once working, wire into scheduler (runs daily before analytics.py). Scrapes: Referrals, Customers, Clicks, Unpaid Earnings → saves to `data/affiliate-stats.json`.
@@ -107,9 +107,9 @@ Reads `data/gsc-report.json` and takes automated action:
 
 - [x] **Internal Linking Agent** — `inject_internal_links()` in build.py: 5 contextual cross-links per post at build time, keyword matching from titles, same-category preferred. Applied to all 312 posts on next deploy.
 - [ ] **Pillar pages** — 4-5 long-form hub pages (3,000+ words) that smaller posts link back to. Builds topical authority. Examples: "Complete GoHighLevel Guide for Agencies", "GoHighLevel Automation Masterclass"
-- [ ] **Author + About page** — Google E-E-A-T rewards real author profiles. "About William Welch" page + author bio on every post.
+- [x] **Author + About page** — /about/ live with full bio, credentials, Person schema. Author box on every post links to it. Nav + mobile + sitemap updated.
 - [ ] **Featured images** — each post should have a unique image (auto-generate with AI)
-- [ ] **Article schema** — author, publish date, modified date on every post
+- [x] **Article schema** — dateModified, author URL/jobTitle/sameAs, mainEntityOfPage, publisher logo on every post
 - [ ] **Core Web Vitals** — run PageSpeed Insights on globalhighlevel.com, target 90+ score
 
 ### Content & Distribution

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Create Ads in GoHighLevel — One-Click Ad Manager | Global High Level</title>
+<meta name="description" content="Learn how to create Facebook and Google ads in one click using GoHighLevel's Ad Manager. Create ads from WhatsApp conversations and social posts instantly.">
+<link rel="canonical" href="https://globalhighlevel.com/blog/how-to-create-ads-in-gohighlevel-one-click-ad-manager/">
+<meta property="og:title" content="How to Create Ads in GoHighLevel — One-Click Ad Manager | Global High Level">
+<meta property="og:description" content="Learn how to create Facebook and Google ads in one click using GoHighLevel's Ad Manager. Create ads from WhatsApp conversations and social posts instantly.">
+<meta property="og:url" content="https://globalhighlevel.com/blog/how-to-create-ads-in-gohighlevel-one-click-ad-manager/">
+<meta property="og:image" content="">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Global High Level","url":"https://globalhighlevel.com"}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
+
+:root{
+  --bg:#07080a;
+  --bg2:#0c0e14;
+  --surface:#111520;
+  --amber:#f59e0b;
+  --amber-light:#fbbf24;
+  --amber-dim:rgba(245,158,11,0.12);
+  --amber-border:rgba(245,158,11,0.22);
+  --text:#eef2ff;
+  --text2:#a0aec8;
+  --text3:#6b7ea8;
+  --border:rgba(255,255,255,0.06);
+  --max:1120px;
+  --content:665px;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--amber);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;height:auto}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-1{animation:fadeUp .6s ease both}
+.fade-2{animation:fadeUp .6s .15s ease both}
+.fade-3{animation:fadeUp .6s .3s ease both}
+
+/* ── NAV — fixed, backdrop blur, animated underlines ──────────────────────── */
+nav{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--sans);font-size:1.15rem;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:0;color:var(--text)}
+.logo-amber{color:var(--amber)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-link{font-size:.82rem;font-weight:500;color:var(--text2);letter-spacing:.1px;transition:color .15s;position:relative;padding:4px 0}
+.nav-link::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--amber);transition:width .2s ease-in-out}
+.nav-link:hover{color:var(--text);text-decoration:none}
+.nav-link:hover::after{width:100%}
+.nav-cta{font-size:.8rem;font-weight:700;color:#000;background:var(--amber);padding:7px 16px;border-radius:100px;transition:background .15s}
+.nav-cta:hover{background:var(--amber-light);text-decoration:none}
+.nav-dropdown{position:relative}
+.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:-12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 0;min-width:220px;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.nav-dropdown:hover .nav-dropdown-menu{display:block}
+.nav-dropdown-menu a{display:block;padding:8px 20px;font-size:.82rem;color:var(--text2);transition:color .15s,background .15s}
+.nav-dropdown-menu a:hover{color:var(--text);background:rgba(255,255,255,.05);text-decoration:none}
+
+/* ── CONTAINER ────────────────────────────────────────────────────────────── */
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* ── SECTION LABELS ───────────────────────────────────────────────────────── */
+.section-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--amber);display:inline-block}
+
+/* ── HOMEPAGE — Featured + stack ──────────────────────────────────────────── */
+.hp-featured{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;padding:88px 0 48px;border-bottom:1px solid var(--border)}
+.hp-lead{display:flex;flex-direction:column;justify-content:center}
+.hp-lead-cat{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.hp-lead-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);margin-bottom:14px;letter-spacing:-.5px}
+.hp-lead-title a{color:var(--text);transition:color .2s}
+.hp-lead-title a:hover{color:var(--amber);text-decoration:none}
+.hp-lead-desc{font-size:1rem;color:var(--text2);line-height:1.65;margin-bottom:16px}
+.hp-lead-meta{font-size:13px;color:var(--text3);letter-spacing:.2px}
+.hp-stack{display:flex;flex-direction:column;gap:0}
+.hp-stack-item{padding:20px 0;border-bottom:1px solid var(--border)}
+.hp-stack-item:first-child{padding-top:0}
+.hp-stack-item:last-child{border-bottom:none}
+.hp-stack-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:6px}
+.hp-stack-title{font-family:var(--sans);font-size:1rem;font-weight:700;line-height:1.35;margin-bottom:6px}
+.hp-stack-title a{color:var(--text);transition:color .15s}
+.hp-stack-title a:hover{color:var(--amber);text-decoration:none}
+.hp-stack-meta{font-size:12px;color:var(--text3)}
+
+/* ── HOMEPAGE — Main grid + sidebar ───────────────────────────────────────── */
+.hp-body{display:grid;grid-template-columns:1fr 320px;gap:48px;padding:48px 0 80px}
+.hp-articles{display:flex;flex-direction:column;gap:0}
+
+/* ── FLAT EDITORIAL CARDS (article list items) ────────────────────────────── */
+.card{padding:24px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column}
+.card-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:8px;text-decoration:none;display:inline-block}
+a.card-cat:hover{color:var(--amber-light);text-decoration:none}
+.card-title{font-family:var(--sans);font-size:1.1rem;font-weight:700;line-height:1.35;margin-bottom:8px}
+.card-title a{color:var(--text);transition:color .15s}
+.card-title a:hover{color:var(--amber);text-decoration:none}
+.card-excerpt{font-size:.9rem;color:var(--text2);line-height:1.55;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-meta{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.meta-sep{color:var(--text3)}
+.podcast-badge{display:inline-flex;align-items:center;gap:4px;background:var(--amber-dim);color:var(--amber);font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto}
+
+/* ── HOMEPAGE SIDEBAR ─────────────────────────────────────────────────────── */
+.hp-sidebar{position:sticky;top:72px;align-self:start}
+.sidebar-section{margin-bottom:36px}
+.sidebar-section .section-label{font-size:11px;margin-bottom:12px;padding-bottom:8px}
+.sidebar-trending{display:flex;flex-direction:column;gap:0}
+.trending-item{padding:12px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.trending-item:last-child{border-bottom:none}
+.trending-num{font-family:var(--sans);font-size:1.3rem;font-weight:800;color:rgba(245,158,11,.3);line-height:1;min-width:24px}
+.trending-title{font-size:.85rem;font-weight:600;line-height:1.35}
+.trending-title a{color:var(--text2);transition:color .15s}
+.trending-title a:hover{color:var(--text);text-decoration:none}
+.sidebar-podcast{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:24px}
+.sidebar-podcast p{font-size:.85rem;color:var(--text2);margin-bottom:12px;line-height:1.5}
+.btn-spotify{display:inline-flex;align-items:center;gap:6px;background:#1DB954;color:#000;font-size:.8rem;font-weight:700;padding:8px 16px;border-radius:6px;transition:opacity .15s}
+.btn-spotify:hover{opacity:.88;text-decoration:none}
+.sidebar-cta{background:var(--surface);border:1px solid var(--amber-border);border-radius:8px;padding:20px;text-align:center}
+.sidebar-cta .s-headline{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.sidebar-cta .s-sub{font-size:.8rem;color:var(--text2);margin-bottom:14px;line-height:1.5}
+.sidebar-cta .s-fine{font-size:.7rem;color:var(--text3);margin-top:10px}
+.sidebar-cat-link{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--text2);transition:color .15s}
+.sidebar-cat-link:last-child{border-bottom:none}
+.sidebar-cat-link:hover{color:var(--text);text-decoration:none}
+.sidebar-cat-count{font-size:.75rem;color:var(--text3);background:rgba(255,255,255,.04);padding:2px 8px;border-radius:12px}
+
+/* ── Cards grid (for category pages) ──────────────────────────────────────── */
+.cards-grid{display:flex;flex-direction:column;gap:0}
+
+/* ── Reading progress bar ─────────────────────────────────────────────────── */
+#reading-progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--amber);z-index:9999;transition:width .1s linear}
+
+/* ── POST PAGE — single-column centered ───────────────────────────────────── */
+.post-container{max-width:var(--content);margin:0 auto;padding:100px 24px 48px}
+
+/* Breadcrumb */
+.post-breadcrumb{font-size:.8rem;color:var(--text3);margin-bottom:24px}
+.post-breadcrumb a{color:var(--text2);transition:color .15s}
+.post-breadcrumb a:hover{color:var(--text);text-decoration:none}
+.post-breadcrumb .bc-sep{margin:0 8px;color:var(--text3);opacity:.5}
+
+/* Post header */
+.post-eyebrow{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.post-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px}
+.post-byline{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text3);padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:8px;flex-wrap:wrap}
+.post-byline .sep{color:var(--text3);opacity:.4}
+
+/* Share row */
+.share-row{display:flex;align-items:center;gap:12px;padding:12px 0 28px;border-bottom:1px solid var(--border);margin-bottom:32px;font-size:13px;color:var(--text3)}
+.share-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;color:var(--text2);background:transparent;cursor:pointer;transition:border-color .15s,color .15s}
+.share-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* CTA — below byline (compact one-liner) */
+.cta-byline{font-size:.9rem;color:var(--text2);margin:0 0 32px;padding:12px 0}
+.cta-byline a{color:var(--amber);font-weight:600}
+.cta-byline a:hover{color:var(--amber-light)}
+
+/* CTA — mid-article inline */
+.cta-inline{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:28px 0;font-size:.9rem;color:var(--text2);display:block}
+.cta-inline a{color:var(--amber);font-weight:600;text-decoration:none}
+.cta-inline a:hover{color:var(--amber-light)}
+
+/* CTA — end of article box */
+.cta-end{background:var(--surface);border:1px solid var(--amber-border);border-radius:10px;padding:32px;text-align:center;margin:48px 0}
+.cta-end h3{font-family:var(--sans);font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:10px}
+.cta-end p{font-size:.9rem;color:var(--text2);margin:0 0 20px;max-width:440px;margin-left:auto;margin-right:auto}
+.cta-end .fine{font-size:.75rem;color:var(--text3);margin-top:12px}
+.btn-amber{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:#000;font-size:.85rem;font-weight:700;padding:11px 22px;border-radius:6px;transition:all .2s;text-decoration:none}
+.btn-amber:hover{background:var(--amber-light);transform:translateY(-1px);text-decoration:none}
+
+/* Post body typography */
+.post-body{font-size:19px;line-height:1.75;color:#e5e7eb}
+.post-body h2{font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin:48px 0 14px}
+.post-body h3{font-size:1.15rem;font-weight:700;color:#f3f4f6;margin:32px 0 10px}
+.post-body p{margin-bottom:20px}
+.post-body ul,.post-body ol{margin:0 0 20px 24px}
+.post-body li{margin-bottom:8px}
+.post-body strong{color:#fff}
+.post-body a{color:var(--amber);text-decoration:underline;text-underline-offset:3px}
+.post-body a:hover{color:var(--amber-light)}
+
+/* ── LIGHT-MODE INLINE STYLE OVERRIDES ────────────────────────────────────── */
+.post-body a[style*="color:#1a73e8"],
+.post-body a[style*="color: #1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body a[style*="color:#1a73e8"]:hover,
+.post-body a[style*="color: #1a73e8"]:hover{
+  color:var(--amber-light)!important;
+}
+.post-body div[style*="background:#f0f4ff"],
+.post-body div[style*="background: #f0f4ff"]{
+  background:var(--surface)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#f8f9fa"],
+.post-body div[style*="background: #f8f9fa"]{
+  background:var(--surface)!important;
+  border-color:var(--border)!important;
+}
+.post-body div[style*="background:#fff8e1"],
+.post-body div[style*="background: #fff8e1"]{
+  background:rgba(245,158,11,.06)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#fff"],
+.post-body div[style*="background: #fff"],
+.post-body div[style*="background:#ffffff"],
+.post-body div[style*="background: #ffffff"]{
+  background:var(--surface)!important;
+}
+.post-body div[style*="background:#1a73e8"],
+.post-body div[style*="background: #1a73e8"]{
+  background:var(--surface)!important;
+  border:1px solid var(--amber-border)!important;
+}
+.post-body div[style*="background:#1a73e8"] *,
+.post-body div[style*="background: #1a73e8"] *{
+  color:var(--text)!important;
+}
+.post-body div[style*="background:#1a73e8"] a,
+.post-body div[style*="background: #1a73e8"] a{
+  background:var(--amber)!important;
+  color:#000!important;
+  border-radius:6px;
+  padding:12px 24px;
+}
+.post-body a[style*="background:#ffffff"],
+.post-body a[style*="background: #ffffff"],
+.post-body a[style*="background:#fff"],
+.post-body a[style*="background: #fff"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-left:4px solid #1a73e8"],
+.post-body div[style*="border-left: 4px solid #1a73e8"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="border:2px solid #1a73e8"],
+.post-body div[style*="border: 2px solid #1a73e8"]{
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="border-left:4px solid #ffc107"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] h3,
+.post-body div[style*="background: #f8f9fa"] h3{
+  color:var(--amber)!important;
+  margin-top:0;
+}
+.post-body div[style*="background:#f8f9fa"] h3[style*="color:#1a73e8"],
+.post-body div[style*="background: #f8f9fa"] h3[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] p,
+.post-body div[style*="background: #f8f9fa"] p{
+  color:var(--text2)!important;
+}
+.post-body div[style*="background:#f8f9fa"] strong,
+.post-body div[style*="background: #f8f9fa"] strong{
+  color:var(--text)!important;
+}
+.post-body h2[style*="color:#1a73e8"],
+.post-body h3[style*="color:#1a73e8"],
+.post-body h4[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body p[style*="color:#1a73e8"],
+.post-body span[style*="color:#1a73e8"],
+.post-body p[style*="color:#333"],
+.post-body span[style*="color:#333"],
+.post-body p[style*="color:#000"],
+.post-body span[style*="color:#000"]{
+  color:var(--text2)!important;
+}
+.post-body a[style*="background:#1a73e8"],
+.post-body a[style*="background: #1a73e8"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-radius"]{
+  color:var(--text2);
+}
+
+/* TOC */
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:0 0 32px}
+.toc-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:12px}
+.toc ol{margin:0;padding-left:18px}
+.toc li{font-size:.9rem;line-height:1.9}
+.toc a{color:var(--text2);text-decoration:none}
+.toc a:hover{color:var(--amber);text-decoration:none}
+
+/* Podcast embed */
+.podcast-embed{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:20px;margin:36px 0}
+.podcast-embed p{font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:12px}
+.podcast-embed iframe{border-radius:6px}
+.podcast-link{display:inline-flex;align-items:center;gap:8px;color:var(--amber);font-size:.875rem;font-weight:600;text-decoration:none;margin-top:8px}
+.podcast-link:hover{color:var(--amber-light);text-decoration:none}
+
+/* Author box */
+.author-box{display:flex;gap:16px;align-items:flex-start;padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:40px 0}
+.author-box .author-name{font-weight:700;color:var(--text);font-size:.95rem;margin-bottom:4px}
+.author-box .author-bio{font-size:.825rem;color:var(--text2);line-height:1.6}
+
+/* Related posts */
+.related-posts{margin:48px 0 0}
+.related-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:18px}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.related-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;text-decoration:none;display:block;transition:border-color .2s}
+.related-card:hover{border-color:var(--amber);text-decoration:none}
+.related-card .r-tag{font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.related-card .r-title{font-size:.85rem;font-weight:600;color:#e5e7eb;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Pagination */
+.pagination{display:flex;gap:8px;justify-content:center;margin-top:48px;flex-wrap:wrap}
+.page-btn{padding:8px 16px;border:1px solid var(--border);border-radius:6px;font-size:.875rem;color:var(--text2);background:var(--surface)}
+.page-btn.active{background:var(--amber);color:#07080a;border-color:var(--amber);font-weight:700}
+.page-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* Category header */
+.cat-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:100px 24px 40px}
+.cat-header h1{font-family:var(--sans);font-size:1.8rem;font-weight:800;margin-bottom:8px;color:var(--text)}
+.cat-header p{color:var(--text2);font-size:.9rem}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80px}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-logo{font-family:var(--sans);font-size:1.1rem;font-weight:800;margin-bottom:12px;color:var(--text)}
+.footer-logo span{color:var(--amber)}
+.footer-desc{font-size:.82rem;color:var(--text3);line-height:1.7;margin-bottom:14px}
+.footer-disclaimer{font-size:.74rem;color:var(--text3);line-height:1.6;opacity:.7}
+.footer-col h4{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);margin-bottom:16px}
+.footer-col a{display:block;font-size:.85rem;color:var(--text2);margin-bottom:10px;transition:color .15s}
+.footer-col a:hover{color:var(--text);text-decoration:none}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.76rem;color:var(--text3)}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
+@media(max-width:1024px){
+  .hp-featured{grid-template-columns:1fr}
+  .hp-body{grid-template-columns:1fr}
+  .hp-sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .related-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .hp-sidebar{grid-template-columns:1fr}
+  .nav-links .nav-link{display:none}
+  .post-title{font-size:1.8rem}
+  .hp-lead-title{font-size:1.8rem}
+  .cta-end{padding:24px 20px}
+  .related-grid{grid-template-columns:1fr}
+  .cat-header{padding:90px 20px 36px}
+  .footer-top{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column}
+  .share-row{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">Global<span class="logo-amber">HighLevel</span></a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <div class="nav-dropdown">
+        <a class="nav-link">Topics <span style="font-size:10px">&#9662;</span></a>
+        <div class="nav-dropdown-menu">
+    <a href="/category/ai-automation/">AI & Automation</a>
+    <a href="/category/email-deliverability/">Email & Deliverability</a>
+    <a href="/category/sms-messaging/">SMS & Messaging</a>
+    <a href="/category/crm-contacts/">CRM & Contacts</a>
+    <a href="/category/payments-commerce/">Payments & Commerce</a>
+    <a href="/category/analytics-reporting/">Analytics & Reporting</a>
+    <a href="/category/phone-voice/">Phone & Voice</a>
+    <a href="/category/agency-platform/">Agency & Platform</a>
+    <a href="/category/gohighlevel-india/">GoHighLevel India</a>
+    <a href="/category/gohighlevel-espanol/">GoHighLevel en Español</a>
+        </div>
+      </div>
+      <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="nav-link" target="_blank" rel="noopener">Podcast</a>
+      <a href="" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+    </div>
+  </div>
+</nav>
+
+<div id="reading-progress"></div>
+<div class="post-container">
+  <div class="post-breadcrumb fade-1">
+    <a href="/">Home</a><span class="bc-sep">&rsaquo;</span><a href="/category/agency-platform/">Agency & Platform</a><span class="bc-sep">&rsaquo;</span><span>How to Create Ads in GoHighLevel — One-Click Ad…</span>
+  </div>
+  <div class="post-eyebrow fade-1"><a href="/category/agency-platform/" style="color:var(--amber);text-decoration:none">Agency & Platform</a></div>
+  <h1 class="post-title fade-2">How to Create Ads in GoHighLevel — One-Click Ad Manager</h1>
+  <div class="post-byline fade-3">
+    <span>By William Welch</span>
+    <span class='sep'>&middot;</span><span>March 14, 2026</span>
+    <span class="sep">&middot;</span><span>10 min read</span>
+  </div>
+  
+<div class="share-row">
+  <span>Share</span>
+  <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fhow-to-create-ads-in-gohighlevel-one-click-ad-manager%2F&text=How%20to%20Create%20Ads%20in%20GoHighLevel%20—%20One-Click%20Ad%20Manager" target="_blank" rel="noopener" class="share-btn">X</a>
+  <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fhow-to-create-ads-in-gohighlevel-one-click-ad-manager%2F" target="_blank" rel="noopener" class="share-btn">LinkedIn</a>
+  <button class="share-btn" onclick="navigator.clipboard.writeText('https://globalhighlevel.com/blog/how-to-create-ads-in-gohighlevel-one-click-ad-manager/');this.textContent='Copied!'">Copy Link</button>
+</div>
+  
+<p class="cta-byline">Follow along &mdash; <a href="&utm_campaign=how-to-create-ads-in-gohighlevel-one-click-ad-manager" target="_blank" rel="nofollow noopener">get 30 days free &rarr;</a></p>
+  
+<div class="toc">
+  <div class="toc-label">In This Guide</div>
+  <ol><li><a href="#section-1">What Is GoHighLevel's One-Click Ad Manager?</a></li><li><a href="#section-2">How to Create Ads Directly from WhatsApp Conversations</a></li><li><a href="#section-3">How to Turn Social Posts into Paid Ads Instantly</a></li><li><a href="#section-4">Setting Up Your Ad Manager for Facebook and Google Ads</a></li><li><a href="#section-5">Key Benefits of One-Click Ad Creation for Agencies</a></li><li><a href="#section-6">Pro Tips for Maximizing Your Ad Campaigns</a></li></ol>
+</div>
+  
+<div class="podcast-embed">
+  <p>Listen to this episode</p>
+  <iframe width="100%" height="180" frameborder="no" scrolling="no" seamless
+    src="https://share.transistor.fm/e/41928b9a" loading="lazy"></iframe>
+  <a class="podcast-link" href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">
+    Follow the podcast on Spotify
+  </a>
+</div>
+  <div class="post-body"><p>If you're running a digital marketing agency, you know the friction: a client sends you a WhatsApp message about their campaign idea, you see a social post that would crush it as a paid ad, but you're stuck jumping between platforms to set it up. GoHighLevel's new <strong>Ad Manager with breadcrumb buttons</strong> eliminates that workflow entirely. Now you can create Facebook and Google ads in one click—directly from WhatsApp conversations or your Social Planner—without leaving the tools you're already using. In this guide, I'll show you exactly how to leverage this game-changing feature to streamline ad creation for your agency and your clients. Ready to cut your ad setup time in half? <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=blog&utm_medium=article&utm_campaign=how-to-create-ads-in-gohighlevel--one-click-ad-manager" style="color:#1a73e8;font-weight:700;">Get a FREE 30-day trial of GoHighLevel</a> and start testing these workflows today.</p>
+
+
+
+<h2 id="section-1">What Is GoHighLevel's One-Click Ad Manager?</h2>
+
+<p>GoHighLevel's Ad Manager isn't your typical ad platform. It's built directly into your CRM, which means you can manage Facebook, Google, and social media ads without ever leaving the conversations and content that inspired them. The new breadcrumb buttons are the key innovation here—they're small action buttons that appear in WhatsApp and your Social Planner, designed to turn a conversation or post into a launch pad for a paid ad campaign.</p>
+
+<p>Instead of taking notes, opening a new tab, logging into Facebook Ads Manager, and manually recreating the messaging, you click one button. GoHighLevel captures the context, the copy, and even visual elements, then guides you through a streamlined setup process. For agencies managing multiple clients and running dozens of campaigns monthly, this is a complete game-changer.</p>
+
+<div style="background:#fff8e1;border-left:4px solid #ffc107;padding:16px 20px;margin:24px 0;border-radius:4px;">
+<p style="font-weight:700;margin:0 0 6px 0;">💡 Pro Tip</p>
+<p style="margin:0;">The breadcrumb buttons work best when your WhatsApp and Social Planner accounts are fully connected to GoHighLevel. Before you start, make sure your integrations are live and your ad accounts (Facebook Business Manager, Google Ads) are authenticated in GoHighLevel.</p>
+</div>
+
+<h2 id="section-2">How to Create Ads Directly from WhatsApp Conversations</h2>
+
+<p>WhatsApp is often where your best campaign ideas come from—clients brainstorm, share real-time feedback, and mention what's working. GoHighLevel lets you capture that momentum instantly.</p>
+
+<p><strong>Step 1: Identify the Ad-Worthy Message</strong><br>Look for messages where a client is describing a product, service, or promotion. It could be a new offer, a testimonial repackaged as a value prop, or a hot topic they want to advertise.</p>
+
+<p><strong>Step 2: Click the Create Ad Button</strong><br>Next to or within the WhatsApp message thread in GoHighLevel, you'll see a breadcrumb button labeled "Create Ad" or similar. Click it. GoHighLevel immediately captures the message content, any media attached, and the sender's context.</p>
+
+<p><strong>Step 3: Choose Your Ad Platform</strong><br>You'll be prompted to select whether you want to run this as a Facebook ad, Google ad, or another supported platform. Select based on where your target audience spends time and where your budget performs best.</p>
+
+<p><strong>Step 4: Configure Campaign Details</strong><br>GoHighLevel's lightweight editor lets you refine the copy, add visuals if none were attached, set your daily budget, and define your target audience (geographic location, age, interests, behaviors). You can also set campaign duration and optimization goals (clicks, conversions, engagement, etc.).</p>
+
+<p><strong>Step 5: Review and Launch</strong><br>Preview your ad exactly as it will appear on the platform, then hit launch. Your ad goes live within minutes, and all tracking and reporting funnels back into your GoHighLevel dashboard.</p>
+
+<h2 id="section-3">How to Turn Social Posts into Paid Ads Instantly</h2>
+
+<p>Your Social Planner is where you schedule and post content for clients. GoHighLevel's integration means high-performing posts can be promoted as paid ads without recreating them.</p>
+
+<p><strong>When to Promote a Post:</strong> After a post goes live, monitor its initial performance. If engagement (likes, comments, shares) spikes faster than expected, that's a signal to boost it with paid promotion. Alternatively, if you've crafted a post that aligns directly with a sales objective (a webinar sign-up, product launch, limited-time offer), you might promote it immediately.</p>
+
+<p><strong>Using the Breadcrumb Button:</strong> In your Social Planner feed, locate the post you want to promote. Next to it, you'll see a "Promote" or "Create Paid Ad" button. Click it. GoHighLevel pulls the post's copy, images, and video (if applicable) and bundles it into an ad format ready for Facebook or Instagram.</p>
+
+<p><strong>Set Your Budget and Audience:</strong> The lightweight setup form asks you to define your target audience, daily budget, and campaign objective. Because the ad copy and creative are already optimized (they performed organically), you're leveraging proven messaging. This typically means faster ROI and lower cost-per-result.</p>
+
+<p><strong>Monitor and Optimize:</strong> Once live, the ad reporting syncs to your GoHighLevel dashboard. You'll see impressions, clicks, engagement, and conversions (if your funnel is tracking them) in real time. Pause underperformers and scale winners within the platform.</p>
+
+
+
+
+<p class="cta-inline">This is built into GoHighLevel.
+<a href="&utm_campaign=how-to-create-ads-in-gohighlevel-one-click-ad-manager" target="_blank" rel="nofollow noopener">Try it free for 30 days &rarr;</a></p><h2 id="section-4">Setting Up Your Ad Manager for Facebook and Google Ads</h2>
+
+<p>Before the breadcrumb buttons work, your Ad Manager needs to be configured and authenticated. Here's the setup checklist:</p>
+
+<p><strong>Connect Your Facebook Business Manager Account:</strong> In GoHighLevel, navigate to Settings → Integrations → Facebook. You'll be prompted to log into your Facebook Business Manager account and grant GoHighLevel permission to manage ads on your behalf. Select which ad accounts you want to connect (you can add multiple for different clients).</p>
+
+<p><strong>Connect Your Google Ads Account:</strong> Go to Settings → Integrations → Google Ads. Sign in with the Google account associated with your Google Ads manager account, then grant permission. Choose which Google Ads accounts GoHighLevel can access.</p>
+
+<p><strong>Verify Your WhatsApp Integration:</strong> Ensure your WhatsApp Business Account is linked to GoHighLevel. This is done in Settings → Integrations → WhatsApp. Your phone number and account must be verified with Meta.</p>
+
+<p><strong>Confirm Your Social Planner Connection:</strong> If you're using GoHighLevel's Social Planner, verify that it's connected to your social accounts (Facebook Pages, Instagram, LinkedIn, etc.). This happens automatically when you first authorize GoHighLevel to post on your behalf, but double-check in Settings → Social Accounts.</p>
+
+<p>Once all integrations are live, the breadcrumb buttons will appear throughout WhatsApp and Social Planner. No additional setup is needed.</p>
+
+<h2 id="section-5">Key Benefits of One-Click Ad Creation for Agencies</h2>
+
+<p><strong>Speed:</strong> Creating an ad now takes 60-90 seconds instead of 10-15 minutes. This matters when you're juggling multiple client campaigns. Multiply that time savings across 50 campaigns per month, and you're reclaiming 7-8 hours of admin work.</p>
+
+<p><strong>Context Preservation:</strong> When you use the breadcrumb button, GoHighLevel preserves the original message, tone, and intent. You're not writing ads from scratch; you're amplifying conversations and content that already resonated.</p>
+
+<p><strong>Reduced Errors:</strong> Manual ad creation invites copy-paste mistakes, formatting issues, and misaligned audiences. One-click creation standardizes the process and reduces human error.</p>
+
+<p><strong>Better Retargeting:</strong> Since your ads are created and tracked inside GoHighLevel (not in external ad managers), all conversions, leads, and customer data flow back into your CRM. This makes retargeting seamless—your warm audiences are automatically identified and can be re-engaged with follow-up campaigns.</p>
+
+<p><strong>White-Label Resale Opportunity:</strong> Agencies can resell ad management as a service. GoHighLevel's simplified Ad Manager means you can scale this offering without hiring expensive paid-ad specialists. Your clients see their ads managed beautifully; you see your margin improve.</p>
+
+<h2 id="section-6">Pro Tips for Maximizing Your Ad Campaigns</h2>
+
+<p><strong>Test Multiple Variations:</strong> Create two or three ad versions from the same WhatsApp conversation or post. Change the call-to-action, headline, or audience slightly. Let them run for 3-5 days, then pause the underperformers and double down on winners.</p>
+
+<p><strong>Link Ads to Your Sales Funnel:</strong> When you create an ad in GoHighLevel, make sure the landing page, form, or link points to a GoHighLevel funnel or campaign page. This ensures every click is tracked and every lead is automatically added to your pipeline for nurturing.</p>
+
+<p><strong>Use Engagement Ads for Social Proof:</strong> Posts with comments and shares already act as social proof. When you turn these into paid ads, they inherit that proof. Users seeing comments and reactions are more likely to engage and convert.</p>
+
+<p><strong>Monitor Cost Per Result Daily:</strong> GoHighLevel's Ad Manager dashboard updates in real time. Check it daily in the first week of any campaign. If your cost per lead or conversion is trending up, pause and investigate—it might be a targeting issue or ad fatigue.</p>
+
+<p><strong>Stack Ads with Email and SMS Sequences:</strong> When an ad converts and a lead enters your CRM, immediately trigger an email or SMS sequence. GoHighLevel's automation lets you create workflows that nurture ad-driven leads without manual follow-up.</p>
+
+<div style="background:#f8f9fa;padding:24px;border-radius:8px;margin:36px 0;">
+<h2 style="margin-top:0;">Frequently Asked Questions</h2>
+
+<h3 style="margin-top:16px;color:#1a73e8;">Can I create ads from any WhatsApp message?</h3>
+<p>Yes and no. The breadcrumb button appears on messages in your GoHighLevel inbox. However, not every message is ad-worthy—it works best for messages where someone is describing a product, offer, or piece of content. Messages that are purely logistical or conversational won't convert well into ads.</p>
+
+<h3 style="margin-top:16px;color:#1a73e8;">What if I want to edit the ad copy before it goes live?</h3>
+<p>Absolutely. After you click the breadcrumb button, GoHighLevel opens an editor where you can refine the copy, adjust the headline, change visuals, and rewrite the call-to-action. The original WhatsApp message is just your starting point.</p>
+
+<h3 style="margin-top:16px;color:#1a73e8;">Do I need to have a Facebook or Google Ads account already set up?</h3>
+<p>Yes. You'll need an active Facebook Business Manager account (for Facebook and Instagram ads) and/or a Google Ads account (for Google Search, Display, and YouTube ads). GoHighLevel connects to these existing accounts; it doesn't create new ones for you.</p>
+
+<h3 style="margin-top:16px;color:#1a73e8;">How long does it take for an ad to go live after I launch it?</h3>
+<p>Usually 5-30 minutes. Both Facebook and Google review ads for policy compliance. Simple, straightforward ads often launch in under 15 minutes. Complex ads or those with sensitive keywords might take up to an hour.</p>
+
+<h3 style="margin-top:16px;color:#1a73e8;">Can I track conversions from ads created in GoHighLevel?</h3>
+<p>Yes. As long as your landing page or funnel has GoHighLevel's tracking pixel or form, every conversion will be logged in your CRM. You'll see ROI, cost per lead, cost per sale, and other metrics directly in your GoHighLevel dashboard.</p>
+</div>
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I create ads from any WhatsApp message?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes and no. The breadcrumb button appears on messages in your GoHighLevel inbox. However, not every message is ad-worthy—it works best for messages where someone is describing a product, offer, or piece of content. Messages that are purely logistical or conversational won't convert well into ads."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if I want to edit the ad copy before it goes live?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Absolutely. After you click the breadcrumb button, GoHighLevel opens an editor where you can refine the copy, adjust the headline, change visuals, and rewrite the call-to-action. The original WhatsApp message is just your starting point."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to have a Facebook or Google Ads account already set up?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You'll need an active Facebook Business Manager account (for Facebook and Instagram ads) and/or a Google Ads account (for Google Search, Display, and YouTube ads). GoHighLevel connects to these existing accounts; it doesn't create new ones for you."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does it take for an ad to go live after I launch it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Usually 5-30 minutes. Both Facebook and Google review ads for policy compliance. Simple, straightforward ads often launch in under 15 minutes. Complex ads or those with sensitive keywords might take up to an hour."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I track conversions from ads created in GoHighLevel?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. As long as your landing page or funnel has GoHighLevel's tracking pixel or form, every conversion will be logged in your CRM. You'll see ROI, cost per lead, cost per sale, and other metrics directly in your GoHighLevel dashboard."
+      }
+    }
+  ]
+}
+</script></div>
+  
+<div class="cta-end">
+  <h3>Ready to try this?</h3>
+  <p>30 days free, no credit card required. Set up everything in this guide inside your trial.</p>
+  <a href="&utm_campaign=how-to-create-ads-in-gohighlevel-one-click-ad-manager" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free 30-Day Trial</a>
+  <div class="fine">Cancel anytime &mdash; $0 for the first 30 days</div>
+</div>
+  
+<div class="author-box">
+  <div>
+    <div class="author-name">William Welch</div>
+    <div class="author-bio">GoHighLevel user and affiliate. Runs GlobalHighLevel.com — free tutorials, guides, and strategies for agencies and businesses using GHL worldwide.</div>
+  </div>
+</div>
+  
+<div class="related-posts">
+  <div class="related-label">Keep Reading</div>
+  <div class="related-grid">
+<a href="/blog/control-in-app-banners-gohighlevel-agency-branding/" class="related-card">
+  <div class="r-tag">Agency & Platform</div>
+  <div class="r-title">Control In-App Banners in GoHighLevel — Agency Branding</div>
+</a>
+<a href="/blog/enable-ai-image-recognition-gohighlevel-boost-support/" class="related-card">
+  <div class="r-tag">Agency & Platform</div>
+  <div class="r-title">Enable AI Image Recognition in GoHighLevel — Boost Support</div>
+</a>
+<a href="/blog/how-to-edit-images-in-gohighlevel-media-library/" class="related-card">
+  <div class="r-tag">Agency & Platform</div>
+  <div class="r-title">How to Edit Images in GoHighLevel — Built-In Media Library</div>
+</a></div>
+</div>
+</div>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Create Ads in GoHighLevel \u2014 One-Click Ad Manager", "description": "Learn how to create Facebook and Google ads in one click using GoHighLevel's Ad Manager. Create ads from WhatsApp conversations and social posts instantly.", "datePublished": "2026-03-14T17:37:06.096154", "author": {"@type": "Person", "name": "William Welch"}, "publisher": {"@type": "Organization", "name": "Global High Level", "url": "https://globalhighlevel.com"}, "url": "https://globalhighlevel.com/blog/how-to-create-ads-in-gohighlevel-one-click-ad-manager/"}</script>
+
+<script>
+(function(){
+  var bar=document.getElementById('reading-progress');
+  if(!bar)return;
+  window.addEventListener('scroll',function(){
+    var body=document.querySelector('.post-body');
+    if(!body)return;
+    var top=body.getBoundingClientRect().top+window.scrollY;
+    var h=body.offsetHeight-window.innerHeight;
+    var pct=h>0?Math.min(100,Math.max(0,(window.scrollY-top+window.innerHeight*0.1)/h*100)):100;
+    bar.style.width=pct+'%';
+  },{passive:true});
+})();
+</script>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Global<span>HighLevel</span></div>
+        <p class="footer-desc">Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide.</p>
+        <p class="footer-disclaimer">Affiliate disclosure: Some links on this site are affiliate links. If you sign up through our link, we may earn a commission at no extra cost to you. Not affiliated with GoHighLevel LLC.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Topics</h4>
+        <a href="/category/ai-automation/">AI & Automation</a>
+        <a href="/category/email-deliverability/">Email & Deliverability</a>
+        <a href="/category/sms-messaging/">SMS & Messaging</a>
+        <a href="/category/crm-contacts/">CRM & Contacts</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
+        <a href="https://help.gohighlevel.com" target="_blank" rel="noopener">GHL Help Center</a>
+        <a href="" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 GlobalHighLevel.com</span>
+      <span>Not affiliated with GoHighLevel LLC</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

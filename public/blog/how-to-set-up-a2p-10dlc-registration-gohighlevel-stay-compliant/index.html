@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Set Up A2P 10DLC Registration in GoHighLevel — Stay Compliant | Global High Level</title>
+<meta name="description" content="Master A2P 10DLC registration in GoHighLevel with this step-by-step guide. Stay compliant, boost SMS deliverability, and get approved in days.">
+<link rel="canonical" href="https://globalhighlevel.com/blog/how-to-set-up-a2p-10dlc-registration-gohighlevel-stay-compliant/">
+<meta property="og:title" content="How to Set Up A2P 10DLC Registration in GoHighLevel — Stay Compliant | Global High Level">
+<meta property="og:description" content="Master A2P 10DLC registration in GoHighLevel with this step-by-step guide. Stay compliant, boost SMS deliverability, and get approved in days.">
+<meta property="og:url" content="https://globalhighlevel.com/blog/how-to-set-up-a2p-10dlc-registration-gohighlevel-stay-compliant/">
+<meta property="og:image" content="">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Global High Level","url":"https://globalhighlevel.com"}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
+
+:root{
+  --bg:#07080a;
+  --bg2:#0c0e14;
+  --surface:#111520;
+  --amber:#f59e0b;
+  --amber-light:#fbbf24;
+  --amber-dim:rgba(245,158,11,0.12);
+  --amber-border:rgba(245,158,11,0.22);
+  --text:#eef2ff;
+  --text2:#a0aec8;
+  --text3:#6b7ea8;
+  --border:rgba(255,255,255,0.06);
+  --max:1120px;
+  --content:665px;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--amber);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;height:auto}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-1{animation:fadeUp .6s ease both}
+.fade-2{animation:fadeUp .6s .15s ease both}
+.fade-3{animation:fadeUp .6s .3s ease both}
+
+/* ── NAV — fixed, backdrop blur, animated underlines ──────────────────────── */
+nav{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--sans);font-size:1.15rem;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:0;color:var(--text)}
+.logo-amber{color:var(--amber)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-link{font-size:.82rem;font-weight:500;color:var(--text2);letter-spacing:.1px;transition:color .15s;position:relative;padding:4px 0}
+.nav-link::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--amber);transition:width .2s ease-in-out}
+.nav-link:hover{color:var(--text);text-decoration:none}
+.nav-link:hover::after{width:100%}
+.nav-cta{font-size:.8rem;font-weight:700;color:#000;background:var(--amber);padding:7px 16px;border-radius:100px;transition:background .15s}
+.nav-cta:hover{background:var(--amber-light);text-decoration:none}
+.nav-dropdown{position:relative}
+.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:-12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 0;min-width:220px;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.nav-dropdown:hover .nav-dropdown-menu{display:block}
+.nav-dropdown-menu a{display:block;padding:8px 20px;font-size:.82rem;color:var(--text2);transition:color .15s,background .15s}
+.nav-dropdown-menu a:hover{color:var(--text);background:rgba(255,255,255,.05);text-decoration:none}
+
+/* ── CONTAINER ────────────────────────────────────────────────────────────── */
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* ── SECTION LABELS ───────────────────────────────────────────────────────── */
+.section-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--amber);display:inline-block}
+
+/* ── HOMEPAGE — Featured + stack ──────────────────────────────────────────── */
+.hp-featured{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;padding:88px 0 48px;border-bottom:1px solid var(--border)}
+.hp-lead{display:flex;flex-direction:column;justify-content:center}
+.hp-lead-cat{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.hp-lead-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);margin-bottom:14px;letter-spacing:-.5px}
+.hp-lead-title a{color:var(--text);transition:color .2s}
+.hp-lead-title a:hover{color:var(--amber);text-decoration:none}
+.hp-lead-desc{font-size:1rem;color:var(--text2);line-height:1.65;margin-bottom:16px}
+.hp-lead-meta{font-size:13px;color:var(--text3);letter-spacing:.2px}
+.hp-stack{display:flex;flex-direction:column;gap:0}
+.hp-stack-item{padding:20px 0;border-bottom:1px solid var(--border)}
+.hp-stack-item:first-child{padding-top:0}
+.hp-stack-item:last-child{border-bottom:none}
+.hp-stack-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:6px}
+.hp-stack-title{font-family:var(--sans);font-size:1rem;font-weight:700;line-height:1.35;margin-bottom:6px}
+.hp-stack-title a{color:var(--text);transition:color .15s}
+.hp-stack-title a:hover{color:var(--amber);text-decoration:none}
+.hp-stack-meta{font-size:12px;color:var(--text3)}
+
+/* ── HOMEPAGE — Main grid + sidebar ───────────────────────────────────────── */
+.hp-body{display:grid;grid-template-columns:1fr 320px;gap:48px;padding:48px 0 80px}
+.hp-articles{display:flex;flex-direction:column;gap:0}
+
+/* ── FLAT EDITORIAL CARDS (article list items) ────────────────────────────── */
+.card{padding:24px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column}
+.card-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:8px;text-decoration:none;display:inline-block}
+a.card-cat:hover{color:var(--amber-light);text-decoration:none}
+.card-title{font-family:var(--sans);font-size:1.1rem;font-weight:700;line-height:1.35;margin-bottom:8px}
+.card-title a{color:var(--text);transition:color .15s}
+.card-title a:hover{color:var(--amber);text-decoration:none}
+.card-excerpt{font-size:.9rem;color:var(--text2);line-height:1.55;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-meta{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.meta-sep{color:var(--text3)}
+.podcast-badge{display:inline-flex;align-items:center;gap:4px;background:var(--amber-dim);color:var(--amber);font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto}
+
+/* ── HOMEPAGE SIDEBAR ─────────────────────────────────────────────────────── */
+.hp-sidebar{position:sticky;top:72px;align-self:start}
+.sidebar-section{margin-bottom:36px}
+.sidebar-section .section-label{font-size:11px;margin-bottom:12px;padding-bottom:8px}
+.sidebar-trending{display:flex;flex-direction:column;gap:0}
+.trending-item{padding:12px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.trending-item:last-child{border-bottom:none}
+.trending-num{font-family:var(--sans);font-size:1.3rem;font-weight:800;color:rgba(245,158,11,.3);line-height:1;min-width:24px}
+.trending-title{font-size:.85rem;font-weight:600;line-height:1.35}
+.trending-title a{color:var(--text2);transition:color .15s}
+.trending-title a:hover{color:var(--text);text-decoration:none}
+.sidebar-podcast{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:24px}
+.sidebar-podcast p{font-size:.85rem;color:var(--text2);margin-bottom:12px;line-height:1.5}
+.btn-spotify{display:inline-flex;align-items:center;gap:6px;background:#1DB954;color:#000;font-size:.8rem;font-weight:700;padding:8px 16px;border-radius:6px;transition:opacity .15s}
+.btn-spotify:hover{opacity:.88;text-decoration:none}
+.sidebar-cta{background:var(--surface);border:1px solid var(--amber-border);border-radius:8px;padding:20px;text-align:center}
+.sidebar-cta .s-headline{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.sidebar-cta .s-sub{font-size:.8rem;color:var(--text2);margin-bottom:14px;line-height:1.5}
+.sidebar-cta .s-fine{font-size:.7rem;color:var(--text3);margin-top:10px}
+.sidebar-cat-link{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--text2);transition:color .15s}
+.sidebar-cat-link:last-child{border-bottom:none}
+.sidebar-cat-link:hover{color:var(--text);text-decoration:none}
+.sidebar-cat-count{font-size:.75rem;color:var(--text3);background:rgba(255,255,255,.04);padding:2px 8px;border-radius:12px}
+
+/* ── Cards grid (for category pages) ──────────────────────────────────────── */
+.cards-grid{display:flex;flex-direction:column;gap:0}
+
+/* ── Reading progress bar ─────────────────────────────────────────────────── */
+#reading-progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--amber);z-index:9999;transition:width .1s linear}
+
+/* ── POST PAGE — single-column centered ───────────────────────────────────── */
+.post-container{max-width:var(--content);margin:0 auto;padding:100px 24px 48px}
+
+/* Breadcrumb */
+.post-breadcrumb{font-size:.8rem;color:var(--text3);margin-bottom:24px}
+.post-breadcrumb a{color:var(--text2);transition:color .15s}
+.post-breadcrumb a:hover{color:var(--text);text-decoration:none}
+.post-breadcrumb .bc-sep{margin:0 8px;color:var(--text3);opacity:.5}
+
+/* Post header */
+.post-eyebrow{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.post-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px}
+.post-byline{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text3);padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:8px;flex-wrap:wrap}
+.post-byline .sep{color:var(--text3);opacity:.4}
+
+/* Share row */
+.share-row{display:flex;align-items:center;gap:12px;padding:12px 0 28px;border-bottom:1px solid var(--border);margin-bottom:32px;font-size:13px;color:var(--text3)}
+.share-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;color:var(--text2);background:transparent;cursor:pointer;transition:border-color .15s,color .15s}
+.share-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* CTA — below byline (compact one-liner) */
+.cta-byline{font-size:.9rem;color:var(--text2);margin:0 0 32px;padding:12px 0}
+.cta-byline a{color:var(--amber);font-weight:600}
+.cta-byline a:hover{color:var(--amber-light)}
+
+/* CTA — mid-article inline */
+.cta-inline{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:28px 0;font-size:.9rem;color:var(--text2);display:block}
+.cta-inline a{color:var(--amber);font-weight:600;text-decoration:none}
+.cta-inline a:hover{color:var(--amber-light)}
+
+/* CTA — end of article box */
+.cta-end{background:var(--surface);border:1px solid var(--amber-border);border-radius:10px;padding:32px;text-align:center;margin:48px 0}
+.cta-end h3{font-family:var(--sans);font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:10px}
+.cta-end p{font-size:.9rem;color:var(--text2);margin:0 0 20px;max-width:440px;margin-left:auto;margin-right:auto}
+.cta-end .fine{font-size:.75rem;color:var(--text3);margin-top:12px}
+.btn-amber{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:#000;font-size:.85rem;font-weight:700;padding:11px 22px;border-radius:6px;transition:all .2s;text-decoration:none}
+.btn-amber:hover{background:var(--amber-light);transform:translateY(-1px);text-decoration:none}
+
+/* Post body typography */
+.post-body{font-size:19px;line-height:1.75;color:#e5e7eb}
+.post-body h2{font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin:48px 0 14px}
+.post-body h3{font-size:1.15rem;font-weight:700;color:#f3f4f6;margin:32px 0 10px}
+.post-body p{margin-bottom:20px}
+.post-body ul,.post-body ol{margin:0 0 20px 24px}
+.post-body li{margin-bottom:8px}
+.post-body strong{color:#fff}
+.post-body a{color:var(--amber);text-decoration:underline;text-underline-offset:3px}
+.post-body a:hover{color:var(--amber-light)}
+
+/* ── LIGHT-MODE INLINE STYLE OVERRIDES ────────────────────────────────────── */
+.post-body a[style*="color:#1a73e8"],
+.post-body a[style*="color: #1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body a[style*="color:#1a73e8"]:hover,
+.post-body a[style*="color: #1a73e8"]:hover{
+  color:var(--amber-light)!important;
+}
+.post-body div[style*="background:#f0f4ff"],
+.post-body div[style*="background: #f0f4ff"]{
+  background:var(--surface)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#f8f9fa"],
+.post-body div[style*="background: #f8f9fa"]{
+  background:var(--surface)!important;
+  border-color:var(--border)!important;
+}
+.post-body div[style*="background:#fff8e1"],
+.post-body div[style*="background: #fff8e1"]{
+  background:rgba(245,158,11,.06)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#fff"],
+.post-body div[style*="background: #fff"],
+.post-body div[style*="background:#ffffff"],
+.post-body div[style*="background: #ffffff"]{
+  background:var(--surface)!important;
+}
+.post-body div[style*="background:#1a73e8"],
+.post-body div[style*="background: #1a73e8"]{
+  background:var(--surface)!important;
+  border:1px solid var(--amber-border)!important;
+}
+.post-body div[style*="background:#1a73e8"] *,
+.post-body div[style*="background: #1a73e8"] *{
+  color:var(--text)!important;
+}
+.post-body div[style*="background:#1a73e8"] a,
+.post-body div[style*="background: #1a73e8"] a{
+  background:var(--amber)!important;
+  color:#000!important;
+  border-radius:6px;
+  padding:12px 24px;
+}
+.post-body a[style*="background:#ffffff"],
+.post-body a[style*="background: #ffffff"],
+.post-body a[style*="background:#fff"],
+.post-body a[style*="background: #fff"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-left:4px solid #1a73e8"],
+.post-body div[style*="border-left: 4px solid #1a73e8"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="border:2px solid #1a73e8"],
+.post-body div[style*="border: 2px solid #1a73e8"]{
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="border-left:4px solid #ffc107"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] h3,
+.post-body div[style*="background: #f8f9fa"] h3{
+  color:var(--amber)!important;
+  margin-top:0;
+}
+.post-body div[style*="background:#f8f9fa"] h3[style*="color:#1a73e8"],
+.post-body div[style*="background: #f8f9fa"] h3[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] p,
+.post-body div[style*="background: #f8f9fa"] p{
+  color:var(--text2)!important;
+}
+.post-body div[style*="background:#f8f9fa"] strong,
+.post-body div[style*="background: #f8f9fa"] strong{
+  color:var(--text)!important;
+}
+.post-body h2[style*="color:#1a73e8"],
+.post-body h3[style*="color:#1a73e8"],
+.post-body h4[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body p[style*="color:#1a73e8"],
+.post-body span[style*="color:#1a73e8"],
+.post-body p[style*="color:#333"],
+.post-body span[style*="color:#333"],
+.post-body p[style*="color:#000"],
+.post-body span[style*="color:#000"]{
+  color:var(--text2)!important;
+}
+.post-body a[style*="background:#1a73e8"],
+.post-body a[style*="background: #1a73e8"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-radius"]{
+  color:var(--text2);
+}
+
+/* TOC */
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:0 0 32px}
+.toc-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:12px}
+.toc ol{margin:0;padding-left:18px}
+.toc li{font-size:.9rem;line-height:1.9}
+.toc a{color:var(--text2);text-decoration:none}
+.toc a:hover{color:var(--amber);text-decoration:none}
+
+/* Podcast embed */
+.podcast-embed{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:20px;margin:36px 0}
+.podcast-embed p{font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:12px}
+.podcast-embed iframe{border-radius:6px}
+.podcast-link{display:inline-flex;align-items:center;gap:8px;color:var(--amber);font-size:.875rem;font-weight:600;text-decoration:none;margin-top:8px}
+.podcast-link:hover{color:var(--amber-light);text-decoration:none}
+
+/* Author box */
+.author-box{display:flex;gap:16px;align-items:flex-start;padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:40px 0}
+.author-box .author-name{font-weight:700;color:var(--text);font-size:.95rem;margin-bottom:4px}
+.author-box .author-bio{font-size:.825rem;color:var(--text2);line-height:1.6}
+
+/* Related posts */
+.related-posts{margin:48px 0 0}
+.related-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:18px}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.related-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;text-decoration:none;display:block;transition:border-color .2s}
+.related-card:hover{border-color:var(--amber);text-decoration:none}
+.related-card .r-tag{font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.related-card .r-title{font-size:.85rem;font-weight:600;color:#e5e7eb;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Pagination */
+.pagination{display:flex;gap:8px;justify-content:center;margin-top:48px;flex-wrap:wrap}
+.page-btn{padding:8px 16px;border:1px solid var(--border);border-radius:6px;font-size:.875rem;color:var(--text2);background:var(--surface)}
+.page-btn.active{background:var(--amber);color:#07080a;border-color:var(--amber);font-weight:700}
+.page-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* Category header */
+.cat-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:100px 24px 40px}
+.cat-header h1{font-family:var(--sans);font-size:1.8rem;font-weight:800;margin-bottom:8px;color:var(--text)}
+.cat-header p{color:var(--text2);font-size:.9rem}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80px}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-logo{font-family:var(--sans);font-size:1.1rem;font-weight:800;margin-bottom:12px;color:var(--text)}
+.footer-logo span{color:var(--amber)}
+.footer-desc{font-size:.82rem;color:var(--text3);line-height:1.7;margin-bottom:14px}
+.footer-disclaimer{font-size:.74rem;color:var(--text3);line-height:1.6;opacity:.7}
+.footer-col h4{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);margin-bottom:16px}
+.footer-col a{display:block;font-size:.85rem;color:var(--text2);margin-bottom:10px;transition:color .15s}
+.footer-col a:hover{color:var(--text);text-decoration:none}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.76rem;color:var(--text3)}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
+@media(max-width:1024px){
+  .hp-featured{grid-template-columns:1fr}
+  .hp-body{grid-template-columns:1fr}
+  .hp-sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .related-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .hp-sidebar{grid-template-columns:1fr}
+  .nav-links .nav-link{display:none}
+  .post-title{font-size:1.8rem}
+  .hp-lead-title{font-size:1.8rem}
+  .cta-end{padding:24px 20px}
+  .related-grid{grid-template-columns:1fr}
+  .cat-header{padding:90px 20px 36px}
+  .footer-top{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column}
+  .share-row{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">Global<span class="logo-amber">HighLevel</span></a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <div class="nav-dropdown">
+        <a class="nav-link">Topics <span style="font-size:10px">&#9662;</span></a>
+        <div class="nav-dropdown-menu">
+    <a href="/category/ai-automation/">AI & Automation</a>
+    <a href="/category/email-deliverability/">Email & Deliverability</a>
+    <a href="/category/sms-messaging/">SMS & Messaging</a>
+    <a href="/category/crm-contacts/">CRM & Contacts</a>
+    <a href="/category/payments-commerce/">Payments & Commerce</a>
+    <a href="/category/analytics-reporting/">Analytics & Reporting</a>
+    <a href="/category/phone-voice/">Phone & Voice</a>
+    <a href="/category/agency-platform/">Agency & Platform</a>
+    <a href="/category/gohighlevel-india/">GoHighLevel India</a>
+    <a href="/category/gohighlevel-espanol/">GoHighLevel en Español</a>
+        </div>
+      </div>
+      <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="nav-link" target="_blank" rel="noopener">Podcast</a>
+      <a href="" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+    </div>
+  </div>
+</nav>
+
+<div id="reading-progress"></div>
+<div class="post-container">
+  <div class="post-breadcrumb fade-1">
+    <a href="/">Home</a><span class="bc-sep">&rsaquo;</span><a href="/category/sms-messaging/">SMS & Messaging</a><span class="bc-sep">&rsaquo;</span><span>How to Set Up A2P 10DLC Registration in…</span>
+  </div>
+  <div class="post-eyebrow fade-1"><a href="/category/sms-messaging/" style="color:var(--amber);text-decoration:none">SMS & Messaging</a></div>
+  <h1 class="post-title fade-2">How to Set Up A2P 10DLC Registration in GoHighLevel — Stay Compliant</h1>
+  <div class="post-byline fade-3">
+    <span>By William Welch</span>
+    <span class='sep'>&middot;</span><span>March 13, 2026</span>
+    <span class="sep">&middot;</span><span>9 min read</span>
+  </div>
+  
+<div class="share-row">
+  <span>Share</span>
+  <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fhow-to-set-up-a2p-10dlc-registration-gohighlevel-stay-compliant%2F&text=How%20to%20Set%20Up%20A2P%2010DLC%20Registration%20in%20GoHighLevel%20—%20Stay%20Compliant" target="_blank" rel="noopener" class="share-btn">X</a>
+  <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fhow-to-set-up-a2p-10dlc-registration-gohighlevel-stay-compliant%2F" target="_blank" rel="noopener" class="share-btn">LinkedIn</a>
+  <button class="share-btn" onclick="navigator.clipboard.writeText('https://globalhighlevel.com/blog/how-to-set-up-a2p-10dlc-registration-gohighlevel-stay-compliant/');this.textContent='Copied!'">Copy Link</button>
+</div>
+  
+<p class="cta-byline">Follow along &mdash; <a href="&utm_campaign=how-to-set-up-a2p-10dlc-registration-gohighlevel-stay-compliant" target="_blank" rel="nofollow noopener">get 30 days free &rarr;</a></p>
+  
+<div class="toc">
+  <div class="toc-label">In This Guide</div>
+  <ol><li><a href="#section-1">What Is A2P 10DLC and Why It Matters</a></li><li><a href="#section-2">Prerequisites Before Starting Registration</a></li><li><a href="#section-3">Step-by-Step A2P 10DLC Registration in GoHighLevel</a></li><li><a href="#section-4">Optimizing Your Trust Score for Campaign Approval</a></li><li><a href="#section-5">Common Registration Mistakes to Avoid</a></li><li><a href="#section-6">Troubleshooting Rejected Applications</a></li></ol>
+</div>
+  
+<div class="podcast-embed">
+  <p>Listen to this episode</p>
+  <iframe width="100%" height="180" frameborder="no" scrolling="no" seamless
+    src="https://share.transistor.fm/e/ad97057d" loading="lazy"></iframe>
+  <a class="podcast-link" href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">
+    Follow the podcast on Spotify
+  </a>
+</div>
+  <div class="post-body"><p>If you're running SMS campaigns through GoHighLevel, you've probably heard the term <strong>A2P 10DLC</strong> thrown around. Maybe you've even gotten a warning that your messages won't deliver without it. Here's the truth: A2P 10DLC registration isn't optional anymore—it's mandatory for anyone sending business SMS in the United States. Without it, your message deliverability tanks, your open rates plummet, and your clients lose trust in your service. In this guide, I'm walking you through the exact setup process to get compliant and keep your SMS campaigns running at full speed. If you're serious about scaling your agency or business, mastering this is non-negotiable. Ready to lock in compliance? Check out <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=blog&utm_medium=article&utm_campaign=how-to-set-up-a2p-10dlc-registration-in-gohighlevel--stay-compliant" style="color:#1a73e8;font-weight:700;text-decoration:none;">GoHighLevel's Bootcamp</a> to master the platform end-to-end.</p>
+
+
+
+<h2 id="section-1">What Is A2P 10DLC and Why It Matters</h2>
+
+<p>A2P 10DLC stands for <strong>Application-to-Person 10-Digit Long Code</strong>. In plain English: it's the system that U.S. carriers use to verify that legitimate businesses are sending SMS messages from standard 10-digit phone numbers.</p>
+
+<p>Before A2P 10DLC regulations were fully implemented, spammers flooded the system. Carriers couldn't distinguish between a real business texting customers and a scammer blasting phishing links. The FCC cracked down, and now every business sending SMS at scale must register their phone numbers, verify their identity, and declare their messaging use case.</p>
+
+<p>Without A2P 10DLC registration in GoHighLevel:</p>
+
+<ul style="margin:16px 0;padding-left:24px;">
+<li>Your SMS delivery rate drops significantly (often below 50%)</li>
+<li>Messages get flagged as spam or blocked entirely</li>
+<li>Your clients' campaigns underperform, damaging your reputation</li>
+<li>You risk account suspension if you're found to be non-compliant</li>
+</ul>
+
+<p>With proper A2P 10DLC registration, you unlock full SMS deliverability, carrier trust, and peace of mind that your campaigns will actually reach inboxes.</p>
+
+<h2 id="section-2">Prerequisites Before Starting Registration</h2>
+
+<p>Before you log into GoHighLevel and start the registration process, you need to have a few things in place. Rushing through this step is where most people stumble.</p>
+
+<p><strong>You'll need:</strong></p>
+
+<ul style="margin:16px 0;padding-left:24px;">
+<li><strong>Business Information:</strong> Legal business name, EIN (Employer Identification Number), and business address. If you're a sole proprietor, your SSN may be required.</li>
+<li><strong>Phone Number(s):</strong> The 10-digit numbers you plan to send SMS from. These should be dedicated to your business, not personal numbers.</li>
+<li><strong>Use Case Description:</strong> A clear, honest explanation of why you're sending SMS. Examples: "Customer appointment reminders," "Marketing promotions," "Account notifications." Vague descriptions get flagged.</li>
+<li><strong>GoHighLevel Account:</strong> You need access to your GoHighLevel workspace with admin privileges to initiate registration.</li>
+<li><strong>Identity Verification Documents:</strong> Be prepared to upload government-issued ID and potentially business documents for brand validation.</li>
+</ul>
+
+<div style="background:#fff8e1;border-left:4px solid #ffc107;padding:16px 20px;margin:24px 0;border-radius:4px;">
+<p style="font-weight:700;margin:0 0 6px 0;">💡 Pro Tip</p>
+<p style="margin:0;">Don't reuse phone numbers from old campaigns. Carriers flag numbers with negative history. Request new 10-digit numbers from your carrier or VoIP provider specifically for A2P 10DLC registration.</p>
+</div>
+
+<h2 id="section-3">Step-by-Step A2P 10DLC Registration in GoHighLevel</h2>
+
+<p><strong>Step 1: Navigate to SMS Settings</strong></p>
+
+<p>Log into your GoHighLevel account. In the left sidebar, go to <strong>Settings</strong> → <strong>Integrations</strong> → <strong>SMS</strong>. You'll see your SMS service provider options and existing phone numbers.</p>
+
+<p><strong>Step 2: Initiate A2P Campaign Registration</strong></p>
+
+<p>Click on <strong>Register for A2P 10DLC</strong> (or similar button—exact wording varies by update). GoHighLevel will prompt you to select which phone number(s) you want to register. If you have multiple numbers, register them all at once to avoid delays.</p>
+
+<p><strong>Step 3: Provide Your Business Information</strong></p>
+
+<p>Fill in the registration form with accurate details:</p>
+
+<ul style="margin:16px 0;padding-left:24px;">
+<li>Legal business name (must match your EIN registration)</li>
+<li>Business address (no PO boxes)</li>
+<li>Employer ID or Tax ID</li>
+<li>Primary contact name and phone number</li>
+</ul>
+
+<p>GoHighLevel pulls this data to submit to your carrier and the TCPA (Telephone Consumer Protection Act) registry. Mismatches between fields get your application rejected.</p>
+
+<p><strong>Step 4: Define Your Use Case</strong></p>
+
+<p>This is critical. Select your primary use case from the dropdown. Common options include:</p>
+
+<ul style="margin:16px 0;padding-left:24px;">
+<li>Customer Care &amp; Support</li>
+<li>Marketing &amp; Promotions</li>
+<li>Two-Factor Authentication (2FA)</li>
+<li>Account Notifications</li>
+<li>Appointment Reminders</li>
+</ul>
+
+<p>Then provide a detailed description (100+ characters): <em>"We send SMS appointment reminders to healthcare patients 24 hours before their scheduled visits to reduce no-shows."</em> Specificity matters—carriers review this text.</p>
+
+<p><strong>Step 5: Upload Identity &amp; Brand Documents</strong></p>
+
+<p>GoHighLevel will request government-issued ID and possibly business formation documents (Articles of Incorporation, EIN letter, etc.). Upload clear, legible files. Blurry images get rejected automatically.</p>
+
+<p><strong>Step 6: Review &amp; Submit</strong></p>
+
+<p>Double-check every field. A single typo in your business name can delay approval by weeks. Click <strong>Submit for Approval</strong>.</p>
+
+
+
+
+<p class="cta-inline">This is built into GoHighLevel.
+<a href="&utm_campaign=how-to-set-up-a2p-10dlc-registration-gohighlevel-stay-compliant" target="_blank" rel="nofollow noopener">Try it free for 30 days &rarr;</a></p><h2 id="section-4">Optimizing Your Trust Score for Campaign Approval</h2>
+
+<p>After submission, your application doesn't go straight to approval. Carriers calculate a <strong>Trust Score</strong> based on multiple factors. Higher scores = faster approvals and better deliverability.</p>
+
+<p><strong>Factors That Improve Your Trust Score:</strong></p>
+
+<ul style="margin:16px 0;padding-left:24px;">
+<li><strong>Account Age:</strong> GoHighLevel accounts older than 30 days get bonus points. Brand new accounts are flagged for fraud risk.</li>
+<li><strong>Phone Number History:</strong> Clean, unused numbers without spam complaints rank higher.</li>
+<li><strong>Business Verification:</strong> Match between your legal name, address, and phone number on file.</li>
+<li><strong>Clear Use Case:</strong> Detailed, specific messaging descriptions beat generic ones every time.</li>
+<li><strong>Low Complaint History:</strong> If you're a returning user, zero TCPA complaints boost your score.</li>
+</ul>
+
+<p>Approval typically takes 1-3 business days, but trust scores below 50 can trigger manual review and delays of 2+ weeks.</p>
+
+<h2 id="section-5">Common Registration Mistakes to Avoid</h2>
+
+<p>I've seen hundreds of agencies get stuck at approval because they cut corners. Don't be one of them.</p>
+
+<p><strong>Mistake #1: Mismatched Business Names</strong> Your GoHighLevel account name, EIN registration, and phone number carrier account must all match exactly. Even a missing LLC suffix will trigger rejection.</p>
+
+<p><strong>Mistake #2: Vague Use Case Descriptions</strong> Saying "General SMS marketing" gets flagged. Carriers want specifics: "Recurring appointment reminders for veterinary clinics." The more detail, the better.</p>
+
+<p><strong>Mistake #3: Using Personal Phone Numbers</strong> Carriers instantly reject phone numbers tied to personal accounts or with existing complaint history. Always use fresh, business-dedicated numbers.</p>
+
+<p><strong>Mistake #4: Incomplete or Blurry Documents</strong> Upload high-resolution identity verification. Make sure your name, address, and signature are clearly visible. Cropped or low-contrast images get auto-rejected.</p>
+
+<p><strong>Mistake #5: Rushing the Process</strong> Don't submit multiple registrations for the same number or business. One clean submission beats ten sloppy attempts.</p>
+
+<h2 id="section-6">Troubleshooting Rejected Applications</h2>
+
+<p>If your application gets rejected, don't panic. Most rejections are fixable.</p>
+
+<p><strong>Check the Rejection Reason</strong> GoHighLevel displays a rejection code. Common codes:</p>
+
+<ul style="margin:16px 0;padding-left:24px;">
+<li><strong>"Information Mismatch"</strong> → Your details don't align. Correct your business name, address, or EIN and resubmit.</li>
+<li><strong>"Invalid Identity Verification"</strong> → Upload a clearer government ID. Make sure all edges are visible.</li>
+<li><strong>"High-Risk Use Case"</strong> → Your use case description triggered spam filters. Rewrite it to be more specific and professional.</li>
+<li><strong>"Phone Number History Issue"</strong> → Request a new number from your carrier and re-register.</li>
+</ul>
+
+<p>After fixing the issue, resubmit immediately. You typically get one resubmission before manual review (which adds 5-10 days).</p>
+
+<div style="background:#f8f9fa;padding:24px;border-radius:8px;margin:36px 0;">
+<h3 style="margin-top:0;font-size:18px;font-weight:700;margin-bottom:16px;">Frequently Asked Questions</h3>
+
+<h3 style="font-size:16px;font-weight:700;margin-top:18px;margin-bottom:8px;">How long does A2P 10DLC approval take?</h3>
+<p style="margin:0 0 16px 0;">Most applications are approved within 1-3 business days if submitted correctly. Applications with information mismatches or low trust scores can take 2-4 weeks. Resubmissions after rejection typically add another 3-5 business days.</p>
+
+<h3 style="font-size:16px;font-weight:700;margin-top:18px;margin-bottom:8px;">Can I use the same phone number for multiple use cases?</h3>
+<p style="margin:0 0 16px 0;">No. Each phone number should be tied to one primary use case. If you send both appointment reminders and marketing promotions, register two separate numbers. Mixing use cases on a single number triggers deliverability issues.</p>
+
+<h3 style="font-size:16px;font-weight:700;margin-top:18px;margin-bottom:8px;">What if my business doesn't have an EIN?</h3>
+<p style="margin:0 0 16px 0;">Sole proprietors can use their Social Security Number. You'll need to prove business legitimacy with other documents (business license, bank statements, or articles of incorporation). Contact GoHighLevel support if you encounter issues.</p>
+
+<h3 style="font-size:16px;font-weight:700;margin-top:18px;margin-bottom:8px;">Do I need separate registrations for each client's campaigns?</h3>
+<p style="margin:0 0 16px 0;">Yes, if you're an agency sending SMS on behalf of clients. Each client's brand should have its own A2P 10DLC registration. This prevents one client's poor sending practices from affecting another's deliverability.</p>
+
+<h3 style="font-size:16px;font-weight:700;margin-top:18px;margin-bottom:8px;">What happens if I send SMS without A2P 10DLC registration?</h3>
+<p style="margin:0 0 16px 0;">Your messages will likely be blocked or marked as spam by carriers. Deliverability drops to 10-30%, and you risk account suspension for TCPA violations. It's not worth the risk—register properly before launching campaigns.</p>
+</div>
+
+<p>A2P 10DLC registration is the foundation of SMS compliance in GoHighLevel. Get it right, and your campaigns will reach inboxes consistently. Cut corners, and you'll waste time troubleshooting bounces and rejections while your clients lose trust.</p>
+
+<p>The process takes 30 minutes to complete and 1-3 days to get approved. That's a tiny investment for months of clean, compliant SMS delivery. Do it now, before you launch your first campaign.</p>
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How long does A2P 10DLC approval take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most applications are approved within 1-3 business days if submitted correctly. Applications with information mismatches or low trust scores can take 2-4 weeks. Resubmissions after rejection typically add another 3-5 business days."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use the same phone number for multiple use cases?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Each phone number should be tied to one primary use case. If you send both appointment reminders and marketing promotions, register two separate numbers. Mixing use cases on a single number triggers deliverability issues."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if my business doesn't have an EIN?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sole proprietors can use their Social Security Number. You'll need to prove business legitimacy with other documents (business license, bank statements, or articles of incorporation). Contact GoHighLevel support if you encounter issues."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need separate registrations for each client's campaigns?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, if you're an agency sending SMS on behalf of clients. Each client's brand should have its own A2P 10DLC registration. This prevents one client's poor sending practices from affecting another's deliverability."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if I send SMS without A2P 10DLC registration?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your messages will likely be blocked or marked as spam by carriers. Deliverability drops to 10-30%, and you risk account suspension for TCPA violations. It's not worth the risk—register properly before launching campaigns."
+      }
+    }
+  ]
+}
+</script></div>
+  
+<div class="cta-end">
+  <h3>Ready to try this?</h3>
+  <p>30 days free, no credit card required. Set up everything in this guide inside your trial.</p>
+  <a href="&utm_campaign=how-to-set-up-a2p-10dlc-registration-gohighlevel-stay-compliant" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free 30-Day Trial</a>
+  <div class="fine">Cancel anytime &mdash; $0 for the first 30 days</div>
+</div>
+  
+<div class="author-box">
+  <div>
+    <div class="author-name">William Welch</div>
+    <div class="author-bio">GoHighLevel user and affiliate. Runs GlobalHighLevel.com — free tutorials, guides, and strategies for agencies and businesses using GHL worldwide.</div>
+  </div>
+</div>
+  
+<div class="related-posts">
+  <div class="related-label">Keep Reading</div>
+  <div class="related-grid">
+<a href="/blog/how-to-integrate-tiktok-messaging-in-gohighlevel-automate-comments/" class="related-card">
+  <div class="r-tag">SMS & Messaging</div>
+  <div class="r-title">How to Integrate TikTok Messaging in GoHighLevel — Automate Comments</div>
+</a>
+<a href="/blog/how-to-add-countdown-timers-in-gohighlevel-drive-whatsapp-urgency/" class="related-card">
+  <div class="r-tag">SMS & Messaging</div>
+  <div class="r-title">How to Add Countdown Timers in GoHighLevel — Drive WhatsApp Urgency</div>
+</a>
+<a href="/blog/how-to-manage-whatsapp-settings-in-gohighlevel-complete-guide/" class="related-card">
+  <div class="r-tag">SMS & Messaging</div>
+  <div class="r-title">How to Manage WhatsApp Settings in GoHighLevel — Complete Guide</div>
+</a></div>
+</div>
+</div>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Set Up A2P 10DLC Registration in GoHighLevel \u2014 Stay Compliant", "description": "Master A2P 10DLC registration in GoHighLevel with this step-by-step guide. Stay compliant, boost SMS deliverability, and get approved in days.", "datePublished": "2026-03-13T17:25:09.366012", "author": {"@type": "Person", "name": "William Welch"}, "publisher": {"@type": "Organization", "name": "Global High Level", "url": "https://globalhighlevel.com"}, "url": "https://globalhighlevel.com/blog/how-to-set-up-a2p-10dlc-registration-gohighlevel-stay-compliant/"}</script>
+
+<script>
+(function(){
+  var bar=document.getElementById('reading-progress');
+  if(!bar)return;
+  window.addEventListener('scroll',function(){
+    var body=document.querySelector('.post-body');
+    if(!body)return;
+    var top=body.getBoundingClientRect().top+window.scrollY;
+    var h=body.offsetHeight-window.innerHeight;
+    var pct=h>0?Math.min(100,Math.max(0,(window.scrollY-top+window.innerHeight*0.1)/h*100)):100;
+    bar.style.width=pct+'%';
+  },{passive:true});
+})();
+</script>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Global<span>HighLevel</span></div>
+        <p class="footer-desc">Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide.</p>
+        <p class="footer-disclaimer">Affiliate disclosure: Some links on this site are affiliate links. If you sign up through our link, we may earn a commission at no extra cost to you. Not affiliated with GoHighLevel LLC.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Topics</h4>
+        <a href="/category/ai-automation/">AI & Automation</a>
+        <a href="/category/email-deliverability/">Email & Deliverability</a>
+        <a href="/category/sms-messaging/">SMS & Messaging</a>
+        <a href="/category/crm-contacts/">CRM & Contacts</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
+        <a href="https://help.gohighlevel.com" target="_blank" rel="noopener">GHL Help Center</a>
+        <a href="" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 GlobalHighLevel.com</span>
+      <span>Not affiliated with GoHighLevel LLC</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

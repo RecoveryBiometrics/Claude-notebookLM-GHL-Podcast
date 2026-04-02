@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Debug Webhooks in GoHighLevel — Real-Time Logs | Global High Level</title>
+<meta name="description" content="Debug GoHighLevel webhooks in real-time using the Webhook Logs Dashboard. View payloads, status codes, and retry attempts instantly. Troubleshoot integration...">
+<link rel="canonical" href="https://globalhighlevel.com/blog/how-to-debug-webhooks-gohighlevel-real-time-logs/">
+<meta property="og:title" content="How to Debug Webhooks in GoHighLevel — Real-Time Logs | Global High Level">
+<meta property="og:description" content="Debug GoHighLevel webhooks in real-time using the Webhook Logs Dashboard. View payloads, status codes, and retry attempts instantly. Troubleshoot integration...">
+<meta property="og:url" content="https://globalhighlevel.com/blog/how-to-debug-webhooks-gohighlevel-real-time-logs/">
+<meta property="og:image" content="">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Global High Level","url":"https://globalhighlevel.com"}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
+
+:root{
+  --bg:#07080a;
+  --bg2:#0c0e14;
+  --surface:#111520;
+  --amber:#f59e0b;
+  --amber-light:#fbbf24;
+  --amber-dim:rgba(245,158,11,0.12);
+  --amber-border:rgba(245,158,11,0.22);
+  --text:#eef2ff;
+  --text2:#a0aec8;
+  --text3:#6b7ea8;
+  --border:rgba(255,255,255,0.06);
+  --max:1120px;
+  --content:665px;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--amber);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;height:auto}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-1{animation:fadeUp .6s ease both}
+.fade-2{animation:fadeUp .6s .15s ease both}
+.fade-3{animation:fadeUp .6s .3s ease both}
+
+/* ── NAV — fixed, backdrop blur, animated underlines ──────────────────────── */
+nav{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--sans);font-size:1.15rem;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:0;color:var(--text)}
+.logo-amber{color:var(--amber)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-link{font-size:.82rem;font-weight:500;color:var(--text2);letter-spacing:.1px;transition:color .15s;position:relative;padding:4px 0}
+.nav-link::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--amber);transition:width .2s ease-in-out}
+.nav-link:hover{color:var(--text);text-decoration:none}
+.nav-link:hover::after{width:100%}
+.nav-cta{font-size:.8rem;font-weight:700;color:#000;background:var(--amber);padding:7px 16px;border-radius:100px;transition:background .15s}
+.nav-cta:hover{background:var(--amber-light);text-decoration:none}
+.nav-dropdown{position:relative}
+.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:-12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 0;min-width:220px;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.nav-dropdown:hover .nav-dropdown-menu{display:block}
+.nav-dropdown-menu a{display:block;padding:8px 20px;font-size:.82rem;color:var(--text2);transition:color .15s,background .15s}
+.nav-dropdown-menu a:hover{color:var(--text);background:rgba(255,255,255,.05);text-decoration:none}
+
+/* ── CONTAINER ────────────────────────────────────────────────────────────── */
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* ── SECTION LABELS ───────────────────────────────────────────────────────── */
+.section-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--amber);display:inline-block}
+
+/* ── HOMEPAGE — Featured + stack ──────────────────────────────────────────── */
+.hp-featured{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;padding:88px 0 48px;border-bottom:1px solid var(--border)}
+.hp-lead{display:flex;flex-direction:column;justify-content:center}
+.hp-lead-cat{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.hp-lead-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);margin-bottom:14px;letter-spacing:-.5px}
+.hp-lead-title a{color:var(--text);transition:color .2s}
+.hp-lead-title a:hover{color:var(--amber);text-decoration:none}
+.hp-lead-desc{font-size:1rem;color:var(--text2);line-height:1.65;margin-bottom:16px}
+.hp-lead-meta{font-size:13px;color:var(--text3);letter-spacing:.2px}
+.hp-stack{display:flex;flex-direction:column;gap:0}
+.hp-stack-item{padding:20px 0;border-bottom:1px solid var(--border)}
+.hp-stack-item:first-child{padding-top:0}
+.hp-stack-item:last-child{border-bottom:none}
+.hp-stack-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:6px}
+.hp-stack-title{font-family:var(--sans);font-size:1rem;font-weight:700;line-height:1.35;margin-bottom:6px}
+.hp-stack-title a{color:var(--text);transition:color .15s}
+.hp-stack-title a:hover{color:var(--amber);text-decoration:none}
+.hp-stack-meta{font-size:12px;color:var(--text3)}
+
+/* ── HOMEPAGE — Main grid + sidebar ───────────────────────────────────────── */
+.hp-body{display:grid;grid-template-columns:1fr 320px;gap:48px;padding:48px 0 80px}
+.hp-articles{display:flex;flex-direction:column;gap:0}
+
+/* ── FLAT EDITORIAL CARDS (article list items) ────────────────────────────── */
+.card{padding:24px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column}
+.card-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:8px;text-decoration:none;display:inline-block}
+a.card-cat:hover{color:var(--amber-light);text-decoration:none}
+.card-title{font-family:var(--sans);font-size:1.1rem;font-weight:700;line-height:1.35;margin-bottom:8px}
+.card-title a{color:var(--text);transition:color .15s}
+.card-title a:hover{color:var(--amber);text-decoration:none}
+.card-excerpt{font-size:.9rem;color:var(--text2);line-height:1.55;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-meta{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.meta-sep{color:var(--text3)}
+.podcast-badge{display:inline-flex;align-items:center;gap:4px;background:var(--amber-dim);color:var(--amber);font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto}
+
+/* ── HOMEPAGE SIDEBAR ─────────────────────────────────────────────────────── */
+.hp-sidebar{position:sticky;top:72px;align-self:start}
+.sidebar-section{margin-bottom:36px}
+.sidebar-section .section-label{font-size:11px;margin-bottom:12px;padding-bottom:8px}
+.sidebar-trending{display:flex;flex-direction:column;gap:0}
+.trending-item{padding:12px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.trending-item:last-child{border-bottom:none}
+.trending-num{font-family:var(--sans);font-size:1.3rem;font-weight:800;color:rgba(245,158,11,.3);line-height:1;min-width:24px}
+.trending-title{font-size:.85rem;font-weight:600;line-height:1.35}
+.trending-title a{color:var(--text2);transition:color .15s}
+.trending-title a:hover{color:var(--text);text-decoration:none}
+.sidebar-podcast{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:24px}
+.sidebar-podcast p{font-size:.85rem;color:var(--text2);margin-bottom:12px;line-height:1.5}
+.btn-spotify{display:inline-flex;align-items:center;gap:6px;background:#1DB954;color:#000;font-size:.8rem;font-weight:700;padding:8px 16px;border-radius:6px;transition:opacity .15s}
+.btn-spotify:hover{opacity:.88;text-decoration:none}
+.sidebar-cta{background:var(--surface);border:1px solid var(--amber-border);border-radius:8px;padding:20px;text-align:center}
+.sidebar-cta .s-headline{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.sidebar-cta .s-sub{font-size:.8rem;color:var(--text2);margin-bottom:14px;line-height:1.5}
+.sidebar-cta .s-fine{font-size:.7rem;color:var(--text3);margin-top:10px}
+.sidebar-cat-link{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--text2);transition:color .15s}
+.sidebar-cat-link:last-child{border-bottom:none}
+.sidebar-cat-link:hover{color:var(--text);text-decoration:none}
+.sidebar-cat-count{font-size:.75rem;color:var(--text3);background:rgba(255,255,255,.04);padding:2px 8px;border-radius:12px}
+
+/* ── Cards grid (for category pages) ──────────────────────────────────────── */
+.cards-grid{display:flex;flex-direction:column;gap:0}
+
+/* ── Reading progress bar ─────────────────────────────────────────────────── */
+#reading-progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--amber);z-index:9999;transition:width .1s linear}
+
+/* ── POST PAGE — single-column centered ───────────────────────────────────── */
+.post-container{max-width:var(--content);margin:0 auto;padding:100px 24px 48px}
+
+/* Breadcrumb */
+.post-breadcrumb{font-size:.8rem;color:var(--text3);margin-bottom:24px}
+.post-breadcrumb a{color:var(--text2);transition:color .15s}
+.post-breadcrumb a:hover{color:var(--text);text-decoration:none}
+.post-breadcrumb .bc-sep{margin:0 8px;color:var(--text3);opacity:.5}
+
+/* Post header */
+.post-eyebrow{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.post-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px}
+.post-byline{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text3);padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:8px;flex-wrap:wrap}
+.post-byline .sep{color:var(--text3);opacity:.4}
+
+/* Share row */
+.share-row{display:flex;align-items:center;gap:12px;padding:12px 0 28px;border-bottom:1px solid var(--border);margin-bottom:32px;font-size:13px;color:var(--text3)}
+.share-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;color:var(--text2);background:transparent;cursor:pointer;transition:border-color .15s,color .15s}
+.share-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* CTA — below byline (compact one-liner) */
+.cta-byline{font-size:.9rem;color:var(--text2);margin:0 0 32px;padding:12px 0}
+.cta-byline a{color:var(--amber);font-weight:600}
+.cta-byline a:hover{color:var(--amber-light)}
+
+/* CTA — mid-article inline */
+.cta-inline{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:28px 0;font-size:.9rem;color:var(--text2);display:block}
+.cta-inline a{color:var(--amber);font-weight:600;text-decoration:none}
+.cta-inline a:hover{color:var(--amber-light)}
+
+/* CTA — end of article box */
+.cta-end{background:var(--surface);border:1px solid var(--amber-border);border-radius:10px;padding:32px;text-align:center;margin:48px 0}
+.cta-end h3{font-family:var(--sans);font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:10px}
+.cta-end p{font-size:.9rem;color:var(--text2);margin:0 0 20px;max-width:440px;margin-left:auto;margin-right:auto}
+.cta-end .fine{font-size:.75rem;color:var(--text3);margin-top:12px}
+.btn-amber{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:#000;font-size:.85rem;font-weight:700;padding:11px 22px;border-radius:6px;transition:all .2s;text-decoration:none}
+.btn-amber:hover{background:var(--amber-light);transform:translateY(-1px);text-decoration:none}
+
+/* Post body typography */
+.post-body{font-size:19px;line-height:1.75;color:#e5e7eb}
+.post-body h2{font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin:48px 0 14px}
+.post-body h3{font-size:1.15rem;font-weight:700;color:#f3f4f6;margin:32px 0 10px}
+.post-body p{margin-bottom:20px}
+.post-body ul,.post-body ol{margin:0 0 20px 24px}
+.post-body li{margin-bottom:8px}
+.post-body strong{color:#fff}
+.post-body a{color:var(--amber);text-decoration:underline;text-underline-offset:3px}
+.post-body a:hover{color:var(--amber-light)}
+
+/* ── LIGHT-MODE INLINE STYLE OVERRIDES ────────────────────────────────────── */
+.post-body a[style*="color:#1a73e8"],
+.post-body a[style*="color: #1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body a[style*="color:#1a73e8"]:hover,
+.post-body a[style*="color: #1a73e8"]:hover{
+  color:var(--amber-light)!important;
+}
+.post-body div[style*="background:#f0f4ff"],
+.post-body div[style*="background: #f0f4ff"]{
+  background:var(--surface)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#f8f9fa"],
+.post-body div[style*="background: #f8f9fa"]{
+  background:var(--surface)!important;
+  border-color:var(--border)!important;
+}
+.post-body div[style*="background:#fff8e1"],
+.post-body div[style*="background: #fff8e1"]{
+  background:rgba(245,158,11,.06)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#fff"],
+.post-body div[style*="background: #fff"],
+.post-body div[style*="background:#ffffff"],
+.post-body div[style*="background: #ffffff"]{
+  background:var(--surface)!important;
+}
+.post-body div[style*="background:#1a73e8"],
+.post-body div[style*="background: #1a73e8"]{
+  background:var(--surface)!important;
+  border:1px solid var(--amber-border)!important;
+}
+.post-body div[style*="background:#1a73e8"] *,
+.post-body div[style*="background: #1a73e8"] *{
+  color:var(--text)!important;
+}
+.post-body div[style*="background:#1a73e8"] a,
+.post-body div[style*="background: #1a73e8"] a{
+  background:var(--amber)!important;
+  color:#000!important;
+  border-radius:6px;
+  padding:12px 24px;
+}
+.post-body a[style*="background:#ffffff"],
+.post-body a[style*="background: #ffffff"],
+.post-body a[style*="background:#fff"],
+.post-body a[style*="background: #fff"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-left:4px solid #1a73e8"],
+.post-body div[style*="border-left: 4px solid #1a73e8"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="border:2px solid #1a73e8"],
+.post-body div[style*="border: 2px solid #1a73e8"]{
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="border-left:4px solid #ffc107"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] h3,
+.post-body div[style*="background: #f8f9fa"] h3{
+  color:var(--amber)!important;
+  margin-top:0;
+}
+.post-body div[style*="background:#f8f9fa"] h3[style*="color:#1a73e8"],
+.post-body div[style*="background: #f8f9fa"] h3[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] p,
+.post-body div[style*="background: #f8f9fa"] p{
+  color:var(--text2)!important;
+}
+.post-body div[style*="background:#f8f9fa"] strong,
+.post-body div[style*="background: #f8f9fa"] strong{
+  color:var(--text)!important;
+}
+.post-body h2[style*="color:#1a73e8"],
+.post-body h3[style*="color:#1a73e8"],
+.post-body h4[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body p[style*="color:#1a73e8"],
+.post-body span[style*="color:#1a73e8"],
+.post-body p[style*="color:#333"],
+.post-body span[style*="color:#333"],
+.post-body p[style*="color:#000"],
+.post-body span[style*="color:#000"]{
+  color:var(--text2)!important;
+}
+.post-body a[style*="background:#1a73e8"],
+.post-body a[style*="background: #1a73e8"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-radius"]{
+  color:var(--text2);
+}
+
+/* TOC */
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:0 0 32px}
+.toc-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:12px}
+.toc ol{margin:0;padding-left:18px}
+.toc li{font-size:.9rem;line-height:1.9}
+.toc a{color:var(--text2);text-decoration:none}
+.toc a:hover{color:var(--amber);text-decoration:none}
+
+/* Podcast embed */
+.podcast-embed{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:20px;margin:36px 0}
+.podcast-embed p{font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:12px}
+.podcast-embed iframe{border-radius:6px}
+.podcast-link{display:inline-flex;align-items:center;gap:8px;color:var(--amber);font-size:.875rem;font-weight:600;text-decoration:none;margin-top:8px}
+.podcast-link:hover{color:var(--amber-light);text-decoration:none}
+
+/* Author box */
+.author-box{display:flex;gap:16px;align-items:flex-start;padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:40px 0}
+.author-box .author-name{font-weight:700;color:var(--text);font-size:.95rem;margin-bottom:4px}
+.author-box .author-bio{font-size:.825rem;color:var(--text2);line-height:1.6}
+
+/* Related posts */
+.related-posts{margin:48px 0 0}
+.related-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:18px}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.related-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;text-decoration:none;display:block;transition:border-color .2s}
+.related-card:hover{border-color:var(--amber);text-decoration:none}
+.related-card .r-tag{font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.related-card .r-title{font-size:.85rem;font-weight:600;color:#e5e7eb;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Pagination */
+.pagination{display:flex;gap:8px;justify-content:center;margin-top:48px;flex-wrap:wrap}
+.page-btn{padding:8px 16px;border:1px solid var(--border);border-radius:6px;font-size:.875rem;color:var(--text2);background:var(--surface)}
+.page-btn.active{background:var(--amber);color:#07080a;border-color:var(--amber);font-weight:700}
+.page-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* Category header */
+.cat-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:100px 24px 40px}
+.cat-header h1{font-family:var(--sans);font-size:1.8rem;font-weight:800;margin-bottom:8px;color:var(--text)}
+.cat-header p{color:var(--text2);font-size:.9rem}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80px}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-logo{font-family:var(--sans);font-size:1.1rem;font-weight:800;margin-bottom:12px;color:var(--text)}
+.footer-logo span{color:var(--amber)}
+.footer-desc{font-size:.82rem;color:var(--text3);line-height:1.7;margin-bottom:14px}
+.footer-disclaimer{font-size:.74rem;color:var(--text3);line-height:1.6;opacity:.7}
+.footer-col h4{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);margin-bottom:16px}
+.footer-col a{display:block;font-size:.85rem;color:var(--text2);margin-bottom:10px;transition:color .15s}
+.footer-col a:hover{color:var(--text);text-decoration:none}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.76rem;color:var(--text3)}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
+@media(max-width:1024px){
+  .hp-featured{grid-template-columns:1fr}
+  .hp-body{grid-template-columns:1fr}
+  .hp-sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .related-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .hp-sidebar{grid-template-columns:1fr}
+  .nav-links .nav-link{display:none}
+  .post-title{font-size:1.8rem}
+  .hp-lead-title{font-size:1.8rem}
+  .cta-end{padding:24px 20px}
+  .related-grid{grid-template-columns:1fr}
+  .cat-header{padding:90px 20px 36px}
+  .footer-top{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column}
+  .share-row{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">Global<span class="logo-amber">HighLevel</span></a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <div class="nav-dropdown">
+        <a class="nav-link">Topics <span style="font-size:10px">&#9662;</span></a>
+        <div class="nav-dropdown-menu">
+    <a href="/category/ai-automation/">AI & Automation</a>
+    <a href="/category/email-deliverability/">Email & Deliverability</a>
+    <a href="/category/sms-messaging/">SMS & Messaging</a>
+    <a href="/category/crm-contacts/">CRM & Contacts</a>
+    <a href="/category/payments-commerce/">Payments & Commerce</a>
+    <a href="/category/analytics-reporting/">Analytics & Reporting</a>
+    <a href="/category/phone-voice/">Phone & Voice</a>
+    <a href="/category/agency-platform/">Agency & Platform</a>
+    <a href="/category/gohighlevel-india/">GoHighLevel India</a>
+    <a href="/category/gohighlevel-espanol/">GoHighLevel en Español</a>
+        </div>
+      </div>
+      <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="nav-link" target="_blank" rel="noopener">Podcast</a>
+      <a href="" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+    </div>
+  </div>
+</nav>
+
+<div id="reading-progress"></div>
+<div class="post-container">
+  <div class="post-breadcrumb fade-1">
+    <a href="/">Home</a><span class="bc-sep">&rsaquo;</span><a href="/category/agency-platform/">Agency & Platform</a><span class="bc-sep">&rsaquo;</span><span>How to Debug Webhooks in GoHighLevel — Real-Time…</span>
+  </div>
+  <div class="post-eyebrow fade-1"><a href="/category/agency-platform/" style="color:var(--amber);text-decoration:none">Agency & Platform</a></div>
+  <h1 class="post-title fade-2">How to Debug Webhooks in GoHighLevel — Real-Time Logs</h1>
+  <div class="post-byline fade-3">
+    <span>By William Welch</span>
+    <span class='sep'>&middot;</span><span>March 13, 2026</span>
+    <span class="sep">&middot;</span><span>10 min read</span>
+  </div>
+  
+<div class="share-row">
+  <span>Share</span>
+  <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fhow-to-debug-webhooks-gohighlevel-real-time-logs%2F&text=How%20to%20Debug%20Webhooks%20in%20GoHighLevel%20—%20Real-Time%20Logs" target="_blank" rel="noopener" class="share-btn">X</a>
+  <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fhow-to-debug-webhooks-gohighlevel-real-time-logs%2F" target="_blank" rel="noopener" class="share-btn">LinkedIn</a>
+  <button class="share-btn" onclick="navigator.clipboard.writeText('https://globalhighlevel.com/blog/how-to-debug-webhooks-gohighlevel-real-time-logs/');this.textContent='Copied!'">Copy Link</button>
+</div>
+  
+<p class="cta-byline">Follow along &mdash; <a href="&utm_campaign=how-to-debug-webhooks-gohighlevel-real-time-logs" target="_blank" rel="nofollow noopener">get 30 days free &rarr;</a></p>
+  
+<div class="toc">
+  <div class="toc-label">In This Guide</div>
+  <ol><li><a href="#section-1">What Are Webhooks and Why You Need to Debug Them</a></li><li><a href="#section-2">Accessing the GoHighLevel Webhook Logs Dashboard</a></li><li><a href="#section-3">Reading Your Webhook Logs: Payloads, Status Codes, and Attempts</a></li><li><a href="#section-4">Using Webhook.site for External API Testing</a></li><li><a href="#section-5">Understanding Automated Webhook Retry Logic</a></li><li><a href="#section-6">Common Webhook Failures and How to Fix Them</a></li><li><a href="#section-7">Best Practices for Reliable Webhook Integration</a></li></ol>
+</div>
+  
+<div class="podcast-embed">
+  <p>Listen to this episode</p>
+  <iframe width="100%" height="180" frameborder="no" scrolling="no" seamless
+    src="https://share.transistor.fm/e/a15f72da" loading="lazy"></iframe>
+  <a class="podcast-link" href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">
+    Follow the podcast on Spotify
+  </a>
+</div>
+  <div class="post-body"><p>Your webhooks are failing silently. A payment notification never arrives. An integration stops syncing without warning. Your client's workflow breaks at 2 AM, and you have no idea why.</p>
+
+<p>This is the reality for teams managing GoHighLevel without proper webhook debugging tools. Most agencies waste hours submitting support tickets or digging through logs manually when the answer is sitting in the <strong>Webhook Logs Dashboard</strong>—a real-time debugging feature that gives you complete visibility into every outbound webhook your integrations send.</p>
+
+<p>In this guide, I'll show you exactly how to use GoHighLevel's Webhook Logs Dashboard to debug issues instantly, validate payloads, troubleshoot failed deliveries, and maintain reliable integrations. Whether you're connecting ClickUp, Stripe, or custom APIs, these techniques will cut your debugging time from hours to minutes. And if you're new to GoHighLevel, <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=blog&utm_medium=article&utm_campaign=how-to-debug-webhooks-in-gohighlevel--real-time-logs" style="color:#1a73e8;font-weight:700;">try the platform free for 30 days</a> to start building these automations yourself.</p>
+
+
+
+<h2 id="section-1">What Are Webhooks and Why You Need to Debug Them</h2>
+
+<p>Webhooks are automatic notifications sent from one application to another in real-time. Think of them as instant alerts: when something happens in GoHighLevel—a lead is created, a contact tags, a workflow completes—a webhook fires and sends that data to your external system.</p>
+
+<p>Without proper debugging, you're flying blind. A webhook fails, the receiving server never gets the data, and you don't know it happened. Your integrations break silently, clients lose data, and you lose credibility.</p>
+
+<p>The Webhook Logs Dashboard solves this. It gives you complete visibility into every webhook attempt, including:</p>
+
+<ul style="margin:20px 0;padding-left:20px;">
+<li><strong>Payload data:</strong> The exact JSON being sent</li>
+<li><strong>Timestamps:</strong> When each attempt occurred</li>
+<li><strong>Response codes:</strong> Whether the receiving endpoint accepted the data (200, 400, 500, etc.)</li>
+<li><strong>Retry attempts:</strong> How many times GoHighLevel tried to deliver it</li>
+<li><strong>Success/failure status:</strong> Clear indication of what happened</li>
+</ul>
+
+<div style="background:#fff8e1;border-left:4px solid #ffc107;padding:16px 20px;margin:24px 0;border-radius:4px;">
+<p style="font-weight:700;margin:0 0 6px 0;">💡 Pro Tip</p>
+<p style="margin:0;">Most webhook failures aren't bugs—they're configuration issues. The receiving server URL is wrong, authentication headers are missing, or the endpoint changed without notice. The logs tell you immediately.</p>
+</div>
+
+<h2 id="section-2">Accessing the GoHighLevel Webhook Logs Dashboard</h2>
+
+<p>Here's where most teams get stuck: they don't know where to find the logs.</p>
+
+<p><strong>Step 1: Navigate to the Developer Portal</strong></p>
+<p>Log into your GoHighLevel account and head to <strong>Settings → Integrations → Developer Portal</strong>. This is where all API and webhook management lives.</p>
+
+<p><strong>Step 2: Find the Webhook Logs Section</strong></p>
+<p>Once in the Developer Portal, look for <strong>Webhook Logs</strong> or <strong>API Activity</strong>. This dashboard displays all outbound webhooks from your entire workspace in real-time.</p>
+
+<p><strong>Step 3: Filter by Location or Event Type (Optional)</strong></p>
+<p>If you manage multiple locations, you can filter logs by specific locations, subaccounts, or webhook event types. This is critical when troubleshooting issues in specific integrations.</p>
+
+<p><strong>Step 4: View Real-Time Updates</strong></p>
+<p>The dashboard auto-refreshes. Watch it in real-time as webhooks fire. This is invaluable for testing workflows—create a test lead, watch the webhook trigger, and see exactly what data was sent.</p>
+
+<h2 id="section-3">Reading Your Webhook Logs: Payloads, Status Codes, and Attempts</h2>
+
+<p>The logs dashboard shows a table of every webhook. Here's what each column means:</p>
+
+<p><strong>Event Name:</strong> The trigger that fired the webhook (e.g., "lead_created", "contact_updated", "workflow_completed").</p>
+
+<p><strong>Timestamp:</strong> Exact date and time the webhook fired (usually in UTC).</p>
+
+<p><strong>Endpoint URL:</strong> The external server that received (or should have received) the webhook.</p>
+
+<p><strong>Status/Response Code:</strong> This is critical. A <strong>200</strong> means success. <strong>4xx codes</strong> (400, 401, 403, 404) indicate client errors—usually wrong URL or missing authentication. <strong>5xx codes</strong> (500, 502, 503) mean the server had an issue.</p>
+
+<p><strong>Attempts:</strong> Shows how many times GoHighLevel retried delivery. Default retry logic typically attempts the webhook 3-5 times over several minutes before giving up.</p>
+
+<p><strong>View Payload:</strong> Click the expand button to see the raw JSON payload sent. This is where you validate that the correct data was included.</p>
+
+
+
+<h2 id="section-4">Using Webhook.site for External API Testing</h2>
+
+<p>Sometimes the issue isn't GoHighLevel—it's your receiving endpoint. Maybe you're building a custom integration and want to test locally. Maybe your external API is down. That's where <strong>Webhook.site</strong> comes in.</p>
+
+<p><strong>What is Webhook.site?</strong></p>
+<p>Webhook.site is a free, third-party tool that generates temporary webhook URLs. Send any webhook to Webhook.site, and it captures the request in real-time so you can inspect the exact payload and headers.</p>
+
+<p><strong>How to Use It:</strong></p>
+
+<ol style="margin:20px 0;padding-left:20px;">
+<li>Visit <strong>webhook.site</strong> in your browser</li>
+<li>Copy the unique URL generated for you (looks like webhook.site/unique-id)</li>
+<li>In GoHighLevel, configure your webhook to send to that Webhook.site URL</li>
+<li>Trigger the webhook (create a test lead, run a workflow, etc.)</li>
+<li>Watch the request appear in Webhook.site instantly with full payload and headers</li>
+</ol>
+
+<p>This tells you: Is GoHighLevel actually sending the webhook? What data is included? Are headers correct? If the request shows up in Webhook.site but fails at your actual endpoint, the problem is with your endpoint—not GoHighLevel.</p>
+
+
+<p class="cta-inline">This is built into GoHighLevel.
+<a href="&utm_campaign=how-to-debug-webhooks-gohighlevel-real-time-logs" target="_blank" rel="nofollow noopener">Try it free for 30 days &rarr;</a></p><h2 id="section-5">Understanding Automated Webhook Retry Logic</h2>
+
+<p>GoHighLevel doesn't send a webhook once and forget it. If your endpoint returns an error, GoHighLevel automatically retries delivery multiple times.</p>
+
+<p><strong>Default Retry Behavior:</strong></p>
+
+<ul style="margin:20px 0;padding-left:20px;">
+<li><strong>Attempt 1:</strong> Webhook fires immediately</li>
+<li><strong>Attempt 2:</strong> Retries after ~30 seconds if the first attempt fails</li>
+<li><strong>Attempt 3:</strong> Retries after ~2 minutes</li>
+<li><strong>Attempt 4-5:</strong> Additional retries with increasing delays</li>
+<li><strong>Final status:</strong> If all attempts fail, the webhook is marked as failed</li>
+</ul>
+
+<p>This retry logic is a feature, not a bug. It means temporary server issues don't break your integrations. Your endpoint down for 30 seconds? GoHighLevel tries again and succeeds on the second attempt.</p>
+
+<p><strong>Why This Matters for Debugging:</strong></p>
+<p>When you see a webhook with "3 attempts" in the logs, it doesn't mean there's a catastrophic failure. It likely means the endpoint was temporarily unreachable. Check the timestamp of the final attempt—if it was hours ago, the endpoint is probably fixed now. If it just happened, investigate the endpoint immediately.</p>
+
+<h2 id="section-6">Common Webhook Failures and How to Fix Them</h2>
+
+<p><strong>Failure #1: Status Code 404 (Not Found)</strong></p>
+<p>The receiving endpoint URL is wrong or no longer exists. Check the webhook configuration—copy-paste the URL into your browser to verify it resolves. Common cause: the external API endpoint changed and nobody updated GoHighLevel.</p>
+
+<p><strong>Failure #2: Status Code 401 (Unauthorized)</strong></p>
+<p>The endpoint requires authentication, but GoHighLevel isn't sending it. Check if you've configured API keys, bearer tokens, or basic auth in the webhook settings. Most integrations require an Authorization header—verify it's set correctly.</p>
+
+<p><strong>Failure #3: Status Code 400 (Bad Request)</strong></p>
+<p>The payload format is wrong. The receiving API expects specific field names or data types, and GoHighLevel is sending something different. Compare the payload in GoHighLevel logs to the API documentation of your endpoint. Field names are case-sensitive.</p>
+
+<p><strong>Failure #4: Status Code 500 (Server Error)</strong></p>
+<p>The receiving endpoint crashed or has a bug. This is their problem, not GoHighLevel's. Check if the endpoint is operational. If it keeps returning 500 errors, contact their support team.</p>
+
+<p><strong>Failure #5: Timeout (No Response)</strong></p>
+<p>The endpoint took too long to respond. GoHighLevel has a timeout limit (typically 10-30 seconds). If your endpoint needs longer to process, that's a performance issue on their end.</p>
+
+<h2 id="section-7">Best Practices for Reliable Webhook Integration</h2>
+
+<p><strong>1. Monitor Logs Regularly</strong></p>
+<p>Don't wait for a complaint. Set a calendar reminder to check webhook logs weekly. Look for patterns of failures. If you see consistent 401 errors, an API key probably expired.</p>
+
+<p><strong>2. Test Before Going Live</strong></p>
+<p>Use Webhook.site or a staging endpoint to verify webhooks work before pointing to production. Create a test contact, trigger the workflow, watch the logs.</p>
+
+<p><strong>3. Document Your Webhooks</strong></p>
+<p>Keep a spreadsheet of every webhook configured: what it does, where it goes, what data it sends, who maintains the receiving endpoint. This saves hours when debugging later.</p>
+
+<p><strong>4. Set Up Alerts for Failed Webhooks</strong></p>
+<p>If GoHighLevel offers webhook failure notifications (or if you're building a custom solution), enable them. Don't rely on clients to report missing data.</p>
+
+<p><strong>5. Validate Payload Format</strong></p>
+<p>Before configuring a webhook to an external API, read their documentation completely. Field names, data types, required vs. optional fields—all critical. A missing required field will cause 400 errors.</p>
+
+<p><strong>6. Use Unique Identifiers</strong></p>
+<p>Always include a unique ID (contact ID, lead ID, etc.) in your webhook payload. This makes it easy to trace data back to the source if something goes wrong.</p>
+
+<div style="background:#f8f9fa;padding:24px;border-radius:8px;margin:36px 0;">
+<h2 style="margin-top:0;">Frequently Asked Questions</h2>
+
+<h3 style="margin-top:0;font-size:16px;font-weight:700;">Can I retry a failed webhook manually from the logs dashboard?</h3>
+<p style="margin:0;">GoHighLevel's automatic retry system handles this, but some versions of the platform allow manual webhook retrigger directly from the logs. Check your Developer Portal for a "Retry" button on failed webhooks. If unavailable, update the trigger condition and re-run the workflow instead.</p>
+
+<h3 style="font-size:16px;font-weight:700;">How long does GoHighLevel keep webhook logs?</h3>
+<p style="margin:0;">Webhook logs are typically retained for 30-90 days depending on your plan. If you need long-term records, export logs regularly or set up a secondary logging system through the API.</p>
+
+<h3 style="font-size:16px;font-weight:700;">What's the difference between a webhook and an API call?</h3>
+<p style="margin:0;">A webhook is a push notification (GoHighLevel sends data to you). An API call is a pull request (you ask GoHighLevel for data). Webhooks are real-time and require a receiving endpoint. API calls happen on-demand and don't require external infrastructure.</p>
+
+<h3 style="font-size:16px;font-weight:700;">Can I test webhooks without creating real contacts or leads?</h3>
+<p style="margin:0;">Yes. In most GoHighLevel integrations, there's a "Send Test Webhook" button. Use it to send a sample payload to your endpoint without triggering real workflows. This is the fastest way to validate your receiving endpoint.</p>
+
+<h3 style="font-size:16px;font-weight:700;">What should I do if my webhook logs show all failures?</h3>
+<p style="margin:0;">Start with the simplest issues: verify the endpoint URL is correct (copy-paste into browser), confirm any required authentication is configured, and check if the receiving server is online. Then compare your payload format to their API documentation. 90% of failures are configuration issues, not bugs.</p>
+</div>
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I retry a failed webhook manually from the logs dashboard?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GoHighLevel's automatic retry system handles this, but some versions of the platform allow manual webhook retrigger directly from the logs. Check your Developer Portal for a Retry button on failed webhooks. If unavailable, update the trigger condition and re-run the workflow instead."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does GoHighLevel keep webhook logs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Webhook logs are typically retained for 30-90 days depending on your plan. If you need long-term records, export logs regularly or set up a secondary logging system through the API."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the difference between a webhook and an API call?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A webhook is a push notification (GoHighLevel sends data to you). An API call is a pull request (you ask GoHighLevel for data). Webhooks are real-time and require a receiving endpoint. API calls happen on-demand and do not require external infrastructure."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I test webhooks without creating real contacts or leads?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. In most GoHighLevel integrations, there's a Send Test Webhook button. Use it to send a sample payload to your endpoint without triggering real workflows. This is the fastest way to validate your receiving endpoint."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What should I do if my webhook logs show all failures?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start with the simplest issues: verify the endpoint URL is correct (copy-paste into browser), confirm any required authentication is configured, and check if the receiving server is online. Then compare your payload format to their API documentation. 90% of failures are configuration issues, not bugs."
+      }
+    }
+  ]
+}
+</script></div>
+  
+<div class="cta-end">
+  <h3>Ready to try this?</h3>
+  <p>30 days free, no credit card required. Set up everything in this guide inside your trial.</p>
+  <a href="&utm_campaign=how-to-debug-webhooks-gohighlevel-real-time-logs" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free 30-Day Trial</a>
+  <div class="fine">Cancel anytime &mdash; $0 for the first 30 days</div>
+</div>
+  
+<div class="author-box">
+  <div>
+    <div class="author-name">William Welch</div>
+    <div class="author-bio">GoHighLevel user and affiliate. Runs GlobalHighLevel.com — free tutorials, guides, and strategies for agencies and businesses using GHL worldwide.</div>
+  </div>
+</div>
+  
+<div class="related-posts">
+  <div class="related-label">Keep Reading</div>
+  <div class="related-grid">
+<a href="/blog/control-in-app-banners-gohighlevel-agency-branding/" class="related-card">
+  <div class="r-tag">Agency & Platform</div>
+  <div class="r-title">Control In-App Banners in GoHighLevel — Agency Branding</div>
+</a>
+<a href="/blog/enable-ai-image-recognition-gohighlevel-boost-support/" class="related-card">
+  <div class="r-tag">Agency & Platform</div>
+  <div class="r-title">Enable AI Image Recognition in GoHighLevel — Boost Support</div>
+</a>
+<a href="/blog/how-to-edit-images-in-gohighlevel-media-library/" class="related-card">
+  <div class="r-tag">Agency & Platform</div>
+  <div class="r-title">How to Edit Images in GoHighLevel — Built-In Media Library</div>
+</a></div>
+</div>
+</div>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Debug Webhooks in GoHighLevel \u2014 Real-Time Logs", "description": "Debug GoHighLevel webhooks in real-time using the Webhook Logs Dashboard. View payloads, status codes, and retry attempts instantly. Troubleshoot integration...", "datePublished": "2026-03-13T18:01:17.990749", "author": {"@type": "Person", "name": "William Welch"}, "publisher": {"@type": "Organization", "name": "Global High Level", "url": "https://globalhighlevel.com"}, "url": "https://globalhighlevel.com/blog/how-to-debug-webhooks-gohighlevel-real-time-logs/"}</script>
+
+<script>
+(function(){
+  var bar=document.getElementById('reading-progress');
+  if(!bar)return;
+  window.addEventListener('scroll',function(){
+    var body=document.querySelector('.post-body');
+    if(!body)return;
+    var top=body.getBoundingClientRect().top+window.scrollY;
+    var h=body.offsetHeight-window.innerHeight;
+    var pct=h>0?Math.min(100,Math.max(0,(window.scrollY-top+window.innerHeight*0.1)/h*100)):100;
+    bar.style.width=pct+'%';
+  },{passive:true});
+})();
+</script>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Global<span>HighLevel</span></div>
+        <p class="footer-desc">Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide.</p>
+        <p class="footer-disclaimer">Affiliate disclosure: Some links on this site are affiliate links. If you sign up through our link, we may earn a commission at no extra cost to you. Not affiliated with GoHighLevel LLC.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Topics</h4>
+        <a href="/category/ai-automation/">AI & Automation</a>
+        <a href="/category/email-deliverability/">Email & Deliverability</a>
+        <a href="/category/sms-messaging/">SMS & Messaging</a>
+        <a href="/category/crm-contacts/">CRM & Contacts</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
+        <a href="https://help.gohighlevel.com" target="_blank" rel="noopener">GHL Help Center</a>
+        <a href="" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 GlobalHighLevel.com</span>
+      <span>Not affiliated with GoHighLevel LLC</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

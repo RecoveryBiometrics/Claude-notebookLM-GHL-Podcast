@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Set Up Google Lead Ads in GoHighLevel — Auto-Sync Leads | Global High Level</title>
+<meta name="description" content="Step-by-step guide to setting up Google Lead Ads in GoHighLevel with auto-sync. Capture and sync leads instantly. No manual data entry required.">
+<link rel="canonical" href="https://globalhighlevel.com/blog/how-to-set-up-google-lead-ads-in-gohighlevel-auto-sync-leads/">
+<meta property="og:title" content="How to Set Up Google Lead Ads in GoHighLevel — Auto-Sync Leads | Global High Level">
+<meta property="og:description" content="Step-by-step guide to setting up Google Lead Ads in GoHighLevel with auto-sync. Capture and sync leads instantly. No manual data entry required.">
+<meta property="og:url" content="https://globalhighlevel.com/blog/how-to-set-up-google-lead-ads-in-gohighlevel-auto-sync-leads/">
+<meta property="og:image" content="">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Global High Level","url":"https://globalhighlevel.com"}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
+
+:root{
+  --bg:#07080a;
+  --bg2:#0c0e14;
+  --surface:#111520;
+  --amber:#f59e0b;
+  --amber-light:#fbbf24;
+  --amber-dim:rgba(245,158,11,0.12);
+  --amber-border:rgba(245,158,11,0.22);
+  --text:#eef2ff;
+  --text2:#a0aec8;
+  --text3:#6b7ea8;
+  --border:rgba(255,255,255,0.06);
+  --max:1120px;
+  --content:665px;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--amber);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;height:auto}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-1{animation:fadeUp .6s ease both}
+.fade-2{animation:fadeUp .6s .15s ease both}
+.fade-3{animation:fadeUp .6s .3s ease both}
+
+/* ── NAV — fixed, backdrop blur, animated underlines ──────────────────────── */
+nav{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--sans);font-size:1.15rem;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:0;color:var(--text)}
+.logo-amber{color:var(--amber)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-link{font-size:.82rem;font-weight:500;color:var(--text2);letter-spacing:.1px;transition:color .15s;position:relative;padding:4px 0}
+.nav-link::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--amber);transition:width .2s ease-in-out}
+.nav-link:hover{color:var(--text);text-decoration:none}
+.nav-link:hover::after{width:100%}
+.nav-cta{font-size:.8rem;font-weight:700;color:#000;background:var(--amber);padding:7px 16px;border-radius:100px;transition:background .15s}
+.nav-cta:hover{background:var(--amber-light);text-decoration:none}
+.nav-dropdown{position:relative}
+.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:-12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 0;min-width:220px;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.nav-dropdown:hover .nav-dropdown-menu{display:block}
+.nav-dropdown-menu a{display:block;padding:8px 20px;font-size:.82rem;color:var(--text2);transition:color .15s,background .15s}
+.nav-dropdown-menu a:hover{color:var(--text);background:rgba(255,255,255,.05);text-decoration:none}
+
+/* ── CONTAINER ────────────────────────────────────────────────────────────── */
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* ── SECTION LABELS ───────────────────────────────────────────────────────── */
+.section-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--amber);display:inline-block}
+
+/* ── HOMEPAGE — Featured + stack ──────────────────────────────────────────── */
+.hp-featured{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;padding:88px 0 48px;border-bottom:1px solid var(--border)}
+.hp-lead{display:flex;flex-direction:column;justify-content:center}
+.hp-lead-cat{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.hp-lead-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);margin-bottom:14px;letter-spacing:-.5px}
+.hp-lead-title a{color:var(--text);transition:color .2s}
+.hp-lead-title a:hover{color:var(--amber);text-decoration:none}
+.hp-lead-desc{font-size:1rem;color:var(--text2);line-height:1.65;margin-bottom:16px}
+.hp-lead-meta{font-size:13px;color:var(--text3);letter-spacing:.2px}
+.hp-stack{display:flex;flex-direction:column;gap:0}
+.hp-stack-item{padding:20px 0;border-bottom:1px solid var(--border)}
+.hp-stack-item:first-child{padding-top:0}
+.hp-stack-item:last-child{border-bottom:none}
+.hp-stack-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:6px}
+.hp-stack-title{font-family:var(--sans);font-size:1rem;font-weight:700;line-height:1.35;margin-bottom:6px}
+.hp-stack-title a{color:var(--text);transition:color .15s}
+.hp-stack-title a:hover{color:var(--amber);text-decoration:none}
+.hp-stack-meta{font-size:12px;color:var(--text3)}
+
+/* ── HOMEPAGE — Main grid + sidebar ───────────────────────────────────────── */
+.hp-body{display:grid;grid-template-columns:1fr 320px;gap:48px;padding:48px 0 80px}
+.hp-articles{display:flex;flex-direction:column;gap:0}
+
+/* ── FLAT EDITORIAL CARDS (article list items) ────────────────────────────── */
+.card{padding:24px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column}
+.card-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:8px;text-decoration:none;display:inline-block}
+a.card-cat:hover{color:var(--amber-light);text-decoration:none}
+.card-title{font-family:var(--sans);font-size:1.1rem;font-weight:700;line-height:1.35;margin-bottom:8px}
+.card-title a{color:var(--text);transition:color .15s}
+.card-title a:hover{color:var(--amber);text-decoration:none}
+.card-excerpt{font-size:.9rem;color:var(--text2);line-height:1.55;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-meta{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.meta-sep{color:var(--text3)}
+.podcast-badge{display:inline-flex;align-items:center;gap:4px;background:var(--amber-dim);color:var(--amber);font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto}
+
+/* ── HOMEPAGE SIDEBAR ─────────────────────────────────────────────────────── */
+.hp-sidebar{position:sticky;top:72px;align-self:start}
+.sidebar-section{margin-bottom:36px}
+.sidebar-section .section-label{font-size:11px;margin-bottom:12px;padding-bottom:8px}
+.sidebar-trending{display:flex;flex-direction:column;gap:0}
+.trending-item{padding:12px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.trending-item:last-child{border-bottom:none}
+.trending-num{font-family:var(--sans);font-size:1.3rem;font-weight:800;color:rgba(245,158,11,.3);line-height:1;min-width:24px}
+.trending-title{font-size:.85rem;font-weight:600;line-height:1.35}
+.trending-title a{color:var(--text2);transition:color .15s}
+.trending-title a:hover{color:var(--text);text-decoration:none}
+.sidebar-podcast{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:24px}
+.sidebar-podcast p{font-size:.85rem;color:var(--text2);margin-bottom:12px;line-height:1.5}
+.btn-spotify{display:inline-flex;align-items:center;gap:6px;background:#1DB954;color:#000;font-size:.8rem;font-weight:700;padding:8px 16px;border-radius:6px;transition:opacity .15s}
+.btn-spotify:hover{opacity:.88;text-decoration:none}
+.sidebar-cta{background:var(--surface);border:1px solid var(--amber-border);border-radius:8px;padding:20px;text-align:center}
+.sidebar-cta .s-headline{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.sidebar-cta .s-sub{font-size:.8rem;color:var(--text2);margin-bottom:14px;line-height:1.5}
+.sidebar-cta .s-fine{font-size:.7rem;color:var(--text3);margin-top:10px}
+.sidebar-cat-link{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--text2);transition:color .15s}
+.sidebar-cat-link:last-child{border-bottom:none}
+.sidebar-cat-link:hover{color:var(--text);text-decoration:none}
+.sidebar-cat-count{font-size:.75rem;color:var(--text3);background:rgba(255,255,255,.04);padding:2px 8px;border-radius:12px}
+
+/* ── Cards grid (for category pages) ──────────────────────────────────────── */
+.cards-grid{display:flex;flex-direction:column;gap:0}
+
+/* ── Reading progress bar ─────────────────────────────────────────────────── */
+#reading-progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--amber);z-index:9999;transition:width .1s linear}
+
+/* ── POST PAGE — single-column centered ───────────────────────────────────── */
+.post-container{max-width:var(--content);margin:0 auto;padding:100px 24px 48px}
+
+/* Breadcrumb */
+.post-breadcrumb{font-size:.8rem;color:var(--text3);margin-bottom:24px}
+.post-breadcrumb a{color:var(--text2);transition:color .15s}
+.post-breadcrumb a:hover{color:var(--text);text-decoration:none}
+.post-breadcrumb .bc-sep{margin:0 8px;color:var(--text3);opacity:.5}
+
+/* Post header */
+.post-eyebrow{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.post-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px}
+.post-byline{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text3);padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:8px;flex-wrap:wrap}
+.post-byline .sep{color:var(--text3);opacity:.4}
+
+/* Share row */
+.share-row{display:flex;align-items:center;gap:12px;padding:12px 0 28px;border-bottom:1px solid var(--border);margin-bottom:32px;font-size:13px;color:var(--text3)}
+.share-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;color:var(--text2);background:transparent;cursor:pointer;transition:border-color .15s,color .15s}
+.share-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* CTA — below byline (compact one-liner) */
+.cta-byline{font-size:.9rem;color:var(--text2);margin:0 0 32px;padding:12px 0}
+.cta-byline a{color:var(--amber);font-weight:600}
+.cta-byline a:hover{color:var(--amber-light)}
+
+/* CTA — mid-article inline */
+.cta-inline{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:28px 0;font-size:.9rem;color:var(--text2);display:block}
+.cta-inline a{color:var(--amber);font-weight:600;text-decoration:none}
+.cta-inline a:hover{color:var(--amber-light)}
+
+/* CTA — end of article box */
+.cta-end{background:var(--surface);border:1px solid var(--amber-border);border-radius:10px;padding:32px;text-align:center;margin:48px 0}
+.cta-end h3{font-family:var(--sans);font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:10px}
+.cta-end p{font-size:.9rem;color:var(--text2);margin:0 0 20px;max-width:440px;margin-left:auto;margin-right:auto}
+.cta-end .fine{font-size:.75rem;color:var(--text3);margin-top:12px}
+.btn-amber{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:#000;font-size:.85rem;font-weight:700;padding:11px 22px;border-radius:6px;transition:all .2s;text-decoration:none}
+.btn-amber:hover{background:var(--amber-light);transform:translateY(-1px);text-decoration:none}
+
+/* Post body typography */
+.post-body{font-size:19px;line-height:1.75;color:#e5e7eb}
+.post-body h2{font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin:48px 0 14px}
+.post-body h3{font-size:1.15rem;font-weight:700;color:#f3f4f6;margin:32px 0 10px}
+.post-body p{margin-bottom:20px}
+.post-body ul,.post-body ol{margin:0 0 20px 24px}
+.post-body li{margin-bottom:8px}
+.post-body strong{color:#fff}
+.post-body a{color:var(--amber);text-decoration:underline;text-underline-offset:3px}
+.post-body a:hover{color:var(--amber-light)}
+
+/* ── LIGHT-MODE INLINE STYLE OVERRIDES ────────────────────────────────────── */
+.post-body a[style*="color:#1a73e8"],
+.post-body a[style*="color: #1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body a[style*="color:#1a73e8"]:hover,
+.post-body a[style*="color: #1a73e8"]:hover{
+  color:var(--amber-light)!important;
+}
+.post-body div[style*="background:#f0f4ff"],
+.post-body div[style*="background: #f0f4ff"]{
+  background:var(--surface)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#f8f9fa"],
+.post-body div[style*="background: #f8f9fa"]{
+  background:var(--surface)!important;
+  border-color:var(--border)!important;
+}
+.post-body div[style*="background:#fff8e1"],
+.post-body div[style*="background: #fff8e1"]{
+  background:rgba(245,158,11,.06)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#fff"],
+.post-body div[style*="background: #fff"],
+.post-body div[style*="background:#ffffff"],
+.post-body div[style*="background: #ffffff"]{
+  background:var(--surface)!important;
+}
+.post-body div[style*="background:#1a73e8"],
+.post-body div[style*="background: #1a73e8"]{
+  background:var(--surface)!important;
+  border:1px solid var(--amber-border)!important;
+}
+.post-body div[style*="background:#1a73e8"] *,
+.post-body div[style*="background: #1a73e8"] *{
+  color:var(--text)!important;
+}
+.post-body div[style*="background:#1a73e8"] a,
+.post-body div[style*="background: #1a73e8"] a{
+  background:var(--amber)!important;
+  color:#000!important;
+  border-radius:6px;
+  padding:12px 24px;
+}
+.post-body a[style*="background:#ffffff"],
+.post-body a[style*="background: #ffffff"],
+.post-body a[style*="background:#fff"],
+.post-body a[style*="background: #fff"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-left:4px solid #1a73e8"],
+.post-body div[style*="border-left: 4px solid #1a73e8"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="border:2px solid #1a73e8"],
+.post-body div[style*="border: 2px solid #1a73e8"]{
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="border-left:4px solid #ffc107"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] h3,
+.post-body div[style*="background: #f8f9fa"] h3{
+  color:var(--amber)!important;
+  margin-top:0;
+}
+.post-body div[style*="background:#f8f9fa"] h3[style*="color:#1a73e8"],
+.post-body div[style*="background: #f8f9fa"] h3[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] p,
+.post-body div[style*="background: #f8f9fa"] p{
+  color:var(--text2)!important;
+}
+.post-body div[style*="background:#f8f9fa"] strong,
+.post-body div[style*="background: #f8f9fa"] strong{
+  color:var(--text)!important;
+}
+.post-body h2[style*="color:#1a73e8"],
+.post-body h3[style*="color:#1a73e8"],
+.post-body h4[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body p[style*="color:#1a73e8"],
+.post-body span[style*="color:#1a73e8"],
+.post-body p[style*="color:#333"],
+.post-body span[style*="color:#333"],
+.post-body p[style*="color:#000"],
+.post-body span[style*="color:#000"]{
+  color:var(--text2)!important;
+}
+.post-body a[style*="background:#1a73e8"],
+.post-body a[style*="background: #1a73e8"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-radius"]{
+  color:var(--text2);
+}
+
+/* TOC */
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:0 0 32px}
+.toc-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:12px}
+.toc ol{margin:0;padding-left:18px}
+.toc li{font-size:.9rem;line-height:1.9}
+.toc a{color:var(--text2);text-decoration:none}
+.toc a:hover{color:var(--amber);text-decoration:none}
+
+/* Podcast embed */
+.podcast-embed{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:20px;margin:36px 0}
+.podcast-embed p{font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:12px}
+.podcast-embed iframe{border-radius:6px}
+.podcast-link{display:inline-flex;align-items:center;gap:8px;color:var(--amber);font-size:.875rem;font-weight:600;text-decoration:none;margin-top:8px}
+.podcast-link:hover{color:var(--amber-light);text-decoration:none}
+
+/* Author box */
+.author-box{display:flex;gap:16px;align-items:flex-start;padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:40px 0}
+.author-box .author-name{font-weight:700;color:var(--text);font-size:.95rem;margin-bottom:4px}
+.author-box .author-bio{font-size:.825rem;color:var(--text2);line-height:1.6}
+
+/* Related posts */
+.related-posts{margin:48px 0 0}
+.related-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:18px}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.related-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;text-decoration:none;display:block;transition:border-color .2s}
+.related-card:hover{border-color:var(--amber);text-decoration:none}
+.related-card .r-tag{font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.related-card .r-title{font-size:.85rem;font-weight:600;color:#e5e7eb;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Pagination */
+.pagination{display:flex;gap:8px;justify-content:center;margin-top:48px;flex-wrap:wrap}
+.page-btn{padding:8px 16px;border:1px solid var(--border);border-radius:6px;font-size:.875rem;color:var(--text2);background:var(--surface)}
+.page-btn.active{background:var(--amber);color:#07080a;border-color:var(--amber);font-weight:700}
+.page-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* Category header */
+.cat-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:100px 24px 40px}
+.cat-header h1{font-family:var(--sans);font-size:1.8rem;font-weight:800;margin-bottom:8px;color:var(--text)}
+.cat-header p{color:var(--text2);font-size:.9rem}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80px}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-logo{font-family:var(--sans);font-size:1.1rem;font-weight:800;margin-bottom:12px;color:var(--text)}
+.footer-logo span{color:var(--amber)}
+.footer-desc{font-size:.82rem;color:var(--text3);line-height:1.7;margin-bottom:14px}
+.footer-disclaimer{font-size:.74rem;color:var(--text3);line-height:1.6;opacity:.7}
+.footer-col h4{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);margin-bottom:16px}
+.footer-col a{display:block;font-size:.85rem;color:var(--text2);margin-bottom:10px;transition:color .15s}
+.footer-col a:hover{color:var(--text);text-decoration:none}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.76rem;color:var(--text3)}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
+@media(max-width:1024px){
+  .hp-featured{grid-template-columns:1fr}
+  .hp-body{grid-template-columns:1fr}
+  .hp-sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .related-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .hp-sidebar{grid-template-columns:1fr}
+  .nav-links .nav-link{display:none}
+  .post-title{font-size:1.8rem}
+  .hp-lead-title{font-size:1.8rem}
+  .cta-end{padding:24px 20px}
+  .related-grid{grid-template-columns:1fr}
+  .cat-header{padding:90px 20px 36px}
+  .footer-top{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column}
+  .share-row{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">Global<span class="logo-amber">HighLevel</span></a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <div class="nav-dropdown">
+        <a class="nav-link">Topics <span style="font-size:10px">&#9662;</span></a>
+        <div class="nav-dropdown-menu">
+    <a href="/category/ai-automation/">AI & Automation</a>
+    <a href="/category/email-deliverability/">Email & Deliverability</a>
+    <a href="/category/sms-messaging/">SMS & Messaging</a>
+    <a href="/category/crm-contacts/">CRM & Contacts</a>
+    <a href="/category/payments-commerce/">Payments & Commerce</a>
+    <a href="/category/analytics-reporting/">Analytics & Reporting</a>
+    <a href="/category/phone-voice/">Phone & Voice</a>
+    <a href="/category/agency-platform/">Agency & Platform</a>
+    <a href="/category/gohighlevel-india/">GoHighLevel India</a>
+    <a href="/category/gohighlevel-espanol/">GoHighLevel en Español</a>
+        </div>
+      </div>
+      <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="nav-link" target="_blank" rel="noopener">Podcast</a>
+      <a href="" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+    </div>
+  </div>
+</nav>
+
+<div id="reading-progress"></div>
+<div class="post-container">
+  <div class="post-breadcrumb fade-1">
+    <a href="/">Home</a><span class="bc-sep">&rsaquo;</span><a href="/category/agency-platform/">Agency & Platform</a><span class="bc-sep">&rsaquo;</span><span>How to Set Up Google Lead Ads in GoHighLevel —…</span>
+  </div>
+  <div class="post-eyebrow fade-1"><a href="/category/agency-platform/" style="color:var(--amber);text-decoration:none">Agency & Platform</a></div>
+  <h1 class="post-title fade-2">How to Set Up Google Lead Ads in GoHighLevel — Auto-Sync Leads</h1>
+  <div class="post-byline fade-3">
+    <span>By William Welch</span>
+    <span class='sep'>&middot;</span><span>March 13, 2026</span>
+    <span class="sep">&middot;</span><span>9 min read</span>
+  </div>
+  
+<div class="share-row">
+  <span>Share</span>
+  <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fhow-to-set-up-google-lead-ads-in-gohighlevel-auto-sync-leads%2F&text=How%20to%20Set%20Up%20Google%20Lead%20Ads%20in%20GoHighLevel%20—%20Auto-Sync%20Leads" target="_blank" rel="noopener" class="share-btn">X</a>
+  <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fhow-to-set-up-google-lead-ads-in-gohighlevel-auto-sync-leads%2F" target="_blank" rel="noopener" class="share-btn">LinkedIn</a>
+  <button class="share-btn" onclick="navigator.clipboard.writeText('https://globalhighlevel.com/blog/how-to-set-up-google-lead-ads-in-gohighlevel-auto-sync-leads/');this.textContent='Copied!'">Copy Link</button>
+</div>
+  
+<p class="cta-byline">Follow along &mdash; <a href="&utm_campaign=how-to-set-up-google-lead-ads-in-gohighlevel-auto-sync-leads" target="_blank" rel="nofollow noopener">get 30 days free &rarr;</a></p>
+  
+<div class="toc">
+  <div class="toc-label">In This Guide</div>
+  <ol><li><a href="#section-1">Why Google Lead Ads Matter for Your Business</a></li><li><a href="#section-2">Prerequisites: What You Need Before Starting</a></li><li><a href="#section-3">Step 1: Connect Your Google Ads Account to GoHighLevel</a></li><li><a href="#section-4">Step 2: Create Your Google Lead Ad Campaign</a></li><li><a href="#section-5">Step 3: Set Up Auto-Sync in GoHighLevel</a></li><li><a href="#section-6">Step 4: Map Lead Fields and Verify Data Flow</a></li><li><a href="#section-7">Building Automated Workflows for Your Synced Leads</a></li><li><a href="#section-8">Troubleshooting Common Integration Issues</a></li></ol>
+</div>
+  
+<div class="podcast-embed">
+  <p>Listen to this episode</p>
+  <iframe width="100%" height="180" frameborder="no" scrolling="no" seamless
+    src="https://share.transistor.fm/e/9f655da7" loading="lazy"></iframe>
+  <a class="podcast-link" href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">
+    Follow the podcast on Spotify
+  </a>
+</div>
+  <div class="post-body"><p>Capturing leads from Google Ads is only half the battle. The real power comes when those leads automatically sync into your CRM so you can follow up instantly. Without this automation, you're losing deals to slower competitors.</p>
+
+<p>In this guide, I'll walk you through setting up Google Lead Ads in GoHighLevel with auto-sync enabled—so every lead that fills out your form goes straight into your pipeline without manual data entry or delays. This is the exact system I've set up for agencies managing millions in ad spend.</p>
+
+<p>If you're serious about scaling lead generation, <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=blog&utm_medium=article&utm_campaign=how-to-set-up-google-lead-ads-in-gohighlevel--auto-sync-leads" style="color:#1a73e8;font-weight:600;">GoHighLevel's platform</a> makes this seamless. Let's get started.</p>
+
+
+
+<h2 id="section-1">Why Google Lead Ads Matter for Your Business</h2>
+
+<p>Google Lead Ads let people submit their information directly on Google without leaving the platform. They fill out a form, hit submit, and boom—you have a qualified lead with zero friction.</p>
+
+<p>The conversion rates are typically 2-3x higher than traditional landing pages because users are already in the Google ecosystem and the form auto-populates with their information. But here's where most people fail: they don't connect these leads to their CRM fast enough.</p>
+
+<p>When you set up auto-sync in GoHighLevel, every new lead appears in your CRM instantly. Your sales team gets notified immediately. You can trigger automated follow-up sequences before your competitor even knows the lead exists. This is the difference between closing deals and losing them.</p>
+
+<div style="background:#fff8e1;border-left:4px solid #ffc107;padding:16px 20px;margin:24px 0;border-radius:4px;">
+<p style="font-weight:700;margin:0 0 6px 0;">💡 Pro Tip</p>
+<p style="margin:0;">The faster you follow up with a lead (ideally within 5 minutes), the higher your close rate. Auto-sync eliminates delays caused by manual imports or CSV uploads.</p>
+</div>
+
+<h2 id="section-2">Prerequisites: What You Need Before Starting</h2>
+
+<p>Before you begin, make sure you have:</p>
+
+<ul style="margin:16px 0;padding-left:24px;">
+<li><strong>An active GoHighLevel account</strong> (with at least the Agency or Pro plan)</li>
+<li><strong>A Google Ads account</strong> with admin or campaign manager access</li>
+<li><strong>A Google Lead Ads campaign</strong> already created (or ready to create one)</li>
+<li><strong>A CRM pipeline or contact list</strong> in GoHighLevel where leads will be stored</li>
+<li><strong>Admin permissions</strong> in both GoHighLevel and Google Ads</li>
+</ul>
+
+<p>If you don't have GoHighLevel yet, <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=blog&utm_medium=article&utm_campaign=how-to-set-up-google-lead-ads-in-gohighlevel--auto-sync-leads" style="color:#1a73e8;font-weight:600;">start a free 30-day trial</a> to follow along with this setup.</p>
+
+<h2 id="section-3">Step 1: Connect Your Google Ads Account to GoHighLevel</h2>
+
+<p>The first step is linking your Google Ads account to GoHighLevel. This is what allows the two platforms to communicate and sync data automatically.</p>
+
+<p><strong>Here's how to do it:</strong></p>
+
+<ol style="margin:16px 0;padding-left:24px;">
+<li>Log into your <strong>GoHighLevel account</strong> and navigate to <strong>Settings → Integrations</strong></li>
+<li>Search for <strong>"Google Ads"</strong> or <strong>"Google Lead Ads"</strong> in the integration library</li>
+<li>Click the Google Ads integration card and select <strong>"Connect"</strong></li>
+<li>You'll be redirected to Google. <strong>Sign in with your Google account</strong> that has access to your Google Ads account</li>
+<li>Grant GoHighLevel permission to access your Google Ads data by clicking <strong>"Allow"</strong></li>
+<li>You'll be returned to GoHighLevel. Select your <strong>Google Ads account</strong> from the dropdown</li>
+<li>Click <strong>"Save"</strong> to confirm the connection</li>
+</ol>
+
+<p>You should see a green checkmark indicating the integration is active. If you see an error, double-check that your Google account has the right permissions in your Google Ads account.</p>
+
+<h2 id="section-4">Step 2: Create Your Google Lead Ad Campaign</h2>
+
+<p>If you haven't already created a Lead Ad campaign in Google Ads, here's the quick version:</p>
+
+<ol style="margin:16px 0;padding-left:24px;">
+<li>Log into <strong>Google Ads</strong> and click <strong>"+ Campaign"</strong></li>
+<li>Select <strong>"Lead generation"</strong> as your campaign goal</li>
+<li>Choose your target audience, budget, and ad placements</li>
+<li>Create your ad creative and add your lead form</li>
+<li><strong>Important:</strong> In the form settings, map your form fields (name, email, phone, etc.) carefully—these will sync to GoHighLevel</li>
+<li>Launch the campaign</li>
+</ol>
+
+<p>Once your campaign is live, Google will start collecting leads through the form. Now it's time to connect those leads to GoHighLevel.</p>
+
+
+
+
+<p class="cta-inline">This is built into GoHighLevel.
+<a href="&utm_campaign=how-to-set-up-google-lead-ads-in-gohighlevel-auto-sync-leads" target="_blank" rel="nofollow noopener">Try it free for 30 days &rarr;</a></p><h2 id="section-5">Step 3: Set Up Auto-Sync in GoHighLevel</h2>
+
+<p>Now that your accounts are connected, you need to enable auto-sync so leads flow automatically from Google Ads to GoHighLevel.</p>
+
+<p><strong>To set up auto-sync:</strong></p>
+
+<ol style="margin:16px 0;padding-left:24px;">
+<li>In GoHighLevel, go to <strong>Settings → Integrations → Google Ads</strong></li>
+<li>Look for the <strong>"Lead Sync"</strong> or <strong>"Auto-Sync"</strong> section</li>
+<li>Toggle the <strong>auto-sync option ON</strong></li>
+<li>Select which <strong>campaign(s)</strong> you want to sync leads from</li>
+<li>Choose the <strong>destination contact list or pipeline</strong> in GoHighLevel where leads should appear</li>
+<li>Click <strong>"Enable Auto-Sync"</strong> to confirm</li>
+</ol>
+
+<p>From this moment forward, every lead that submits your Google Lead Ad form will automatically create a new contact in GoHighLevel within seconds. You're no longer manually importing data or losing leads to delays.</p>
+
+<h2 id="section-6">Step 4: Map Lead Fields and Verify Data Flow</h2>
+
+<p>Field mapping is critical. It ensures the information Google collects gets placed in the right fields in GoHighLevel.</p>
+
+<p><strong>To map your fields:</strong></p>
+
+<ol style="margin:16px 0;padding-left:24px;">
+<li>In the auto-sync settings, find the <strong>"Field Mapping"</strong> section</li>
+<li>For each field on your Google Lead Ad form (e.g., "First Name"), match it to the corresponding field in GoHighLevel (e.g., "Contact First Name")</li>
+<li>Common fields to map: First Name, Last Name, Email, Phone, Company, Website</li>
+<li>Leave custom fields blank if you don't need them</li>
+<li>Click <strong>"Save Mapping"</strong></li>
+</ol>
+
+<p><strong>To verify the sync is working:</strong></p>
+
+<ol style="margin:16px 0;padding-left:24px;">
+<li>Submit a test lead through your Google Lead Ad form yourself</li>
+<li>Wait 30-60 seconds and check your GoHighLevel contact list</li>
+<li>You should see the test lead appear with all fields populated correctly</li>
+<li>If data is missing or in the wrong fields, adjust your field mapping and retry</li>
+</ol>
+
+<div style="background:#fff8e1;border-left:4px solid #ffc107;padding:16px 20px;margin:24px 0;border-radius:4px;">
+<p style="font-weight:700;margin:0 0 6px 0;">💡 Pro Tip</p>
+<p style="margin:0;">Always test your sync with a real form submission before going live. A small mapping error caught early saves you from importing thousands of broken records later.</p>
+</div>
+
+<h2 id="section-7">Building Automated Workflows for Your Synced Leads</h2>
+
+<p>Auto-sync gets the leads in—automation closes the deals.</p>
+
+<p>Once leads are syncing to GoHighLevel, set up workflows to:</p>
+
+<ul style="margin:16px 0;padding-left:24px;">
+<li><strong>Send an instant SMS or email</strong> confirmation to the lead within 30 seconds of submission</li>
+<li><strong>Assign the lead to a sales rep</strong> based on territory, industry, or availability</li>
+<li><strong>Create a task</strong> in your team's CRM to follow up within 1 hour</li>
+<li><strong>Trigger a nurture sequence</strong> that educates the prospect over 5-7 days</li>
+<li><strong>Alert your sales team</strong> in Slack or Teams the moment a high-value lead comes in</li>
+</ul>
+
+<p>These workflows ensure no lead falls through the cracks and every prospect gets treated like priority—because in Google Ads, speed to follow-up is everything.</p>
+
+<h2 id="section-8">Troubleshooting Common Integration Issues</h2>
+
+<p><strong>Leads aren't syncing?</strong> Check that auto-sync is toggled ON, your Google Ads account is connected, and the campaign is actively running and collecting leads.</p>
+
+<p><strong>Data is missing or in wrong fields?</strong> Review your field mapping. Google's field names sometimes differ from GoHighLevel's expected format. Re-map and test with a fresh lead submission.</p>
+
+<p><strong>Getting duplicate contacts?</strong> Ensure GoHighLevel's duplicate detection is enabled in Settings → Contacts → Duplicate Rules. Set it to merge on email address.</p>
+
+<p><strong>Leads appearing hours late?</strong> Google Lead Ads typically sync within 1-2 minutes. Delays beyond that often indicate permission issues. Disconnect and reconnect your Google Ads account.</p>
+
+<div style="background:#f8f9fa;padding:24px;border-radius:8px;margin:36px 0;">
+<h2 style="margin-top:0;">Frequently Asked Questions</h2>
+
+<h3 style="margin:20px 0 8px 0;font-weight:700;">How long does it take for leads to sync from Google Ads to GoHighLevel?</h3>
+<p style="margin:0 0 20px 0;">Most leads sync within 1-2 minutes of form submission. In rare cases, it can take up to 5 minutes. If it's taking longer, check that your integration is still active and your Google Ads account has the campaign running.</p>
+
+<h3 style="margin:20px 0 8px 0;font-weight:700;">Can I use Google Lead Ads auto-sync with multiple campaigns at once?</h3>
+<p style="margin:0 0 20px 0;">Yes. GoHighLevel allows you to sync leads from multiple Google Lead Ad campaigns to the same contact list. This is ideal if you're running multiple campaigns targeting different audience segments.</p>
+
+<h3 style="margin:20px 0 8px 0;font-weight:700;">What happens if a lead submits the form twice?</h3>
+<p style="margin:0 0 20px 0;">GoHighLevel's duplicate detection will catch this and merge the records into a single contact (if you have email-based duplicate rules enabled). The contact history updates with the new submission, but no duplicate is created.</p>
+
+<h3 style="margin:20px 0 8px 0;font-weight:700;">Do I need a specific GoHighLevel plan to use Google Lead Ads auto-sync?</h3>
+<p style="margin:0 0 20px 0;">Yes, you'll need at least the Agency or higher plan. The Starter plan does not include the Google Ads integration. <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=blog&utm_medium=article&utm_campaign=how-to-set-up-google-lead-ads-in-gohighlevel--auto-sync-leads" style="color:#1a73e8;font-weight:600;">Start with a free trial</a> to see if it fits your needs.</p>
+
+<h3 style="margin:20px 0 8px 0;font-weight:700;">Can I stop the auto-sync without disconnecting my Google Ads account?</h3>
+<p style="margin:0 0;">Yes. Simply toggle the auto-sync option OFF in your integration settings. Your Google Ads account remains connected, and you can re-enable sync anytime without redoing the setup.</p>
+</div>
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How long does it take for leads to sync from Google Ads to GoHighLevel?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most leads sync within 1-2 minutes of form submission. In rare cases, it can take up to 5 minutes. If it's taking longer, check that your integration is still active and your Google Ads account has the campaign running."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use Google Lead Ads auto-sync with multiple campaigns at once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. GoHighLevel allows you to sync leads from multiple Google Lead Ad campaigns to the same contact list. This is ideal if you're running multiple campaigns targeting different audience segments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if a lead submits the form twice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GoHighLevel's duplicate detection will catch this and merge the records into a single contact (if you have email-based duplicate rules enabled). The contact history updates with the new submission, but no duplicate is created."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a specific GoHighLevel plan to use Google Lead Ads auto-sync?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, you'll need at least the Agency or higher plan. The Starter plan does not include the Google Ads integration."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I stop the auto-sync without disconnecting my Google Ads account?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Simply toggle the auto-sync option OFF in your integration settings. Your Google Ads account remains connected, and you can re-enable sync anytime without redoing the setup."
+      }
+    }
+  ]
+}
+</script></div>
+  
+<div class="cta-end">
+  <h3>Ready to try this?</h3>
+  <p>30 days free, no credit card required. Set up everything in this guide inside your trial.</p>
+  <a href="&utm_campaign=how-to-set-up-google-lead-ads-in-gohighlevel-auto-sync-leads" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free 30-Day Trial</a>
+  <div class="fine">Cancel anytime &mdash; $0 for the first 30 days</div>
+</div>
+  
+<div class="author-box">
+  <div>
+    <div class="author-name">William Welch</div>
+    <div class="author-bio">GoHighLevel user and affiliate. Runs GlobalHighLevel.com — free tutorials, guides, and strategies for agencies and businesses using GHL worldwide.</div>
+  </div>
+</div>
+  
+<div class="related-posts">
+  <div class="related-label">Keep Reading</div>
+  <div class="related-grid">
+<a href="/blog/control-in-app-banners-gohighlevel-agency-branding/" class="related-card">
+  <div class="r-tag">Agency & Platform</div>
+  <div class="r-title">Control In-App Banners in GoHighLevel — Agency Branding</div>
+</a>
+<a href="/blog/enable-ai-image-recognition-gohighlevel-boost-support/" class="related-card">
+  <div class="r-tag">Agency & Platform</div>
+  <div class="r-title">Enable AI Image Recognition in GoHighLevel — Boost Support</div>
+</a>
+<a href="/blog/how-to-edit-images-in-gohighlevel-media-library/" class="related-card">
+  <div class="r-tag">Agency & Platform</div>
+  <div class="r-title">How to Edit Images in GoHighLevel — Built-In Media Library</div>
+</a></div>
+</div>
+</div>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Set Up Google Lead Ads in GoHighLevel \u2014 Auto-Sync Leads", "description": "Step-by-step guide to setting up Google Lead Ads in GoHighLevel with auto-sync. Capture and sync leads instantly. No manual data entry required.", "datePublished": "2026-03-13T18:13:46.255518", "author": {"@type": "Person", "name": "William Welch"}, "publisher": {"@type": "Organization", "name": "Global High Level", "url": "https://globalhighlevel.com"}, "url": "https://globalhighlevel.com/blog/how-to-set-up-google-lead-ads-in-gohighlevel-auto-sync-leads/"}</script>
+
+<script>
+(function(){
+  var bar=document.getElementById('reading-progress');
+  if(!bar)return;
+  window.addEventListener('scroll',function(){
+    var body=document.querySelector('.post-body');
+    if(!body)return;
+    var top=body.getBoundingClientRect().top+window.scrollY;
+    var h=body.offsetHeight-window.innerHeight;
+    var pct=h>0?Math.min(100,Math.max(0,(window.scrollY-top+window.innerHeight*0.1)/h*100)):100;
+    bar.style.width=pct+'%';
+  },{passive:true});
+})();
+</script>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Global<span>HighLevel</span></div>
+        <p class="footer-desc">Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide.</p>
+        <p class="footer-disclaimer">Affiliate disclosure: Some links on this site are affiliate links. If you sign up through our link, we may earn a commission at no extra cost to you. Not affiliated with GoHighLevel LLC.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Topics</h4>
+        <a href="/category/ai-automation/">AI & Automation</a>
+        <a href="/category/email-deliverability/">Email & Deliverability</a>
+        <a href="/category/sms-messaging/">SMS & Messaging</a>
+        <a href="/category/crm-contacts/">CRM & Contacts</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
+        <a href="https://help.gohighlevel.com" target="_blank" rel="noopener">GHL Help Center</a>
+        <a href="" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 GlobalHighLevel.com</span>
+      <span>Not affiliated with GoHighLevel LLC</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

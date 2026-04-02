@@ -53,6 +53,7 @@ GSC_DATA_FILE = BASE_DIR / "data" / "gsc-stats.json"
 CYCLE_HOURS = 25
 GMAIL_ADDRESS = os.getenv("GMAIL_ADDRESS", "")
 GMAIL_APP_PASSWORD = os.getenv("GMAIL_APP_PASSWORD", "")
+OPS_LOG_WEBHOOK = os.getenv("OPS_LOG_WEBHOOK_URL", "")
 
 
 # ── Logging ───────────────────────────────────────────────────────────────────
@@ -372,6 +373,78 @@ To check logs: tail -f ~/Claude_notebookLM_GHL_Podcast/ghl-podcast-pipeline/logs
     return summary
 
 
+def send_ops_log(cycle_num: int, published: int, failed: int, blogs: int, india: int, spanish: int, error: str = None):
+    """Post structured cycle status to #ops-log for centralized monitoring."""
+    if not OPS_LOG_WEBHOOK:
+        log("  No OPS_LOG_WEBHOOK_URL set — skipping ops-log")
+        return
+
+    try:
+        from urllib.request import Request, urlopen
+        date_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+        if error:
+            msg = f"`[GHL] [Podcast Pipeline] {date_str} — CYCLE #{cycle_num} ERROR: {error[:200]}. Action needed: yes.`"
+        else:
+            msg = (
+                f"`[GHL] [Podcast Pipeline] {date_str} — Cycle #{cycle_num} complete. "
+                f"Episodes: {published}. Failed: {failed}. "
+                f"Blogs: {blogs} EN + {india} India + {spanish} ES. "
+                f"Action needed: {'yes' if failed > 0 else 'no'}.`"
+            )
+
+        data = json.dumps({"text": msg}).encode("utf-8")
+        req = Request(OPS_LOG_WEBHOOK, data=data, headers={"Content-Type": "application/json"})
+        with urlopen(req, timeout=30) as resp:
+            if resp.status == 200:
+                log("  Ops-log webhook posted")
+            else:
+                log(f"  Ops-log returned status {resp.status}")
+    except Exception as e:
+        log(f"  Ops-log webhook failed (non-fatal): {e}")
+
+
+def send_daily_slack(summary: str, cycle_num: int):
+    """Post daily cycle summary to Slack channel."""
+    webhook = os.getenv("SLACK_WEBHOOK_URL", "")
+    if not webhook:
+        log("  No SLACK_WEBHOOK_URL set — skipping daily Slack")
+        return
+
+    try:
+        # Convert plain text summary to Slack-friendly format
+        lines = summary.strip().split("\n")
+        # Bold the header lines
+        formatted = []
+        for line in lines:
+            if line.startswith("="):
+                continue
+            elif line.startswith("Cycle #") or line.startswith("Episodes") or line.startswith("Blogs") or line.startswith("India") or line.startswith("Spanish") or line.startswith("Google Search"):
+                formatted.append(f"*{line.strip()}*")
+            elif line.strip().startswith("•"):
+                formatted.append(f"  {line.strip()}")
+            elif line.strip():
+                formatted.append(line.strip())
+
+        date_str = datetime.now().strftime("%b %d")
+        msg = f"*Daily Pipeline Report — Cycle #{cycle_num} | {date_str}*\n\n" + "\n".join(formatted)
+
+        # Truncate to Slack's 5000 char limit
+        if len(msg) > 4900:
+            msg = msg[:4900] + "\n\n_(truncated)_"
+
+        import json as _json
+        from urllib.request import Request, urlopen
+        data = _json.dumps({"text": msg}).encode("utf-8")
+        req = Request(webhook, data=data, headers={"Content-Type": "application/json"})
+        with urlopen(req, timeout=30) as resp:
+            if resp.status == 200:
+                log("  Daily Slack summary posted")
+            else:
+                log(f"  Slack returned status {resp.status}")
+    except Exception as e:
+        log(f"  Daily Slack failed (non-fatal): {e}")
+
+
 def send_email(subject: str, body: str):
     """Send summary email via Gmail SMTP."""
     if not GMAIL_APP_PASSWORD:
@@ -447,6 +520,12 @@ def deploy_site():
         subprocess.run(
             ["git", "commit", "-m", msg],
             cwd=site_dir, check=True, capture_output=True, timeout=30
+        )
+
+        # Pull first to avoid push rejection if laptop pushed changes
+        subprocess.run(
+            ["git", "pull", "--rebase", "origin", "main"],
+            cwd=site_dir, check=True, capture_output=True, timeout=120
         )
 
         # Push
@@ -568,12 +647,46 @@ You'll get a summary email when it's done.
     subject = f"GHL Podcast — Cycle #{cycle_num} | {datetime.now().strftime('%b %d')}"
     send_email(subject, summary)
 
+    # Daily Slack summary — clients see activity every cycle
+    send_daily_slack(summary, cycle_num)
+
     # Weekly Slack SEO report (sends once per 7 days automatically)
     try:
         weekly_report = load_script("weekly-slack-report.py")
         weekly_report.main()
     except Exception as e:
         log(f"  Weekly Slack report error (non-fatal): {e}")
+
+    # Post to #ops-log for centralized monitoring
+    try:
+        today = datetime.now().strftime("%Y-%m-%d")
+        ep_today = blog_today = india_today = spanish_today = fail_today = 0
+        if PUBLISHED_FILE.exists():
+            with open(PUBLISHED_FILE) as f:
+                for r in json.load(f):
+                    uploaded = r.get("uploadedAt", r.get("failedAt", ""))
+                    if uploaded.startswith(today):
+                        if r.get("status") == "published":
+                            ep_today += 1
+                            if r.get("blogPostId"):
+                                blog_today += 1
+                        elif r.get("status") == "failed":
+                            fail_today += 1
+        india_file = BASE_DIR / "data" / "india-published.json"
+        if india_file.exists():
+            with open(india_file) as f:
+                for r in json.load(f):
+                    if r.get("publishedAt", "").startswith(today):
+                        india_today += 1
+        spanish_file = BASE_DIR / "data" / "spanish-published.json"
+        if spanish_file.exists():
+            with open(spanish_file) as f:
+                for r in json.load(f):
+                    if r.get("publishedAt", "").startswith(today):
+                        spanish_today += 1
+        send_ops_log(cycle_num, ep_today, fail_today, blog_today, india_today, spanish_today)
+    except Exception as e:
+        log(f"  Ops-log stats failed (non-fatal): {e}")
 
     log(f"Cycle #{cycle_num} complete.")
     log(f"Next cycle: {next_run.strftime('%Y-%m-%d %H:%M:%S')}")

@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Use Advanced Filters in GoHighLevel — Precise Contact Segmentation | Global High Level</title>
+<meta name="description" content="Master Advanced Filters in GoHighLevel Smart Lists. Learn date, string, numeric, and DND filters for precise contact segmentation and better campaign targeting.">
+<link rel="canonical" href="https://globalhighlevel.com/blog/how-to-use-advanced-filters-gohighlevel-contact-segmentation/">
+<meta property="og:title" content="How to Use Advanced Filters in GoHighLevel — Precise Contact Segmentation | Global High Level">
+<meta property="og:description" content="Master Advanced Filters in GoHighLevel Smart Lists. Learn date, string, numeric, and DND filters for precise contact segmentation and better campaign targeting.">
+<meta property="og:url" content="https://globalhighlevel.com/blog/how-to-use-advanced-filters-gohighlevel-contact-segmentation/">
+<meta property="og:image" content="">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Global High Level","url":"https://globalhighlevel.com"}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
+
+:root{
+  --bg:#07080a;
+  --bg2:#0c0e14;
+  --surface:#111520;
+  --amber:#f59e0b;
+  --amber-light:#fbbf24;
+  --amber-dim:rgba(245,158,11,0.12);
+  --amber-border:rgba(245,158,11,0.22);
+  --text:#eef2ff;
+  --text2:#a0aec8;
+  --text3:#6b7ea8;
+  --border:rgba(255,255,255,0.06);
+  --max:1120px;
+  --content:665px;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--amber);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;height:auto}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-1{animation:fadeUp .6s ease both}
+.fade-2{animation:fadeUp .6s .15s ease both}
+.fade-3{animation:fadeUp .6s .3s ease both}
+
+/* ── NAV — fixed, backdrop blur, animated underlines ──────────────────────── */
+nav{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--sans);font-size:1.15rem;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:0;color:var(--text)}
+.logo-amber{color:var(--amber)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-link{font-size:.82rem;font-weight:500;color:var(--text2);letter-spacing:.1px;transition:color .15s;position:relative;padding:4px 0}
+.nav-link::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--amber);transition:width .2s ease-in-out}
+.nav-link:hover{color:var(--text);text-decoration:none}
+.nav-link:hover::after{width:100%}
+.nav-cta{font-size:.8rem;font-weight:700;color:#000;background:var(--amber);padding:7px 16px;border-radius:100px;transition:background .15s}
+.nav-cta:hover{background:var(--amber-light);text-decoration:none}
+.nav-dropdown{position:relative}
+.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:-12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 0;min-width:220px;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.nav-dropdown:hover .nav-dropdown-menu{display:block}
+.nav-dropdown-menu a{display:block;padding:8px 20px;font-size:.82rem;color:var(--text2);transition:color .15s,background .15s}
+.nav-dropdown-menu a:hover{color:var(--text);background:rgba(255,255,255,.05);text-decoration:none}
+
+/* ── CONTAINER ────────────────────────────────────────────────────────────── */
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* ── SECTION LABELS ───────────────────────────────────────────────────────── */
+.section-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--amber);display:inline-block}
+
+/* ── HOMEPAGE — Featured + stack ──────────────────────────────────────────── */
+.hp-featured{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;padding:88px 0 48px;border-bottom:1px solid var(--border)}
+.hp-lead{display:flex;flex-direction:column;justify-content:center}
+.hp-lead-cat{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.hp-lead-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);margin-bottom:14px;letter-spacing:-.5px}
+.hp-lead-title a{color:var(--text);transition:color .2s}
+.hp-lead-title a:hover{color:var(--amber);text-decoration:none}
+.hp-lead-desc{font-size:1rem;color:var(--text2);line-height:1.65;margin-bottom:16px}
+.hp-lead-meta{font-size:13px;color:var(--text3);letter-spacing:.2px}
+.hp-stack{display:flex;flex-direction:column;gap:0}
+.hp-stack-item{padding:20px 0;border-bottom:1px solid var(--border)}
+.hp-stack-item:first-child{padding-top:0}
+.hp-stack-item:last-child{border-bottom:none}
+.hp-stack-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:6px}
+.hp-stack-title{font-family:var(--sans);font-size:1rem;font-weight:700;line-height:1.35;margin-bottom:6px}
+.hp-stack-title a{color:var(--text);transition:color .15s}
+.hp-stack-title a:hover{color:var(--amber);text-decoration:none}
+.hp-stack-meta{font-size:12px;color:var(--text3)}
+
+/* ── HOMEPAGE — Main grid + sidebar ───────────────────────────────────────── */
+.hp-body{display:grid;grid-template-columns:1fr 320px;gap:48px;padding:48px 0 80px}
+.hp-articles{display:flex;flex-direction:column;gap:0}
+
+/* ── FLAT EDITORIAL CARDS (article list items) ────────────────────────────── */
+.card{padding:24px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column}
+.card-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:8px;text-decoration:none;display:inline-block}
+a.card-cat:hover{color:var(--amber-light);text-decoration:none}
+.card-title{font-family:var(--sans);font-size:1.1rem;font-weight:700;line-height:1.35;margin-bottom:8px}
+.card-title a{color:var(--text);transition:color .15s}
+.card-title a:hover{color:var(--amber);text-decoration:none}
+.card-excerpt{font-size:.9rem;color:var(--text2);line-height:1.55;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-meta{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.meta-sep{color:var(--text3)}
+.podcast-badge{display:inline-flex;align-items:center;gap:4px;background:var(--amber-dim);color:var(--amber);font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto}
+
+/* ── HOMEPAGE SIDEBAR ─────────────────────────────────────────────────────── */
+.hp-sidebar{position:sticky;top:72px;align-self:start}
+.sidebar-section{margin-bottom:36px}
+.sidebar-section .section-label{font-size:11px;margin-bottom:12px;padding-bottom:8px}
+.sidebar-trending{display:flex;flex-direction:column;gap:0}
+.trending-item{padding:12px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.trending-item:last-child{border-bottom:none}
+.trending-num{font-family:var(--sans);font-size:1.3rem;font-weight:800;color:rgba(245,158,11,.3);line-height:1;min-width:24px}
+.trending-title{font-size:.85rem;font-weight:600;line-height:1.35}
+.trending-title a{color:var(--text2);transition:color .15s}
+.trending-title a:hover{color:var(--text);text-decoration:none}
+.sidebar-podcast{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:24px}
+.sidebar-podcast p{font-size:.85rem;color:var(--text2);margin-bottom:12px;line-height:1.5}
+.btn-spotify{display:inline-flex;align-items:center;gap:6px;background:#1DB954;color:#000;font-size:.8rem;font-weight:700;padding:8px 16px;border-radius:6px;transition:opacity .15s}
+.btn-spotify:hover{opacity:.88;text-decoration:none}
+.sidebar-cta{background:var(--surface);border:1px solid var(--amber-border);border-radius:8px;padding:20px;text-align:center}
+.sidebar-cta .s-headline{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.sidebar-cta .s-sub{font-size:.8rem;color:var(--text2);margin-bottom:14px;line-height:1.5}
+.sidebar-cta .s-fine{font-size:.7rem;color:var(--text3);margin-top:10px}
+.sidebar-cat-link{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--text2);transition:color .15s}
+.sidebar-cat-link:last-child{border-bottom:none}
+.sidebar-cat-link:hover{color:var(--text);text-decoration:none}
+.sidebar-cat-count{font-size:.75rem;color:var(--text3);background:rgba(255,255,255,.04);padding:2px 8px;border-radius:12px}
+
+/* ── Cards grid (for category pages) ──────────────────────────────────────── */
+.cards-grid{display:flex;flex-direction:column;gap:0}
+
+/* ── Reading progress bar ─────────────────────────────────────────────────── */
+#reading-progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--amber);z-index:9999;transition:width .1s linear}
+
+/* ── POST PAGE — single-column centered ───────────────────────────────────── */
+.post-container{max-width:var(--content);margin:0 auto;padding:100px 24px 48px}
+
+/* Breadcrumb */
+.post-breadcrumb{font-size:.8rem;color:var(--text3);margin-bottom:24px}
+.post-breadcrumb a{color:var(--text2);transition:color .15s}
+.post-breadcrumb a:hover{color:var(--text);text-decoration:none}
+.post-breadcrumb .bc-sep{margin:0 8px;color:var(--text3);opacity:.5}
+
+/* Post header */
+.post-eyebrow{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.post-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px}
+.post-byline{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text3);padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:8px;flex-wrap:wrap}
+.post-byline .sep{color:var(--text3);opacity:.4}
+
+/* Share row */
+.share-row{display:flex;align-items:center;gap:12px;padding:12px 0 28px;border-bottom:1px solid var(--border);margin-bottom:32px;font-size:13px;color:var(--text3)}
+.share-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;color:var(--text2);background:transparent;cursor:pointer;transition:border-color .15s,color .15s}
+.share-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* CTA — below byline (compact one-liner) */
+.cta-byline{font-size:.9rem;color:var(--text2);margin:0 0 32px;padding:12px 0}
+.cta-byline a{color:var(--amber);font-weight:600}
+.cta-byline a:hover{color:var(--amber-light)}
+
+/* CTA — mid-article inline */
+.cta-inline{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:28px 0;font-size:.9rem;color:var(--text2);display:block}
+.cta-inline a{color:var(--amber);font-weight:600;text-decoration:none}
+.cta-inline a:hover{color:var(--amber-light)}
+
+/* CTA — end of article box */
+.cta-end{background:var(--surface);border:1px solid var(--amber-border);border-radius:10px;padding:32px;text-align:center;margin:48px 0}
+.cta-end h3{font-family:var(--sans);font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:10px}
+.cta-end p{font-size:.9rem;color:var(--text2);margin:0 0 20px;max-width:440px;margin-left:auto;margin-right:auto}
+.cta-end .fine{font-size:.75rem;color:var(--text3);margin-top:12px}
+.btn-amber{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:#000;font-size:.85rem;font-weight:700;padding:11px 22px;border-radius:6px;transition:all .2s;text-decoration:none}
+.btn-amber:hover{background:var(--amber-light);transform:translateY(-1px);text-decoration:none}
+
+/* Post body typography */
+.post-body{font-size:19px;line-height:1.75;color:#e5e7eb}
+.post-body h2{font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin:48px 0 14px}
+.post-body h3{font-size:1.15rem;font-weight:700;color:#f3f4f6;margin:32px 0 10px}
+.post-body p{margin-bottom:20px}
+.post-body ul,.post-body ol{margin:0 0 20px 24px}
+.post-body li{margin-bottom:8px}
+.post-body strong{color:#fff}
+.post-body a{color:var(--amber);text-decoration:underline;text-underline-offset:3px}
+.post-body a:hover{color:var(--amber-light)}
+
+/* ── LIGHT-MODE INLINE STYLE OVERRIDES ────────────────────────────────────── */
+.post-body a[style*="color:#1a73e8"],
+.post-body a[style*="color: #1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body a[style*="color:#1a73e8"]:hover,
+.post-body a[style*="color: #1a73e8"]:hover{
+  color:var(--amber-light)!important;
+}
+.post-body div[style*="background:#f0f4ff"],
+.post-body div[style*="background: #f0f4ff"]{
+  background:var(--surface)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#f8f9fa"],
+.post-body div[style*="background: #f8f9fa"]{
+  background:var(--surface)!important;
+  border-color:var(--border)!important;
+}
+.post-body div[style*="background:#fff8e1"],
+.post-body div[style*="background: #fff8e1"]{
+  background:rgba(245,158,11,.06)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#fff"],
+.post-body div[style*="background: #fff"],
+.post-body div[style*="background:#ffffff"],
+.post-body div[style*="background: #ffffff"]{
+  background:var(--surface)!important;
+}
+.post-body div[style*="background:#1a73e8"],
+.post-body div[style*="background: #1a73e8"]{
+  background:var(--surface)!important;
+  border:1px solid var(--amber-border)!important;
+}
+.post-body div[style*="background:#1a73e8"] *,
+.post-body div[style*="background: #1a73e8"] *{
+  color:var(--text)!important;
+}
+.post-body div[style*="background:#1a73e8"] a,
+.post-body div[style*="background: #1a73e8"] a{
+  background:var(--amber)!important;
+  color:#000!important;
+  border-radius:6px;
+  padding:12px 24px;
+}
+.post-body a[style*="background:#ffffff"],
+.post-body a[style*="background: #ffffff"],
+.post-body a[style*="background:#fff"],
+.post-body a[style*="background: #fff"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-left:4px solid #1a73e8"],
+.post-body div[style*="border-left: 4px solid #1a73e8"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="border:2px solid #1a73e8"],
+.post-body div[style*="border: 2px solid #1a73e8"]{
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="border-left:4px solid #ffc107"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] h3,
+.post-body div[style*="background: #f8f9fa"] h3{
+  color:var(--amber)!important;
+  margin-top:0;
+}
+.post-body div[style*="background:#f8f9fa"] h3[style*="color:#1a73e8"],
+.post-body div[style*="background: #f8f9fa"] h3[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] p,
+.post-body div[style*="background: #f8f9fa"] p{
+  color:var(--text2)!important;
+}
+.post-body div[style*="background:#f8f9fa"] strong,
+.post-body div[style*="background: #f8f9fa"] strong{
+  color:var(--text)!important;
+}
+.post-body h2[style*="color:#1a73e8"],
+.post-body h3[style*="color:#1a73e8"],
+.post-body h4[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body p[style*="color:#1a73e8"],
+.post-body span[style*="color:#1a73e8"],
+.post-body p[style*="color:#333"],
+.post-body span[style*="color:#333"],
+.post-body p[style*="color:#000"],
+.post-body span[style*="color:#000"]{
+  color:var(--text2)!important;
+}
+.post-body a[style*="background:#1a73e8"],
+.post-body a[style*="background: #1a73e8"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-radius"]{
+  color:var(--text2);
+}
+
+/* TOC */
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:0 0 32px}
+.toc-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:12px}
+.toc ol{margin:0;padding-left:18px}
+.toc li{font-size:.9rem;line-height:1.9}
+.toc a{color:var(--text2);text-decoration:none}
+.toc a:hover{color:var(--amber);text-decoration:none}
+
+/* Podcast embed */
+.podcast-embed{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:20px;margin:36px 0}
+.podcast-embed p{font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:12px}
+.podcast-embed iframe{border-radius:6px}
+.podcast-link{display:inline-flex;align-items:center;gap:8px;color:var(--amber);font-size:.875rem;font-weight:600;text-decoration:none;margin-top:8px}
+.podcast-link:hover{color:var(--amber-light);text-decoration:none}
+
+/* Author box */
+.author-box{display:flex;gap:16px;align-items:flex-start;padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:40px 0}
+.author-box .author-name{font-weight:700;color:var(--text);font-size:.95rem;margin-bottom:4px}
+.author-box .author-bio{font-size:.825rem;color:var(--text2);line-height:1.6}
+
+/* Related posts */
+.related-posts{margin:48px 0 0}
+.related-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:18px}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.related-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;text-decoration:none;display:block;transition:border-color .2s}
+.related-card:hover{border-color:var(--amber);text-decoration:none}
+.related-card .r-tag{font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.related-card .r-title{font-size:.85rem;font-weight:600;color:#e5e7eb;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Pagination */
+.pagination{display:flex;gap:8px;justify-content:center;margin-top:48px;flex-wrap:wrap}
+.page-btn{padding:8px 16px;border:1px solid var(--border);border-radius:6px;font-size:.875rem;color:var(--text2);background:var(--surface)}
+.page-btn.active{background:var(--amber);color:#07080a;border-color:var(--amber);font-weight:700}
+.page-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* Category header */
+.cat-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:100px 24px 40px}
+.cat-header h1{font-family:var(--sans);font-size:1.8rem;font-weight:800;margin-bottom:8px;color:var(--text)}
+.cat-header p{color:var(--text2);font-size:.9rem}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80px}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-logo{font-family:var(--sans);font-size:1.1rem;font-weight:800;margin-bottom:12px;color:var(--text)}
+.footer-logo span{color:var(--amber)}
+.footer-desc{font-size:.82rem;color:var(--text3);line-height:1.7;margin-bottom:14px}
+.footer-disclaimer{font-size:.74rem;color:var(--text3);line-height:1.6;opacity:.7}
+.footer-col h4{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);margin-bottom:16px}
+.footer-col a{display:block;font-size:.85rem;color:var(--text2);margin-bottom:10px;transition:color .15s}
+.footer-col a:hover{color:var(--text);text-decoration:none}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.76rem;color:var(--text3)}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
+@media(max-width:1024px){
+  .hp-featured{grid-template-columns:1fr}
+  .hp-body{grid-template-columns:1fr}
+  .hp-sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .related-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .hp-sidebar{grid-template-columns:1fr}
+  .nav-links .nav-link{display:none}
+  .post-title{font-size:1.8rem}
+  .hp-lead-title{font-size:1.8rem}
+  .cta-end{padding:24px 20px}
+  .related-grid{grid-template-columns:1fr}
+  .cat-header{padding:90px 20px 36px}
+  .footer-top{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column}
+  .share-row{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">Global<span class="logo-amber">HighLevel</span></a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <div class="nav-dropdown">
+        <a class="nav-link">Topics <span style="font-size:10px">&#9662;</span></a>
+        <div class="nav-dropdown-menu">
+    <a href="/category/ai-automation/">AI & Automation</a>
+    <a href="/category/email-deliverability/">Email & Deliverability</a>
+    <a href="/category/sms-messaging/">SMS & Messaging</a>
+    <a href="/category/crm-contacts/">CRM & Contacts</a>
+    <a href="/category/payments-commerce/">Payments & Commerce</a>
+    <a href="/category/analytics-reporting/">Analytics & Reporting</a>
+    <a href="/category/phone-voice/">Phone & Voice</a>
+    <a href="/category/agency-platform/">Agency & Platform</a>
+    <a href="/category/gohighlevel-india/">GoHighLevel India</a>
+    <a href="/category/gohighlevel-espanol/">GoHighLevel en Español</a>
+        </div>
+      </div>
+      <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="nav-link" target="_blank" rel="noopener">Podcast</a>
+      <a href="" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+    </div>
+  </div>
+</nav>
+
+<div id="reading-progress"></div>
+<div class="post-container">
+  <div class="post-breadcrumb fade-1">
+    <a href="/">Home</a><span class="bc-sep">&rsaquo;</span><a href="/category/crm-contacts/">CRM & Contacts</a><span class="bc-sep">&rsaquo;</span><span>How to Use Advanced Filters in GoHighLevel —…</span>
+  </div>
+  <div class="post-eyebrow fade-1"><a href="/category/crm-contacts/" style="color:var(--amber);text-decoration:none">CRM & Contacts</a></div>
+  <h1 class="post-title fade-2">How to Use Advanced Filters in GoHighLevel — Precise Contact Segmentation</h1>
+  <div class="post-byline fade-3">
+    <span>By William Welch</span>
+    <span class='sep'>&middot;</span><span>March 21, 2026</span>
+    <span class="sep">&middot;</span><span>7 min read</span>
+  </div>
+  
+<div class="share-row">
+  <span>Share</span>
+  <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fhow-to-use-advanced-filters-gohighlevel-contact-segmentation%2F&text=How%20to%20Use%20Advanced%20Filters%20in%20GoHighLevel%20—%20Precise%20Contact%20Segmentation" target="_blank" rel="noopener" class="share-btn">X</a>
+  <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fhow-to-use-advanced-filters-gohighlevel-contact-segmentation%2F" target="_blank" rel="noopener" class="share-btn">LinkedIn</a>
+  <button class="share-btn" onclick="navigator.clipboard.writeText('https://globalhighlevel.com/blog/how-to-use-advanced-filters-gohighlevel-contact-segmentation/');this.textContent='Copied!'">Copy Link</button>
+</div>
+  
+<p class="cta-byline">Follow along &mdash; <a href="&utm_campaign=how-to-use-advanced-filters-gohighlevel-contact-segmentation" target="_blank" rel="nofollow noopener">get 30 days free &rarr;</a></p>
+  
+<div class="toc">
+  <div class="toc-label">In This Guide</div>
+  <ol><li><a href="#section-1">What Are Advanced Filters and Why They Matter</a></li><li><a href="#section-2">How to Access and Set Up Advanced Filters in Smart Lists</a></li><li><a href="#section-3">Date Filters: Segment by Timeline and Engagement</a></li><li><a href="#section-4">String Filters: Match Text and Email Patterns</a></li><li><a href="#section-5">Numeric Filters: Target by Values and Thresholds</a></li><li><a href="#section-6">DND Filters: Respect Preferences and Compliance</a></li><li><a href="#section-7">Combining Filters: Build Complex Segments</a></li></ol>
+</div>
+  
+<div class="podcast-embed">
+  <p>Listen to this episode</p>
+  <iframe width="100%" height="180" frameborder="no" scrolling="no" seamless
+    src="https://share.transistor.fm/e/b3768611" loading="lazy"></iframe>
+  <a class="podcast-link" href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">
+    Follow the podcast on Spotify
+  </a>
+</div>
+  <div class="post-body"><p>If you're running an agency or managing contacts at scale, you know the challenge: you have hundreds or thousands of leads, but only a fraction are actually ready to buy. You need a way to segment your list with laser precision—pulling out only the contacts that match your exact criteria so your campaigns hit harder and convert better.</p>
+
+<p>That's where <strong>Advanced Filters in GoHighLevel</strong> come in. These aren't your basic name-and-email filters. Advanced Filters let you build sophisticated contact segments using date ranges, Do Not Disturb (DND) lists, string matching, and numeric comparisons. Whether you're qualifying leads, cleaning your list, or creating hyper-targeted nurture sequences, mastering these filters transforms how you operate your CRM.</p>
+
+<p>In this guide, I'll walk you through every filter type, show you exactly how to set them up in Smart Lists, and give you real-world examples so you can start using them today. Plus, grab a <strong>free 30-day GoHighLevel trial</strong> (double the standard 14 days) at <a href="https://globalhighlevel.com/trial" style="color:#1a73e8;font-weight:700;">https://globalhighlevel.com/trial</a> to follow along hands-on.</p>
+
+
+
+<h2 id="section-1">What Are Advanced Filters and Why They Matter</h2>
+
+<p>Advanced Filters in GoHighLevel are conditional logic tools that allow you to build contact lists with precision. Instead of manually sorting through your CRM or running basic searches, Advanced Filters automatically pull contacts that meet specific criteria—and update dynamically as your data changes.</p>
+
+<p>Here's why they matter:</p>
+
+<ul style="margin:16px 0;padding-left:20px;">
+<li><strong>Better Targeting:</strong> Send campaigns only to contacts who actually qualify, improving open rates and conversions.</li>
+<li><strong>Time Savings:</strong> Automate list building instead of manually tagging or organizing contacts.</li>
+<li><strong>Compliance:</strong> Automatically exclude DND contacts and respect user preferences.</li>
+<li><strong>Dynamic Updates:</strong> Your Smart List updates in real-time as new data enters your CRM.</li>
+<li><strong>Campaign Accuracy:</strong> Reduce wasted send volume by targeting only warm, relevant prospects.</li>
+</ul>
+
+<p>Without Advanced Filters, you're either leaving money on the table (sending to unqualified contacts) or spending hours manually managing lists.</p>
+
+<h2 id="section-2">How to Access and Set Up Advanced Filters in Smart Lists</h2>
+
+<p>Before you use Advanced Filters, you need to create or open a Smart List in GoHighLevel. Here's the step-by-step setup:</p>
+
+<ol style="margin:16px 0;padding-left:20px;">
+<li><strong>Navigate to Contacts</strong> in your GoHighLevel dashboard.</li>
+<li><strong>Click "Smart Lists"</strong> (usually in the left sidebar under Contacts).</li>
+<li><strong>Create a New Smart List</strong> or open an existing one.</li>
+<li><strong>Name your list</strong> something descriptive like "Hot Leads - Last 30 Days" or "Email Openers - Q4 Campaign."</li>
+<li><strong>Click "Add Filter"</strong> to begin building your criteria.</li>
+<li><strong>Select your field</strong> from the dropdown—this could be a standard field (email, phone, date created) or a custom field.</li>
+<li><strong>Choose your filter type</strong> (Date, String, Numeric, or DND).</li>
+<li><strong>Set your condition</strong> and value.</li>
+<li><strong>Save your Smart List.</strong></li>
+</ol>
+
+<p>Once saved, your Smart List populates automatically and updates in real-time. You can use it for campaigns, exports, or manual follow-up.</p>
+
+
+
+<h2 id="section-3">Date Filters: Segment by Timeline and Engagement</h2>
+
+<p>Date filters are among the most powerful tools in GoHighLevel. They let you target contacts based on when something happened—contact creation, last email open, task completion, or any date-based field.</p>
+
+<p><strong>Common Date Filter Use Cases:</strong></p>
+
+<ul style="margin:16px 0;padding-left:20px;">
+<li><strong>Leads Created in Last 30 Days:</strong> Find fresh prospects to qualify immediately.</li>
+<li><strong>Last Opened Email More Than 60 Days Ago:</strong> Re-engage dormant contacts with a win-back campaign.</li>
+<li><strong>Date Closed (Empty):</strong> Pull all open opportunities that haven't been closed yet.</li>
+<li><strong>Next Follow-Up Before Tomorrow:</strong> Build a list for your team's daily call list.</li>
+</ul>
+
+<p><strong>Setting Up a Date Filter:</strong></p>
+
+<ol style="margin:16px 0;padding-left:20px;">
+<li>Select a date field (e.g., "Date Created," "Last Email Opened," "Last SMS Sent").</li>
+<li>Choose your condition: "Is," "Is Before," "Is After," "Is Between," "Is Empty," or "Is Not Empty."</li>
+<li>Specify the date or relative timeframe (e.g., "Last 30 days," "This week," "Specific date").</li>
+<li>Save the filter.</li>
+</ol>
+
+<div style="background:#fff8e1;border-left:4px solid #ffc107;padding:16px 20px;margin:24px 0;border-radius:4px;">
+<p style="font-weight:700;margin:0 0 6px 0;">💡 Pro Tip</p>
+<p style="margin:0;">Use "Is Between" for date ranges to capture seasonal segments. For example, segment contacts who attended a webinar between specific dates, then target them with follow-up sequences based on their engagement level.</p>
+</div>
+
+
+<p class="cta-inline">This is built into GoHighLevel.
+<a href="&utm_campaign=how-to-use-advanced-filters-gohighlevel-contact-segmentation" target="_blank" rel="nofollow noopener">Try it free for 30 days &rarr;</a></p><h2 id="section-4">String Filters: Match Text and Email Patterns</h2>
+
+<p>String filters work with text data—email addresses, names, custom fields, or any text-based information. They're incredibly useful for cleaning lists and creating highly specific segments.</p>
+
+<p><strong>String Filter Operators:</strong></p>
+
+<ul style="margin:16px 0;padding-left:20px;">
+<li><strong>Contains:</strong> Finds any text field that includes your keyword (e.g., "Contains 'Gmail'" pulls all Gmail addresses).</li>
+<li><strong>Doesn't Contain:</strong> Excludes records with specific text (e.g., "Doesn't Contain 'unsubscribe'" removes opt-outs).</li>
+<li><strong>Is:</strong> Exact match (e.g., "Is 'New York'" for exact location matching).</li>
+<li><strong>Starts With:</strong> Filters by beginning text (e.g., "Starts With 'support'" for support ticket fields).</li>
+<li><strong>Is Empty / Is Not Empty:</strong> Find incomplete or complete records.</li>
+</ul>
+
+<p><strong>Real-World String Filter Examples:</strong></p>
+
+<ul style="margin:16px 0;padding-left:20px;">
+<li>Email Contains "@company.com" → Target corporate clients only.</li>
+<li>Company Name Doesn't Contain "Test" → Remove test records from campaigns.</li>
+<li>Tags Contains "High-Value" → Segment your VIP prospects for premium nurturing.</li>
+<li>Notes Is Not Empty → Pull contacts with documented interactions for follow-up.</li>
+</ul>
+
+<h2 id="section-5">Numeric Filters: Target by Values and Thresholds</h2>
+
+<p>Numeric filters segment contacts based on numerical values—deal amounts, contact scores, phone number existence, or custom numeric fields. These are essential for revenue-focused segmentation.</p>
+
+<p><strong>Numeric Filter Operators:</strong></p>
+
+<ul style="margin:16px 0;padding-left:20px;">
+<li><strong>Equals:</strong> Exact number match (e.g., "Contact Score Equals 100").</li>
+<li><strong>Greater Than / Less Than:</strong> Find values above or below a threshold.</li>
+<li><strong>Is Between:</strong> Target a numeric range (e.g., "Deal Value Between $5,000 and $25,000").</li>
+<li><strong>Is Empty / Is Not Empty:</strong> Identify incomplete data (e.g., "Phone Is Not Empty").</li>
+</ul>
+
+<p><strong>Strategic Numeric Filter Examples:</strong></p>
+
+<ul style="margin:16px 0;padding-left:20px;">
+<li><strong>Deal Value Greater Than $10,000:</strong> Prioritize high-value deals for your sales team.</li>
+<li><strong>Contact Score Between 70-100:</strong> Build a hot lead list ready for direct sales outreach.</li>
+<li><strong>Opportunity Count Greater Than 2:</strong> Identify repeat prospects who deserve white-glove treatment.</li>
+<li><strong>Days Since Last Contact Less Than 7:</strong> Find recently engaged prospects for timely follow-ups.</li>
+</ul>
+
+<h2 id="section-6">DND Filters: Respect Preferences and Compliance</h2>
+
+<p>"Do Not Disturb" (DND) filters are your compliance guardrails. They let you exclude contacts based on communication preferences, ensuring you respect opt-outs and legal requirements.</p>
+
+<p><strong>Why DND Filters Matter:</strong></p>
+
+<ul style="margin:16px 0;padding-left:20px;">
+<li><strong>Legal Compliance:</strong> Avoid sending to contacts who've opted out, protecting your reputation and avoiding fines.</li>
+<li><strong>List Quality:</strong> Automatically exclude invalid or bounced email addresses and phone numbers.</li>
+<li><strong>Preference Respect:</strong> Honor individual channel preferences (e.g., SMS-only contacts).</li>
+</ul>
+
+<p><strong>Common DND Filter Scenarios:</strong></p>
+
+<ul style="margin:16px 0;padding-left:20px;">
+<li><strong>Email DND Is False:</strong> Only email contacts who haven't opted out of email communication.</li>
+<li><strong>SMS DND Is False:</strong> Segment contacts who want to receive text messages.</li>
+<li><strong>Phone Bounced Is False:</strong> Exclude invalid phone numbers from outbound calling campaigns.</li>
+</ul>
+
+<div style="background:#fff8e1;border-left:4px solid #ffc107;padding:16px 20px;margin:24px 0;border-radius:4px;">
+<p style="font-weight:700;margin:0 0 6px 0;">💡 Pro Tip</p>
+<p style="margin:0;">Always include a DND filter in your campaign Smart Lists. Even if a contact is perfectly qualified, sending to an opted-out address damages deliverability and violates GDPR/CAN-SPAM. Let GoHighLevel handle this automatically.</p>
+</div>
+
+<h2 id="section-7">Combining Filters: Build Complex Segments</h2>
+
+<p>The real power of Advanced Filters emerges when you combine multiple conditions. GoHighLevel uses AND/OR logic to let you create sophisticated, multi-layered segments.</p>
+
+<p><strong>Example: Complex B2B Segment</strong></p>
+
+<p>Imagine you want to target "Enterprise decision-makers who engaged in the last 90 days and have a deal over $50K pending." Here's how you'd build it:</p>
+
+<ol style="margin:16px 0;padding-left:20px;">
+<li>Company Size Greater Than 500 (numeric filter)</li>
+<li>AND Last Email Opened Within Last 90 Days (date filter)</li>
+<li>AND Deal Value Greater Than $50,000 (numeric filter)</li>
+<li>AND Email DND Is False (DND filter)</li>
+<li>AND Deal Status Is Not "Closed Lost" (string filter)</li>
+</ol>
+
+<p>This single Smart List now contains only your hottest enterprise prospects—automatically updated in real-time. You can use it for priority email sequences, SMS campaigns, or direct sales follow-up.</p>
+
+<p><strong>Pro Tips for Complex Filters:</strong></p>
+
+<ul style="margin:16px 0;padding-left:20px;">
+<li><strong>Start Simple:</strong> Build one filter, test it, then add more conditions.</li>
+<li><strong>Use Descriptive Names:</strong> Call your list "Enterprise Prospects - 90 Day Engagers," not "List 1."</li>
+<li><strong>Document Your Logic:</strong> Write down why you chose each condition so you can explain it to your team.</li>
+<li><strong>Audit Regularly:</strong> Check your Smart List count monthly—a sudden drop usually means data quality issues.</li>
+</ul>
+
+<p>Advanced Filters transform GoHighLevel from a basic contact database into a sophisticated segmentation engine. Once you master these tools, you'll spend less time managing lists and more time converting qualified prospects into paying clients.</p>
+
+</div>
+  
+<div class="cta-end">
+  <h3>Ready to try this?</h3>
+  <p>30 days free, no credit card required. Set up everything in this guide inside your trial.</p>
+  <a href="&utm_campaign=how-to-use-advanced-filters-gohighlevel-contact-segmentation" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free 30-Day Trial</a>
+  <div class="fine">Cancel anytime &mdash; $0 for the first 30 days</div>
+</div>
+  
+<div class="author-box">
+  <div>
+    <div class="author-name">William Welch</div>
+    <div class="author-bio">GoHighLevel user and affiliate. Runs GlobalHighLevel.com — free tutorials, guides, and strategies for agencies and businesses using GHL worldwide.</div>
+  </div>
+</div>
+  
+<div class="related-posts">
+  <div class="related-label">Keep Reading</div>
+  <div class="related-grid">
+<a href="/blog/how-to-manage-pipeline-permissions-in-gohighlevel-control-access/" class="related-card">
+  <div class="r-tag">CRM & Contacts</div>
+  <div class="r-title">How to Manage Pipeline Permissions in GoHighLevel — Control Access</div>
+</a>
+<a href="/blog/how-to-use-seo-heatmaps-in-gohighlevel-prospect-better/" class="related-card">
+  <div class="r-tag">CRM & Contacts</div>
+  <div class="r-title">How to Use SEO Heatmaps in GoHighLevel — Prospect Better</div>
+</a>
+<a href="/blog/import-firstpromoter-gohighlevel-affiliate-manager/" class="related-card">
+  <div class="r-tag">CRM & Contacts</div>
+  <div class="r-title">Import FirstPromoter into GoHighLevel Affiliate Manager</div>
+</a></div>
+</div>
+</div>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Use Advanced Filters in GoHighLevel \u2014 Precise Contact Segmentation", "description": "Master Advanced Filters in GoHighLevel Smart Lists. Learn date, string, numeric, and DND filters for precise contact segmentation and better campaign targeting.", "datePublished": "2026-03-21T17:17:44.200264", "author": {"@type": "Person", "name": "William Welch"}, "publisher": {"@type": "Organization", "name": "Global High Level", "url": "https://globalhighlevel.com"}, "url": "https://globalhighlevel.com/blog/how-to-use-advanced-filters-gohighlevel-contact-segmentation/"}</script>
+
+<script>
+(function(){
+  var bar=document.getElementById('reading-progress');
+  if(!bar)return;
+  window.addEventListener('scroll',function(){
+    var body=document.querySelector('.post-body');
+    if(!body)return;
+    var top=body.getBoundingClientRect().top+window.scrollY;
+    var h=body.offsetHeight-window.innerHeight;
+    var pct=h>0?Math.min(100,Math.max(0,(window.scrollY-top+window.innerHeight*0.1)/h*100)):100;
+    bar.style.width=pct+'%';
+  },{passive:true});
+})();
+</script>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Global<span>HighLevel</span></div>
+        <p class="footer-desc">Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide.</p>
+        <p class="footer-disclaimer">Affiliate disclosure: Some links on this site are affiliate links. If you sign up through our link, we may earn a commission at no extra cost to you. Not affiliated with GoHighLevel LLC.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Topics</h4>
+        <a href="/category/ai-automation/">AI & Automation</a>
+        <a href="/category/email-deliverability/">Email & Deliverability</a>
+        <a href="/category/sms-messaging/">SMS & Messaging</a>
+        <a href="/category/crm-contacts/">CRM & Contacts</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
+        <a href="https://help.gohighlevel.com" target="_blank" rel="noopener">GHL Help Center</a>
+        <a href="" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 GlobalHighLevel.com</span>
+      <span>Not affiliated with GoHighLevel LLC</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

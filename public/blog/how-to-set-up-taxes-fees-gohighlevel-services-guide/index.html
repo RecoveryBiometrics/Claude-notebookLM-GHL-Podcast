@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Set Up Taxes & Fees in GoHighLevel — Services Guide | Global High Level</title>
+<meta name="description" content="Learn how to configure manual taxes and processing fees in GoHighLevel Services (v2). Step-by-step guide with best practices for accurate client billing.">
+<link rel="canonical" href="https://globalhighlevel.com/blog/how-to-set-up-taxes-fees-gohighlevel-services-guide/">
+<meta property="og:title" content="How to Set Up Taxes & Fees in GoHighLevel — Services Guide | Global High Level">
+<meta property="og:description" content="Learn how to configure manual taxes and processing fees in GoHighLevel Services (v2). Step-by-step guide with best practices for accurate client billing.">
+<meta property="og:url" content="https://globalhighlevel.com/blog/how-to-set-up-taxes-fees-gohighlevel-services-guide/">
+<meta property="og:image" content="">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Global High Level","url":"https://globalhighlevel.com"}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
+
+:root{
+  --bg:#07080a;
+  --bg2:#0c0e14;
+  --surface:#111520;
+  --amber:#f59e0b;
+  --amber-light:#fbbf24;
+  --amber-dim:rgba(245,158,11,0.12);
+  --amber-border:rgba(245,158,11,0.22);
+  --text:#eef2ff;
+  --text2:#a0aec8;
+  --text3:#6b7ea8;
+  --border:rgba(255,255,255,0.06);
+  --max:1120px;
+  --content:665px;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--amber);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;height:auto}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-1{animation:fadeUp .6s ease both}
+.fade-2{animation:fadeUp .6s .15s ease both}
+.fade-3{animation:fadeUp .6s .3s ease both}
+
+/* ── NAV — fixed, backdrop blur, animated underlines ──────────────────────── */
+nav{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--sans);font-size:1.15rem;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:0;color:var(--text)}
+.logo-amber{color:var(--amber)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-link{font-size:.82rem;font-weight:500;color:var(--text2);letter-spacing:.1px;transition:color .15s;position:relative;padding:4px 0}
+.nav-link::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--amber);transition:width .2s ease-in-out}
+.nav-link:hover{color:var(--text);text-decoration:none}
+.nav-link:hover::after{width:100%}
+.nav-cta{font-size:.8rem;font-weight:700;color:#000;background:var(--amber);padding:7px 16px;border-radius:100px;transition:background .15s}
+.nav-cta:hover{background:var(--amber-light);text-decoration:none}
+.nav-dropdown{position:relative}
+.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:-12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 0;min-width:220px;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.nav-dropdown:hover .nav-dropdown-menu{display:block}
+.nav-dropdown-menu a{display:block;padding:8px 20px;font-size:.82rem;color:var(--text2);transition:color .15s,background .15s}
+.nav-dropdown-menu a:hover{color:var(--text);background:rgba(255,255,255,.05);text-decoration:none}
+
+/* ── CONTAINER ────────────────────────────────────────────────────────────── */
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* ── SECTION LABELS ───────────────────────────────────────────────────────── */
+.section-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--amber);display:inline-block}
+
+/* ── HOMEPAGE — Featured + stack ──────────────────────────────────────────── */
+.hp-featured{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;padding:88px 0 48px;border-bottom:1px solid var(--border)}
+.hp-lead{display:flex;flex-direction:column;justify-content:center}
+.hp-lead-cat{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.hp-lead-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);margin-bottom:14px;letter-spacing:-.5px}
+.hp-lead-title a{color:var(--text);transition:color .2s}
+.hp-lead-title a:hover{color:var(--amber);text-decoration:none}
+.hp-lead-desc{font-size:1rem;color:var(--text2);line-height:1.65;margin-bottom:16px}
+.hp-lead-meta{font-size:13px;color:var(--text3);letter-spacing:.2px}
+.hp-stack{display:flex;flex-direction:column;gap:0}
+.hp-stack-item{padding:20px 0;border-bottom:1px solid var(--border)}
+.hp-stack-item:first-child{padding-top:0}
+.hp-stack-item:last-child{border-bottom:none}
+.hp-stack-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:6px}
+.hp-stack-title{font-family:var(--sans);font-size:1rem;font-weight:700;line-height:1.35;margin-bottom:6px}
+.hp-stack-title a{color:var(--text);transition:color .15s}
+.hp-stack-title a:hover{color:var(--amber);text-decoration:none}
+.hp-stack-meta{font-size:12px;color:var(--text3)}
+
+/* ── HOMEPAGE — Main grid + sidebar ───────────────────────────────────────── */
+.hp-body{display:grid;grid-template-columns:1fr 320px;gap:48px;padding:48px 0 80px}
+.hp-articles{display:flex;flex-direction:column;gap:0}
+
+/* ── FLAT EDITORIAL CARDS (article list items) ────────────────────────────── */
+.card{padding:24px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column}
+.card-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:8px;text-decoration:none;display:inline-block}
+a.card-cat:hover{color:var(--amber-light);text-decoration:none}
+.card-title{font-family:var(--sans);font-size:1.1rem;font-weight:700;line-height:1.35;margin-bottom:8px}
+.card-title a{color:var(--text);transition:color .15s}
+.card-title a:hover{color:var(--amber);text-decoration:none}
+.card-excerpt{font-size:.9rem;color:var(--text2);line-height:1.55;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-meta{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.meta-sep{color:var(--text3)}
+.podcast-badge{display:inline-flex;align-items:center;gap:4px;background:var(--amber-dim);color:var(--amber);font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto}
+
+/* ── HOMEPAGE SIDEBAR ─────────────────────────────────────────────────────── */
+.hp-sidebar{position:sticky;top:72px;align-self:start}
+.sidebar-section{margin-bottom:36px}
+.sidebar-section .section-label{font-size:11px;margin-bottom:12px;padding-bottom:8px}
+.sidebar-trending{display:flex;flex-direction:column;gap:0}
+.trending-item{padding:12px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.trending-item:last-child{border-bottom:none}
+.trending-num{font-family:var(--sans);font-size:1.3rem;font-weight:800;color:rgba(245,158,11,.3);line-height:1;min-width:24px}
+.trending-title{font-size:.85rem;font-weight:600;line-height:1.35}
+.trending-title a{color:var(--text2);transition:color .15s}
+.trending-title a:hover{color:var(--text);text-decoration:none}
+.sidebar-podcast{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:24px}
+.sidebar-podcast p{font-size:.85rem;color:var(--text2);margin-bottom:12px;line-height:1.5}
+.btn-spotify{display:inline-flex;align-items:center;gap:6px;background:#1DB954;color:#000;font-size:.8rem;font-weight:700;padding:8px 16px;border-radius:6px;transition:opacity .15s}
+.btn-spotify:hover{opacity:.88;text-decoration:none}
+.sidebar-cta{background:var(--surface);border:1px solid var(--amber-border);border-radius:8px;padding:20px;text-align:center}
+.sidebar-cta .s-headline{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.sidebar-cta .s-sub{font-size:.8rem;color:var(--text2);margin-bottom:14px;line-height:1.5}
+.sidebar-cta .s-fine{font-size:.7rem;color:var(--text3);margin-top:10px}
+.sidebar-cat-link{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--text2);transition:color .15s}
+.sidebar-cat-link:last-child{border-bottom:none}
+.sidebar-cat-link:hover{color:var(--text);text-decoration:none}
+.sidebar-cat-count{font-size:.75rem;color:var(--text3);background:rgba(255,255,255,.04);padding:2px 8px;border-radius:12px}
+
+/* ── Cards grid (for category pages) ──────────────────────────────────────── */
+.cards-grid{display:flex;flex-direction:column;gap:0}
+
+/* ── Reading progress bar ─────────────────────────────────────────────────── */
+#reading-progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--amber);z-index:9999;transition:width .1s linear}
+
+/* ── POST PAGE — single-column centered ───────────────────────────────────── */
+.post-container{max-width:var(--content);margin:0 auto;padding:100px 24px 48px}
+
+/* Breadcrumb */
+.post-breadcrumb{font-size:.8rem;color:var(--text3);margin-bottom:24px}
+.post-breadcrumb a{color:var(--text2);transition:color .15s}
+.post-breadcrumb a:hover{color:var(--text);text-decoration:none}
+.post-breadcrumb .bc-sep{margin:0 8px;color:var(--text3);opacity:.5}
+
+/* Post header */
+.post-eyebrow{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.post-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px}
+.post-byline{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text3);padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:8px;flex-wrap:wrap}
+.post-byline .sep{color:var(--text3);opacity:.4}
+
+/* Share row */
+.share-row{display:flex;align-items:center;gap:12px;padding:12px 0 28px;border-bottom:1px solid var(--border);margin-bottom:32px;font-size:13px;color:var(--text3)}
+.share-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;color:var(--text2);background:transparent;cursor:pointer;transition:border-color .15s,color .15s}
+.share-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* CTA — below byline (compact one-liner) */
+.cta-byline{font-size:.9rem;color:var(--text2);margin:0 0 32px;padding:12px 0}
+.cta-byline a{color:var(--amber);font-weight:600}
+.cta-byline a:hover{color:var(--amber-light)}
+
+/* CTA — mid-article inline */
+.cta-inline{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:28px 0;font-size:.9rem;color:var(--text2);display:block}
+.cta-inline a{color:var(--amber);font-weight:600;text-decoration:none}
+.cta-inline a:hover{color:var(--amber-light)}
+
+/* CTA — end of article box */
+.cta-end{background:var(--surface);border:1px solid var(--amber-border);border-radius:10px;padding:32px;text-align:center;margin:48px 0}
+.cta-end h3{font-family:var(--sans);font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:10px}
+.cta-end p{font-size:.9rem;color:var(--text2);margin:0 0 20px;max-width:440px;margin-left:auto;margin-right:auto}
+.cta-end .fine{font-size:.75rem;color:var(--text3);margin-top:12px}
+.btn-amber{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:#000;font-size:.85rem;font-weight:700;padding:11px 22px;border-radius:6px;transition:all .2s;text-decoration:none}
+.btn-amber:hover{background:var(--amber-light);transform:translateY(-1px);text-decoration:none}
+
+/* Post body typography */
+.post-body{font-size:19px;line-height:1.75;color:#e5e7eb}
+.post-body h2{font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin:48px 0 14px}
+.post-body h3{font-size:1.15rem;font-weight:700;color:#f3f4f6;margin:32px 0 10px}
+.post-body p{margin-bottom:20px}
+.post-body ul,.post-body ol{margin:0 0 20px 24px}
+.post-body li{margin-bottom:8px}
+.post-body strong{color:#fff}
+.post-body a{color:var(--amber);text-decoration:underline;text-underline-offset:3px}
+.post-body a:hover{color:var(--amber-light)}
+
+/* ── LIGHT-MODE INLINE STYLE OVERRIDES ────────────────────────────────────── */
+.post-body a[style*="color:#1a73e8"],
+.post-body a[style*="color: #1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body a[style*="color:#1a73e8"]:hover,
+.post-body a[style*="color: #1a73e8"]:hover{
+  color:var(--amber-light)!important;
+}
+.post-body div[style*="background:#f0f4ff"],
+.post-body div[style*="background: #f0f4ff"]{
+  background:var(--surface)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#f8f9fa"],
+.post-body div[style*="background: #f8f9fa"]{
+  background:var(--surface)!important;
+  border-color:var(--border)!important;
+}
+.post-body div[style*="background:#fff8e1"],
+.post-body div[style*="background: #fff8e1"]{
+  background:rgba(245,158,11,.06)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#fff"],
+.post-body div[style*="background: #fff"],
+.post-body div[style*="background:#ffffff"],
+.post-body div[style*="background: #ffffff"]{
+  background:var(--surface)!important;
+}
+.post-body div[style*="background:#1a73e8"],
+.post-body div[style*="background: #1a73e8"]{
+  background:var(--surface)!important;
+  border:1px solid var(--amber-border)!important;
+}
+.post-body div[style*="background:#1a73e8"] *,
+.post-body div[style*="background: #1a73e8"] *{
+  color:var(--text)!important;
+}
+.post-body div[style*="background:#1a73e8"] a,
+.post-body div[style*="background: #1a73e8"] a{
+  background:var(--amber)!important;
+  color:#000!important;
+  border-radius:6px;
+  padding:12px 24px;
+}
+.post-body a[style*="background:#ffffff"],
+.post-body a[style*="background: #ffffff"],
+.post-body a[style*="background:#fff"],
+.post-body a[style*="background: #fff"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-left:4px solid #1a73e8"],
+.post-body div[style*="border-left: 4px solid #1a73e8"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="border:2px solid #1a73e8"],
+.post-body div[style*="border: 2px solid #1a73e8"]{
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="border-left:4px solid #ffc107"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] h3,
+.post-body div[style*="background: #f8f9fa"] h3{
+  color:var(--amber)!important;
+  margin-top:0;
+}
+.post-body div[style*="background:#f8f9fa"] h3[style*="color:#1a73e8"],
+.post-body div[style*="background: #f8f9fa"] h3[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] p,
+.post-body div[style*="background: #f8f9fa"] p{
+  color:var(--text2)!important;
+}
+.post-body div[style*="background:#f8f9fa"] strong,
+.post-body div[style*="background: #f8f9fa"] strong{
+  color:var(--text)!important;
+}
+.post-body h2[style*="color:#1a73e8"],
+.post-body h3[style*="color:#1a73e8"],
+.post-body h4[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body p[style*="color:#1a73e8"],
+.post-body span[style*="color:#1a73e8"],
+.post-body p[style*="color:#333"],
+.post-body span[style*="color:#333"],
+.post-body p[style*="color:#000"],
+.post-body span[style*="color:#000"]{
+  color:var(--text2)!important;
+}
+.post-body a[style*="background:#1a73e8"],
+.post-body a[style*="background: #1a73e8"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-radius"]{
+  color:var(--text2);
+}
+
+/* TOC */
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:0 0 32px}
+.toc-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:12px}
+.toc ol{margin:0;padding-left:18px}
+.toc li{font-size:.9rem;line-height:1.9}
+.toc a{color:var(--text2);text-decoration:none}
+.toc a:hover{color:var(--amber);text-decoration:none}
+
+/* Podcast embed */
+.podcast-embed{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:20px;margin:36px 0}
+.podcast-embed p{font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:12px}
+.podcast-embed iframe{border-radius:6px}
+.podcast-link{display:inline-flex;align-items:center;gap:8px;color:var(--amber);font-size:.875rem;font-weight:600;text-decoration:none;margin-top:8px}
+.podcast-link:hover{color:var(--amber-light);text-decoration:none}
+
+/* Author box */
+.author-box{display:flex;gap:16px;align-items:flex-start;padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:40px 0}
+.author-box .author-name{font-weight:700;color:var(--text);font-size:.95rem;margin-bottom:4px}
+.author-box .author-bio{font-size:.825rem;color:var(--text2);line-height:1.6}
+
+/* Related posts */
+.related-posts{margin:48px 0 0}
+.related-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:18px}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.related-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;text-decoration:none;display:block;transition:border-color .2s}
+.related-card:hover{border-color:var(--amber);text-decoration:none}
+.related-card .r-tag{font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.related-card .r-title{font-size:.85rem;font-weight:600;color:#e5e7eb;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Pagination */
+.pagination{display:flex;gap:8px;justify-content:center;margin-top:48px;flex-wrap:wrap}
+.page-btn{padding:8px 16px;border:1px solid var(--border);border-radius:6px;font-size:.875rem;color:var(--text2);background:var(--surface)}
+.page-btn.active{background:var(--amber);color:#07080a;border-color:var(--amber);font-weight:700}
+.page-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* Category header */
+.cat-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:100px 24px 40px}
+.cat-header h1{font-family:var(--sans);font-size:1.8rem;font-weight:800;margin-bottom:8px;color:var(--text)}
+.cat-header p{color:var(--text2);font-size:.9rem}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80px}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-logo{font-family:var(--sans);font-size:1.1rem;font-weight:800;margin-bottom:12px;color:var(--text)}
+.footer-logo span{color:var(--amber)}
+.footer-desc{font-size:.82rem;color:var(--text3);line-height:1.7;margin-bottom:14px}
+.footer-disclaimer{font-size:.74rem;color:var(--text3);line-height:1.6;opacity:.7}
+.footer-col h4{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);margin-bottom:16px}
+.footer-col a{display:block;font-size:.85rem;color:var(--text2);margin-bottom:10px;transition:color .15s}
+.footer-col a:hover{color:var(--text);text-decoration:none}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.76rem;color:var(--text3)}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
+@media(max-width:1024px){
+  .hp-featured{grid-template-columns:1fr}
+  .hp-body{grid-template-columns:1fr}
+  .hp-sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .related-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .hp-sidebar{grid-template-columns:1fr}
+  .nav-links .nav-link{display:none}
+  .post-title{font-size:1.8rem}
+  .hp-lead-title{font-size:1.8rem}
+  .cta-end{padding:24px 20px}
+  .related-grid{grid-template-columns:1fr}
+  .cat-header{padding:90px 20px 36px}
+  .footer-top{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column}
+  .share-row{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">Global<span class="logo-amber">HighLevel</span></a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <div class="nav-dropdown">
+        <a class="nav-link">Topics <span style="font-size:10px">&#9662;</span></a>
+        <div class="nav-dropdown-menu">
+    <a href="/category/ai-automation/">AI & Automation</a>
+    <a href="/category/email-deliverability/">Email & Deliverability</a>
+    <a href="/category/sms-messaging/">SMS & Messaging</a>
+    <a href="/category/crm-contacts/">CRM & Contacts</a>
+    <a href="/category/payments-commerce/">Payments & Commerce</a>
+    <a href="/category/analytics-reporting/">Analytics & Reporting</a>
+    <a href="/category/phone-voice/">Phone & Voice</a>
+    <a href="/category/agency-platform/">Agency & Platform</a>
+    <a href="/category/gohighlevel-india/">GoHighLevel India</a>
+    <a href="/category/gohighlevel-espanol/">GoHighLevel en Español</a>
+        </div>
+      </div>
+      <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="nav-link" target="_blank" rel="noopener">Podcast</a>
+      <a href="" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+    </div>
+  </div>
+</nav>
+
+<div id="reading-progress"></div>
+<div class="post-container">
+  <div class="post-breadcrumb fade-1">
+    <a href="/">Home</a><span class="bc-sep">&rsaquo;</span><a href="/category/payments-commerce/">Payments & Commerce</a><span class="bc-sep">&rsaquo;</span><span>How to Set Up Taxes & Fees in GoHighLevel —…</span>
+  </div>
+  <div class="post-eyebrow fade-1"><a href="/category/payments-commerce/" style="color:var(--amber);text-decoration:none">Payments & Commerce</a></div>
+  <h1 class="post-title fade-2">How to Set Up Taxes & Fees in GoHighLevel — Services Guide</h1>
+  <div class="post-byline fade-3">
+    <span>By William Welch</span>
+    <span class='sep'>&middot;</span><span>March 16, 2026</span>
+    <span class="sep">&middot;</span><span>9 min read</span>
+  </div>
+  
+<div class="share-row">
+  <span>Share</span>
+  <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fhow-to-set-up-taxes-fees-gohighlevel-services-guide%2F&text=How%20to%20Set%20Up%20Taxes%20%26%20Fees%20in%20GoHighLevel%20—%20Services%20Guide" target="_blank" rel="noopener" class="share-btn">X</a>
+  <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fhow-to-set-up-taxes-fees-gohighlevel-services-guide%2F" target="_blank" rel="noopener" class="share-btn">LinkedIn</a>
+  <button class="share-btn" onclick="navigator.clipboard.writeText('https://globalhighlevel.com/blog/how-to-set-up-taxes-fees-gohighlevel-services-guide/');this.textContent='Copied!'">Copy Link</button>
+</div>
+  
+<p class="cta-byline">Follow along &mdash; <a href="&utm_campaign=how-to-set-up-taxes-fees-gohighlevel-services-guide" target="_blank" rel="nofollow noopener">get 30 days free &rarr;</a></p>
+  
+<div class="toc">
+  <div class="toc-label">In This Guide</div>
+  <ol><li><a href="#section-1">Understanding Tax and Fee Configuration in GoHighLevel</a></li><li><a href="#section-2">How to Set Up Manual Taxes in Services (v2)</a></li><li><a href="#section-3">Adding Custom Processing Fees and Miscellaneous Charges</a></li><li><a href="#section-4">How Taxes and Fees Display Across Booking Forms and Receipts</a></li><li><a href="#section-5">Best Practices for Tax and Fee Management</a></li><li><a href="#section-6">Provider Compatibility and Calculation Rules</a></li></ol>
+</div>
+  
+<div class="podcast-embed">
+  <p>This tutorial also has a podcast episode</p>
+  <a class="podcast-link" href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">
+    Listen on Spotify — "Go High Level" podcast
+  </a>
+</div>
+  <div class="post-body"><p>If you're running a services business or managing client bookings in GoHighLevel, you know that taxes and processing fees can make or break your invoicing accuracy and client trust. Without proper tax configuration, your booking forms will show incorrect totals, your receipts won't itemize charges, and you'll struggle to stay compliant with local tax regulations. This guide walks you through the complete process of setting up taxes and fees in GoHighLevel Services (v2)—so your clients see exactly what they're paying for, and you maintain clean financial records across every booking, receipt, and export.</p>
+
+<p>Let's dive in.</p>
+
+
+
+<h2 id="section-1">Understanding Tax and Fee Configuration in GoHighLevel</h2>
+
+<p>Before you start setting up taxes, it's important to understand what you're actually configuring. GoHighLevel Services (v2) allows you to apply two distinct types of charges to your bookings:</p>
+
+<p><strong>Manual Taxes:</strong> These are percentage-based charges tied to specific service categories, products, or geographic regions. Taxes calculate based on the subtotal of your service and display separately on invoices and receipts so clients understand the breakdown.</p>
+
+<p><strong>Processing Fees:</strong> These are fixed or percentage-based miscellaneous charges that you add to cover payment processing costs, administrative overhead, or other service additions. Unlike taxes, processing fees are typically labeled as "fees" rather than tax obligations.</p>
+
+<p>The key difference: taxes are often legally required (sales tax, VAT, GST), while fees are discretionary charges you choose to apply. Both must display clearly on your booking forms and itemized receipts for transparency and client confidence.</p>
+
+
+
+<h2 id="section-2">How to Set Up Manual Taxes in Services (v2)</h2>
+
+<p>Setting up taxes in GoHighLevel is straightforward, but you need to know exactly where to navigate. Follow these steps:</p>
+
+<p><strong>Step 1: Access Tax Settings</strong><br>Log into your GoHighLevel account and navigate to <strong>Services</strong> → <strong>Settings</strong> → <strong>Taxes & Fees</strong>. This is your central hub for all tax configuration.</p>
+
+<p><strong>Step 2: Click "Add Tax"</strong><br>In the Taxes section, click the <strong>"Add Tax"</strong> button. A popup form will appear asking for the following information:</p>
+
+<ul style="margin: 12px 0;">
+<li><strong>Tax Name:</strong> What you want to call this tax (e.g., "Sales Tax," "VAT," "State Tax")</li>
+<li><strong>Tax Percentage Rate:</strong> The percentage you want to apply (e.g., 8.5% for sales tax)</li>
+<li><strong>Tax ID (Optional):</strong> Your tax identification number or reference code for compliance records</li>
+<li><strong>Description (Optional):</strong> Additional details about the tax, useful for internal tracking</li>
+</ul>
+
+<p><strong>Step 3: Assign Taxes to Services</strong><br>After creating your tax, you need to assign it to specific services. Go to your service settings, select the service you want to apply the tax to, and check the box next to the tax name. You can assign multiple taxes to a single service if needed.</p>
+
+<p><strong>Step 4: Verify Tax Calculation</strong><br>Once applied, the tax will calculate automatically whenever a client books that service. The tax amount is based on the service price and displays separately on the booking form and receipt.</p>
+
+<div style="background:#fff8e1;border-left:4px solid #ffc107;padding:16px 20px;margin:24px 0;border-radius:4px;">
+<p style="font-weight:700;margin:0 0 6px 0;">💡 Pro Tip</p>
+<p style="margin:0;">If you operate in multiple regions with different tax rates, create separate tax entries for each region (e.g., "CA Sales Tax" and "TX Sales Tax"). Then assign them to services based on where the service is performed or delivered. This keeps your tax records clean and audit-ready.</p>
+</div>
+
+<h2 id="section-3">Adding Custom Processing Fees and Miscellaneous Charges</h2>
+
+<p>Processing fees are separate from taxes and give you flexibility to charge for payment processing, booking administration, or other service add-ons. Here's how to set them up:</p>
+
+<p><strong>Step 1: Navigate to Fees in Settings</strong><br>In the same <strong>Taxes & Fees</strong> section, find the <strong>"Fees"</strong> or <strong>"Processing Fees"</strong> tab. Click <strong>"Add Fee."</strong></p>
+
+<p><strong>Step 2: Configure Fee Details</strong><br>Fill in the following:</p>
+
+<ul style="margin: 12px 0;">
+<li><strong>Fee Name:</strong> The label that appears on client invoices (e.g., "Payment Processing Fee" or "Booking Administration")</li>
+<li><strong>Fee Type:</strong> Choose between <strong>Fixed Amount</strong> (e.g., $2.50) or <strong>Percentage</strong> (e.g., 2.9%)</li>
+<li><strong>Fee Amount:</strong> Enter the dollar amount or percentage</li>
+<li><strong>Description (Optional):</strong> Brief explanation of why the fee is being charged</li>
+</ul>
+
+<p><strong>Step 3: Assign Fees to Services</strong><br>Like taxes, you can assign fees to specific services or apply them globally. Select which services the fee applies to, and the fee will be added to every booking for those services.</p>
+
+<p><strong>Step 4: Test on a Booking</strong><br>Create a test booking to verify that your fees display correctly on the booking form and in the appointment modal. The client should see the service price, any taxes, and any fees itemized separately so there's complete transparency.</p>
+
+
+<p class="cta-inline">This is built into GoHighLevel.
+<a href="&utm_campaign=how-to-set-up-taxes-fees-gohighlevel-services-guide" target="_blank" rel="nofollow noopener">Try it free for 30 days &rarr;</a></p><h2 id="section-4">How Taxes and Fees Display Across Booking Forms and Receipts</h2>
+
+<p>One of the strongest features of GoHighLevel's tax and fee system is visibility. Your clients will see a complete breakdown at every stage of their booking experience.</p>
+
+<p><strong>On the Booking Form:</strong> Before a client completes payment, they'll see an itemized summary showing the base service price, any applicable taxes, and any processing fees. This transparency reduces payment friction and questions during checkout.</p>
+
+<p><strong>In the Appointment Modal:</strong> When clients confirm their booking or receive a booking confirmation, the modal displays all charges clearly. If they reschedule or cancel, they can see exactly what fees or refunds apply.</p>
+
+<p><strong>On Client Receipts:</strong> After payment, GoHighLevel generates an itemized receipt showing:</p>
+
+<ul style="margin: 12px 0;">
+<li>Service name and date</li>
+<li>Base service price</li>
+<li>Taxes (broken down by type)</li>
+<li>Processing fees</li>
+<li>Total amount paid</li>
+<li>Payment method and confirmation number</li>
+</ul>
+
+<p><strong>In Reports and Exports:</strong> Your business reports show taxes and fees separately, making it easy to reconcile revenue, identify tax obligations, and calculate your actual take-home profit.</p>
+
+<div style="background:#fff8e1;border-left:4px solid #ffc107;padding:16px 20px;margin:24px 0;border-radius:4px;">
+<p style="font-weight:700;margin:0 0 6px 0;">💡 Pro Tip</p>
+<p style="margin:0;">Always include a brief description on your processing fees (visible to clients). Something like "2.9% payment processing fee" is better than a mysterious charge. Transparency builds trust and reduces refund requests or payment disputes.</p>
+</div>
+
+<h2 id="section-5">Best Practices for Tax and Fee Management</h2>
+
+<p><strong>Separate Taxes from Fees:</strong> Keep tax configuration distinct from fee configuration. Taxes are legal obligations; fees are business choices. This distinction matters for accounting, audits, and tax reporting.</p>
+
+<p><strong>Use Clear Naming Conventions:</strong> Name your taxes and fees descriptively. "Sales Tax 8.5%" is clearer than "Tax 1." This helps you manage multiple taxes and fees without confusion.</p>
+
+<p><strong>Test Before Going Live:</strong> Always create a test booking with your tax and fee configuration before offering services to clients. Verify that totals calculate correctly and that displays look professional on mobile and desktop.</p>
+
+<p><strong>Review Regularly:</strong> Tax rates change. Set a quarterly reminder to verify that your tax percentages match your local regulations. Outdated tax rates can create compliance issues.</p>
+
+<p><strong>Document for Your Accountant:</strong> Keep records of your tax IDs and fee structures. Share this with your accountant or tax advisor so they can verify that your reporting is accurate.</p>
+
+<h2 id="section-6">Provider Compatibility and Calculation Rules</h2>
+
+<p>GoHighLevel Services (v2) supports manual taxes and processing fees across all major payment providers, including Stripe, Square, and PayPal. However, there are a few important calculation rules to understand:</p>
+
+<p><strong>Calculation Order:</strong> Taxes and fees calculate in a specific order. Typically, the base service price is calculated first, then taxes are applied to the subtotal, and then processing fees are applied to the total. This ensures accurate billing and prevents double-taxation.</p>
+
+<p><strong>Provider-Specific Rules:</strong> Some payment processors have restrictions on how fees can be named or applied. For example, some processors won't allow you to label a charge as "tax" unless it's legally registered. GoHighLevel handles this automatically, but be aware that your payment processor ultimately governs what gets charged.</p>
+
+<p><strong>Multi-Provider Setup:</strong> If you're using multiple payment providers (Stripe for online bookings, Square for in-person), make sure your tax and fee configurations are consistent across all providers. Otherwise, clients may see different totals depending on their payment method.</p>
+
+<p><strong>Refund and Cancellation Handling:</strong> When a client cancels or requests a refund, GoHighLevel automatically refunds the full amount, including taxes and fees. You can configure refund policies separately, but tax and fee refunds are typically non-negotiable.</p>
+
+<div style="background:#f8f9fa;padding:24px;border-radius:8px;margin:36px 0;">
+<h3 style="margin-top:0;">Frequently Asked Questions</h3>
+
+<h3>Can I apply different taxes to different services?</h3>
+<p>Yes. GoHighLevel lets you assign specific taxes to specific services. You can have "Service A" charged at 8% sales tax and "Service B" charged at 0% (if it's exempt). This is useful if you offer taxable and non-taxable services.</p>
+
+<h3>What's the difference between a processing fee and a sales tax?</h3>
+<p>Processing fees are charges you add to cover payment processor costs or administrative overhead. They're discretionary and appear as a separate line item. Sales taxes are legal obligations based on jurisdiction and are typically non-negotiable. Both display on invoices, but they're tracked and reported differently for accounting.</p>
+
+<h3>Can I charge a percentage-based processing fee instead of a flat fee?</h3>
+<p>Absolutely. When you create a processing fee, you can choose between a fixed amount (e.g., $2.50) or a percentage (e.g., 2.9% of the total). Many agencies prefer percentage-based fees because they scale with service price.</p>
+
+<h3>Do taxes and fees apply to package bookings or subscriptions?</h3>
+<p>Yes, if you've configured them to. Taxes and fees can be applied to single-session services, packages, and subscription-based services. Just assign the tax or fee to the service type, and it will apply automatically.</p>
+
+<h3>Will my clients see taxes and fees before they book?</h3>
+<p>Yes. GoHighLevel displays the full itemized breakdown (service price, taxes, fees, total) on the booking form before clients confirm and pay. This transparency is built into the platform.</p>
+</div>
+
+
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I apply different taxes to different services?","acceptedAnswer":{"@type":"Answer","text":"Yes. GoHighLevel lets you assign specific taxes to specific services. You can have Service A charged at 8% sales tax and Service B charged at 0% if it's exempt. This is useful if you offer taxable and non-taxable services."}},{"@type":"Question","name":"What's the difference between a processing fee and a sales tax?","acceptedAnswer":{"@type":"Answer","text":"Processing fees are charges you add to cover payment processor costs or administrative overhead. They're discretionary and appear as a separate line item. Sales taxes are legal obligations based on jurisdiction and are typically non-negotiable. Both display on invoices, but they're tracked and reported differently for accounting."}},{"@type":"Question","name":"Can I charge a percentage-based processing fee instead of a flat fee?","acceptedAnswer":{"@type":"Answer","text":"Absolutely. When you create a processing fee, you can choose between a fixed amount like $2.50 or a percentage like 2.9% of the total. Many agencies prefer percentage-based fees because they scale with service price."}},{"@type":"Question","name":"Do taxes and fees apply to package bookings or subscriptions?","acceptedAnswer":{"@type":"Answer","text":"Yes, if you've configured them to. Taxes and fees can be applied to single-session services, packages, and subscription-based services. Just assign the tax or fee to the service type, and it will apply automatically."}},{"@type":"Question","name":"Will my clients see taxes and fees before they book?","acceptedAnswer":{"@type":"Answer","text":"Yes. GoHighLevel displays the full itemized breakdown including service price, taxes, fees, and total on the booking form before clients confirm and pay. This transparency is built into the platform."}}]}
+</script></div>
+  
+<div class="cta-end">
+  <h3>Ready to try this?</h3>
+  <p>30 days free, no credit card required. Set up everything in this guide inside your trial.</p>
+  <a href="&utm_campaign=how-to-set-up-taxes-fees-gohighlevel-services-guide" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free 30-Day Trial</a>
+  <div class="fine">Cancel anytime &mdash; $0 for the first 30 days</div>
+</div>
+  
+<div class="author-box">
+  <div>
+    <div class="author-name">William Welch</div>
+    <div class="author-bio">GoHighLevel user and affiliate. Runs GlobalHighLevel.com — free tutorials, guides, and strategies for agencies and businesses using GHL worldwide.</div>
+  </div>
+</div>
+  
+<div class="related-posts">
+  <div class="related-label">Keep Reading</div>
+  <div class="related-grid">
+<a href="/blog/how-to-enable-3d-secure-payments-gohighlevel-reduce-fraud/" class="related-card">
+  <div class="r-tag">Payments & Commerce</div>
+  <div class="r-title">How to Enable 3D Secure Payments in GoHighLevel — Reduce Fraud</div>
+</a>
+<a href="/blog/how-to-set-up-taxes-fees-gohighlevel-boost-revenue/" class="related-card">
+  <div class="r-tag">Payments & Commerce</div>
+  <div class="r-title">How to Set Up Taxes & Fees in GoHighLevel — Boost Revenue</div>
+</a>
+<a href="/blog/send-file-attachments-gohighlevel-live-chat-faster-support/" class="related-card">
+  <div class="r-tag">Payments & Commerce</div>
+  <div class="r-title">Send File Attachments in GoHighLevel Live Chat — Faster Support</div>
+</a></div>
+</div>
+</div>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Set Up Taxes & Fees in GoHighLevel \u2014 Services Guide", "description": "Learn how to configure manual taxes and processing fees in GoHighLevel Services (v2). Step-by-step guide with best practices for accurate client billing.", "datePublished": "2026-03-16T00:03:53.099122", "author": {"@type": "Person", "name": "William Welch"}, "publisher": {"@type": "Organization", "name": "Global High Level", "url": "https://globalhighlevel.com"}, "url": "https://globalhighlevel.com/blog/how-to-set-up-taxes-fees-gohighlevel-services-guide/"}</script>
+
+<script>
+(function(){
+  var bar=document.getElementById('reading-progress');
+  if(!bar)return;
+  window.addEventListener('scroll',function(){
+    var body=document.querySelector('.post-body');
+    if(!body)return;
+    var top=body.getBoundingClientRect().top+window.scrollY;
+    var h=body.offsetHeight-window.innerHeight;
+    var pct=h>0?Math.min(100,Math.max(0,(window.scrollY-top+window.innerHeight*0.1)/h*100)):100;
+    bar.style.width=pct+'%';
+  },{passive:true});
+})();
+</script>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Global<span>HighLevel</span></div>
+        <p class="footer-desc">Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide.</p>
+        <p class="footer-disclaimer">Affiliate disclosure: Some links on this site are affiliate links. If you sign up through our link, we may earn a commission at no extra cost to you. Not affiliated with GoHighLevel LLC.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Topics</h4>
+        <a href="/category/ai-automation/">AI & Automation</a>
+        <a href="/category/email-deliverability/">Email & Deliverability</a>
+        <a href="/category/sms-messaging/">SMS & Messaging</a>
+        <a href="/category/crm-contacts/">CRM & Contacts</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
+        <a href="https://help.gohighlevel.com" target="_blank" rel="noopener">GHL Help Center</a>
+        <a href="" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 GlobalHighLevel.com</span>
+      <span>Not affiliated with GoHighLevel LLC</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

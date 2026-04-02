@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Master Multi-Calendar Appointment Booking in GoHighLevel | Global High Level</title>
+<meta name="description" content="Master multi-calendar appointment booking in GoHighLevel. Set up AI-powered routing, prevent conflicts, and automate scheduling across departments. Full guid...">
+<link rel="canonical" href="https://globalhighlevel.com/blog/master-multi-calendar-appointment-booking-gohighlevel/">
+<meta property="og:title" content="Master Multi-Calendar Appointment Booking in GoHighLevel | Global High Level">
+<meta property="og:description" content="Master multi-calendar appointment booking in GoHighLevel. Set up AI-powered routing, prevent conflicts, and automate scheduling across departments. Full guid...">
+<meta property="og:url" content="https://globalhighlevel.com/blog/master-multi-calendar-appointment-booking-gohighlevel/">
+<meta property="og:image" content="">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"Global High Level","url":"https://globalhighlevel.com"}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&display=swap');
+
+:root{
+  --bg:#07080a;
+  --bg2:#0c0e14;
+  --surface:#111520;
+  --amber:#f59e0b;
+  --amber-light:#fbbf24;
+  --amber-dim:rgba(245,158,11,0.12);
+  --amber-border:rgba(245,158,11,0.22);
+  --text:#eef2ff;
+  --text2:#a0aec8;
+  --text3:#6b7ea8;
+  --border:rgba(255,255,255,0.06);
+  --max:1120px;
+  --content:665px;
+  --sans:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);font-size:16px;line-height:1.7;color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:var(--amber);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;height:auto}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-1{animation:fadeUp .6s ease both}
+.fade-2{animation:fadeUp .6s .15s ease both}
+.fade-3{animation:fadeUp .6s .3s ease both}
+
+/* ── NAV — fixed, backdrop blur, animated underlines ──────────────────────── */
+nav{position:fixed;top:0;inset-x:0;z-index:200;background:rgba(7,8,10,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--sans);font-size:1.15rem;font-weight:800;letter-spacing:-.3px;display:flex;align-items:center;gap:0;color:var(--text)}
+.logo-amber{color:var(--amber)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-link{font-size:.82rem;font-weight:500;color:var(--text2);letter-spacing:.1px;transition:color .15s;position:relative;padding:4px 0}
+.nav-link::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--amber);transition:width .2s ease-in-out}
+.nav-link:hover{color:var(--text);text-decoration:none}
+.nav-link:hover::after{width:100%}
+.nav-cta{font-size:.8rem;font-weight:700;color:#000;background:var(--amber);padding:7px 16px;border-radius:100px;transition:background .15s}
+.nav-cta:hover{background:var(--amber-light);text-decoration:none}
+.nav-dropdown{position:relative}
+.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:-12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 0;min-width:220px;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.nav-dropdown:hover .nav-dropdown-menu{display:block}
+.nav-dropdown-menu a{display:block;padding:8px 20px;font-size:.82rem;color:var(--text2);transition:color .15s,background .15s}
+.nav-dropdown-menu a:hover{color:var(--text);background:rgba(255,255,255,.05);text-decoration:none}
+
+/* ── CONTAINER ────────────────────────────────────────────────────────────── */
+.container{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* ── SECTION LABELS ───────────────────────────────────────────────────────── */
+.section-label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--amber);display:inline-block}
+
+/* ── HOMEPAGE — Featured + stack ──────────────────────────────────────────── */
+.hp-featured{display:grid;grid-template-columns:1.5fr 1fr;gap:32px;padding:88px 0 48px;border-bottom:1px solid var(--border)}
+.hp-lead{display:flex;flex-direction:column;justify-content:center}
+.hp-lead-cat{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.hp-lead-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);margin-bottom:14px;letter-spacing:-.5px}
+.hp-lead-title a{color:var(--text);transition:color .2s}
+.hp-lead-title a:hover{color:var(--amber);text-decoration:none}
+.hp-lead-desc{font-size:1rem;color:var(--text2);line-height:1.65;margin-bottom:16px}
+.hp-lead-meta{font-size:13px;color:var(--text3);letter-spacing:.2px}
+.hp-stack{display:flex;flex-direction:column;gap:0}
+.hp-stack-item{padding:20px 0;border-bottom:1px solid var(--border)}
+.hp-stack-item:first-child{padding-top:0}
+.hp-stack-item:last-child{border-bottom:none}
+.hp-stack-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:6px}
+.hp-stack-title{font-family:var(--sans);font-size:1rem;font-weight:700;line-height:1.35;margin-bottom:6px}
+.hp-stack-title a{color:var(--text);transition:color .15s}
+.hp-stack-title a:hover{color:var(--amber);text-decoration:none}
+.hp-stack-meta{font-size:12px;color:var(--text3)}
+
+/* ── HOMEPAGE — Main grid + sidebar ───────────────────────────────────────── */
+.hp-body{display:grid;grid-template-columns:1fr 320px;gap:48px;padding:48px 0 80px}
+.hp-articles{display:flex;flex-direction:column;gap:0}
+
+/* ── FLAT EDITORIAL CARDS (article list items) ────────────────────────────── */
+.card{padding:24px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column}
+.card-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:8px;text-decoration:none;display:inline-block}
+a.card-cat:hover{color:var(--amber-light);text-decoration:none}
+.card-title{font-family:var(--sans);font-size:1.1rem;font-weight:700;line-height:1.35;margin-bottom:8px}
+.card-title a{color:var(--text);transition:color .15s}
+.card-title a:hover{color:var(--amber);text-decoration:none}
+.card-excerpt{font-size:.9rem;color:var(--text2);line-height:1.55;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-meta{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.meta-sep{color:var(--text3)}
+.podcast-badge{display:inline-flex;align-items:center;gap:4px;background:var(--amber-dim);color:var(--amber);font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:auto}
+
+/* ── HOMEPAGE SIDEBAR ─────────────────────────────────────────────────────── */
+.hp-sidebar{position:sticky;top:72px;align-self:start}
+.sidebar-section{margin-bottom:36px}
+.sidebar-section .section-label{font-size:11px;margin-bottom:12px;padding-bottom:8px}
+.sidebar-trending{display:flex;flex-direction:column;gap:0}
+.trending-item{padding:12px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start}
+.trending-item:last-child{border-bottom:none}
+.trending-num{font-family:var(--sans);font-size:1.3rem;font-weight:800;color:rgba(245,158,11,.3);line-height:1;min-width:24px}
+.trending-title{font-size:.85rem;font-weight:600;line-height:1.35}
+.trending-title a{color:var(--text2);transition:color .15s}
+.trending-title a:hover{color:var(--text);text-decoration:none}
+.sidebar-podcast{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:24px}
+.sidebar-podcast p{font-size:.85rem;color:var(--text2);margin-bottom:12px;line-height:1.5}
+.btn-spotify{display:inline-flex;align-items:center;gap:6px;background:#1DB954;color:#000;font-size:.8rem;font-weight:700;padding:8px 16px;border-radius:6px;transition:opacity .15s}
+.btn-spotify:hover{opacity:.88;text-decoration:none}
+.sidebar-cta{background:var(--surface);border:1px solid var(--amber-border);border-radius:8px;padding:20px;text-align:center}
+.sidebar-cta .s-headline{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.sidebar-cta .s-sub{font-size:.8rem;color:var(--text2);margin-bottom:14px;line-height:1.5}
+.sidebar-cta .s-fine{font-size:.7rem;color:var(--text3);margin-top:10px}
+.sidebar-cat-link{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem;color:var(--text2);transition:color .15s}
+.sidebar-cat-link:last-child{border-bottom:none}
+.sidebar-cat-link:hover{color:var(--text);text-decoration:none}
+.sidebar-cat-count{font-size:.75rem;color:var(--text3);background:rgba(255,255,255,.04);padding:2px 8px;border-radius:12px}
+
+/* ── Cards grid (for category pages) ──────────────────────────────────────── */
+.cards-grid{display:flex;flex-direction:column;gap:0}
+
+/* ── Reading progress bar ─────────────────────────────────────────────────── */
+#reading-progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--amber);z-index:9999;transition:width .1s linear}
+
+/* ── POST PAGE — single-column centered ───────────────────────────────────── */
+.post-container{max-width:var(--content);margin:0 auto;padding:100px 24px 48px}
+
+/* Breadcrumb */
+.post-breadcrumb{font-size:.8rem;color:var(--text3);margin-bottom:24px}
+.post-breadcrumb a{color:var(--text2);transition:color .15s}
+.post-breadcrumb a:hover{color:var(--text);text-decoration:none}
+.post-breadcrumb .bc-sep{margin:0 8px;color:var(--text3);opacity:.5}
+
+/* Post header */
+.post-eyebrow{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px}
+.post-title{font-family:var(--sans);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px}
+.post-byline{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text3);padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:8px;flex-wrap:wrap}
+.post-byline .sep{color:var(--text3);opacity:.4}
+
+/* Share row */
+.share-row{display:flex;align-items:center;gap:12px;padding:12px 0 28px;border-bottom:1px solid var(--border);margin-bottom:32px;font-size:13px;color:var(--text3)}
+.share-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;color:var(--text2);background:transparent;cursor:pointer;transition:border-color .15s,color .15s}
+.share-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* CTA — below byline (compact one-liner) */
+.cta-byline{font-size:.9rem;color:var(--text2);margin:0 0 32px;padding:12px 0}
+.cta-byline a{color:var(--amber);font-weight:600}
+.cta-byline a:hover{color:var(--amber-light)}
+
+/* CTA — mid-article inline */
+.cta-inline{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px 18px;margin:28px 0;font-size:.9rem;color:var(--text2);display:block}
+.cta-inline a{color:var(--amber);font-weight:600;text-decoration:none}
+.cta-inline a:hover{color:var(--amber-light)}
+
+/* CTA — end of article box */
+.cta-end{background:var(--surface);border:1px solid var(--amber-border);border-radius:10px;padding:32px;text-align:center;margin:48px 0}
+.cta-end h3{font-family:var(--sans);font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:10px}
+.cta-end p{font-size:.9rem;color:var(--text2);margin:0 0 20px;max-width:440px;margin-left:auto;margin-right:auto}
+.cta-end .fine{font-size:.75rem;color:var(--text3);margin-top:12px}
+.btn-amber{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:#000;font-size:.85rem;font-weight:700;padding:11px 22px;border-radius:6px;transition:all .2s;text-decoration:none}
+.btn-amber:hover{background:var(--amber-light);transform:translateY(-1px);text-decoration:none}
+
+/* Post body typography */
+.post-body{font-size:19px;line-height:1.75;color:#e5e7eb}
+.post-body h2{font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin:48px 0 14px}
+.post-body h3{font-size:1.15rem;font-weight:700;color:#f3f4f6;margin:32px 0 10px}
+.post-body p{margin-bottom:20px}
+.post-body ul,.post-body ol{margin:0 0 20px 24px}
+.post-body li{margin-bottom:8px}
+.post-body strong{color:#fff}
+.post-body a{color:var(--amber);text-decoration:underline;text-underline-offset:3px}
+.post-body a:hover{color:var(--amber-light)}
+
+/* ── LIGHT-MODE INLINE STYLE OVERRIDES ────────────────────────────────────── */
+.post-body a[style*="color:#1a73e8"],
+.post-body a[style*="color: #1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body a[style*="color:#1a73e8"]:hover,
+.post-body a[style*="color: #1a73e8"]:hover{
+  color:var(--amber-light)!important;
+}
+.post-body div[style*="background:#f0f4ff"],
+.post-body div[style*="background: #f0f4ff"]{
+  background:var(--surface)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#f8f9fa"],
+.post-body div[style*="background: #f8f9fa"]{
+  background:var(--surface)!important;
+  border-color:var(--border)!important;
+}
+.post-body div[style*="background:#fff8e1"],
+.post-body div[style*="background: #fff8e1"]{
+  background:rgba(245,158,11,.06)!important;
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="background:#fff"],
+.post-body div[style*="background: #fff"],
+.post-body div[style*="background:#ffffff"],
+.post-body div[style*="background: #ffffff"]{
+  background:var(--surface)!important;
+}
+.post-body div[style*="background:#1a73e8"],
+.post-body div[style*="background: #1a73e8"]{
+  background:var(--surface)!important;
+  border:1px solid var(--amber-border)!important;
+}
+.post-body div[style*="background:#1a73e8"] *,
+.post-body div[style*="background: #1a73e8"] *{
+  color:var(--text)!important;
+}
+.post-body div[style*="background:#1a73e8"] a,
+.post-body div[style*="background: #1a73e8"] a{
+  background:var(--amber)!important;
+  color:#000!important;
+  border-radius:6px;
+  padding:12px 24px;
+}
+.post-body a[style*="background:#ffffff"],
+.post-body a[style*="background: #ffffff"],
+.post-body a[style*="background:#fff"],
+.post-body a[style*="background: #fff"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-left:4px solid #1a73e8"],
+.post-body div[style*="border-left: 4px solid #1a73e8"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="border:2px solid #1a73e8"],
+.post-body div[style*="border: 2px solid #1a73e8"]{
+  border-color:var(--amber-border)!important;
+}
+.post-body div[style*="border-left:4px solid #ffc107"]{
+  border-left-color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] h3,
+.post-body div[style*="background: #f8f9fa"] h3{
+  color:var(--amber)!important;
+  margin-top:0;
+}
+.post-body div[style*="background:#f8f9fa"] h3[style*="color:#1a73e8"],
+.post-body div[style*="background: #f8f9fa"] h3[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body div[style*="background:#f8f9fa"] p,
+.post-body div[style*="background: #f8f9fa"] p{
+  color:var(--text2)!important;
+}
+.post-body div[style*="background:#f8f9fa"] strong,
+.post-body div[style*="background: #f8f9fa"] strong{
+  color:var(--text)!important;
+}
+.post-body h2[style*="color:#1a73e8"],
+.post-body h3[style*="color:#1a73e8"],
+.post-body h4[style*="color:#1a73e8"]{
+  color:var(--amber)!important;
+}
+.post-body p[style*="color:#1a73e8"],
+.post-body span[style*="color:#1a73e8"],
+.post-body p[style*="color:#333"],
+.post-body span[style*="color:#333"],
+.post-body p[style*="color:#000"],
+.post-body span[style*="color:#000"]{
+  color:var(--text2)!important;
+}
+.post-body a[style*="background:#1a73e8"],
+.post-body a[style*="background: #1a73e8"]{
+  background:var(--amber)!important;
+  color:#000!important;
+}
+.post-body div[style*="border-radius"]{
+  color:var(--text2);
+}
+
+/* TOC */
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:0 0 32px}
+.toc-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:12px}
+.toc ol{margin:0;padding-left:18px}
+.toc li{font-size:.9rem;line-height:1.9}
+.toc a{color:var(--text2);text-decoration:none}
+.toc a:hover{color:var(--amber);text-decoration:none}
+
+/* Podcast embed */
+.podcast-embed{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:8px;padding:20px;margin:36px 0}
+.podcast-embed p{font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:12px}
+.podcast-embed iframe{border-radius:6px}
+.podcast-link{display:inline-flex;align-items:center;gap:8px;color:var(--amber);font-size:.875rem;font-weight:600;text-decoration:none;margin-top:8px}
+.podcast-link:hover{color:var(--amber-light);text-decoration:none}
+
+/* Author box */
+.author-box{display:flex;gap:16px;align-items:flex-start;padding:24px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin:40px 0}
+.author-box .author-name{font-weight:700;color:var(--text);font-size:.95rem;margin-bottom:4px}
+.author-box .author-bio{font-size:.825rem;color:var(--text2);line-height:1.6}
+
+/* Related posts */
+.related-posts{margin:48px 0 0}
+.related-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);margin-bottom:18px}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.related-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;text-decoration:none;display:block;transition:border-color .2s}
+.related-card:hover{border-color:var(--amber);text-decoration:none}
+.related-card .r-tag{font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.related-card .r-title{font-size:.85rem;font-weight:600;color:#e5e7eb;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* Pagination */
+.pagination{display:flex;gap:8px;justify-content:center;margin-top:48px;flex-wrap:wrap}
+.page-btn{padding:8px 16px;border:1px solid var(--border);border-radius:6px;font-size:.875rem;color:var(--text2);background:var(--surface)}
+.page-btn.active{background:var(--amber);color:#07080a;border-color:var(--amber);font-weight:700}
+.page-btn:hover{border-color:var(--amber);color:var(--text);text-decoration:none}
+
+/* Category header */
+.cat-header{background:var(--bg2);border-bottom:1px solid var(--border);padding:100px 24px 40px}
+.cat-header h1{font-family:var(--sans);font-size:1.8rem;font-weight:800;margin-bottom:8px;color:var(--text)}
+.cat-header p{color:var(--text2);font-size:.9rem}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80px}
+.footer-inner{max-width:var(--max);margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-logo{font-family:var(--sans);font-size:1.1rem;font-weight:800;margin-bottom:12px;color:var(--text)}
+.footer-logo span{color:var(--amber)}
+.footer-desc{font-size:.82rem;color:var(--text3);line-height:1.7;margin-bottom:14px}
+.footer-disclaimer{font-size:.74rem;color:var(--text3);line-height:1.6;opacity:.7}
+.footer-col h4{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);margin-bottom:16px}
+.footer-col a{display:block;font-size:.85rem;color:var(--text2);margin-bottom:10px;transition:color .15s}
+.footer-col a:hover{color:var(--text);text-decoration:none}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.76rem;color:var(--text3)}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────────── */
+@media(max-width:1024px){
+  .hp-featured{grid-template-columns:1fr}
+  .hp-body{grid-template-columns:1fr}
+  .hp-sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .related-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .hp-sidebar{grid-template-columns:1fr}
+  .nav-links .nav-link{display:none}
+  .post-title{font-size:1.8rem}
+  .hp-lead-title{font-size:1.8rem}
+  .cta-end{padding:24px 20px}
+  .related-grid{grid-template-columns:1fr}
+  .cat-header{padding:90px 20px 36px}
+  .footer-top{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column}
+  .share-row{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">Global<span class="logo-amber">HighLevel</span></a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <div class="nav-dropdown">
+        <a class="nav-link">Topics <span style="font-size:10px">&#9662;</span></a>
+        <div class="nav-dropdown-menu">
+    <a href="/category/ai-automation/">AI & Automation</a>
+    <a href="/category/email-deliverability/">Email & Deliverability</a>
+    <a href="/category/sms-messaging/">SMS & Messaging</a>
+    <a href="/category/crm-contacts/">CRM & Contacts</a>
+    <a href="/category/payments-commerce/">Payments & Commerce</a>
+    <a href="/category/analytics-reporting/">Analytics & Reporting</a>
+    <a href="/category/phone-voice/">Phone & Voice</a>
+    <a href="/category/agency-platform/">Agency & Platform</a>
+    <a href="/category/gohighlevel-india/">GoHighLevel India</a>
+    <a href="/category/gohighlevel-espanol/">GoHighLevel en Español</a>
+        </div>
+      </div>
+      <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="nav-link" target="_blank" rel="noopener">Podcast</a>
+      <a href="" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+    </div>
+  </div>
+</nav>
+
+<div id="reading-progress"></div>
+<div class="post-container">
+  <div class="post-breadcrumb fade-1">
+    <a href="/">Home</a><span class="bc-sep">&rsaquo;</span><a href="/category/agency-platform/">Agency & Platform</a><span class="bc-sep">&rsaquo;</span><span>Master Multi-Calendar Appointment Booking in…</span>
+  </div>
+  <div class="post-eyebrow fade-1"><a href="/category/agency-platform/" style="color:var(--amber);text-decoration:none">Agency & Platform</a></div>
+  <h1 class="post-title fade-2">Master Multi-Calendar Appointment Booking in GoHighLevel</h1>
+  <div class="post-byline fade-3">
+    <span>By William Welch</span>
+    <span class='sep'>&middot;</span><span>March 24, 2026</span>
+    <span class="sep">&middot;</span><span>8 min read</span>
+  </div>
+  
+<div class="share-row">
+  <span>Share</span>
+  <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fmaster-multi-calendar-appointment-booking-gohighlevel%2F&text=Master%20Multi-Calendar%20Appointment%20Booking%20in%20GoHighLevel" target="_blank" rel="noopener" class="share-btn">X</a>
+  <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fglobalhighlevel.com%2Fblog%2Fmaster-multi-calendar-appointment-booking-gohighlevel%2F" target="_blank" rel="noopener" class="share-btn">LinkedIn</a>
+  <button class="share-btn" onclick="navigator.clipboard.writeText('https://globalhighlevel.com/blog/master-multi-calendar-appointment-booking-gohighlevel/');this.textContent='Copied!'">Copy Link</button>
+</div>
+  
+<p class="cta-byline">Follow along &mdash; <a href="&utm_campaign=master-multi-calendar-appointment-booking-gohighlevel" target="_blank" rel="nofollow noopener">get 30 days free &rarr;</a></p>
+  
+<div class="toc">
+  <div class="toc-label">In This Guide</div>
+  <ol><li><a href="#section-1">What Is Multi-Calendar Appointment Booking in GoHighLevel?</a></li><li><a href="#section-2">How to Set Up Multiple Calendars in Conversation AI</a></li><li><a href="#section-3">Configuring AI Bots for Intelligent Routing</a></li><li><a href="#section-4">Best Practices for Multi-Specialty Scheduling</a></li><li><a href="#section-5">Preventing Scheduling Conflicts and Double Bookings</a></li><li><a href="#section-6">Advanced Calendar Integrations and Syncing</a></li></ol>
+</div>
+  
+<div class="podcast-embed">
+  <p>Listen to this episode</p>
+  <iframe width="100%" height="180" frameborder="no" scrolling="no" seamless
+    src="https://share.transistor.fm/e/b715fe4d" loading="lazy"></iframe>
+  <a class="podcast-link" href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">
+    Follow the podcast on Spotify
+  </a>
+</div>
+  <div class="post-body"><p>Managing appointments across multiple departments, specialists, or service lines used to mean juggling spreadsheets, missed bookings, and frustrated clients. If you run an agency—or any business with more than one person handling client calls—you know the scheduling nightmare all too well.</p>
+
+<p>GoHighLevel's Conversation AI with Multiple Calendars feature changes that completely. Instead of manually routing appointment requests, AI bots intelligently detect what your customer needs and automatically direct them to the right calendar, the right specialist, and the right time slot. It's appointment automation that actually works.</p>
+
+<p>In this guide, I'll show you exactly how to set up multi-calendar booking in GoHighLevel, how the AI routing works, and the best practices that separate agencies crushing it from those still buried in scheduling chaos. Whether you're managing a 5-person team or scaling to 50, this system will cut your scheduling overhead by 80% and eliminate conflicts before they happen.</p>
+
+<p>Ready to simplify your booking process? <a href="https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=blog&utm_medium=article&utm_campaign=master-multi-calendar-appointment-booking-in-gohighlevel" style="color:#1a73e8;font-weight:700;">Start your FREE 30-day GoHighLevel trial today</a> and see how Conversation AI transforms your scheduling operations.</p>
+
+
+
+<h2 id="section-1">What Is Multi-Calendar Appointment Booking in GoHighLevel?</h2>
+
+<p>Multi-calendar appointment booking in GoHighLevel allows you to create separate calendars for different team members, departments, or service types—and route incoming booking requests to the correct calendar based on what the customer actually needs.</p>
+
+<p>Here's the difference: Without multi-calendar setup, every booking request goes to one central calendar. Your sales rep, your web designer, and your account manager all share the same availability. Clients don't know who to book with. You waste time managing manual reassignments. Conflicts happen constantly.</p>
+
+<p>With GoHighLevel's multi-calendar system powered by Conversation AI, the bot asks clarifying questions—"Are you looking for web design, SEO services, or account management?"—and automatically books the appointment with the right person's calendar. No manual routing. No conflicts. No confusion.</p>
+
+<p>This is especially powerful for agencies that offer multiple services, companies with multiple team members in different departments, or service businesses with specialists.</p>
+
+<div style="background:#fff8e1;border-left:4px solid #ffc107;padding:16px 20px;margin:24px 0;border-radius:4px;">
+<p style="font-weight:700;margin:0 0 6px 0;">💡 Pro Tip</p>
+<p style="margin:0;">Multi-calendar routing isn't just about reducing your admin work—it's about increasing conversion. When customers book with the right person immediately, no-shows drop by 25-40% because there's clear accountability and the expectation is set from the start.</p>
+</div>
+
+<h2 id="section-2">How to Set Up Multiple Calendars in Conversation AI</h2>
+
+<p><strong>Step 1: Create Individual Calendars</strong></p>
+
+<p>In GoHighLevel, navigate to Calendars & Appointments in your sidebar. Click "Create New Calendar." You'll create one calendar per team member or service line. Name each calendar clearly—"Sarah's Sales Calendar," "Design Services Calendar," "Account Management Calendar."</p>
+
+<p>For each calendar, set the owner (the team member whose schedule it reflects), availability hours, buffer time between appointments, and any custom fields you want to collect during booking (budget, project type, urgency level, etc.).</p>
+
+<p><strong>Step 2: Configure Availability and Buffers</strong></p>
+
+<p>Each calendar needs its own availability settings. If you have a sales rep who works 9 AM–5 PM EST and a designer who starts at 10 AM PST, their calendars should reflect that. Set minimum buffer times—15 minutes between calls is standard, 30 minutes if you want breathing room between back-to-back appointments.</p>
+
+<p><strong>Step 3: Link Calendars to Contacts</strong></p>
+
+<p>In GoHighLevel's CRM, link each team member's contact record to their calendar. This ensures that when an appointment is booked, it syncs to their actual calendar event, and they get notified immediately.</p>
+
+<p><strong>Step 4: Set Up Calendar Groups</strong></p>
+
+<p>If you have multiple calendars that serve the same function (e.g., three sales reps), you can create a calendar group. This allows customers to book with "any available sales rep" or specify which rep they prefer. GoHighLevel will find the first available slot across the group.</p>
+
+
+
+<h2 id="section-3">Configuring AI Bots for Intelligent Routing</h2>
+
+<p>The real magic of GoHighLevel's multi-calendar system is Conversation AI. The bot doesn't just collect appointment details—it understands intent and routes smartly.</p>
+
+<p><strong>How AI Intent Detection Works</strong></p>
+
+<p>When a lead messages your business, the Conversation AI bot analyzes their language. If they say "I need help with my website design," the bot knows to offer slots from your Design Services calendar. If they mention "I'm interested in your SEO package," it routes to your SEO specialist's calendar.</p>
+
+<p>You don't hard-code these rules. Instead, you train the bot during setup by showing it examples of customer intent and which calendar that intent maps to. After a few examples, the AI learns and routes automatically.</p>
+
+<p><strong>Setting Up Intent-Based Routing</strong></p>
+
+<p>In your Conversation AI settings, define the intents your business handles. For an agency, these might be:</p>
+
+<ul style="margin:16px 0;padding-left:20px;">
+<li>Service discovery (route to sales calendar)</li>
+<li>Technical support (route to support calendar)</li>
+<li>Project consultation (route to project manager calendar)</li>
+<li>Account review (route to account manager calendar)</li>
+</ul>
+
+<p>For each intent, assign which calendar(s) should handle it. You can also set fallback logic: if the customer's primary specialist isn't available, the bot automatically offers the next available person from that calendar group.</p>
+
+<p><strong>Natural Language Processing in Action</strong></p>
+
+<p>The bot doesn't require customers to select from a menu. A customer can simply type "I want to schedule a call with someone about growing my business," and the AI understands this is a sales conversation. Or "I need to discuss my current contract," and it knows to route to account management. This feels natural and reduces friction in the booking flow.</p>
+
+
+<p class="cta-inline">This is built into GoHighLevel.
+<a href="&utm_campaign=master-multi-calendar-appointment-booking-gohighlevel" target="_blank" rel="nofollow noopener">Try it free for 30 days &rarr;</a></p><h2 id="section-4">Best Practices for Multi-Specialty Scheduling</h2>
+
+<p><strong>1. Clear Calendar Naming and Descriptions</strong></p>
+
+<p>Never name calendars "Calendar 1" or "Calendar 2." Use descriptive names: "Sarah Chen - Sales Consultations," "Web Design & Development," "Paid Ads Strategy." If a customer somehow sees the calendar list, they immediately understand what each one is for.</p>
+
+<p><strong>2. Consistent Availability Across Teams</strong></p>
+
+<p>If you have multiple people handling the same service, their availability should overlap. If your web designers work 9 AM–1 PM and 2 PM–6 PM, and your account managers work 10 AM–3 PM, there's only a one-hour window for joint consultations. Know these gaps and plan accordingly.</p>
+
+<p><strong>3. Specialized Custom Fields by Calendar</strong></p>
+
+<p>Your sales calendar might collect budget and company size. Your design calendar might collect design preferences and website goals. Your support calendar might collect issue type and urgency. Customize the booking form fields for each calendar so you collect only what matters.</p>
+
+<p><strong>4. Automated Follow-Up and Reminders**</strong></p>
+
+<p>Set up appointment reminders to send 24 hours and 1 hour before the call. Use different reminder templates for different calendar types—your sales team might want a casual reminder, while your design consultations might benefit from a reminder that includes a brief discovery questionnaire.</p>
+
+<div style="background:#fff8e1;border-left:4px solid #ffc107;padding:16px 20px;margin:24px 0;border-radius:4px;">
+<p style="font-weight:700;margin:0 0 6px 0;">💡 Pro Tip</p>
+<p style="margin:0;">Use GoHighLevel's SMS and email automation together. Send an SMS reminder 1 hour before (higher engagement), and email the Zoom link 24 hours prior (gives them time to prepare). This combo cuts no-shows dramatically.</p>
+</div>
+
+<h2 id="section-5">Preventing Scheduling Conflicts and Double Bookings</h2>
+
+<p>Even with multiple calendars, double bookings can happen if you're not careful. Here's how to prevent them:</p>
+
+<p><strong>1. Sync External Calendars**</strong></p>
+
+<p>If your team uses Google Calendar or Outlook for personal meetings, training, or time off, integrate those calendars into GoHighLevel. The booking system then knows to block time for non-client activities, preventing overbooking.</p>
+
+<p><strong>2. Set Minimum Buffer Times**</strong></p>
+
+<p>Beyond just scheduling back-to-back appointments, set buffers for context switching. A sales call with a complex prospect needs 15 minutes before the next call starts. Give your designers 30 minutes between consultations to review notes and prepare.</p>
+
+<p><strong>3. Use Time Zone Detection**</strong></p>
+
+<p>If you have clients across multiple time zones, GoHighLevel's Conversation AI automatically detects their time zone and shows availability in their local time. No more "I thought 2 PM was my time" confusion.</p>
+
+<p><strong>4. Manual Approval for Complex Bookings**</strong></p>
+
+<p>For high-value consultations or bookings that require pre-approval, enable "Appointment Pending Review." The appointment books provisionally, but your team member gets a notification to approve or reschedule before confirmation is sent to the client.</p>
+
+<h2 id="section-6">Advanced Calendar Integrations and Syncing</h2>
+
+<p><strong>Google Calendar & Outlook Sync**</strong></p>
+
+<p>GoHighLevel syncs bidirectionally with Google Calendar and Outlook. When you book an appointment in GHL, it creates a calendar event in your team member's Google or Outlook calendar. When they manually block time in Google Calendar, it shows as unavailable in GoHighLevel. This prevents the awkward "I'm already in a meeting" scenario.</p>
+
+<p><strong>Zoom and Google Meet Integration**</strong></p>
+
+<p>When an appointment books, GoHighLevel automatically generates a Zoom or Google Meet link, adds it to the calendar event, and sends it to the customer. Your team member gets the link in their confirmation email. No more manual link generation or copy-paste errors.</p>
+
+<p><strong>CRM Data Syncing**</strong></p>
+
+<p>Every appointment booked through your calendar automatically creates or updates a contact record in GoHighLevel's CRM. All appointment history, notes, and follow-ups stay in one place. Your sales team doesn't have to manually log the appointment in the CRM—it's already there.</p>
+
+<p><strong>Webhook Integration for Custom Systems**</strong></p>
+
+<p>If you use external tools—your own booking system, a project management platform, an invoicing tool—GoHighLevel can send appointment data via webhook. When an appointment books, it can automatically create a project ticket, send data to your custom database, or trigger other workflows.</p>
+
+<p><strong>Calendar Analytics and Reporting**</strong></p>
+
+<p>GoHighLevel tracks every appointment—booked, completed, no-show, rescheduled. You can see which calendars are busiest, which days book fastest, which team members have the lowest no-show rate. Use this data to adjust availability, hiring, or pricing.</p>
+
+<p>Multi-calendar appointment booking in GoHighLevel isn't just a feature—it's a complete system redesign for how your business handles scheduling. When set up correctly, it eliminates 80% of scheduling friction, routes customers to the right person instantly, and gives you data to optimize further.</p>
+
+<p>The result? Faster closes, happier customers, happier team members, and more revenue per customer.</p>
+
+</div>
+  
+<div class="cta-end">
+  <h3>Ready to try this?</h3>
+  <p>30 days free, no credit card required. Set up everything in this guide inside your trial.</p>
+  <a href="&utm_campaign=master-multi-calendar-appointment-booking-gohighlevel" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free 30-Day Trial</a>
+  <div class="fine">Cancel anytime &mdash; $0 for the first 30 days</div>
+</div>
+  
+<div class="author-box">
+  <div>
+    <div class="author-name">William Welch</div>
+    <div class="author-bio">GoHighLevel user and affiliate. Runs GlobalHighLevel.com — free tutorials, guides, and strategies for agencies and businesses using GHL worldwide.</div>
+  </div>
+</div>
+  
+<div class="related-posts">
+  <div class="related-label">Keep Reading</div>
+  <div class="related-grid">
+<a href="/blog/control-in-app-banners-gohighlevel-agency-branding/" class="related-card">
+  <div class="r-tag">Agency & Platform</div>
+  <div class="r-title">Control In-App Banners in GoHighLevel — Agency Branding</div>
+</a>
+<a href="/blog/enable-ai-image-recognition-gohighlevel-boost-support/" class="related-card">
+  <div class="r-tag">Agency & Platform</div>
+  <div class="r-title">Enable AI Image Recognition in GoHighLevel — Boost Support</div>
+</a>
+<a href="/blog/how-to-edit-images-in-gohighlevel-media-library/" class="related-card">
+  <div class="r-tag">Agency & Platform</div>
+  <div class="r-title">How to Edit Images in GoHighLevel — Built-In Media Library</div>
+</a></div>
+</div>
+</div>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Master Multi-Calendar Appointment Booking in GoHighLevel", "description": "Master multi-calendar appointment booking in GoHighLevel. Set up AI-powered routing, prevent conflicts, and automate scheduling across departments. Full guid...", "datePublished": "2026-03-24T05:53:48.024961", "author": {"@type": "Person", "name": "William Welch"}, "publisher": {"@type": "Organization", "name": "Global High Level", "url": "https://globalhighlevel.com"}, "url": "https://globalhighlevel.com/blog/master-multi-calendar-appointment-booking-gohighlevel/"}</script>
+
+<script>
+(function(){
+  var bar=document.getElementById('reading-progress');
+  if(!bar)return;
+  window.addEventListener('scroll',function(){
+    var body=document.querySelector('.post-body');
+    if(!body)return;
+    var top=body.getBoundingClientRect().top+window.scrollY;
+    var h=body.offsetHeight-window.innerHeight;
+    var pct=h>0?Math.min(100,Math.max(0,(window.scrollY-top+window.innerHeight*0.1)/h*100)):100;
+    bar.style.width=pct+'%';
+  },{passive:true});
+})();
+</script>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Global<span>HighLevel</span></div>
+        <p class="footer-desc">Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide.</p>
+        <p class="footer-disclaimer">Affiliate disclosure: Some links on this site are affiliate links. If you sign up through our link, we may earn a commission at no extra cost to you. Not affiliated with GoHighLevel LLC.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Topics</h4>
+        <a href="/category/ai-automation/">AI & Automation</a>
+        <a href="/category/email-deliverability/">Email & Deliverability</a>
+        <a href="/category/sms-messaging/">SMS & Messaging</a>
+        <a href="/category/crm-contacts/">CRM & Contacts</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
+        <a href="https://help.gohighlevel.com" target="_blank" rel="noopener">GHL Help Center</a>
+        <a href="" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 GlobalHighLevel.com</span>
+      <span>Not affiliated with GoHighLevel LLC</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
