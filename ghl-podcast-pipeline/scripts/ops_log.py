@@ -23,7 +23,9 @@ BASE_DIR = Path(__file__).parent.parent
 OPS_LOG_FILE = BASE_DIR / "data" / "ops-log.json"
 LOG_FILE = BASE_DIR / "logs" / "pipeline.log"
 
-OPS_LOG_WEBHOOK_URL = os.getenv("OPS_LOG_WEBHOOK_URL", "")
+SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN", "")
+OPS_LOG_CHANNEL = "C0AQG0DP222"        # #ops-log
+DETAIL_CHANNEL = "C0AQ95LG97F"         # #globalhighlevel
 
 # Tag prefixes from projects.yml
 BUSINESS_TAG = os.getenv("OPS_LOG_BUSINESS", "GHL")
@@ -82,26 +84,45 @@ def ops_log(source: str, message: str, level: str = "info", data: dict = None):
     entries.append(entry)
     _save_entries(entries)
 
-    # 2. Post to #ops-log via webhook (if configured)
-    if OPS_LOG_WEBHOOK_URL and level != "detail":
-        _post_to_slack(tag, message, level)
+    # 2. Post to #ops-log via Bot Token API (skip detail-level messages)
+    if SLACK_BOT_TOKEN and level != "detail":
+        _post_to_slack(OPS_LOG_CHANNEL, tag, message, level)
+
+    # 3. Post detail-level messages to #globalhighlevel
+    if SLACK_BOT_TOKEN and level == "detail":
+        _post_to_slack(DETAIL_CHANNEL, tag, message, level)
 
     _log(f"{tag} {message}")
 
 
-def _post_to_slack(tag: str, message: str, level: str):
-    """Post a single entry to #ops-log via webhook."""
+def post_to_channel(channel: str, text: str):
+    """Post a message to any Slack channel via Bot Token API."""
+    if not SLACK_BOT_TOKEN:
+        _log("No SLACK_BOT_TOKEN set — skipping Slack post")
+        return
+    try:
+        payload = json.dumps({"channel": channel, "text": text}).encode("utf-8")
+        req = Request(
+            "https://slack.com/api/chat.postMessage",
+            data=payload,
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {SLACK_BOT_TOKEN}",
+            },
+        )
+        with urlopen(req, timeout=15) as resp:
+            body = json.loads(resp.read())
+            if not body.get("ok"):
+                _log(f"Slack API error: {body.get('error', 'unknown')}")
+    except Exception as e:
+        _log(f"Slack post failed (non-fatal): {e}")
+
+
+def _post_to_slack(channel: str, tag: str, message: str, level: str):
+    """Post a single entry to a Slack channel via Bot Token API."""
     emoji = {"info": "", "warning": "⚠️ ", "error": "🔴 ", "detail": ""}.get(level, "")
     text = f"{emoji}*{tag}* {message}"
-
-    try:
-        payload = json.dumps({"text": text}).encode("utf-8")
-        req = Request(OPS_LOG_WEBHOOK_URL, data=payload, headers={"Content-Type": "application/json"})
-        with urlopen(req, timeout=15) as resp:
-            if resp.status != 200:
-                _log(f"Ops-log webhook returned {resp.status}")
-    except Exception as e:
-        _log(f"Ops-log webhook failed (non-fatal): {e}")
+    post_to_channel(channel, text)
 
 
 def get_todays_entries() -> list:

@@ -29,7 +29,9 @@ WEEKLY_STATE_FILE = DATA_DIR / "weekly-report-state.json"
 
 GA4_DATA_FILE = DATA_DIR / "ga4-stats.json"
 
-SLACK_WEBHOOK_URL = os.getenv("SLACK_WEBHOOK_URL", "")
+SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN", "")
+OPS_LOG_CHANNEL = "C0AQG0DP222"        # #ops-log
+DETAIL_CHANNEL = "C0AQ95LG97F"         # #globalhighlevel
 SITE_NAME = os.getenv("SITE_NAME", "GlobalHighLevel")
 
 
@@ -207,23 +209,33 @@ _{period}_
 
 
 def send_to_slack(payload: dict) -> bool:
-    """Send a message to Slack via incoming webhook."""
-    if not SLACK_WEBHOOK_URL:
-        log("No SLACK_WEBHOOK_URL set — skipping Slack report")
+    """Send a message to Slack via Bot Token API (chat.postMessage)."""
+    if not SLACK_BOT_TOKEN:
+        log("No SLACK_BOT_TOKEN set — skipping Slack report")
         return False
 
     try:
-        data = json.dumps(payload).encode("utf-8")
-        req = Request(SLACK_WEBHOOK_URL, data=data, headers={"Content-Type": "application/json"})
+        text = payload.get("text", "")
+        # Post detail to #globalhighlevel
+        body = json.dumps({"channel": DETAIL_CHANNEL, "text": text}).encode("utf-8")
+        req = Request(
+            "https://slack.com/api/chat.postMessage",
+            data=body,
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {SLACK_BOT_TOKEN}",
+            },
+        )
         with urlopen(req, timeout=30) as resp:
-            if resp.status == 200:
+            result = json.loads(resp.read())
+            if result.get("ok"):
                 log("Weekly Slack report sent successfully")
                 return True
             else:
-                log(f"Slack returned status {resp.status}")
+                log(f"Slack API error: {result.get('error', 'unknown')}")
                 return False
     except URLError as e:
-        log(f"Slack webhook failed: {e}")
+        log(f"Slack post failed: {e}")
         return False
 
 

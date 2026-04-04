@@ -43,10 +43,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 try:
-    from ops_log import ops_log, build_ceo_digest
+    from ops_log import ops_log, build_ceo_digest, post_to_channel
 except ImportError:
     def ops_log(*a, **kw): pass
     def build_ceo_digest(): return ""
+    def post_to_channel(*a, **kw): pass
 
 BASE_DIR = Path(__file__).parent.parent
 LOG_FILE = BASE_DIR / "logs" / "pipeline.log"
@@ -442,16 +443,10 @@ def write_ops_status(cycle_num: int, published: int, failed: int, blogs: int, in
 
 
 def send_daily_slack(summary: str, cycle_num: int):
-    """Post daily cycle summary to Slack channel."""
-    webhook = os.getenv("SLACK_WEBHOOK_URL", "")
-    if not webhook:
-        log("  No SLACK_WEBHOOK_URL set — skipping daily Slack")
-        return
-
+    """Post daily cycle summary to #globalhighlevel via Bot Token API."""
     try:
         # Convert plain text summary to Slack-friendly format
         lines = summary.strip().split("\n")
-        # Bold the header lines
         formatted = []
         for line in lines:
             if line.startswith("="):
@@ -466,19 +461,12 @@ def send_daily_slack(summary: str, cycle_num: int):
         date_str = datetime.now().strftime("%b %d")
         msg = f"*Daily Pipeline Report — Cycle #{cycle_num} | {date_str}*\n\n" + "\n".join(formatted)
 
-        # Truncate to Slack's 5000 char limit
         if len(msg) > 4900:
             msg = msg[:4900] + "\n\n_(truncated)_"
 
-        import json as _json
-        from urllib.request import Request, urlopen
-        data = _json.dumps({"text": msg}).encode("utf-8")
-        req = Request(webhook, data=data, headers={"Content-Type": "application/json"})
-        with urlopen(req, timeout=30) as resp:
-            if resp.status == 200:
-                log("  Daily Slack summary posted")
-            else:
-                log(f"  Slack returned status {resp.status}")
+        # Post detail to #globalhighlevel
+        post_to_channel("C0AQ95LG97F", msg)
+        log("  Daily Slack summary posted to #globalhighlevel")
     except Exception as e:
         log(f"  Daily Slack failed (non-fatal): {e}")
 
@@ -758,15 +746,8 @@ You'll get a summary email when it's done.
     try:
         ceo_digest = build_ceo_digest()
         if ceo_digest:
-            ceo_webhook = os.getenv("SLACK_WEBHOOK_URL", "")
-            if ceo_webhook:
-                import json as _json
-                from urllib.request import Request as _Req, urlopen as _open
-                data = _json.dumps({"text": ceo_digest}).encode("utf-8")
-                req = _Req(ceo_webhook, data=data, headers={"Content-Type": "application/json"})
-                with _open(req, timeout=30) as resp:
-                    if resp.status == 200:
-                        log("  CEO digest posted to #ceo")
+            post_to_channel("C0AQAHSQK38", ceo_digest)  # #ceo
+            log("  CEO digest posted to #ceo")
     except Exception as e:
         log(f"  CEO digest failed (non-fatal): {e}")
 
