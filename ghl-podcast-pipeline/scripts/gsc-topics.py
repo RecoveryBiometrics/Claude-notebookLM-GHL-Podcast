@@ -333,6 +333,100 @@ def generate_improvements(low_ctr: list, almost_ranking: list) -> list:
     return suggestions
 
 
+MAX_RETRY_ATTEMPTS = 2  # original + 1 retry
+CHANGELOG_FILE = BASE_DIR / "data" / "seo-changelog.json"
+
+
+# ── 28-Day Outcome Review ────────────────────────────────────────────────────
+def review_expired_cooldowns(gsc_data: dict) -> list:
+    """
+    Check pages whose cooldown just expired. Compare current GSC metrics
+    to the metrics at time of optimization. If CTR didn't improve, re-flag
+    for one more attempt.
+    """
+    cooldowns = load_cooldowns()
+    gsc_pages = {p["page"].split("/blog/")[-1].strip("/"): p for p in gsc_data.get("pages", []) if "/blog/" in p["page"]}
+    retry_suggestions = []
+
+    # Load changelog to update outcomes
+    changelog = []
+    if CHANGELOG_FILE.exists():
+        try:
+            changelog = json.loads(CHANGELOG_FILE.read_text())
+        except Exception:
+            changelog = []
+
+    for slug, cd in list(cooldowns.items()):
+        flagged_at = cd.get("flagged_at", "")
+        if not flagged_at:
+            continue
+        try:
+            days_since = (datetime.now() - datetime.fromisoformat(flagged_at)).days
+        except Exception:
+            continue
+
+        # Only review pages whose cooldown just expired (28-35 days)
+        if days_since < COOLDOWN_DAYS or days_since > COOLDOWN_DAYS + 7:
+            continue
+
+        attempt = cd.get("attempt", 1)
+        metrics_before = cd.get("metrics_at_flag", {})
+        ctr_before = metrics_before.get("ctr", 0)
+        position_before = metrics_before.get("position", 100)
+
+        # Get current metrics
+        current = gsc_pages.get(slug, {})
+        ctr_now = current.get("ctr", 0)
+        position_now = current.get("position", 100)
+
+        # Determine outcome
+        improved = ctr_now > ctr_before or position_now < position_before - 1
+        outcome = "improved" if improved else "no_change"
+
+        log(f"  28-day review: {slug} — CTR {ctr_before}% → {ctr_now}%, pos {position_before} → {position_now} = {outcome}")
+
+        # Update changelog entries for this slug
+        for entry in changelog:
+            if entry.get("slug") == slug and entry.get("outcome") is None:
+                entry["position_28d"] = position_now
+                entry["ctr_28d"] = ctr_now
+                entry["outcome"] = outcome
+
+        # If not improved and retries available, re-flag
+        if not improved and attempt < MAX_RETRY_ATTEMPTS:
+            retry_suggestions.append({
+                "slug": slug,
+                "action": cd.get("action", "rewrite_meta"),
+                "reason": f"Retry #{attempt + 1}: previous optimization did not improve CTR ({ctr_before}% → {ctr_now}%)",
+                "impressions": current.get("impressions", metrics_before.get("impressions", 0)),
+                "ctr": ctr_now,
+                "position": position_now,
+                "attempt": attempt + 1,
+            })
+            # Clear cooldown so optimizer can pick it up
+            del cooldowns[slug]
+            log(f"  Re-flagged for retry #{attempt + 1}")
+        elif not improved:
+            log(f"  Parked — max retries ({MAX_RETRY_ATTEMPTS}) exhausted")
+            cooldowns[slug]["outcome"] = "parked"
+        else:
+            cooldowns[slug]["outcome"] = "improved"
+
+    save_cooldowns(cooldowns)
+
+    # Save updated changelog
+    if changelog:
+        try:
+            CHANGELOG_FILE.write_text(json.dumps(changelog, indent=2))
+        except Exception:
+            pass
+
+    if retry_suggestions:
+        log(f"  {len(retry_suggestions)} pages re-flagged for retry")
+
+    return retry_suggestions
+
+
 # ── Main ─────────────────────────────────────────────────────────────────────
 def main() -> dict:
     log("=" * 50)
@@ -369,6 +463,12 @@ def main() -> dict:
     # Generate improvement suggestions
     results["improvements"] = generate_improvements(low_ctr, almost)
     log(f"  {len(results['improvements'])} improvement suggestions")
+
+    # Review expired cooldowns and add retry suggestions
+    retry_suggestions = review_expired_cooldowns(gsc_data)
+    if retry_suggestions:
+        results["improvements"].extend(retry_suggestions)
+        log(f"  {len(retry_suggestions)} retry suggestions added")
 
     # Save results
     with open(TOPICS_OUTPUT, "w") as f:

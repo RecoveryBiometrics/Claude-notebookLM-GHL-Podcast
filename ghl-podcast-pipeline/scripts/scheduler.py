@@ -93,6 +93,36 @@ def seconds_until_next_cycle() -> float:
 
 
 # ── Daily email summary ───────────────────────────────────────────────────────
+def _seo_optimizer_summary() -> str:
+    """Build SEO optimizer section for the daily report (reads changelog)."""
+    changelog_file = BASE_DIR / "data" / "seo-changelog.json"
+    if not changelog_file.exists():
+        return ""
+    try:
+        entries = json.loads(changelog_file.read_text())
+        today = datetime.now().strftime("%Y-%m-%d")
+        today_entries = [e for e in entries if e.get("date", "").startswith(today)]
+        if not today_entries:
+            return ""
+        rewrites = sum(1 for e in today_entries if e["action"] == "rewrite_meta")
+        expansions = sum(1 for e in today_entries if e["action"] == "expand_content")
+        detail_lines = "\n".join(
+            f"  • {e['slug'][:50]} ({e['action']}) — was pos {e.get('position_before', '?')}, {e.get('impressions_before', '?')} impr"
+            for e in today_entries
+        )
+        return f"""
+SEO OPTIMIZER
+  Pages optimized:     {len(today_entries)}
+  Title rewrites:      {rewrites}
+  Content expansions:  {expansions}
+
+  Optimized pages:
+{detail_lines}
+"""
+    except Exception:
+        return ""
+
+
 def build_summary(cycle_num: int, next_run: datetime) -> str:
     """Build the daily summary text from published.json and recent logs."""
     today = datetime.now().strftime("%Y-%m-%d")
@@ -358,7 +388,7 @@ ALL TIME
 
 NEXT RUN
   {next_run.strftime("%B %d, %Y at %I:%M %p")}
-{site_text}{gsc_text}{analytics_text}{top_episodes_text}
+{site_text}{gsc_text}{_seo_optimizer_summary()}{analytics_text}{top_episodes_text}
 TODAY'S EPISODES
 {titles_text}
 
@@ -372,9 +402,10 @@ To check logs: tail -f ~/Claude_notebookLM_GHL_Podcast/ghl-podcast-pipeline/logs
     return summary
 
 
-def write_ops_status(cycle_num: int, published: int, failed: int, blogs: int, india: int, spanish: int, error: str = None):
+def write_ops_status(cycle_num: int, published: int, failed: int, blogs: int, india: int, spanish: int, error: str = None, seo_results: dict = None):
     """Write structured cycle status to ops-status.json for Pipeline Doctor to read."""
     try:
+        seo = seo_results or {}
         status = {
             "service": "ghl-podcast-pipeline",
             "business": "GHL",
@@ -386,10 +417,15 @@ def write_ops_status(cycle_num: int, published: int, failed: int, blogs: int, in
             "blogs_en": blogs,
             "blogs_india": india,
             "blogs_spanish": spanish,
+            "seo_pages_optimized": seo.get("pages_optimized", 0),
+            "seo_rewrites": seo.get("rewrites", 0),
+            "seo_expansions": seo.get("expansions", 0),
+            "seo_details": [d.get("slug", "") + f" ({d.get('action', '')})" for d in seo.get("details", [])],
             "error": error[:300] if error else None,
             "summary": (
                 f"Cycle #{cycle_num} complete. Episodes: {published}. Failed: {failed}. "
                 f"Blogs: {blogs} EN + {india} India + {spanish} ES."
+                + (f" SEO: {seo.get('pages_optimized', 0)} optimized." if seo.get("pages_optimized") else "")
             )
         }
         status_file = BASE_DIR / "data" / "ops-status.json"
@@ -572,6 +608,21 @@ async def run_cycle(cycle_num: int):
     except Exception as e:
         log(f"  gsc-topics.py error (non-fatal): {e}")
 
+    # Step 0c: Run SEO Optimizer (weekly gate — skips if <7 days since last run)
+    log("Step 0c — Running 8-seo-optimizer.py (weekly gate)...")
+    seo_optimizer_results = {"pages_optimized": 0, "rewrites": 0, "expansions": 0, "details": []}
+    try:
+        seo_optimizer = load_script("8-seo-optimizer.py")
+        seo_optimizer_results = seo_optimizer.main()
+        if seo_optimizer_results.get("skipped"):
+            log("  SEO Optimizer skipped (not yet due)")
+        elif seo_optimizer_results["pages_optimized"] > 0:
+            log(f"  SEO Optimizer: {seo_optimizer_results['pages_optimized']} pages optimized")
+        else:
+            log("  SEO Optimizer: no pages to optimize")
+    except Exception as e:
+        log(f"  8-seo-optimizer.py error (non-fatal): {e}")
+
     # Send start notification email
     log("Sending start notification email...")
     next_run_est = cycle_started + timedelta(hours=CYCLE_HOURS)
@@ -680,7 +731,7 @@ You'll get a summary email when it's done.
                 for r in json.load(f):
                     if r.get("publishedAt", "").startswith(today):
                         spanish_today += 1
-        write_ops_status(cycle_num, ep_today, fail_today, blog_today, india_today, spanish_today)
+        write_ops_status(cycle_num, ep_today, fail_today, blog_today, india_today, spanish_today, seo_results=seo_optimizer_results)
     except Exception as e:
         log(f"  Ops-log stats failed (non-fatal): {e}")
 

@@ -1,0 +1,291 @@
+{
+  "how-to-automate-workflows-gohighlevel-cross-object-actions": {
+    "action": "expand_content",
+    "flagged_at": "2026-04-03T16:13:31.678802",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 402,
+      "ctr": 0,
+      "position": 19.9
+    },
+    "changes": {
+      "old_title": "How to Automate Workflows in GoHighLevel \u2014 Cross-Object Actions",
+      "new_title": "GHL Cross-Object Actions: Automate Complex Workflows",
+      "old_description": "Learn how to automate workflows in GoHighLevel using cross-object actions, Find records, and custom objects. Master CRM automation for agencies.",
+      "new_description": "Stop manual data syncing. Master GoHighLevel cross-object actions to automate multi-step workflows and scale agency operations without code.",
+      "words_added": 542
+    }
+  },
+  "build-ai-agents-faster-gohighlevel-template-library-guide": {
+    "action": "expand_content",
+    "flagged_at": "2026-04-03T16:13:53.338497",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 109,
+      "ctr": 0,
+      "position": 10.4
+    },
+    "changes": {
+      "old_title": "Build AI Agents Faster in GoHighLevel \u2014 Template Library Guide",
+      "new_title": "Build AI Agents in GHL: Template Library Fast-Track",
+      "old_description": "Learn how to build AI agents faster in GoHighLevel using the Template Library. Step-by-step guide to deploying, customizing, and scaling intelligent automati...",
+      "new_description": "Struggling to deploy AI agents? Master GoHighLevel's Template Library to automate leads, qualify prospects & scale your agency 10x faster.",
+      "words_added": 547
+    }
+  },
+  "automate-client-support-ask-ai-agent-studio-gohighlevel": {
+    "action": "expand_content",
+    "flagged_at": "2026-04-03T16:14:16.623824",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 104,
+      "ctr": 0,
+      "position": 10.3
+    },
+    "changes": {
+      "old_title": "Automate Client Support with Ask AI + Agent Studio in GoHighLevel",
+      "new_title": "Automate Client Support in GHL: Ask AI + Agent Studio",
+      "old_description": "Learn how to connect Ask AI with Agent Studio in GoHighLevel to automate client support, route queries to custom AI agents, and deliver faster answers\u2014no cod...",
+      "new_description": "Struggling with client support delays? Learn to route queries to custom AI agents in GoHighLevel\u2014faster answers, zero coding required.",
+      "words_added": 548
+    }
+  },
+  "enable-audio-response-gohighlevel-boost-engagement": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-03T16:14:31.127854",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 68,
+      "ctr": 0,
+      "position": 9.8
+    },
+    "changes": {
+      "old_title": "Enable Audio Response in GoHighLevel \u2014 Boost Engagement",
+      "new_title": "GHL Audio Responses: 3x Faster Customer Replies",
+      "old_description": "Enable audio response in GoHighLevel to let customers communicate via voice notes. Learn setup, transcription, automation, and best practices for faster enga...",
+      "new_description": "Let customers send voice notes instead of typing. See how to set up AI audio transcription & automated responses in GoHighLevel\u2014no coding required.",
+      "words_added": 0
+    }
+  },
+  "master-advanced-filters-gohighlevel-smart-lists": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-03T16:14:36.574035",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 62,
+      "ctr": 0,
+      "position": 8.7
+    },
+    "changes": {
+      "old_title": "Master Advanced Filters in GoHighLevel Smart Lists",
+      "new_title": "GHL Smart Lists: Filter 10K+ Contacts in Seconds",
+      "old_description": "Master Advanced Filters in GoHighLevel Smart Lists to segment contacts with precision. Learn Date, DND, String, and Numeric filters for better campaign targe...",
+      "new_description": "Segment your entire contact database precisely using Date, String & Numeric filters. Stop wasting time on manual sorting\u2014automate your targeting today.",
+      "words_added": 0
+    }
+  },
+  "how-to-reduce-spam-calls-gohighlevel-ivr-number-intelligence": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-03T16:14:41.845265",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 224,
+      "ctr": 0.4,
+      "position": 8.4
+    },
+    "changes": {
+      "old_title": "How to Reduce Spam Calls in GoHighLevel \u2014 IVR & Number Intelligence",
+      "new_title": "Stop Spam Calls in GHL: 5-Min IVR Setup",
+      "old_description": "Reduce spam calls in GoHighLevel using Number Intelligence & IVR screening. Block robocalls, configure filters, and protect your lead flow with step-by-step ...",
+      "new_description": "Block 95% of robocalls automatically in GoHighLevel. Number Intelligence + IVR filtering protects your leads. See the exact config steps inside.",
+      "words_added": 0
+    }
+  },
+  "how-to-debug-webhooks-gohighlevel-real-time-logs": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-03T16:14:47.216460",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 54,
+      "ctr": 0,
+      "position": 9.0
+    },
+    "changes": {
+      "old_title": "How to Debug Webhooks in GoHighLevel \u2014 Real-Time Logs",
+      "new_title": "Fix GHL Webhook Failures: Debug Failed Requests in 60s",
+      "old_description": "Debug GoHighLevel webhooks in real-time using the Webhook Logs Dashboard. View payloads, status codes, and retry attempts instantly. Troubleshoot integration...",
+      "new_description": "Webhooks failing silently? View real-time logs, retry payloads, and pinpoint errors instantly. Stop losing data from broken integrations\u2014here's how.",
+      "words_added": 0
+    }
+  },
+  "color-code-pipelines-gohighlevel-smart-tags-prioritize-deals": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-03T16:14:52.416396",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 48,
+      "ctr": 0,
+      "position": 9.7
+    },
+    "changes": {
+      "old_title": "Color-Code Pipelines in GoHighLevel \u2014 Prioritize Deals Fast",
+      "new_title": "GHL Pipeline Hack: Color-Code Deals by Priority",
+      "old_description": "Learn to color-code your GoHighLevel pipeline with Smart Tags. Automatically prioritize deals, flag stale opportunities, and highlight high-value sales in se...",
+      "new_description": "Spot high-value deals in seconds. Color-code your GHL pipeline with Smart Tags to auto-flag stale opportunities and prioritize sales instantly.",
+      "words_added": 0
+    }
+  },
+  "how-to-enable-3d-secure-payments-in-gohighlevel-fraud-protection": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-03T16:14:57.552137",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 43,
+      "ctr": 0,
+      "position": 5.2
+    },
+    "changes": {
+      "old_title": "How to Enable 3D Secure Payments in GoHighLevel \u2014 Fraud Protection",
+      "new_title": "3D Secure in GHL: Block 99% of Payment Fraud",
+      "old_description": "Learn how to enable 3D Secure payments in GoHighLevel with Square. Reduce fraud, boost security, and protect your agency with step-by-step setup instructions.",
+      "new_description": "Prevent chargeback losses with 3D Secure authentication in GoHighLevel. See how agencies are blocking fraudulent transactions automatically.",
+      "words_added": 0
+    }
+  },
+  "master-app-installer-details-api-gohighlevel-agency-branding": {
+    "action": "expand_content",
+    "flagged_at": "2026-04-03T16:15:20.454454",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 54,
+      "ctr": 0,
+      "position": 10.4
+    },
+    "changes": {
+      "old_title": "Master App Installer Details API in GoHighLevel \u2014 Agency Branding",
+      "new_title": "App Installer Details API GoHighLevel: Agency Branding Guide",
+      "old_description": "Master the App Installer Details API in GoHighLevel to personalize apps with agency branding, reduce OAuth scope requests, and boost retention.",
+      "new_description": "Stop losing agency clients due to generic app branding. Use GoHighLevel's App Installer Details API to auto-personalize UX and boost retention.",
+      "words_added": 547
+    }
+  },
+  "master-multi-object-tasks-gohighlevel-never-lose-context": {
+    "action": "expand_content",
+    "flagged_at": "2026-04-03T16:15:43.084359",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 53,
+      "ctr": 0,
+      "position": 11.6
+    },
+    "changes": {
+      "old_title": "Master Multi-Object Tasks in GoHighLevel \u2014 Never Lose Context",
+      "new_title": "GHL Multi-Object Tasks: Link 10 Objects, Never Lose Context",
+      "old_description": "Master Multi-Object Task Associations in GoHighLevel. Link tasks to 10 contacts, deals, companies & custom objects. Never lose context across your agency wor...",
+      "new_description": "Stop losing task context across contacts, deals & companies. Master GoHighLevel's Multi-Object Task Associations to keep your entire agency aligned.",
+      "words_added": 548
+    }
+  },
+  "how-to-find-qualified-prospects-in-gohighlevel-ai-lead-generation": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-03T16:15:48.816519",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 20,
+      "ctr": 0,
+      "position": 6.5
+    },
+    "changes": {
+      "old_title": "How to Find Qualified Prospects in GoHighLevel \u2014 AI Lead Generation",
+      "new_title": "GHL's AI Prospect Tool: Find Qualified Leads in 60 Seconds",
+      "old_description": "Learn how GoHighLevel's Prospect AI Recommendations finds qualified local leads for new agencies. Step-by-step guide to accessing AI prospects and automating...",
+      "new_description": "Stop manually hunting leads. GoHighLevel's AI finds qualified prospects automatically\u2014see exactly how agencies are filling pipelines with zero extra work.",
+      "words_added": 0
+    }
+  },
+  "how-to-color-code-pipelines-gohighlevel-smart-tags-guide": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-03T16:15:54.341850",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 20,
+      "ctr": 0,
+      "position": 6.2
+    },
+    "changes": {
+      "old_title": "How to Color-Code Pipelines in GoHighLevel \u2014 Smart Tags Guide",
+      "new_title": "GHL Pipeline Hack: Color-Code Deals in 3 Minutes",
+      "old_description": "Learn how to color-code your GoHighLevel pipeline with Smart Tags. Step-by-step guide to create rule-based tags, prioritize deals, and organize opportunities...",
+      "new_description": "Organize 10x faster with Smart Tags. See exactly which deals need action\u2014no more hunting through pipelines. Here's the exact system top agencies use.",
+      "words_added": 0
+    }
+  },
+  "how-to-use-file-type-filter-in-gohighlevel-find-media-instantly": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-03T16:15:59.983969",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 20,
+      "ctr": 0,
+      "position": 8.6
+    },
+    "changes": {
+      "old_title": "How to Use File Type Filter in GoHighLevel \u2014 Find Media Instantly",
+      "new_title": "Find Any File in GHL in 10 Seconds (File Filter Trick)",
+      "old_description": "Master GoHighLevel's file type filter to find media in seconds. Learn step-by-step how to organize photos, videos, and documents instantly.",
+      "new_description": "Stop digging through hundreds of media files. This one GHL filter saves agencies 5+ hours monthly organizing photos, videos & docs.",
+      "words_added": 0
+    }
+  },
+  "how-to-manage-rentals-in-gohighlevel-calendar-view": {
+    "action": "expand_content",
+    "flagged_at": "2026-04-03T16:16:20.642553",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 23,
+      "ctr": 0,
+      "position": 11.8
+    },
+    "changes": {
+      "old_title": "How to Manage Rentals in GoHighLevel \u2014 Calendar View",
+      "new_title": "GoHighLevel Rentals Calendar: Master Multi-Property",
+      "old_description": "Master GoHighLevel's Calendar View for Rentals. Create bookings, manage blocked slots, filter listings, and streamline your property management workflow.",
+      "new_description": "Struggling to manage multiple rental properties? Learn how GHL's Calendar View handles bookings, availability, and inventory across all your listings.",
+      "words_added": 548
+    }
+  },
+  "track-mrr-accurately-gohighlevel-vs-profitwell": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-03T16:16:25.694627",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 15,
+      "ctr": 0,
+      "position": 8.6
+    },
+    "changes": {
+      "old_title": "Track MRR Accurately in GoHighLevel vs ProfitWell",
+      "new_title": "GoHighLevel MRR Calculator: Stop Guessing Revenue",
+      "old_description": "Learn how to track MRR accurately in GoHighLevel vs ProfitWell. Compare calculation methods, Stripe integration, and which tool fits your agency.",
+      "new_description": "See exactly how much recurring revenue you're tracking. Compare GHL vs ProfitWell calculation methods and pick the right tool for your agency.",
+      "words_added": 0
+    }
+  },
+  "send-files-in-gohighlevel-live-chat-faster-client-support": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-03T16:16:31.413328",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 14,
+      "ctr": 0,
+      "position": 9.4
+    },
+    "changes": {
+      "old_title": "Send Files in GoHighLevel Live Chat \u2014 Faster Client Support",
+      "new_title": "Send Files in GHL Live Chat\u2014No More Email Back & Forth",
+      "old_description": "Learn how to enable file attachments in GoHighLevel live chat. Step-by-step setup for desktop and mobile uploads, file limits, and best practices for client ...",
+      "new_description": "Skip the email loops. Attach documents, images & PDFs directly in GoHighLevel chat. Works on desktop & mobile + file limits explained.",
+      "words_added": 0
+    }
+  }
+}

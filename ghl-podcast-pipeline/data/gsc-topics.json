@@ -1,0 +1,135 @@
+{
+  "generated_at": "2026-04-03T12:00:00",
+  "improvements": [
+    {
+      "slug": "how-to-reduce-spam-calls-gohighlevel-ivr-number-intelligence",
+      "action": "rewrite_meta",
+      "reason": "High impressions (224) but low CTR (0.4%) at position 8.4 — title needs to be more compelling",
+      "impressions": 224,
+      "ctr": 0.4,
+      "position": 8.4
+    },
+    {
+      "slug": "how-to-enable-3d-secure-payments-in-gohighlevel-fraud-protection",
+      "action": "rewrite_meta",
+      "reason": "Position 5.2 with 43 impressions but 0% CTR — best position, zero clicks",
+      "impressions": 43,
+      "ctr": 0,
+      "position": 5.2
+    },
+    {
+      "slug": "enable-audio-response-gohighlevel-boost-engagement",
+      "action": "rewrite_meta",
+      "reason": "High impressions (68) but 0% CTR at position 9.8",
+      "impressions": 68,
+      "ctr": 0,
+      "position": 9.8
+    },
+    {
+      "slug": "master-advanced-filters-gohighlevel-smart-lists",
+      "action": "rewrite_meta",
+      "reason": "62 impressions but 0% CTR at position 8.7",
+      "impressions": 62,
+      "ctr": 0,
+      "position": 8.7
+    },
+    {
+      "slug": "how-to-debug-webhooks-gohighlevel-real-time-logs",
+      "action": "rewrite_meta",
+      "reason": "54 impressions but 0% CTR at position 9.0",
+      "impressions": 54,
+      "ctr": 0,
+      "position": 9.0
+    },
+    {
+      "slug": "color-code-pipelines-gohighlevel-smart-tags-prioritize-deals",
+      "action": "rewrite_meta",
+      "reason": "48 impressions but 0% CTR at position 9.7",
+      "impressions": 48,
+      "ctr": 0,
+      "position": 9.7
+    },
+    {
+      "slug": "how-to-find-qualified-prospects-in-gohighlevel-ai-lead-generation",
+      "action": "rewrite_meta",
+      "reason": "20 impressions but 0% CTR at position 6.5",
+      "impressions": 20,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "slug": "how-to-color-code-pipelines-gohighlevel-smart-tags-guide",
+      "action": "rewrite_meta",
+      "reason": "20 impressions but 0% CTR at position 6.2",
+      "impressions": 20,
+      "ctr": 0,
+      "position": 6.2
+    },
+    {
+      "slug": "how-to-use-file-type-filter-in-gohighlevel-find-media-instantly",
+      "action": "rewrite_meta",
+      "reason": "20 impressions but 0% CTR at position 8.6",
+      "impressions": 20,
+      "ctr": 0,
+      "position": 8.6
+    },
+    {
+      "slug": "track-mrr-accurately-gohighlevel-vs-profitwell",
+      "action": "rewrite_meta",
+      "reason": "15 impressions but 0% CTR at position 8.6",
+      "impressions": 15,
+      "ctr": 0,
+      "position": 8.6
+    },
+    {
+      "slug": "send-files-in-gohighlevel-live-chat-faster-client-support",
+      "action": "rewrite_meta",
+      "reason": "14 impressions but 0% CTR at position 9.4",
+      "impressions": 14,
+      "ctr": 0,
+      "position": 9.4
+    },
+    {
+      "slug": "automate-client-support-ask-ai-agent-studio-gohighlevel",
+      "action": "expand_content",
+      "reason": "Ranking at position 10.3 with 104 impressions — add more depth to push to page 1",
+      "impressions": 104,
+      "position": 10.3
+    },
+    {
+      "slug": "build-ai-agents-faster-gohighlevel-template-library-guide",
+      "action": "expand_content",
+      "reason": "Ranking at position 10.4 with 109 impressions — add more depth to push to page 1",
+      "impressions": 109,
+      "position": 10.4
+    },
+    {
+      "slug": "master-app-installer-details-api-gohighlevel-agency-branding",
+      "action": "expand_content",
+      "reason": "Ranking at position 10.4 with 54 impressions — add more depth to push to page 1",
+      "impressions": 54,
+      "position": 10.4
+    },
+    {
+      "slug": "master-multi-object-tasks-gohighlevel-never-lose-context",
+      "action": "expand_content",
+      "reason": "Ranking at position 11.6 with 53 impressions — add more depth to push to page 1",
+      "impressions": 53,
+      "position": 11.6
+    },
+    {
+      "slug": "how-to-automate-workflows-gohighlevel-cross-object-actions",
+      "action": "expand_content",
+      "reason": "Ranking at position 19.9 with 402 impressions — highest impression count, needs depth to rank",
+      "impressions": 402,
+      "position": 19.9
+    },
+    {
+      "slug": "how-to-manage-rentals-in-gohighlevel-calendar-view",
+      "action": "expand_content",
+      "reason": "Ranking at position 11.8 with 23 impressions — add more depth to push to page 1",
+      "impressions": 23,
+      "position": 11.8
+    }
+  ]
+}
