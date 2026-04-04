@@ -42,6 +42,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+try:
+    from ops_log import ops_log, build_ceo_digest
+except ImportError:
+    def ops_log(*a, **kw): pass
+    def build_ceo_digest(): return ""
+
 BASE_DIR = Path(__file__).parent.parent
 LOG_FILE = BASE_DIR / "logs" / "pipeline.log"
 SCRIPTS_DIR = Path(__file__).parent
@@ -588,6 +594,7 @@ async def run_cycle(cycle_num: int):
     cycle_started = datetime.now()
     log("=" * 60)
     log(f"Cycle #{cycle_num} starting")
+    ops_log("Podcast Pipeline", f"Cycle #{cycle_num} starting")
 
     # Save state NOW so restarts wait out the 25h window instead of re-running immediately
     save_state(cycle_started)
@@ -618,10 +625,12 @@ async def run_cycle(cycle_num: int):
             log("  SEO Optimizer skipped (not yet due)")
         elif seo_optimizer_results["pages_optimized"] > 0:
             log(f"  SEO Optimizer: {seo_optimizer_results['pages_optimized']} pages optimized")
+            ops_log("SEO Optimizer", f"{seo_optimizer_results['pages_optimized']} pages optimized ({seo_optimizer_results.get('rewrites', 0)} rewrites, {seo_optimizer_results.get('expansions', 0)} expansions)")
         else:
             log("  SEO Optimizer: no pages to optimize")
     except Exception as e:
         log(f"  8-seo-optimizer.py error (non-fatal): {e}")
+        ops_log("SEO Optimizer", f"Error: {e}", level="error")
 
     # Send start notification email
     log("Sending start notification email...")
@@ -732,8 +741,34 @@ You'll get a summary email when it's done.
                     if r.get("publishedAt", "").startswith(today):
                         spanish_today += 1
         write_ops_status(cycle_num, ep_today, fail_today, blog_today, india_today, spanish_today, seo_results=seo_optimizer_results)
+
+        # Post cycle summary to ops-log
+        parts = [f"Cycle #{cycle_num} complete"]
+        if ep_today: parts.append(f"{ep_today} episodes")
+        if blog_today: parts.append(f"{blog_today} blogs")
+        if india_today: parts.append(f"{india_today} India blogs")
+        if spanish_today: parts.append(f"{spanish_today} Spanish blogs")
+        if fail_today: parts.append(f"{fail_today} failed")
+        ops_log("Podcast Pipeline", ". ".join(parts) + ".",
+                level="warning" if fail_today > 0 else "info")
     except Exception as e:
         log(f"  Ops-log stats failed (non-fatal): {e}")
+
+    # Post CEO digest to #ceo (summarizes all ops-log entries from today)
+    try:
+        ceo_digest = build_ceo_digest()
+        if ceo_digest:
+            ceo_webhook = os.getenv("SLACK_WEBHOOK_URL", "")
+            if ceo_webhook:
+                import json as _json
+                from urllib.request import Request as _Req, urlopen as _open
+                data = _json.dumps({"text": ceo_digest}).encode("utf-8")
+                req = _Req(ceo_webhook, data=data, headers={"Content-Type": "application/json"})
+                with _open(req, timeout=30) as resp:
+                    if resp.status == 200:
+                        log("  CEO digest posted to #ceo")
+    except Exception as e:
+        log(f"  CEO digest failed (non-fatal): {e}")
 
     log(f"Cycle #{cycle_num} complete.")
     log(f"Next cycle: {next_run.strftime('%Y-%m-%d %H:%M:%S')}")

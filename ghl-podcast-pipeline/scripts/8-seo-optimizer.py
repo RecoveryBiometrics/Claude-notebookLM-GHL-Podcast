@@ -32,6 +32,11 @@ from bs4 import BeautifulSoup
 
 load_dotenv()
 
+try:
+    from ops_log import ops_log as _ops_log
+except ImportError:
+    def _ops_log(*a, **kw): pass
+
 # ── Config ────────────────────────────────────────────────────────────────────
 BASE_DIR = Path(__file__).parent.parent
 LOG_FILE = BASE_DIR / "logs" / "pipeline.log"
@@ -630,6 +635,8 @@ def apply_changes(page: dict, rewrites: dict) -> dict:
     send_slack_update(entry)
 
     log(f"  Engineer: changes applied for {slug}")
+    words_msg = f" (+{words_added}w)" if words_added else ""
+    _ops_log("SEO Optimizer", f"{action}: '{before['title'][:40]}' → '{rewrites['title'][:40]}'{words_msg}", level="detail")
     return entry
 
 
