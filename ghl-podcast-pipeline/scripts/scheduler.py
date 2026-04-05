@@ -146,6 +146,8 @@ def build_summary(cycle_num: int, next_run: datetime) -> str:
     total_streams = 0
     india_blogs_today = 0
     india_blogs_total = 0
+    spanish_blogs_today = 0
+    spanish_blogs_total = 0
 
     if PUBLISHED_FILE.exists():
         with open(PUBLISHED_FILE) as f:
@@ -192,6 +194,17 @@ def build_summary(cycle_num: int, next_run: datetime) -> str:
                 india_blogs_total += 1
                 if r.get("publishedAt", "").startswith(today):
                     india_blogs_today += 1
+
+    # Count Spanish blog stats
+    spanish_file = BASE_DIR / "data" / "spanish-published.json"
+    if spanish_file.exists():
+        with open(spanish_file) as f:
+            spanish_records = json.load(f)
+        for r in spanish_records:
+            if r.get("blogPostId"):
+                spanish_blogs_total += 1
+                if r.get("publishedAt", "").startswith(today):
+                    spanish_blogs_today += 1
 
     needs_action = failed_today > 0 and total_failed > 0
 
@@ -382,6 +395,7 @@ TODAY
   Podcast episodes:     {published_today}
   GHL blogs:            {blogs_today}
   India blogs:          {india_blogs_today}
+  Spanish blogs:        {spanish_blogs_today}
   Failed:               {failed_today}
   {"ACTION MAY BE NEEDED — see failures below" if needs_action else "All good"}
 
@@ -389,6 +403,7 @@ ALL TIME
   Podcast episodes:     {total_published}
   GHL blogs:            {total_blogs}
   India blogs:          {india_blogs_total}
+  Spanish blogs:        {spanish_blogs_total}
   Total streams:        {total_streams}
   Failed:               {total_failed} (will retry next cycle)
   Remaining:            ~{1565 - total_published} articles left (~{max(0, (1565 - total_published) // 20)} days)
