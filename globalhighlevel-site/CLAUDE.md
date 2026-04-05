@@ -50,12 +50,13 @@
 ## Verified Facts (use ONLY these — invent nothing)
 - Site: GlobalHighLevel.com — free GHL tutorials
 - Podcast: "Go High Level" on Spotify
-- Podcast stats: 380 followers, 6,479 all-time streams, 25 avg streams/episode
-- Top episode: "GoHighLevel Conversation AI Bot" — 492 streams
-- Content: 80+ published tutorials
+- Podcast stats: 380+ followers
+- Top episode: "GoHighLevel Conversation AI Bot"
+- Content: 490+ published posts (English, India, Spanish)
 - Offer: GoHighLevel 30-day FREE trial (double the standard 14-day trial)
 - GHL starts at $97/month
 - Affiliate link: https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12
+- Do NOT hardcode stream counts or follower numbers — they change. Check analytics if needed.
 
 ## DO NOT invent:
 - Testimonials or reviews
