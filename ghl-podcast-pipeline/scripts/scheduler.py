@@ -43,11 +43,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 try:
-    from ops_log import ops_log, build_ceo_digest, post_to_channel
+    from ops_log import ops_log
 except ImportError:
     def ops_log(*a, **kw): pass
-    def build_ceo_digest(): return ""
-    def post_to_channel(*a, **kw): pass
 
 BASE_DIR = Path(__file__).parent.parent
 LOG_FILE = BASE_DIR / "logs" / "pipeline.log"
@@ -457,35 +455,6 @@ def write_ops_status(cycle_num: int, published: int, failed: int, blogs: int, in
         log(f"  Ops status write failed (non-fatal): {e}")
 
 
-def send_daily_slack(summary: str, cycle_num: int):
-    """Post daily cycle summary to #globalhighlevel via Bot Token API."""
-    try:
-        # Convert plain text summary to Slack-friendly format
-        lines = summary.strip().split("\n")
-        formatted = []
-        for line in lines:
-            if line.startswith("="):
-                continue
-            elif line.startswith("Cycle #") or line.startswith("Episodes") or line.startswith("Blogs") or line.startswith("India") or line.startswith("Spanish") or line.startswith("Google Search"):
-                formatted.append(f"*{line.strip()}*")
-            elif line.strip().startswith("•"):
-                formatted.append(f"  {line.strip()}")
-            elif line.strip():
-                formatted.append(line.strip())
-
-        date_str = datetime.now().strftime("%b %d")
-        msg = f"*Daily Pipeline Report — Cycle #{cycle_num} | {date_str}*\n\n" + "\n".join(formatted)
-
-        if len(msg) > 4900:
-            msg = msg[:4900] + "\n\n_(truncated)_"
-
-        # Post detail to #globalhighlevel
-        post_to_channel("C0AQ95LG97F", msg)
-        log("  Daily Slack summary posted to #globalhighlevel")
-    except Exception as e:
-        log(f"  Daily Slack failed (non-fatal): {e}")
-
-
 def send_email(subject: str, body: str):
     """Send summary email via Gmail SMTP."""
     if not GMAIL_APP_PASSWORD:
@@ -597,7 +566,7 @@ async def run_cycle(cycle_num: int):
     cycle_started = datetime.now()
     log("=" * 60)
     log(f"Cycle #{cycle_num} starting")
-    ops_log("Podcast Pipeline", f"Cycle #{cycle_num} starting")
+    # Don't spam Slack with "starting" — only log locally
 
     # Save state NOW so restarts wait out the 25h window instead of re-running immediately
     save_state(cycle_started)
@@ -699,27 +668,10 @@ You'll get a summary email when it's done.
     # Save state so restarts are safe
     save_state(cycle_started)
 
-    # Send daily email summary
-    next_run = cycle_started + timedelta(hours=CYCLE_HOURS)
-    log("Sending daily summary email...")
-    summary = build_summary(cycle_num, next_run)
-    subject = f"GHL Podcast — Cycle #{cycle_num} | {datetime.now().strftime('%b %d')}"
-    send_email(subject, summary)
-
-    # Daily Slack summary — clients see activity every cycle
-    send_daily_slack(summary, cycle_num)
-
-    # Weekly Slack SEO report (sends once per 7 days automatically)
+    # Count today's stats (needed for Slack decisions below)
+    today = datetime.now().strftime("%Y-%m-%d")
+    ep_today = blog_today = india_today = spanish_today = fail_today = 0
     try:
-        weekly_report = load_script("weekly-slack-report.py")
-        weekly_report.main()
-    except Exception as e:
-        log(f"  Weekly Slack report error (non-fatal): {e}")
-
-    # Post to #ops-log for centralized monitoring
-    try:
-        today = datetime.now().strftime("%Y-%m-%d")
-        ep_today = blog_today = india_today = spanish_today = fail_today = 0
         if PUBLISHED_FILE.exists():
             with open(PUBLISHED_FILE) as f:
                 for r in json.load(f):
@@ -743,28 +695,38 @@ You'll get a summary email when it's done.
                 for r in json.load(f):
                     if r.get("publishedAt", "").startswith(today):
                         spanish_today += 1
-        write_ops_status(cycle_num, ep_today, fail_today, blog_today, india_today, spanish_today, seo_results=seo_optimizer_results)
+    except Exception as e:
+        log(f"  Stats counting failed (non-fatal): {e}")
 
-        # Post cycle summary to ops-log
+    # Send daily email summary (always — low noise, easy to ignore)
+    next_run = cycle_started + timedelta(hours=CYCLE_HOURS)
+    log("Sending daily summary email...")
+    summary = build_summary(cycle_num, next_run)
+    subject = f"GHL Podcast — Cycle #{cycle_num} | {datetime.now().strftime('%b %d')}"
+    send_email(subject, summary)
+
+    # Reporting is now handled by the /report skill (ICM-structured).
+    # Weekly reports, CEO digests, and error alerts are generated on schedule
+    # via triggers, not inline in the pipeline. The pipeline just writes
+    # ops-status.json and posts to #ops-log on failures.
+
+    # Write ops-status.json (the reporting skill reads this)
+    try:
+        write_ops_status(cycle_num, ep_today, fail_today, blog_today, india_today, spanish_today, seo_results=seo_optimizer_results)
+    except Exception as e:
+        log(f"  Ops status write failed (non-fatal): {e}")
+
+    # Post to #ops-log only on failures (error alert for immediate visibility)
+    if fail_today > 0:
         parts = [f"Cycle #{cycle_num} complete"]
         if ep_today: parts.append(f"{ep_today} episodes")
         if blog_today: parts.append(f"{blog_today} blogs")
         if india_today: parts.append(f"{india_today} India blogs")
         if spanish_today: parts.append(f"{spanish_today} Spanish blogs")
-        if fail_today: parts.append(f"{fail_today} failed")
-        ops_log("Podcast Pipeline", ". ".join(parts) + ".",
-                level="warning" if fail_today > 0 else "info")
-    except Exception as e:
-        log(f"  Ops-log stats failed (non-fatal): {e}")
-
-    # Post CEO digest to #ceo (summarizes all ops-log entries from today)
-    try:
-        ceo_digest = build_ceo_digest()
-        if ceo_digest:
-            post_to_channel("C0AQAHSQK38", ceo_digest)  # #ceo
-            log("  CEO digest posted to #ceo")
-    except Exception as e:
-        log(f"  CEO digest failed (non-fatal): {e}")
+        parts.append(f"{fail_today} failed")
+        ops_log("Podcast Pipeline", ". ".join(parts) + ".", level="warning")
+    else:
+        log(f"  Cycle #{cycle_num} clean — {ep_today} episodes, {blog_today + india_today + spanish_today} blogs, 0 failures")
 
     log(f"Cycle #{cycle_num} complete.")
     log(f"Next cycle: {next_run.strftime('%Y-%m-%d %H:%M:%S')}")
