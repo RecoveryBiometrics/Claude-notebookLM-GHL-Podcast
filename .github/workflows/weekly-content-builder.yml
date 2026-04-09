@@ -1,0 +1,83 @@
+name: Weekly Content Builder (Gap Pages)
+
+on:
+  schedule:
+    # Every Wednesday at 10:00 UTC (6am ET)
+    # After Monday analytics + Tuesday SEO report write fresh TODOs
+    - cron: '0 10 * * 3'
+  workflow_dispatch:
+    # Allow manual trigger from GitHub Actions UI
+
+permissions:
+  contents: write
+
+env:
+  SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  SLACK_OPS_LOG_CHANNEL: C0AQG0DP222
+
+jobs:
+  content-builder:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout shared pipeline
+        uses: actions/checkout@v4
+        with:
+          repository: RecoveryBiometrics/agent-command-center
+          path: .shared-pipeline
+          sparse-checkout: |
+            pipelines/content-builder
+            pipelines/interlinking
+            businesses
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install content-builder dependencies
+        run: cd .shared-pipeline/pipelines/content-builder && npm install
+
+      - name: Install interlinking dependencies
+        run: cd .shared-pipeline/pipelines/interlinking && npm install
+
+      # ── Build gap pages from SEO TODOs ──────────────────────────
+      - name: Run content builder
+        id: builder
+        run: |
+          OUTPUT=$(node index.js --business globalhighlevel 2>&1) || true
+          echo "$OUTPUT"
+          DEPLOYED=$(echo "$OUTPUT" | grep -c "Deployed:" || echo "0")
+          FAILED=$(echo "$OUTPUT" | grep "Failed:" | sed 's/.*Failed: //' || echo "0")
+          echo "summary<<EOF" >> $GITHUB_OUTPUT
+          echo "${DEPLOYED} pages deployed, ${FAILED} failures" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        working-directory: .shared-pipeline/pipelines/content-builder
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+          BUSINESS_PROJECT_PATH: ${{ github.workspace }}
+
+      - name: Ops-log — failure alert
+        if: failure()
+        run: |
+          curl -s -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n --arg ch "$SLACK_OPS_LOG_CHANNEL" --arg txt "[GHL] [Content Builder] Failed — check run #${{ github.run_number }}" '{channel: $ch, text: $txt}')"
+
+      # ── Commit new posts ──────────────────────────────────────
+      - name: Commit new content
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add globalhighlevel-site/posts/ posts/
+          git diff --staged --quiet || git commit -m "Content builder: $(date +%Y-%m-%d) — new pages from SEO gaps"
+          git pull --rebase origin main || true
+          git push origin main
