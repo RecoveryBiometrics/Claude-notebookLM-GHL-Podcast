@@ -215,10 +215,26 @@ def write_blog(topic: str, research_data: dict) -> dict:
         [f"- {q}" for q in research_data["reddit"]]
     ) or "No Reddit data available."
 
+    # Tier 1: Include English source material if available
+    english_source = ""
+    if research_data.get("english_source"):
+        src = research_data["english_source"]
+        english_source = f"""
+ENGLISH SOURCE ARTICLE (from help.gohighlevel.com — ADAPT for Indian market):
+Title: {src.get('title', '')}
+Description: {src.get('description', '')}
+Content (first 3000 chars):
+{src.get('content_preview', '')[:2000]}
+
+IMPORTANT: This article is your primary source. Cover the same GoHighLevel features
+but ADAPT the content for the Indian market. Don't just copy — rewrite with
+local context (WhatsApp, Razorpay/UPI, pricing in rupees with ROI justification).
+"""
+
     prompt = f"""You are an expert content writer creating a blog post specifically for Indian digital marketing agencies and business owners considering GoHighLevel.
 
 TOPIC: {topic}
-
+{english_source}
 RESEARCH — TOP RANKING CONTENT ON THIS TOPIC:
 {serp_context}
 
@@ -412,13 +428,23 @@ def publish(topic: str, html_content: str, meta_description: str, slug: str) -> 
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
-def process_topic(topic: str) -> dict:
+def process_topic(topic: str, source_data: dict = None) -> dict:
+    """Process a topic. source_data contains Tier 1 English source material if available."""
     log(f"{'='*50}")
-    log(f"Topic: {topic}")
+    source = source_data.get("source", "tier3-market") if source_data else "tier3-market"
+    log(f"Topic: {topic} [source: {source}]")
 
     # Agent 1: Research
     research_data = research(topic)
     time.sleep(2)
+
+    # For Tier 1 topics, inject the English source material into research
+    if source_data and source_data.get("english_content_preview"):
+        research_data["english_source"] = {
+            "title": source_data.get("english_title", ""),
+            "description": source_data.get("english_description", ""),
+            "content_preview": source_data.get("english_content_preview", ""),
+        }
 
     # Agent 2: Write (retry once on JSON failure)
     blog_data = None
@@ -449,13 +475,18 @@ def process_topic(topic: str) -> dict:
         slug=blog_data["slug"],
     )
 
-    return {
+    result = {
         "topic": topic,
         "blogPostId": post_id,
         "blogSlug": blog_data["slug"],
+        "source": source,
         "corrections": check_result.get("corrections", []),
         "publishedAt": datetime.now().isoformat(),
     }
+    if source_data and source_data.get("articleId"):
+        result["articleId"] = source_data["articleId"]
+
+    return result
 
 
 def main():
@@ -468,8 +499,18 @@ def main():
 
     if args.topic:
         topics = [args.topic]
+        sourced_topics = []
     else:
-        # Load from file if exists, else use defaults
+        # Tier 1 + 2: Get properly sourced topics from the topic sourcer
+        try:
+            from topic_sourcer import get_topics
+            sourced_topics = get_topics(language="en-IN", published=published, limit=args.limit or 5)
+            log(f"Topic sourcer: {len(sourced_topics)} topics ({sum(1 for t in sourced_topics if t['tier']==1)} docs, {sum(1 for t in sourced_topics if t['tier']==2)} GSC)")
+        except Exception as e:
+            log(f"Topic sourcer unavailable ({e}) — falling back to topic list")
+            sourced_topics = []
+
+        # Tier 3 fallback: existing topic list + auto-generation
         if TOPICS_FILE.exists():
             with open(TOPICS_FILE) as f:
                 topics = json.load(f)
@@ -481,8 +522,7 @@ def main():
 
     pending = [t for t in topics if not is_published(t, published)]
 
-    # Auto-generate new topics when running low
-    # First check if GSC generated any India topics
+    # Pull GSC-generated India topics
     if len(pending) < 10 and not args.topic:
         gsc_topics_file = BASE_DIR / "data" / "gsc-topics.json"
         if gsc_topics_file.exists():
@@ -504,6 +544,7 @@ def main():
             except Exception:
                 pass
 
+    # Auto-generate topics if still running low
     if len(pending) < 10 and not args.topic:
         log(f"Only {len(pending)} topics left — generating 25 more...")
         try:
@@ -537,31 +578,50 @@ Return ONLY the 25 topics, one per line, no numbering, no bullets, no other text
         except Exception as e:
             log(f"Topic generation failed (continuing with existing): {e}")
 
-    if args.limit and args.limit > 0:
-        pending = pending[:args.limit]
-    log(f"Topics pending: {len(pending)} / {len(topics)}")
+    # Build the final processing queue: sourced topics first, then Tier 3 (pending)
+    max_total = args.limit if args.limit and args.limit > 0 else 5
+    process_queue = []
 
-    for i, topic in enumerate(pending):
+    # Add sourced topics (Tier 1 + 2)
+    for st in sourced_topics:
+        if len(process_queue) >= max_total:
+            break
+        process_queue.append({"topic": st["topic"], "source_data": st})
+
+    # Fill remaining with Tier 3 (existing topic list)
+    if len(process_queue) < max_total:
+        remaining = max_total - len(process_queue)
+        tier3_pending = [t for t in pending[:remaining]]
+        for t in tier3_pending:
+            process_queue.append({"topic": t, "source_data": {"source": "tier3-market"}})
+
+    log(f"Processing {len(process_queue)} topics: {sum(1 for q in process_queue if q['source_data'].get('tier')==1)} docs + {sum(1 for q in process_queue if q['source_data'].get('tier')==2)} GSC + {sum(1 for q in process_queue if q['source_data'].get('source')=='tier3-market')} market")
+
+    processed = 0
+    for i, item in enumerate(process_queue):
+        topic = item["topic"]
+        source_data = item.get("source_data")
         try:
-            result = process_topic(topic)
+            result = process_topic(topic, source_data=source_data)
             published.append(result)
             save_published(published)
             log(f"Done: {topic[:60]}")
+            processed += 1
         except Exception as e:
             log(f"FAILED: {topic[:60]} — {e}")
             published.append({
                 "topic": topic,
+                "source": source_data.get("source", "tier3-market") if source_data else "tier3-market",
                 "status": "failed",
                 "error": str(e),
                 "failedAt": datetime.now().isoformat(),
             })
             save_published(published)
 
-        if i < len(pending) - 1:
-            log("Cooling down 30 seconds...")
-            time.sleep(30)
+        if i < len(process_queue) - 1:
+            time.sleep(5)
 
-    log(f"India blog run complete — {len(pending)} topics processed")
+    log(f"India blog run complete — {processed} topics processed")
 
 
 if __name__ == "__main__":
