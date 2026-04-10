@@ -1,0 +1,47 @@
+name: Weekly SEO Report
+
+on:
+  schedule:
+    # Every Tuesday at 9:07am ET (13:07 UTC) — after Monday analytics
+    - cron: '7 13 * * 2'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  seo-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout shared pipeline
+        uses: actions/checkout@v4
+        with:
+          repository: RecoveryBiometrics/agent-command-center
+          path: .shared-pipeline
+          sparse-checkout: |
+            pipelines/seo-reporting
+            businesses
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: .shared-pipeline/pipelines/seo-reporting
+
+      - name: Run SEO report
+        env:
+          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+          GOOGLE_OAUTH_CREDENTIALS: ${{ secrets.GOOGLE_OAUTH_CREDENTIALS }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          BUSINESS_PROJECT_PATH: ${{ github.workspace }}
+        run: node index.js --business globalhighlevel
+        working-directory: .shared-pipeline/pipelines/seo-reporting
