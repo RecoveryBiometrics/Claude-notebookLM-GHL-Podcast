@@ -248,14 +248,25 @@ def fetch_gsc_data() -> dict:
             }
         ).execute()
 
-        # Top queries
+        # Top queries (all)
         query_response = service.searchanalytics().query(
             siteUrl=GSC_SITE_URL,
             body={
                 "startDate": start_date,
                 "endDate": end_date,
                 "dimensions": ["query"],
-                "rowLimit": 50,
+                "rowLimit": 100,
+            }
+        ).execute()
+
+        # Per-country queries for non-English language detection
+        country_query_response = service.searchanalytics().query(
+            siteUrl=GSC_SITE_URL,
+            body={
+                "startDate": start_date,
+                "endDate": end_date,
+                "dimensions": ["query", "country"],
+                "rowLimit": 500,
             }
         ).execute()
 
@@ -291,6 +302,33 @@ def fetch_gsc_data() -> dict:
         totals_rows = totals_response.get("rows", [{}])
         totals = totals_rows[0] if totals_rows else {}
 
+        # Process per-country queries into language buckets
+        COUNTRY_TO_LANG = {
+            "MEX": "es", "COL": "es", "ARG": "es", "ESP": "es", "CHL": "es", "PER": "es", "ECU": "es",
+            "IND": "en-IN",
+            "ARE": "ar", "SAU": "ar", "EGY": "ar", "QAT": "ar", "OMN": "ar",
+        }
+        queries_by_lang = {}
+        for row in country_query_response.get("rows", []):
+            query_text = row["keys"][0]
+            country = row["keys"][1]
+            lang = COUNTRY_TO_LANG.get(country)
+            if lang:
+                if lang not in queries_by_lang:
+                    queries_by_lang[lang] = []
+                queries_by_lang[lang].append({
+                    "query": query_text,
+                    "country": country,
+                    "clicks": row.get("clicks", 0),
+                    "impressions": row.get("impressions", 0),
+                    "ctr": round(row.get("ctr", 0) * 100, 1),
+                    "position": round(row.get("position", 0), 1),
+                })
+
+        # Sort each language bucket by impressions
+        for lang in queries_by_lang:
+            queries_by_lang[lang].sort(key=lambda x: x["impressions"], reverse=True)
+
         gsc_data = {
             "updated_at": datetime.now().isoformat(),
             "period": f"{start_date} to {end_date}",
@@ -302,13 +340,16 @@ def fetch_gsc_data() -> dict:
             },
             "pages": sorted(pages, key=lambda x: x["clicks"], reverse=True),
             "queries": sorted(queries, key=lambda x: x["impressions"], reverse=True),
+            "queries_es": queries_by_lang.get("es", []),
+            "queries_in": queries_by_lang.get("en-IN", []),
+            "queries_ar": queries_by_lang.get("ar", []),
         }
 
         with open(GSC_DATA_FILE, "w") as f:
             json.dump(gsc_data, f, indent=2)
 
         log(f"  GSC: {gsc_data['totals']['clicks']} clicks, {gsc_data['totals']['impressions']} impressions (last 28 days)")
-        log(f"  GSC: {len(pages)} pages tracked, {len(queries)} queries")
+        log(f"  GSC: {len(pages)} pages, {len(queries)} queries (ES:{len(gsc_data['queries_es'])} IN:{len(gsc_data['queries_in'])} AR:{len(gsc_data['queries_ar'])})")
         return gsc_data
 
     except Exception as e:

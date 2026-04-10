@@ -658,8 +658,19 @@ You'll get a summary email when it's done.
     except Exception as e:
         log(f"  7-spanish-blog.py error (non-fatal): {e}")
 
+    # Step 4.5: Run Arabic blog agent (5 topics per cycle)
+    log("Step 4.5/6 — Running 9-arabic-blog.py (up to 5 topics)...")
+    try:
+        import sys
+        sys.argv = ["9-arabic-blog.py", "--limit", "5"]
+        arabic = load_script("9-arabic-blog.py")
+        arabic.main()
+        sys.argv = [sys.argv[0]]
+    except Exception as e:
+        log(f"  9-arabic-blog.py error (non-fatal): {e}")
+
     # Step 5: Deploy new posts to globalhighlevel.com via GitHub → Cloudflare Pages
-    log("Step 5/5 — Deploying new posts to globalhighlevel.com...")
+    log("Step 5/6 — Deploying new posts to globalhighlevel.com...")
     try:
         deploy_site()
     except Exception as e:
