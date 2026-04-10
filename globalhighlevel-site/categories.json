@@ -39,7 +39,7 @@
       "slug": "ai-automation",
       "description": "Build AI agents, automate workflows, and use Agent Studio to scale your agency with GoHighLevel.",
       "keywords": ["agent studio", "ai agent", "brand voice", "conversation ai", "voice ai", "dashboard ai", "ai schedule", "template library", "clone ai", "router", "variable", "automation", "trigger", "ai employee", "workflow", "bot"],
-      "keywords_es": ["automatización", "automatizaciones", "flujo", "flujos", "workflow", "bot", "ia", "inteligencia artificial", "agente", "voz ai", "conversación ai", "trigger"],
+      "keywords_es": ["ia", "inteligencia artificial", "agente ai", "voz ai", "conversación ai", "bot ai", "ai employee"],
       "keywords_in": ["automation", "workflow", "ai agent", "bot", "whatsapp automation", "voice ai"]
     },
     {
@@ -95,7 +95,7 @@
       "slug": "agency-platform",
       "description": "Master SaaS mode, APIs, webhooks, listings, and platform features in GoHighLevel.",
       "keywords": ["saas", "agency", "white label", "resell", "api", "sdk", "webhook", "integration", "listing", "gbp", "seo site", "global section", "knowledge base", "canva", "multi-language", "accessibility", "soc 2", "bug", "file type", "course", "timezone", "app installer", "client portal", "funnel", "landing page", "calendar", "booking", "reputation", "review", "membership", "community"],
-      "keywords_es": ["saas", "agencia", "marca blanca", "api", "webhook", "integración", "plataforma", "funnel", "embudo", "landing", "calendario", "reserva", "reputación", "reseña", "comunidad", "membresía", "guía", "completa", "paso a paso"],
+      "keywords_es": ["saas", "agencia", "marca blanca", "api", "webhook", "integración", "plataforma", "funnel", "embudo", "landing", "calendario", "reserva", "reputación", "reseña", "comunidad", "membresía", "guía", "completa", "paso a paso", "automatización", "automatizaciones", "flujo", "flujos", "workflow", "domina", "configura"],
       "keywords_in": ["saas", "agency", "white label", "api", "webhook", "funnel", "calendar", "booking", "reputation"]
     }
   ]
