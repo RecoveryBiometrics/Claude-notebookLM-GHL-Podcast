@@ -1,6 +1,7 @@
 # Claude / MCP
 .mcp.json
 .claude.json
+.claude/settings.local.json
 CLAUDE.md
 ghl-podcast-pipeline/CLAUDE.md
 ghl-podcast-pipeline/.claude/
