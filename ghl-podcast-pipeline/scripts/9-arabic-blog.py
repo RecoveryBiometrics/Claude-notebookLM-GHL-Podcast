@@ -1,20 +1,20 @@
 """
-7-spanish-blog.py
-Generates Spanish-language GHL blog posts for Latin American and Spanish audiences.
+9-arabic-blog.py
+Generates Arabic-language GHL blog posts for MENA markets (UAE, Saudi Arabia, Egypt, Qatar, Oman).
 Publishes to globalhighlevel.com via posts/ JSON (same as 5-blog.py).
 
 Three-agent pipeline:
-  1. Researcher  — DuckDuckGo (Spanish queries) + Reddit
-  2. Writer      — Claude Haiku writes Spanish-native blog post
-  3. Fact Checker — Claude Haiku checks regional accuracy + natural Spanish
+  1. Researcher  — DuckDuckGo (Arabic queries) + Reddit
+  2. Writer      — Claude Haiku writes Arabic-native blog post
+  3. Fact Checker — Claude Haiku checks regional accuracy + natural Arabic
 
 Auto-generates topics from GSC data + Claude when running low.
 
 Run all topics:
-  venv/bin/python3 scripts/7-spanish-blog.py
+  venv/bin/python3 scripts/9-arabic-blog.py
 
 Run one topic:
-  venv/bin/python3 scripts/7-spanish-blog.py --topic "Cómo usar GoHighLevel para agencias en México"
+  venv/bin/python3 scripts/9-arabic-blog.py --topic "كيفية استخدام GoHighLevel لوكالات التسويق في الإمارات"
 """
 
 import argparse
@@ -35,11 +35,11 @@ from bs4 import BeautifulSoup
 
 load_dotenv()
 
-# ── Config ─────────────────────────────────────────────────────────────────────
+# -- Config --------------------------------------------------------------------
 BASE_DIR    = Path(__file__).parent.parent
 LOG_FILE    = BASE_DIR / "logs" / "pipeline.log"
-DATA_FILE   = BASE_DIR / "data" / "spanish-published.json"
-TOPICS_FILE = BASE_DIR / "data" / "spanish-topics.json"
+DATA_FILE   = BASE_DIR / "data" / "arabic-published.json"
+TOPICS_FILE = BASE_DIR / "data" / "arabic-topics.json"
 SITE_POSTS  = Path("/opt/globalhighlevel-site/posts") if Path("/opt/globalhighlevel-site/posts").exists() else BASE_DIR.parent / "globalhighlevel-site" / "posts"
 CATEGORIES_FILE = Path("/opt/globalhighlevel-site/categories.json") if Path("/opt/globalhighlevel-site/categories.json").exists() else BASE_DIR.parent / "globalhighlevel-site" / "categories.json"
 
@@ -48,70 +48,73 @@ GHL_AFFILIATE_LINK = os.getenv("GHL_AFFILIATE_LINK", "")
 MODEL = "claude-haiku-4-5-20251001"
 
 DEFAULT_TOPICS = [
-    "Cómo usar GoHighLevel para agencias de marketing en México",
-    "GoHighLevel vs HubSpot — Comparación de precios para Latinoamérica",
-    "Automatización de WhatsApp con GoHighLevel para negocios latinos",
-    "Cómo captar más clientes con embudos de GoHighLevel en español",
-    "GoHighLevel para inmobiliarias en Latinoamérica — Guía completa",
-    "CRM GoHighLevel en español — Todo lo que necesitas saber",
-    "Cómo integrar MercadoPago con GoHighLevel para cobrar en pesos",
-    "GoHighLevel para consultorios médicos en México y Colombia",
-    "Automatización de seguimiento de clientes con GoHighLevel en español",
-    "GoHighLevel vs Clientify — ¿Cuál es mejor para agencias hispanas?",
-    "Cómo crear landing pages en español con GoHighLevel",
-    "GoHighLevel para gimnasios y estudios fitness en Latinoamérica",
-    "Marketing por WhatsApp para restaurantes con GoHighLevel",
-    "GoHighLevel SaaS Mode — Cómo revender como agencia en Latinoamérica",
-    "Guía de precios GoHighLevel 2026 en dólares y pesos mexicanos",
+    "كيفية استخدام GoHighLevel لوكالات التسويق في الإمارات",
+    "GoHighLevel مقابل HubSpot — مقارنة الأسعار للشرق الأوسط",
+    "أتمتة واتساب مع GoHighLevel للأعمال العربية",
+    "كيفية إنشاء صفحات هبوط بالعربية في GoHighLevel",
+    "GoHighLevel للعقارات في دبي والسعودية",
+    "CRM GoHighLevel بالعربية — دليل شامل",
+    "GoHighLevel للمطاعم والمقاهي في الخليج",
+    "أتمتة متابعة العملاء مع GoHighLevel بالعربية",
+    "GoHighLevel SaaS Mode — كيف تبيع كوكالة في الشرق الأوسط",
+    "دليل أسعار GoHighLevel 2026 بالدولار والدرهم الإماراتي",
+    "GoHighLevel للعيادات الطبية في السعودية والإمارات",
+    "كيفية إعداد حملات واتساب في GoHighLevel للسوق العربي",
+    "GoHighLevel للتجارة الإلكترونية في الشرق الأوسط",
+    "مقارنة GoHighLevel و Zoho CRM للوكالات العربية",
+    "كيفية أتمتة التسويق عبر البريد الإلكتروني مع GoHighLevel بالعربية",
 ]
 
-SPANISH_FACT_RULES = """
-LATIN AMERICA-SPECIFIC GHL FACT CHECK RULES:
+ARABIC_FACT_RULES = """
+MENA-SPECIFIC GHL FACT CHECK RULES:
 
 COMMUNICATION:
-- WhatsApp is THE business messaging tool in all of Latin America — NOT SMS
+- WhatsApp is THE primary business communication tool across all MENA markets
 - WhatsApp Business API is the correct GHL feature to highlight
-- Email marketing also works but WhatsApp has 5-10x engagement
+- Email marketing works but WhatsApp has 5-10x engagement in the region
+- SMS is used for OTP/verification but NOT for marketing in most MENA countries
 
 PAYMENTS:
-- MercadoPago is the dominant payment processor (Argentina, Mexico, Brazil, Colombia)
-- Stripe is available but less common in LatAm
-- Also mention: Conekta (Mexico), PayU (Colombia), Transbank (Chile)
-- Always mention pricing in USD AND local currency where relevant
+- Stripe is available in UAE and Saudi Arabia
+- PayTabs is a major MENA payment processor (UAE, Saudi, Egypt, Oman, Qatar)
+- Tap Payments is popular in GCC countries (Kuwait, Bahrain, UAE, Saudi)
+- Do NOT mention MercadoPago — that is Latin America only
+- Always mention pricing in USD AND local currency (AED, SAR, EGP) where relevant
 
 COMPETITORS:
-- Clientify is the main known Spanish-language CRM alternative
-- HubSpot is known but considered expensive
-- Mailchimp for email, Zoho for CRM
+- Zoho is well-known in MENA (has Arabic support, Dubai office)
+- HubSpot is known but considered expensive for the region
+- Odoo has some presence in MENA
 - Always position GHL as all-in-one vs piecing together tools
 
 PRICING (as of 2026):
-- GHL Starter: $97/month (USD)
-- GHL Agency: $297/month (USD)
+- GHL Starter: $97/month (USD) ~ 356 AED / 364 SAR / 4,750 EGP
+- GHL Agency: $297/month (USD) ~ 1,090 AED / 1,114 SAR / 14,550 EGP
 - Always justify ROI — $97 replaces 5-10 tools that cost $500+/month combined
 
 MARKETS (use naturally):
-- Mexico (largest Spanish-speaking market, agencies + real estate + healthcare)
-- Colombia (growing digital marketing scene, agencies)
-- Argentina (tech-savvy, startups, agencies)
-- Spain (European market, different from LatAm but still relevant)
-- Chile, Peru, Ecuador (emerging markets)
+- UAE (most tech-forward, Dubai is the business hub)
+- Saudi Arabia (Vision 2030 driving massive digital transformation)
+- Egypt (largest Arabic-speaking market, growing startup scene)
+- Qatar (high GDP per capita, digital government initiatives)
+- Oman (emerging digital economy)
 
 CULTURAL:
-- Business relationships are personal — mention building client trust
-- Many agencies are small (1-5 people) — automation is critical
-- Price sensitivity is real but ROI argument works well
-- Content should sound like a native Spanish speaker wrote it
-- Use Latin American Spanish (not European Spanish) as default
-- Avoid literal translations from English — use natural phrasing
-- Use "tú" (informal) for blog posts, not "usted" (formal)
+- Business relationships are deeply personal — trust and rapport are essential
+- Many agencies and businesses are small to medium — automation is critical
+- Use Modern Standard Arabic (فصحى) — accessible across all Arabic countries
+- Avoid dialect-specific terms (no Egyptian colloquial, no Gulf slang)
+- Content must be culturally appropriate for conservative markets
+- Friday is the weekend in most MENA countries (not Sunday)
+- Ramadan and Islamic holidays affect business cycles
+- Gender-neutral language is preferred in professional content
 """
 
 
-# ── Logging ───────────────────────────────────────────────────────────────────
+# -- Logging -------------------------------------------------------------------
 def log(msg: str):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    line = f"[{timestamp}] [SPANISH-BLOG] {msg}"
+    line = f"[{timestamp}] [ARABIC-BLOG] {msg}"
     print(line, flush=True)
     with open(LOG_FILE, "a") as f:
         f.write(line + "\n")
@@ -126,14 +129,14 @@ def load_published() -> list:
 
 def save_published(records: list):
     with open(DATA_FILE, "w") as f:
-        json.dump(records, f, indent=2)
+        json.dump(records, f, indent=2, ensure_ascii=False)
 
 
 def is_published(topic: str, published: list) -> bool:
     return any(r.get("topic") == topic and r.get("slug") for r in published)
 
 
-# ── Agent 1: Researcher ────────────────────────────────────────────────────────
+# -- Agent 1: Researcher -------------------------------------------------------
 def scrape_duckduckgo(query: str, max_results: int = 5) -> list[dict]:
     try:
         resp = requests.post(
@@ -164,7 +167,7 @@ def scrape_duckduckgo(query: str, max_results: int = 5) -> list[dict]:
 
 
 def scrape_reddit(query: str, max_results: int = 5) -> list[str]:
-    subreddits = ["GoHighLevel", "marketing", "LatinAmerica", "entrepreneur"]
+    subreddits = ["GoHighLevel", "dubai", "saudiarabia", "Egypt", "marketing", "entrepreneur"]
     questions = []
     for subreddit in subreddits:
         if len(questions) >= max_results:
@@ -173,7 +176,7 @@ def scrape_reddit(query: str, max_results: int = 5) -> list[str]:
             resp = requests.get(
                 f"https://www.reddit.com/r/{subreddit}/search.json",
                 params={"q": query, "restrict_sr": 1, "sort": "top", "limit": max_results},
-                headers={"User-Agent": "GHLSpanishBlogBot/1.0"},
+                headers={"User-Agent": "GHLArabicBlogBot/1.0"},
                 timeout=15,
             )
             posts = resp.json().get("data", {}).get("children", [])
@@ -191,7 +194,7 @@ def research(topic: str) -> dict:
     log(f"Agent 1: Researching — {topic}")
     serp1 = scrape_duckduckgo(f"{topic}")
     time.sleep(2)
-    serp2 = scrape_duckduckgo(f"GoHighLevel agencia marketing latinoamérica 2026")
+    serp2 = scrape_duckduckgo(f"GoHighLevel marketing agency Middle East MENA 2026")
     time.sleep(2)
     reddit = scrape_reddit(f"GoHighLevel {topic.split()[0]}")
     return {
@@ -200,14 +203,14 @@ def research(topic: str) -> dict:
     }
 
 
-# ── Agent 2: Writer ────────────────────────────────────────────────────────────
+# -- Agent 2: Writer -----------------------------------------------------------
 def write_blog(topic: str, research_data: dict) -> dict:
     log(f"Agent 2: Writing blog — {topic}")
 
-    utm_campaign = re.sub(r"[^a-z0-9-]", "", topic.lower().replace(" ", "-").replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u").replace("ñ", "n"))
+    utm_campaign = re.sub(r"[^a-z0-9-]", "", "arabic-" + re.sub(r"[\u0600-\u06FF]+", "", topic).strip().lower().replace(" ", "-"))[:80]
     affiliate_url = (
         f"{GHL_AFFILIATE_LINK}"
-        f"&utm_source=blog&utm_medium=article&utm_campaign={utm_campaign}-es"
+        f"&utm_source=blog&utm_medium=article&utm_campaign={utm_campaign}"
     )
     trial_url = "https://globalhighlevel.com/trial"
 
@@ -219,55 +222,59 @@ def write_blog(topic: str, research_data: dict) -> dict:
         [f"- {q}" for q in research_data["reddit"]]
     ) or "No Reddit data available."
 
-    prompt = f"""Eres un experto en contenido creando un blog post en ESPAÑOL para agencias de marketing digital y negocios en Latinoamérica que usan GoHighLevel.
+    prompt = f"""You are an expert content creator writing a blog post in MODERN STANDARD ARABIC (فصحى) for marketing agencies and businesses in the Middle East (UAE, Saudi Arabia, Egypt, Qatar, Oman) that use GoHighLevel.
 
-TEMA: {topic}
+IMPORTANT: All blog content must be written in Arabic. Your instructions are in English but ALL output text (title, html_content, meta_description) must be in Arabic.
 
-INVESTIGACIÓN — CONTENIDO TOP EN ESTE TEMA:
+TOPIC: {topic}
+
+RESEARCH — TOP CONTENT ON THIS TOPIC:
 {serp_context}
 
-INVESTIGACIÓN — QUÉ DICEN LOS MARKETERS:
+RESEARCH — WHAT MARKETERS ARE SAYING:
 {reddit_context}
 
-ENLACE DE AFILIADO (incluir 2-3 veces naturalmente):
+AFFILIATE LINK (include 2-3 times naturally):
 {trial_url}
 
-ENLACE DIRECTO DE AFILIADO (usar en CTAs principales):
+DIRECT AFFILIATE LINK (use in main CTAs):
 {affiliate_url}
 
-REQUISITOS PARA LATINOAMÉRICA:
-- WhatsApp es LA herramienta de comunicación en Latinoamérica — NO SMS
-- Mencionar MercadoPago como procesador de pagos principal
-- Precios en USD con contexto de valor para Latinoamérica
-- GHL Starter: $97/mes, Agency: $297/mes
-- Mencionar mercados relevantes: México, Colombia, Argentina, España
-- Escribir en español latinoamericano natural (NO traducción del inglés)
-- Usar "tú" (informal), NO "usted"
-- Dolor principal: demasiadas herramientas, costos altos, equipos pequeños
+MENA MARKET REQUIREMENTS:
+- WhatsApp is THE communication tool in MENA — NOT SMS
+- Payment processors: Stripe, PayTabs, Tap Payments (NOT MercadoPago)
+- Prices in USD with AED/SAR/EGP equivalents
+- GHL Starter: $97/month (~356 AED / 364 SAR / 4,750 EGP)
+- GHL Agency: $297/month (~1,090 AED / 1,114 SAR / 14,550 EGP)
+- Mention relevant markets: UAE, Saudi Arabia (Vision 2030), Egypt
+- Write in Modern Standard Arabic (فصحى) — no dialect-specific terms
+- Key pain point: too many tools, high costs, small teams needing automation
+- Business culture: relationships and trust are paramount
 
-ESTRUCTURA DEL BLOG:
-0. PRIMERA LÍNEA — antes de cualquier heading — incluir este banner CTA:
-   <p style="background:#111520;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:4px;color:#eef2ff;"><strong>🚀 Prueba GoHighLevel GRATIS por 30 días</strong> — Sin tarjeta de crédito. <a href="{trial_url}" style="color:#f59e0b;" target="_blank">Empieza tu prueba gratis aquí →</a></p>
-1. Hook — hablar de un problema específico de agencias latinas
-2. Agitar — hacer el problema real con contexto latinoamericano
-3. Presentar GHL como la solución
-4. Caso de uso real para una agencia latina (elegir un país/nicho)
-5. Precios de GoHighLevel con justificación de ROI
-6. Tutorial de automatización de WhatsApp
-7. Sección de preguntas frecuentes (FAQ)
-8. CTA fuerte con enlace de afiliado
+BLOG STRUCTURE:
+0. FIRST LINE — before any heading — include this CTA banner:
+   <p style="background:#111520;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:4px;color:#eef2ff;"><strong>🚀 جرّب GoHighLevel مجاناً لمدة 30 يوماً</strong> — بدون بطاقة ائتمان. <a href="{trial_url}" style="color:#f59e0b;" target="_blank">ابدأ تجربتك المجانية هنا ←</a></p>
+1. Hook — address a specific problem for MENA agencies/businesses
+2. Agitate — make the problem real with Middle East business context
+3. Present GHL as the solution
+4. Real use case for a MENA business (pick a country/niche)
+5. GoHighLevel pricing with ROI justification in local currencies
+6. WhatsApp automation tutorial section
+7. FAQ section (frequently asked questions)
+8. Strong CTA with affiliate link
 
-FORMATO: HTML solo (<h2>, <h3>, <p>, <ul>, <li>, <strong>). Sin tags <html>/<head>/<body>.
-LONGITUD: 900-1200 palabras
-TONO: Profesional, directo, escrito por alguien que entiende negocios en Latinoamérica
-IDIOMA: Español latinoamericano 100% natural
+FORMAT: HTML only (<h2>, <h3>, <p>, <ul>, <li>, <strong>). No <html>/<head>/<body> tags.
+RTL: Wrap the ENTIRE html_content in <div dir="rtl" style="text-align:right"> ... </div>
+LENGTH: 900-1200 words
+TONE: Professional, direct, written by someone who understands MENA business culture
+LANGUAGE: 100% Modern Standard Arabic (فصحى)
 
-Devuelve JSON con estas claves exactas:
+Return JSON with these exact keys:
 {{
-  "html_content": "HTML completo del blog post",
-  "meta_description": "150-160 caracteres de meta descripción SEO en español",
-  "slug": "slug-en-espanol-amigable-url",
-  "title": "Título del post en español"
+  "html_content": "Complete HTML of the blog post (wrapped in RTL div)",
+  "meta_description": "150-160 character SEO meta description in Arabic",
+  "slug": "url-friendly-slug-in-english",
+  "title": "Post title in Arabic"
 }}"""
 
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
@@ -276,7 +283,7 @@ Devuelve JSON con estas claves exactas:
         max_tokens=4000,
         messages=[{"role": "user", "content": prompt}],
     )
-    log_api_cost(response, script="7-spanish-blog-write")
+    log_api_cost(response, script="9-arabic-blog-write")
 
     raw = response.content[0].text.strip()
     json_match = re.search(r'\{[\s\S]*\}', raw)
@@ -288,34 +295,36 @@ Devuelve JSON con estas claves exactas:
     return result
 
 
-# ── Agent 3: Fact Checker ──────────────────────────────────────────────────────
+# -- Agent 3: Fact Checker -----------------------------------------------------
 def fact_check(topic: str, blog_data: dict) -> dict:
     log(f"Agent 3: Fact checking — {topic}")
 
-    prompt = f"""Eres un profesional de marketing digital latinoamericano y experto en GoHighLevel.
-Tu trabajo es verificar este blog post para precisión regional y autenticidad cultural.
+    prompt = f"""You are a digital marketing professional based in the Middle East and a GoHighLevel expert.
+Your job is to verify this Arabic blog post for regional accuracy and cultural authenticity.
 
-TEMA: {topic}
+TOPIC: {topic}
 
-CONTENIDO DEL BLOG:
+BLOG CONTENT:
 {blog_data['html_content'][:3000]}
 
-{SPANISH_FACT_RULES}
+{ARABIC_FACT_RULES}
 
-VERIFICA:
-1. ¿El español suena natural y latinoamericano? (no traducciones literales del inglés)
-2. ¿Se mencionan las herramientas de pago correctas? (MercadoPago, no solo Stripe)
-3. ¿WhatsApp se destaca como canal principal? (no SMS)
-4. ¿Los precios están en USD con contexto de valor?
-5. ¿Se menciona algún competidor de forma justa? (Clientify, HubSpot)
-6. ¿El contenido es culturalmente apropiado para Latinoamérica?
-7. ¿Hay errores gramaticales o de ortografía en español?
+VERIFY:
+1. Is the Arabic natural Modern Standard Arabic (فصحى)? No dialect-specific terms?
+2. Are the correct payment tools mentioned? (PayTabs, Tap Payments, Stripe — NOT MercadoPago)
+3. Is WhatsApp highlighted as the primary channel? (not SMS)
+4. Are prices in USD with AED/SAR/EGP equivalents?
+5. Are competitors mentioned fairly? (Zoho, HubSpot)
+6. Is the content culturally appropriate for MENA markets?
+7. Are there grammar or spelling errors in the Arabic?
+8. Is the HTML wrapped in an RTL div?
+9. Is Vision 2030 context used appropriately for Saudi Arabia references?
 
-Devuelve JSON:
+Return JSON:
 {{
   "approved": true/false,
-  "corrections": ["lista de correcciones necesarias"],
-  "revised_html": "HTML corregido si hay cambios necesarios, o vacío si está bien"
+  "corrections": ["list of needed corrections"],
+  "revised_html": "corrected HTML if changes needed, or empty string if fine"
 }}"""
 
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
@@ -324,7 +333,7 @@ Devuelve JSON:
         max_tokens=4000,
         messages=[{"role": "user", "content": prompt}],
     )
-    log_api_cost(response, script="7-spanish-blog-factcheck")
+    log_api_cost(response, script="9-arabic-blog-factcheck")
 
     raw = response.content[0].text.strip()
     json_match = re.search(r'\{[\s\S]*\}', raw)
@@ -338,23 +347,26 @@ Devuelve JSON:
     return {"approved": True, "corrections": [], "revised_html": ""}
 
 
-# ── Publisher (saves to globalhighlevel-site/posts/) ──────────────────────────
+# -- Publisher (saves to globalhighlevel-site/posts/) --------------------------
 def classify_post(topic: str) -> str:
-    """Classify post into a category."""
+    """Classify post into a category based on topic keywords."""
     topic_lower = topic.lower()
-    if any(w in topic_lower for w in ["whatsapp", "sms", "mensaje", "comunicación"]):
+    # Check Arabic and English keywords
+    if any(w in topic_lower for w in ["واتساب", "whatsapp", "sms", "رسائل", "رسالة"]):
         return "SMS & Messaging"
-    if any(w in topic_lower for w in ["pago", "mercadopago", "precio", "factura", "cobrar"]):
+    if any(w in topic_lower for w in ["دفع", "أسعار", "سعر", "تجارة", "payment", "paytabs", "stripe", "دولار", "درهم"]):
         return "Payments & Commerce"
-    if any(w in topic_lower for w in ["ai", "ia", "inteligencia", "automatización", "bot"]):
+    if any(w in topic_lower for w in ["ai", "ذكاء", "أتمتة", "automation", "بوت", "متابعة"]):
         return "AI & Automation"
-    if any(w in topic_lower for w in ["crm", "contacto", "cliente", "pipeline"]):
+    if any(w in topic_lower for w in ["crm", "عملاء", "عميل", "contacts", "pipeline"]):
         return "CRM & Contacts"
-    if any(w in topic_lower for w in ["email", "correo", "deliverability"]):
+    if any(w in topic_lower for w in ["email", "بريد", "إلكتروني", "deliverability"]):
         return "Email & Deliverability"
-    if any(w in topic_lower for w in ["embudo", "funnel", "landing", "página"]):
-        return "Agency & Platform"
-    if any(w in topic_lower for w in ["agencia", "saas", "revend", "white label"]):
+    if any(w in topic_lower for w in ["تحليل", "analytics", "تقرير", "reporting"]):
+        return "Analytics & Reporting"
+    if any(w in topic_lower for w in ["هاتف", "phone", "صوت", "voice", "مكالمات"]):
+        return "Phone & Voice"
+    if any(w in topic_lower for w in ["وكالة", "وكالات", "saas", "agency", "white label", "صفحات هبوط", "landing"]):
         return "Agency & Platform"
     return "Agency & Platform"
 
@@ -371,11 +383,18 @@ def ensure_affiliate_links(html: str) -> str:
     if trial_url not in html and "fp_ref" not in html:
         cta = (
             '<p style="background:#111520;border-left:4px solid #f59e0b;padding:12px 16px;'
-            'border-radius:4px;color:#eef2ff;"><strong>🚀 Prueba GoHighLevel GRATIS por 30 días</strong>'
-            f' — Sin tarjeta de crédito. <a href="{trial_url}" style="color:#f59e0b;" target="_blank">'
-            'Empieza tu prueba gratis aquí →</a></p>'
+            'border-radius:4px;color:#eef2ff;"><strong>🚀 جرّب GoHighLevel مجاناً لمدة 30 يوماً</strong>'
+            f' — بدون بطاقة ائتمان. <a href="{trial_url}" style="color:#f59e0b;" target="_blank">'
+            'ابدأ تجربتك المجانية هنا ←</a></p>'
         )
         html = cta + html
+    return html
+
+
+def ensure_rtl_wrapper(html: str) -> str:
+    """Ensure the HTML content is wrapped in an RTL div."""
+    if 'dir="rtl"' not in html:
+        html = f'<div dir="rtl" style="text-align:right">{html}</div>'
     return html
 
 
@@ -383,7 +402,8 @@ def save_post(topic: str, blog_data: dict, final_html: str) -> str:
     """Save post as JSON to globalhighlevel-site/posts/ for Cloudflare Pages deploy."""
     slug = blog_data.get("slug", "")
     if not slug:
-        slug = re.sub(r"[^a-z0-9-]", "", topic.lower().replace(" ", "-"))
+        # Generate slug from English transliteration of topic
+        slug = re.sub(r"[^a-z0-9-]", "", "arabic-ghl-" + str(int(time.time()))[-6:])
 
     # Ensure unique slug
     existing = {f.stem for f in SITE_POSTS.glob("*.json")}
@@ -396,6 +416,8 @@ def save_post(topic: str, blog_data: dict, final_html: str) -> str:
     title = blog_data.get("title", topic)
     # Force affiliate links into the HTML
     final_html = ensure_affiliate_links(final_html)
+    # Ensure RTL wrapper
+    final_html = ensure_rtl_wrapper(final_html)
     # Truncate meta description if too long
     meta_desc = blog_data.get("meta_description", "")
     if len(meta_desc) > 160:
@@ -407,8 +429,8 @@ def save_post(topic: str, blog_data: dict, final_html: str) -> str:
         "description": meta_desc,
         "html_content": final_html,
         "category": classify_post(topic),
-        "tags": ["gohighlevel", "español", "latinoamérica", "agencia", "crm"],
-        "language": "es",
+        "tags": ["gohighlevel", "عربي", "الشرق الأوسط", "وكالة", "crm"],
+        "language": "ar",
         "publishedAt": datetime.now().isoformat(),
         "author": "Global High Level",
     }
@@ -422,7 +444,7 @@ def save_post(topic: str, blog_data: dict, final_html: str) -> str:
     return slug
 
 
-# ── Main ───────────────────────────────────────────────────────────────────────
+# -- Main ----------------------------------------------------------------------
 def process_topic(topic: str) -> dict:
     log(f"{'='*50}")
     log(f"Topic: {topic}")
@@ -480,30 +502,30 @@ def main():
         else:
             topics = DEFAULT_TOPICS
             with open(TOPICS_FILE, "w") as f:
-                json.dump(topics, f, indent=2)
-            log(f"Created spanish-topics.json with {len(topics)} topics")
+                json.dump(topics, f, indent=2, ensure_ascii=False)
+            log(f"Created arabic-topics.json with {len(topics)} topics")
 
     pending = [t for t in topics if not is_published(t, published)]
 
-    # Pull GSC-generated Spanish topics
+    # Pull GSC-generated Arabic topics
     if len(pending) < 10 and not args.topic:
         gsc_topics_file = BASE_DIR / "data" / "gsc-topics.json"
         if gsc_topics_file.exists():
             try:
                 gsc_data = json.load(open(gsc_topics_file))
-                gsc_spanish = gsc_data.get("spanish_topics", [])
-                if gsc_spanish:
+                gsc_arabic = gsc_data.get("arabic_topics", [])
+                if gsc_arabic:
                     existing_lower = {t.lower() for t in topics}
                     added = 0
-                    for t in gsc_spanish:
+                    for t in gsc_arabic:
                         if t.lower() not in existing_lower:
                             topics.append(t)
                             added += 1
                     if added:
                         with open(TOPICS_FILE, "w") as f:
-                            json.dump(topics, f, indent=2)
+                            json.dump(topics, f, indent=2, ensure_ascii=False)
                         pending = [t for t in topics if not is_published(t, published)]
-                        log(f"Added {added} GSC-sourced Spanish topics — now {len(pending)} pending")
+                        log(f"Added {added} GSC-sourced Arabic topics — now {len(pending)} pending")
             except Exception:
                 pass
 
@@ -517,26 +539,26 @@ def main():
             msg = client.messages.create(
                 model=MODEL,
                 max_tokens=1500,
-                messages=[{"role": "user", "content": f"""Genera 15 temas de blog sobre GoHighLevel para negocios y agencias en Latinoamérica.
+                messages=[{"role": "user", "content": f"""Generate 15 blog topics about GoHighLevel for businesses and marketing agencies in the Middle East (MENA region).
 
-Estos temas ya se han cubierto — NO los repitas:
+These topics have already been covered — do NOT repeat them:
 {done_list}
 
-Requisitos:
-- Cada tema debe ser específico y práctico
-- Dirigido a agencias de marketing digital, freelancers y negocios locales en Latinoamérica
-- Incluir ángulos específicos: WhatsApp, MercadoPago, precios en USD, comparaciones con Clientify/HubSpot
-- Mezcla de: guías paso a paso, comparaciones, industrias específicas, casos de automatización
-- Escritos en español latinoamericano natural
-- Cada tema como título de blog post
+Requirements:
+- Each topic must be specific and practical
+- Target marketing agencies, freelancers, and local businesses in UAE, Saudi Arabia, Egypt, Qatar, Oman
+- Include specific angles: WhatsApp automation, PayTabs/Tap Payments, pricing in AED/SAR/EGP, comparisons with Zoho/HubSpot
+- Mix of: step-by-step guides, comparisons, industry-specific use cases, automation workflows
+- Written in Modern Standard Arabic (فصحى)
+- Each topic as a blog post title
 
-Devuelve SOLO los 15 temas, uno por línea, sin numeración, sin viñetas."""}]
+Return ONLY the 15 topics, one per line, no numbering, no bullets. All in Arabic."""}]
             )
-            log_api_cost(msg, script="7-spanish-blog-topics")
+            log_api_cost(msg, script="9-arabic-blog-topics")
             new_topics = [line.strip() for line in msg.content[0].text.strip().splitlines() if line.strip()]
             topics.extend(new_topics)
             with open(TOPICS_FILE, "w") as f:
-                json.dump(topics, f, indent=2)
+                json.dump(topics, f, indent=2, ensure_ascii=False)
             pending = [t for t in topics if not is_published(t, published)]
             log(f"Generated {len(new_topics)} new topics — now {len(pending)} pending")
         except Exception as e:
@@ -567,7 +589,7 @@ Devuelve SOLO los 15 temas, uno por línea, sin numeración, sin viñetas."""}]
         if i < len(pending) - 1:
             time.sleep(5)
 
-    log(f"Spanish blog run complete — {processed} topics processed")
+    log(f"Arabic blog run complete — {processed} topics processed")
 
 
 if __name__ == "__main__":

@@ -377,12 +377,30 @@ def publish(topic: str, html_content: str, meta_description: str, slug: str) -> 
     if len(meta_description) > 160:
         meta_description = meta_description[:157] + "..."
 
+    # Classify into real topic category
+    topic_lower = topic.lower()
+    if any(w in topic_lower for w in ["whatsapp", "sms", "message"]):
+        category = "SMS & Messaging"
+    elif any(w in topic_lower for w in ["payment", "razorpay", "upi", "pricing", "price", "cost"]):
+        category = "Payments & Commerce"
+    elif any(w in topic_lower for w in ["automation", "workflow", "ai", "bot"]):
+        category = "AI & Automation"
+    elif any(w in topic_lower for w in ["crm", "contact", "pipeline", "lead", "client"]):
+        category = "CRM & Contacts"
+    elif any(w in topic_lower for w in ["email", "deliverability"]):
+        category = "Email & Deliverability"
+    elif any(w in topic_lower for w in ["analytics", "report", "tracking"]):
+        category = "Analytics & Reporting"
+    else:
+        category = "Agency & Platform"
+
     site_post = {
         "slug":         unique_slug,
         "title":        topic,
         "description":  meta_description,
         "html_content": html_content,
-        "category":     "GoHighLevel India",
+        "category":     category,
+        "language":     "en-IN",
         "publishedAt":  datetime.now().isoformat(),
     }
     post_file = SITE_POSTS / f"{unique_slug}.json"
