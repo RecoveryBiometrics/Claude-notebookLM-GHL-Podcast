@@ -657,7 +657,7 @@ footer{{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80p
 # ── Base template ─────────────────────────────────────────────────────────────
 
 def _ga_snippet() -> str:
-    """Return GA4 + CTA click tracking script, or empty string if no GA_ID."""
+    """Return GA4 + conversion tracking script, or empty string if no GA_ID."""
     if not GA_ID:
         return ""
     return (
@@ -666,12 +666,27 @@ def _ga_snippet() -> str:
         f"window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}\n"
         f'gtag("js",new Date());gtag("config","{GA_ID}");\n'
         f'document.addEventListener("click",function(e){{\n'
-        f'  var a=e.target.closest(\'a[href*="gohighlevel.com"],a[href*="/trial/"],a.nav-cta,a.btn-amber\');\n'
-        f'  if(a)gtag("event","cta_click",{{\n'
-        f"    link_url:a.href,\n"
-        f"    link_text:a.textContent.trim().slice(0,50),\n"
-        f"    page_path:location.pathname\n"
-        f"  }});\n"
+        f'  var a=e.target.closest("a[href]");\n'
+        f'  if(!a)return;\n'
+        f'  var h=a.href||"";\n'
+        f'  var isAffiliate=h.indexOf("fp_ref=")>-1;\n'
+        f'  var isTrial=h.indexOf("/trial/")>-1||a.classList.contains("nav-cta")||a.classList.contains("btn-amber");\n'
+        f'  var isGHL=h.indexOf("gohighlevel.com")>-1;\n'
+        f'  if(isAffiliate){{\n'
+        f'    gtag("event","affiliate_click",{{\n'
+        f"      link_url:h,\n"
+        f"      link_text:a.textContent.trim().slice(0,50),\n"
+        f"      page_path:location.pathname,\n"
+        f'      page_lang:document.documentElement.lang||"en"\n'
+        f"    }});\n"
+        f"  }}else if(isTrial||isGHL){{\n"
+        f'    gtag("event","cta_click",{{\n'
+        f"      link_url:h,\n"
+        f"      link_text:a.textContent.trim().slice(0,50),\n"
+        f"      page_path:location.pathname,\n"
+        f'      page_lang:document.documentElement.lang||"en"\n'
+        f"    }});\n"
+        f"  }}\n"
         f"}});\n"
         f"</script>"
     )
