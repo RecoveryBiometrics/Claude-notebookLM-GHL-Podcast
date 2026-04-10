@@ -259,16 +259,28 @@ def fetch_gsc_data() -> dict:
             }
         ).execute()
 
-        # Per-country queries for non-English language detection
-        country_query_response = service.searchanalytics().query(
-            siteUrl=GSC_SITE_URL,
-            body={
-                "startDate": start_date,
-                "endDate": end_date,
-                "dimensions": ["query", "country"],
-                "rowLimit": 500,
-            }
-        ).execute()
+        # Per-language queries using country filters
+        LANG_COUNTRY_FILTERS = {
+            "es": "MEX|COL|ARG|ESP|CHL|PER|ECU|URY",
+            "en-IN": "IND",
+            "ar": "ARE|SAU|EGY|QAT|OMN|MAR",
+        }
+        lang_query_responses = {}
+        for lang, countries in LANG_COUNTRY_FILTERS.items():
+            try:
+                resp = service.searchanalytics().query(
+                    siteUrl=GSC_SITE_URL,
+                    body={
+                        "startDate": start_date,
+                        "endDate": end_date,
+                        "dimensions": ["query"],
+                        "dimensionFilterGroups": [{"filters": [{"dimension": "country", "operator": "includingRegex", "expression": countries}]}],
+                        "rowLimit": 50,
+                    }
+                ).execute()
+                lang_query_responses[lang] = resp.get("rows", [])
+            except Exception:
+                lang_query_responses[lang] = []
 
         # Site-wide totals
         totals_response = service.searchanalytics().query(
@@ -302,32 +314,19 @@ def fetch_gsc_data() -> dict:
         totals_rows = totals_response.get("rows", [{}])
         totals = totals_rows[0] if totals_rows else {}
 
-        # Process per-country queries into language buckets
-        COUNTRY_TO_LANG = {
-            "MEX": "es", "COL": "es", "ARG": "es", "ESP": "es", "CHL": "es", "PER": "es", "ECU": "es",
-            "IND": "en-IN",
-            "ARE": "ar", "SAU": "ar", "EGY": "ar", "QAT": "ar", "OMN": "ar",
-        }
+        # Process per-language query responses
         queries_by_lang = {}
-        for row in country_query_response.get("rows", []):
-            query_text = row["keys"][0]
-            country = row["keys"][1]
-            lang = COUNTRY_TO_LANG.get(country)
-            if lang:
-                if lang not in queries_by_lang:
-                    queries_by_lang[lang] = []
-                queries_by_lang[lang].append({
-                    "query": query_text,
-                    "country": country,
+        for lang, rows in lang_query_responses.items():
+            queries_by_lang[lang] = sorted([
+                {
+                    "query": row["keys"][0],
                     "clicks": row.get("clicks", 0),
                     "impressions": row.get("impressions", 0),
                     "ctr": round(row.get("ctr", 0) * 100, 1),
                     "position": round(row.get("position", 0), 1),
-                })
-
-        # Sort each language bucket by impressions
-        for lang in queries_by_lang:
-            queries_by_lang[lang].sort(key=lambda x: x["impressions"], reverse=True)
+                }
+                for row in rows
+            ], key=lambda x: x["impressions"], reverse=True)
 
         gsc_data = {
             "updated_at": datetime.now().isoformat(),
