@@ -36,7 +36,8 @@ ACCENT       = "#f59e0b"   # amber
 ACCENT_DARK  = "#d97706"
 
 # Module-level categories — loaded in main()
-CATEGORIES = []
+CATEGORIES = []   # topic categories (list of dicts)
+LANGUAGES  = []   # language definitions (list of dicts)
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -207,11 +208,15 @@ def inject_internal_links(html: str, post: dict, all_posts: list, max_links: int
 
     return "".join(parts)
 
-def load_categories() -> list[dict]:
-    """Load category definitions from categories.json."""
+def load_categories() -> tuple[list[dict], list[dict]]:
+    """Load category definitions from categories.json (new: languages + topics)."""
     if CATEGORIES_JSON.exists():
-        return json.loads(CATEGORIES_JSON.read_text())
-    return []
+        data = json.loads(CATEGORIES_JSON.read_text())
+        if isinstance(data, dict) and "topics" in data:
+            return data.get("topics", []), data.get("languages", [])
+        # Backward compat: old flat array format
+        return data, []
+    return [], []
 
 def write(path: Path, html: str):
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -643,6 +648,10 @@ footer{{border-top:1px solid var(--border);padding:56px 24px 36px;margin-top:80p
   .services-pricing{{grid-template-columns:1fr!important}}
   .form-row{{grid-template-columns:1fr!important}}
 }}
+.chip{{display:inline-block;padding:6px 14px;border-radius:20px;font-size:.8rem;color:var(--text2);border:1px solid var(--surface);text-decoration:none;transition:all .2s}}
+.chip:hover{{border-color:var(--amber);color:var(--amber)}}
+.chip-active{{background:var(--amber);color:var(--bg);border-color:var(--amber);font-weight:600}}
+.chip-active:hover{{color:var(--bg)}}
 """
 
 # ── Base template ─────────────────────────────────────────────────────────────
@@ -668,28 +677,71 @@ def _ga_snippet() -> str:
     )
 
 
-def base_html(title: str, description: str, canonical: str, body: str, og_image: str = "") -> str:
+def _build_hreflang_tags(page_path: str = "") -> str:
+    """Build hreflang link tags for a page. page_path is relative (e.g., '/category/ai-automation/')."""
+    tags = []
+    for lang in LANGUAGES:
+        prefix = lang.get("prefix", "")
+        href = f'{SITE_URL}{prefix}{page_path}' if page_path else f'{SITE_URL}{prefix}/'
+        tags.append(f'<link rel="alternate" hreflang="{lang["code"]}" href="{href}">')
+    tags.append(f'<link rel="alternate" hreflang="x-default" href="{SITE_URL}{page_path or "/"}">')
+    return "\n".join(tags)
+
+
+def base_html(title: str, description: str, canonical: str, body: str, og_image: str = "", lang: str = "en", text_dir: str = "ltr", hreflang_path: str = "") -> str:
     og_img = og_image or os.getenv("OG_IMAGE_URL", "")
     cats = CATEGORIES
 
-    # Nav dropdown links
+    # Determine current language for language picker
+    current_lang = next((l for l in LANGUAGES if l["code"] == lang), None)
+    current_lang_native = current_lang["native"] if current_lang else "English"
+
+    # Nav dropdown links (topics only — no languages mixed in)
     dropdown_links = ""
     for c in cats:
         dropdown_links += f'    <a href="/category/{c["slug"]}/">{c["name"]}</a>\n'
+
+    # Language picker dropdown
+    lang_links = ""
+    for l in LANGUAGES:
+        active = ' style="color:var(--amber);font-weight:700"' if l["code"] == lang else ""
+        href = l["prefix"] + "/" if l["prefix"] else "/"
+        lang_links += f'    <a href="{href}"{active}>{l["native"]}</a>\n'
+
+    # Mobile language row
+    mobile_lang_links = ""
+    for l in LANGUAGES:
+        if l["code"] == lang:
+            continue
+        href = l["prefix"] + "/" if l["prefix"] else "/"
+        mobile_lang_links += f'<a href="{href}" style="display:inline-block;margin-right:16px;font-size:.9rem">{l["native"]}</a>'
 
     # Footer category links (top 4)
     footer_cat_links = ""
     for c in cats[:4]:
         footer_cat_links += f'        <a href="/category/{c["slug"]}/">{c["name"]}</a>\n'
 
+    # Footer language links
+    footer_lang_links = ""
+    for l in LANGUAGES:
+        href = l["prefix"] + "/" if l["prefix"] else "/"
+        footer_lang_links += f'        <a href="{href}">{l["native"]}</a>\n'
+
+    # hreflang tags
+    hreflang_html = _build_hreflang_tags(hreflang_path) if LANGUAGES else ""
+
+    # RTL style override
+    rtl_attr = ' dir="rtl"' if text_dir == "rtl" else ""
+
     return f"""<!DOCTYPE html>
-<html lang="en">
+<html lang="{lang}"{rtl_attr}>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{description}">
 <link rel="canonical" href="{canonical}">
+{hreflang_html}
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{description}">
 <meta property="og:url" content="{canonical}">
@@ -699,7 +751,9 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
 <script type="application/ld+json">
 {{"@context":"https://schema.org","@type":"WebSite","name":"{SITE_NAME}","url":"{SITE_URL}"}}
 </script>
-<style>{CSS}</style>
+<style>{CSS}
+{"html[dir=rtl] .nav-links{flex-direction:row-reverse}html[dir=rtl] .nav-dropdown-menu{left:auto;right:-12px}html[dir=rtl] .cards-grid{direction:rtl}html[dir=rtl] .post-body{direction:rtl;text-align:right}html[dir=rtl] .sidebar-section{direction:rtl}html[dir=rtl] .footer-inner{direction:rtl}" if text_dir == "rtl" else ""}
+</style>
 {_ga_snippet()}
 </head>
 <body>
@@ -716,6 +770,11 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
       <a href="/services/" class="nav-link">Services</a>
       <a href="/about/" class="nav-link">About</a>
       <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" class="nav-link" target="_blank" rel="noopener">Podcast</a>
+      <div class="nav-dropdown">
+        <a class="nav-link">{current_lang_native} <span style="font-size:10px">&#9662;</span></a>
+        <div class="nav-dropdown-menu">
+{lang_links}        </div>
+      </div>
       <a href="{AFFILIATE}" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
     </div>
     <input type="checkbox" id="mobile-toggle">
@@ -727,6 +786,10 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
       <a href="/services/">Services</a>
       <a href="/about/">About</a>
 {dropdown_links}      <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
+      <div style="padding:12px 24px;border-top:1px solid var(--surface)">
+        <span style="font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;color:var(--text3)">Language</span><br>
+        {mobile_lang_links}
+      </div>
       <a href="{AFFILIATE}" class="nav-cta" target="_blank" rel="nofollow noopener">Free 30-Day Trial</a>
     </div>
   </div>
@@ -743,6 +806,9 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
       <div class="footer-col">
         <h4>Topics</h4>
 {footer_cat_links}      </div>
+      <div class="footer-col">
+        <h4>Languages</h4>
+{footer_lang_links}      </div>
       <div class="footer-col">
         <h4>Resources</h4>
         <a href="https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV" target="_blank" rel="noopener">Podcast</a>
@@ -982,11 +1048,17 @@ def build_post_page(post: dict, all_posts: list = None):
 <script type="application/ld+json">{article_schema}</script>
 {progress_js}"""
 
+    post_lang = post.get("language", "en")
+    post_lang_config = next((l for l in LANGUAGES if l["code"] == post_lang), None)
+    post_dir = post_lang_config.get("dir", "ltr") if post_lang_config else "ltr"
+
     html = base_html(
         title=f"{title} | {SITE_NAME}",
         description=truncate(description, 160),
         canonical=canonical,
-        body=body
+        body=body,
+        lang=post_lang,
+        text_dir=post_dir,
     )
     write(PUBLIC_DIR / "blog" / slug / "index.html", html)
 
@@ -1227,12 +1299,18 @@ def build_sitemap(posts: list[dict]):
     urls.append(f"  <url><loc>{SITE_URL}/about/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>")
     for c in CATEGORIES:
         urls.append(f'  <url><loc>{SITE_URL}/category/{c["slug"]}/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>')
+    # Language hubs + language-specific topic pages
+    for lang in LANGUAGES:
+        if lang["prefix"]:
+            urls.append(f'  <url><loc>{SITE_URL}{lang["prefix"]}/</loc><changefreq>daily</changefreq><priority>0.9</priority></url>')
+            for c in CATEGORIES:
+                urls.append(f'  <url><loc>{SITE_URL}{lang["prefix"]}/category/{c["slug"]}/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>')
     for p in posts:
         slug = p.get("slug", "")
         date = p.get("publishedAt", p.get("uploadedAt", ""))[:10]
         urls.append(f'  <url><loc>{SITE_URL}/blog/{slug}/</loc><lastmod>{date}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>')
 
-    xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n  xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
     xml += "\n".join(urls)
     xml += "\n</urlset>"
     write(PUBLIC_DIR / "sitemap.xml", xml)
@@ -2015,6 +2093,160 @@ def build_404():
     write(PUBLIC_DIR / "404.html", html)
 
 
+# ── Language hub + topic pages ────────────────────────────────────────────────
+
+def build_language_hub(lang_config: dict, posts: list[dict], per_page: int = 18):
+    """Build a language hub page (e.g., /es/, /in/, /ar/) with paginated posts."""
+    prefix = lang_config["prefix"]
+    lang_code = lang_config["code"]
+    lang_name = lang_config["native"]
+    text_dir = lang_config.get("dir", "ltr")
+
+    # Filter posts for this language
+    lang_posts = [p for p in posts if p.get("language", "en") == lang_code]
+    if not lang_posts:
+        print(f"  Skipping {lang_name} hub — no posts")
+        return
+
+    lang_posts.sort(key=lambda x: x.get("publishedAt", x.get("uploadedAt", "")), reverse=True)
+
+    # Build topic filter chips
+    topic_counts = {}
+    for p in lang_posts:
+        cat = p.get("category", "Agency & Platform")
+        topic_counts[cat] = topic_counts.get(cat, 0) + 1
+
+    chips_html = f'<a href="{prefix}/" class="chip chip-active">All ({len(lang_posts)})</a>'
+    for c in CATEGORIES:
+        count = topic_counts.get(c["name"], 0)
+        if count > 0:
+            chips_html += f' <a href="{prefix}/category/{c["slug"]}/" class="chip">{c["name"]} ({count})</a>'
+
+    total_pages = max(1, -(-len(lang_posts) // per_page))
+    for page in range(1, total_pages + 1):
+        start = (page - 1) * per_page
+        page_posts = lang_posts[start:start + per_page]
+
+        cards_html = ""
+        for p in page_posts:
+            slug = p.get("slug", "")
+            title = p.get("title", p.get("seoTitle", "Untitled"))
+            desc = truncate(p.get("description", p.get("seoDescription", p.get("meta_description", ""))), 130)
+            date_str = fmt_date(p.get("publishedAt", p.get("uploadedAt", "")))
+            rtime = read_time(p.get("html_content", desc))
+            cat_label = display_cat(p.get("category", ""))
+            cat_html = f'<a href="{prefix}/category/{slugify(cat_label)}/" class="card-cat">{cat_label}</a>' if cat_label else ""
+            cards_html += f"""
+<article class="card">
+  {cat_html}
+  <h2 class="card-title"><a href="/blog/{slug}/">{title}</a></h2>
+  <p class="card-excerpt">{desc}</p>
+  <div class="card-meta"><span>{date_str}</span>{"<span class='meta-sep'>&middot;</span><span>" + rtime + "</span>" if date_str else ""}</div>
+</article>"""
+
+        # Pagination
+        pag_html = ""
+        if total_pages > 1:
+            pag_html = '<div class="pagination">'
+            for pg in range(1, total_pages + 1):
+                href = f"{prefix}/" if pg == 1 else f"{prefix}/page/{pg}/"
+                cls = ' class="active"' if pg == page else ""
+                pag_html += f' <a href="{href}"{cls}>{pg}</a>'
+            pag_html += "</div>"
+
+        body = f"""
+<div class="cat-header">
+  <div class="container">
+    <div class="section-label fade-1" style="border-bottom:none;padding-bottom:0;margin-bottom:8px">{lang_name}</div>
+    <h1 class="fade-2">GoHighLevel — {lang_name}</h1>
+    <p class="fade-3">{len(lang_posts)} guides in {lang_name}</p>
+    <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px">{chips_html}</div>
+  </div>
+</div>
+<div class="container">
+  <div class="cards-grid" style="padding:32px 0 40px">{cards_html}</div>
+  {pag_html}
+</div>"""
+
+        canonical = f"{SITE_URL}{prefix}/" if page == 1 else f"{SITE_URL}{prefix}/page/{page}/"
+        html = base_html(
+            title=f"GoHighLevel {lang_name} | {SITE_NAME}",
+            description=f"Free GoHighLevel tutorials and guides in {lang_name}. Step-by-step help for agencies and businesses.",
+            canonical=canonical,
+            body=body,
+            lang=lang_code,
+            text_dir=text_dir,
+            hreflang_path="",
+        )
+        if page == 1:
+            write(PUBLIC_DIR / prefix.lstrip("/") / "index.html", html)
+        else:
+            write(PUBLIC_DIR / prefix.lstrip("/") / "page" / str(page) / "index.html", html)
+
+
+def build_language_topic_pages(lang_config: dict, posts: list[dict], min_posts: int = 2):
+    """Build topic pages within a language (e.g., /es/category/ai-automation/)."""
+    prefix = lang_config["prefix"]
+    lang_code = lang_config["code"]
+    text_dir = lang_config.get("dir", "ltr")
+
+    lang_posts = [p for p in posts if p.get("language", "en") == lang_code]
+
+    by_topic = {}
+    for p in lang_posts:
+        cat = p.get("category", "Agency & Platform")
+        by_topic.setdefault(cat, []).append(p)
+
+    for cat_name, cat_posts in by_topic.items():
+        if len(cat_posts) < min_posts:
+            continue
+
+        cat_slug = slugify(cat_name)
+        cat_config = next((c for c in CATEGORIES if c["slug"] == cat_slug), None)
+        cat_desc = cat_config["description"] if cat_config else f"GoHighLevel {cat_name.lower()} guides."
+
+        cat_posts.sort(key=lambda x: x.get("publishedAt", x.get("uploadedAt", "")), reverse=True)
+
+        cards_html = ""
+        for p in cat_posts:
+            slug = p.get("slug", "")
+            title = p.get("title", p.get("seoTitle", "Untitled"))
+            desc = truncate(p.get("description", p.get("seoDescription", p.get("meta_description", ""))), 130)
+            date_str = fmt_date(p.get("publishedAt", p.get("uploadedAt", "")))
+            rtime = read_time(p.get("html_content", desc))
+            cards_html += f"""
+<article class="card">
+  <h2 class="card-title"><a href="/blog/{slug}/">{title}</a></h2>
+  <p class="card-excerpt">{desc}</p>
+  <div class="card-meta"><span>{date_str}</span>{"<span class='meta-sep'>&middot;</span><span>" + rtime + "</span>" if date_str else ""}</div>
+</article>"""
+
+        body = f"""
+<div class="cat-header">
+  <div class="container">
+    <div class="section-label fade-1" style="border-bottom:none;padding-bottom:0;margin-bottom:8px">{lang_config['native']}</div>
+    <h1 class="fade-2">{cat_name}</h1>
+    <p class="fade-3">{cat_desc}</p>
+    <p class="fade-3" style="font-size:.8rem;color:var(--text3);margin-top:6px">{len(cat_posts)} guides</p>
+  </div>
+</div>
+<div class="container">
+  <div class="cards-grid" style="padding:32px 0 80px">{cards_html}</div>
+</div>"""
+
+        canonical = f"{SITE_URL}{prefix}/category/{cat_slug}/"
+        html = base_html(
+            title=f"{cat_name} — {lang_config['native']} | {SITE_NAME}",
+            description=f"GoHighLevel {cat_name.lower()} guides in {lang_config['native']}.",
+            canonical=canonical,
+            body=body,
+            lang=lang_code,
+            text_dir=text_dir,
+            hreflang_path=f"/category/{cat_slug}/",
+        )
+        write(PUBLIC_DIR / prefix.lstrip("/") / "category" / cat_slug / "index.html", html)
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
@@ -2031,8 +2263,8 @@ def main():
     if REDIRECTS_SRC.exists():
         shutil.copy(REDIRECTS_SRC, PUBLIC_DIR / "_redirects")
 
-    global CATEGORIES
-    CATEGORIES = load_categories()
+    global CATEGORIES, LANGUAGES
+    CATEGORIES, LANGUAGES = load_categories()
 
     posts     = load_posts()
     published = load_published()
@@ -2050,11 +2282,9 @@ def main():
 
     # Homepage (paginated) — English only
     print("\nBuilding homepage...")
-    NON_ENGLISH_CATEGORIES = {"gohighlevel india", "gohighlevel en español"}
     homepage_posts = [
         p for p in merged
-        if p.get("category", "").lower() not in NON_ENGLISH_CATEGORIES
-        and p.get("language", "en") == "en"
+        if p.get("language", "en") == "en"
     ]
     print(f"  Homepage posts (English only): {len(homepage_posts)} of {len(merged)} total")
     per_page = 18
@@ -2065,6 +2295,14 @@ def main():
     # Category pages
     print("\nBuilding category pages...")
     build_category_pages(merged)
+
+    # Language hubs and language-specific topic pages
+    print("\nBuilding language hubs...")
+    for lang in LANGUAGES:
+        if lang["prefix"]:  # skip English — it's the main site
+            print(f"  Building {lang['native']} hub ({lang['prefix']})...")
+            build_language_hub(lang, merged)
+            build_language_topic_pages(lang, merged)
 
     # Sitemap
     print("\nBuilding sitemap...")
