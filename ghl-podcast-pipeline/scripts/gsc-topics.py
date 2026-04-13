@@ -98,10 +98,20 @@ def save_cooldowns(cooldowns: dict):
 
 
 def is_on_cooldown(slug: str, cooldowns: dict) -> bool:
-    """Check if a slug was flagged within the last COOLDOWN_DAYS days."""
+    """Check if a slug is locked. Respects per-slug locked_until (absolute date)
+    or falls back to the 28-day flagged_at window."""
     if slug not in cooldowns:
         return False
-    flagged_at = cooldowns[slug].get("flagged_at", "")
+    entry = cooldowns[slug]
+    # Per-slug absolute lock (e.g., measurement windows after a manual rewrite)
+    locked_until = entry.get("locked_until", "")
+    if locked_until:
+        try:
+            if datetime.now() < datetime.fromisoformat(locked_until):
+                return True
+        except Exception:
+            pass
+    flagged_at = entry.get("flagged_at", "")
     if not flagged_at:
         return False
     try:

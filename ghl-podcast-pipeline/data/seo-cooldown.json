@@ -287,5 +287,12 @@
       "new_description": "Skip the email loops. Attach documents, images & PDFs directly in GoHighLevel chat. Works on desktop & mobile + file limits explained.",
       "words_added": 0
     }
+  },
+  "trial": {
+    "action": "manual_rewrite",
+    "flagged_at": "2026-04-13T16:05:51.997283",
+    "locked_until": "2026-06-08T16:05:51.996547",
+    "reason": "Manual rewrite via 3-agent pipeline on 2026-04-13. Pos 42.6 \u2192 target top 10. Measurement window: 8 weeks.",
+    "commit": "174f1cb"
   }
 }
