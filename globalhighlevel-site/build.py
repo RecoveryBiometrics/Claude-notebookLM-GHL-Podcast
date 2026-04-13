@@ -1378,8 +1378,8 @@ All tutorials are free. Topics include GoHighLevel automations, AI conversation 
 def build_trial_page():
     """Build SEO-optimized /trial/ landing page targeting free trial keywords."""
     canonical = f"{SITE_URL}/trial/"
-    title = "GoHighLevel Free Trial — 30 Days Free (2026)"
-    description = "Get a 30-day GoHighLevel free trial instead of the standard 14 days. Full access to CRM, funnels, automations, AI tools and more. Cancel anytime."
+    title = "GoHighLevel Free Trial 2026: 30 Days No Credit Card Required"
+    description = "Start your 30-day GoHighLevel free trial — no credit card required. Full access to every feature, $0 to start, cancel anytime. Zero risk, real results."
 
     faq_schema = json.dumps({
         "@context": "https://schema.org",
@@ -1388,7 +1388,7 @@ def build_trial_page():
             {
                 "@type": "Question",
                 "name": "How long is the GoHighLevel free trial?",
-                "acceptedAnswer": {"@type": "Answer", "text": "The standard GoHighLevel free trial is 14 days. Through GlobalHighLevel.com, you get an extended 30-day free trial — double the time to explore every feature."}
+                "acceptedAnswer": {"@type": "Answer", "text": "The standard GoHighLevel free trial is 14 days. Through GlobalHighLevel.com, you get an extended 30-day free trial \u2014 double the time to explore every feature."}
             },
             {
                 "@type": "Question",
@@ -1412,8 +1412,33 @@ def build_trial_page():
             },
             {
                 "@type": "Question",
-                "name": "GoHighLevel 14-day trial vs 30-day trial — what's the difference?",
-                "acceptedAnswer": {"@type": "Answer", "text": "The features are identical. The only difference is time. The standard trial from gohighlevel.com gives you 14 days. Through this page, you get 30 days — enough time to set up funnels, migrate contacts, and see real results before deciding."}
+                "name": "GoHighLevel 14-day trial vs 30-day trial \u2014 what's the difference?",
+                "acceptedAnswer": {"@type": "Answer", "text": "The features are identical. The only difference is time. The standard trial from gohighlevel.com gives you 14 days. Through this page, you get 30 days \u2014 enough time to set up funnels, migrate contacts, and see real results before deciding."}
+            },
+            {
+                "@type": "Question",
+                "name": "Can I extend beyond 30 days?",
+                "acceptedAnswer": {"@type": "Answer", "text": "No. 30 days is the full trial window. If you're close to a decision, contact support to discuss your specific use case. Plan accordingly."}
+            },
+            {
+                "@type": "Question",
+                "name": "GHL vs HubSpot free\u2014which for agencies?",
+                "acceptedAnswer": {"@type": "Answer", "text": "HubSpot is CRM-heavy and free forever but capped. GHL is built for agencies: funnel builder, SMS, sub-accounts, and automation without limits. If you're reselling or scaling a team, GHL may be a better fit. If you want just a CRM, HubSpot is an option."}
+            },
+            {
+                "@type": "Question",
+                "name": "What if I cancel during the trial?",
+                "acceptedAnswer": {"@type": "Answer", "text": "You cancel. Your account closes. No charge. No follow-up emails pushing you back. You keep any work you built (funnels, landing pages, contacts) but can't access them after the trial ends unless you restart."}
+            },
+            {
+                "@type": "Question",
+                "name": "Do I get workflow automation features in the trial?",
+                "acceptedAnswer": {"@type": "Answer", "text": "Yes. Full access to workflow automation, conditional logic, SMS sequences, and AI-powered features on your plan tier. You can build automated lead qualification workflows immediately."}
+            },
+            {
+                "@type": "Question",
+                "name": "Can I migrate contacts and funnels in during the trial?",
+                "acceptedAnswer": {"@type": "Answer", "text": "Yes. Import CSV contacts, migrate landing pages from other builders, or connect your Stripe/payment processor. The trial is a full sandbox. Refer to the help center for migration documentation."}
             }
         ]
     })
@@ -1435,20 +1460,59 @@ def build_trial_page():
 
   <div class="fade-1" style="text-align:center;margin-bottom:48px">
     <p style="font-size:.82rem;color:var(--text3);margin-bottom:24px">Already know you want in? <a href="{AFFILIATE}&utm_campaign=trial-page-skip" target="_blank" rel="nofollow noopener" style="color:var(--amber)">Go straight to GoHighLevel &rarr;</a></p>
-    <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px">Extended Offer</p>
-    <h1 style="font-family:var(--sans);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px">GoHighLevel Free Trial — 30 Days Free</h1>
-    <p style="font-size:1.15rem;color:var(--text2);line-height:1.7;max-width:580px;margin:0 auto 28px">Get a <strong style="color:var(--text)">30-day GHL free trial</strong> instead of the standard 14 days. Full access to every GoHighLevel feature — CRM, funnels, automations, AI tools, and more.</p>
+    <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px">Extended 30-Day Offer · No Credit Card</p>
+    <h1 style="font-family:var(--sans);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px">30 Days to Test GoHighLevel. No Credit Card. No BS.</h1>
+    <p style="font-size:1.15rem;color:var(--text2);line-height:1.7;max-width:580px;margin:0 auto 28px">Most trials give you 14 days and hope you figure it out. We give you 30—enough time to actually build, test, and decide if GHL scales your business.</p>
     <a href="{AFFILIATE}&utm_campaign=trial-page-hero" class="btn-amber" style="font-size:1rem;padding:14px 36px" target="_blank" rel="nofollow noopener">Start Your 30-Day Free Trial &rarr;</a>
-    <p style="font-size:.8rem;color:var(--text3);margin-top:12px">Cancel anytime &middot; $0 for 30 days</p>
+    <p style="font-size:.8rem;color:var(--text3);margin-top:12px">$0 for 30 days &middot; No credit card &middot; Cancel anytime</p>
   </div>
 
   <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px" class="fade-2">
     <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">Why Get a 30-Day GHL Free Trial Instead of 14?</h2>
-    <p style="font-size:1.05rem;color:var(--text2);line-height:1.75;margin-bottom:20px">The standard GoHighLevel free trial is 14 days. That's often not enough time to set up your funnels, migrate contacts, build automations, and actually see results.</p>
-    <p style="font-size:1.05rem;color:var(--text2);line-height:1.75;margin-bottom:20px">Through this page, you get an <strong style="color:var(--text)">extended 30-day GoHighLevel free trial</strong> — double the time to explore every feature, follow our step-by-step tutorials, and decide if GHL is the right platform for your agency or business.</p>
-    <p style="font-size:1.05rem;color:var(--text2);line-height:1.75">Cancel anytime during the trial — $0 for the first 30 days.</p>
+<p style="font-size:1.05rem;color:var(--text2);line-height:1.75;margin-bottom:20px">Fourteen days is a speed bump, not a runway. Agencies and home service owners we work with need 30 days minimum to build a working funnel, run a test campaign, and see real data. The extra 16 days isn't padding—it's the difference between 'maybe' and 'proven ROI.'</p>
+    <p style="font-size:1.05rem;color:var(--text2);line-height:1.75;margin-bottom:20px">You won't hit a paywall mid-build. Full access to CRM, funnel builder, email, SMS, workflow automation, sub-accounts (if you're scaling a team), and landing pages. No restrictions. No 'upgrade to see this.' Trial on your chosen plan level.</p>
+    <p style="font-size:1.05rem;color:var(--text2);line-height:1.75;margin-bottom:20px">No credit card upfront. No surprise charges on day 15. Cancel anytime before 30 days pass and pay nothing. If you stay, it's $97/mo (Starter) or $297/mo (Agency). That's it. Many agencies and service businesses have already proven it works; now you test it risk-free.</p>
   </div>
 
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">Standard 14-Day Trial vs Our 30-Day Trial</h2>
+    <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden">
+      <thead><tr style="background:var(--bg2)">
+        <th style="padding:14px 16px;text-align:left;font-size:.85rem;font-weight:700;color:var(--text)">What you get</th>
+        <th style="padding:14px 16px;text-align:left;font-size:.85rem;font-weight:700;color:var(--text2)">Standard 14-day</th>
+        <th style="padding:14px 16px;text-align:left;font-size:.85rem;font-weight:700;color:var(--amber)">Our 30-day</th>
+      </tr></thead>
+      <tbody>
+        <tr><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text2)">Trial length</td><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text2)">14 days</td><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text);font-weight:600">30 days</td></tr>
+        <tr><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text2)">Credit card required</td><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text2)">Yes (most)</td><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text);font-weight:600">No</td></tr>
+        <tr><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text2)">Full feature access</td><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text2)">Limited/restricted</td><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text);font-weight:600">100% unrestricted</td></tr>
+        <tr><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text2)">Time to build & test</td><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text2)">Rushed</td><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text);font-weight:600">Real-world validation</td></tr>
+        <tr><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text2)">Cost if you cancel</td><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text2)">Risk of charges</td><td style="padding:12px 16px;border-top:1px solid var(--border);color:var(--text);font-weight:600">$0 guaranteed</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">Who This 30-Day Trial Is Built For</h2>
+    <div style="display:grid;grid-template-columns:1fr;gap:16px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px"><div style="font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:10px">Marketing agencies (1-50 clients)</div><p style="font-size:.88rem;color:var(--text2);line-height:1.7;margin:0">You need to know if GHL's sub-account structure and automation engine will actually replace your current stack before pitching it to clients. 30 days lets you build a real client funnel, test workflows, and measure results—not just kick the tires.</p></div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px"><div style="font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:10px">Home services (plumbing, HVAC, electrical)</div><p style="font-size:.88rem;color:var(--text2);line-height:1.7;margin:0">Your calendar, SMS reminders, and lead follow-up are costing you time and leads. The trial gives you 30 days to connect GHL to your phone, set up automated appointment reminders, and see if it streamlines your admin work.</p></div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px"><div style="font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:10px">Solo consultants and coaches</div><p style="font-size:.88rem;color:var(--text2);line-height:1.7;margin:0">You're running everything yourself. 30 days is enough to build your email funnel, landing page, and automated nurture sequence without feeling rushed. By day 25, you'll know if the platform fits your workflow.</p></div>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px">
+    <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">What Happens When You Start the Free Trial</h2>
+    <div style="display:grid;grid-template-columns:1fr;gap:16px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px"><div style="font-size:.85rem;font-weight:700;color:var(--amber);margin-bottom:6px">Step 1: Click to start</div><p style="font-size:.88rem;color:var(--text2);line-height:1.65;margin:0">No form. No credit card. One click and you're in. Choose your plan level—you get full features on all of them during the trial.</p></div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px"><div style="font-size:.85rem;font-weight:700;color:var(--amber);margin-bottom:6px">Step 2: Set up in ~20 min</div><p style="font-size:.88rem;color:var(--text2);line-height:1.65;margin:0">Connect your domain, import contacts if you have them, and pick a template. GHL's funnel builder is drag-and-drop. You'll have a live landing page or lead form before your coffee gets cold.</p></div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px"><div style="font-size:.85rem;font-weight:700;color:var(--amber);margin-bottom:6px">Step 3: Build, test, decide</div><p style="font-size:.88rem;color:var(--text2);line-height:1.65;margin:0">Spend days 2–25 running a real campaign. Drive traffic. Capture leads. Watch the automations work. By day 28, you'll have actual numbers to decide on.</p></div>
+    </div>
+    <p style="font-size:.9rem;color:var(--text2);line-height:1.7;margin-top:20px">Every feature is unlocked during the 30-day window. No upgrade pushes, no locked tools — build a full client campaign and see the numbers yourself before deciding.</p>
+  </div>
   <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px" class="fade-2">
     <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">What's Included in Your GHL Free Trial</h2>
     <div class="trial-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
@@ -1492,7 +1556,7 @@ def build_trial_page():
 
     <div style="margin-bottom:24px">
       <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">How long is the GoHighLevel free trial?</h3>
-      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">The standard GoHighLevel free trial is 14 days. Through GlobalHighLevel.com, you get an extended <strong style="color:var(--text)">30-day free trial</strong> — double the time to explore every feature.</p>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">The standard GoHighLevel free trial is 14 days. Through GlobalHighLevel.com, you get an extended 30-day free trial — double the time to explore every feature.</p>
     </div>
 
     <div style="margin-bottom:24px">
@@ -1502,12 +1566,12 @@ def build_trial_page():
 
     <div style="margin-bottom:24px">
       <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">What do I get with the GoHighLevel free trial?</h3>
-      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">Full access to GoHighLevel's CRM, funnel builder, email &amp; SMS marketing, workflow automations, AI conversation bots, calendar booking, reputation management, and more. Nothing is locked during the trial.</p>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">Full access to GoHighLevel's CRM, funnel builder, email & SMS marketing, workflow automations, AI conversation bots, calendar booking, reputation management, and more. Nothing is locked during the trial.</p>
     </div>
 
     <div style="margin-bottom:24px">
       <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">How much does GoHighLevel cost after the free trial?</h3>
-      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">GoHighLevel starts at <strong style="color:var(--text)">$97/month</strong> after the trial ends. You can cancel anytime during your 30-day free trial if it's not the right fit.</p>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">GoHighLevel starts at $97/month after the trial ends. You can cancel anytime during your 30-day free trial if it's not the right fit.</p>
     </div>
 
     <div style="margin-bottom:24px">
@@ -1518,6 +1582,31 @@ def build_trial_page():
     <div style="margin-bottom:24px">
       <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">GoHighLevel 14-day trial vs 30-day trial — what's the difference?</h3>
       <p style="font-size:.95rem;color:var(--text2);line-height:1.7">The features are identical. The only difference is time. The standard trial from gohighlevel.com gives you 14 days. Through this page, you get 30 days — enough time to set up funnels, migrate contacts, and see real results before deciding.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">Can I extend beyond 30 days?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">No. 30 days is the full trial window. If you're close to a decision, contact support to discuss your specific use case. Plan accordingly.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">GHL vs HubSpot free—which for agencies?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">HubSpot is CRM-heavy and free forever but capped. GHL is built for agencies: funnel builder, SMS, sub-accounts, and automation without limits. If you're reselling or scaling a team, GHL may be a better fit. If you want just a CRM, HubSpot is an option.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">What if I cancel during the trial?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">You cancel. Your account closes. No charge. No follow-up emails pushing you back. You keep any work you built (funnels, landing pages, contacts) but can't access them after the trial ends unless you restart.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">Do I get workflow automation features in the trial?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">Yes. Full access to workflow automation, conditional logic, SMS sequences, and AI-powered features on your plan tier. You can build automated lead qualification workflows immediately.</p>
+    </div>
+
+    <div style="margin-bottom:24px">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">Can I migrate contacts and funnels in during the trial?</h3>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">Yes. Import CSV contacts, migrate landing pages from other builders, or connect your Stripe/payment processor. The trial is a full sandbox. Refer to the help center for migration documentation.</p>
     </div>
   </div>
 
