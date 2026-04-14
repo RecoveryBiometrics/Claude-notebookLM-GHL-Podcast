@@ -1511,7 +1511,7 @@ def build_trial_page():
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px"><div style="font-size:.85rem;font-weight:700;color:var(--amber);margin-bottom:6px">Step 2: Set up in ~20 min</div><p style="font-size:.88rem;color:var(--text2);line-height:1.65;margin:0">Connect your domain, import contacts if you have them, and pick a template. GHL's funnel builder is drag-and-drop. You'll have a live landing page or lead form before your coffee gets cold.</p></div>
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px"><div style="font-size:.85rem;font-weight:700;color:var(--amber);margin-bottom:6px">Step 3: Build, test, decide</div><p style="font-size:.88rem;color:var(--text2);line-height:1.65;margin:0">Spend days 2–25 running a real campaign. Drive traffic. Capture leads. Watch the automations work. By day 28, you'll have actual numbers to decide on.</p></div>
     </div>
-    <p style="font-size:.9rem;color:var(--text2);line-height:1.7;margin-top:20px">Every feature is unlocked during the 30-day window. No upgrade pushes, no locked tools — build a full client campaign and see the numbers yourself before deciding.</p>
+    <p style="font-size:.9rem;color:var(--text2);line-height:1.7;margin-top:20px">Every feature is unlocked during the 30-day window. No upgrade pushes, no locked tools. Build a full client campaign and see the numbers yourself before deciding.</p>
   </div>
   <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px" class="fade-2">
     <h2 style="font-family:var(--sans);font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:24px">What's Included in Your GHL Free Trial</h2>
@@ -1548,6 +1548,20 @@ def build_trial_page():
         <div style="font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:6px">White-Label SaaS Mode</div>
         <p style="font-size:.82rem;color:var(--text2);line-height:1.6;margin:0">Rebrand GHL as your own platform and resell to clients at your own price.</p>
       </div>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid var(--border);padding-top:48px;margin-bottom:48px">
+    <div style="background:var(--surface);border:1px solid var(--amber-border);border-radius:8px;padding:32px">
+      <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px">Prefer done-for-you setup?</p>
+      <h2 style="font-family:var(--sans);font-size:1.4rem;font-weight:800;color:var(--text);margin-bottom:16px;margin-top:0">Extendly handles GoHighLevel onboarding for you</h2>
+      <p style="font-size:1.02rem;color:var(--text2);line-height:1.7;margin-bottom:18px">If you want the 30-day trial, but do not want to spend the 30 days doing the setup yourself, Extendly does it for you. They handle GoHighLevel onboarding, 24/7 white-label support for your clients, and pre-built snapshots you can import and run. We use them ourselves.</p>
+      <a href="https://getextendly.com?deal=vqzoli&amp;fp_sid=trial-landing"
+         onclick="gtag('event','affiliate_click_out',{{partner:'extendly',source:'trial',page:'trial-landing'}})"
+         class="btn-amber"
+         style="display:inline-block;font-size:.95rem;padding:12px 28px"
+         target="_blank" rel="nofollow noopener">Check out Extendly &rarr;</a>
+      <p style="font-size:.75rem;color:var(--text3);margin-top:14px;margin-bottom:0">Affiliate disclosure: if you sign up through this link, globalhighlevel.com may earn a commission at no extra cost to you.</p>
     </div>
   </div>
 
