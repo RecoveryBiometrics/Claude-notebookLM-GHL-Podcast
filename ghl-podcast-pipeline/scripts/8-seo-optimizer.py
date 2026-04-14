@@ -319,6 +319,25 @@ def do_research(page: dict) -> dict:
 # ══════════════════════════════════════════════════════════════════════════════
 # ROLE 3: Content Writer — Rewrite titles/descriptions, expand content
 # ══════════════════════════════════════════════════════════════════════════════
+LANG_INSTRUCTIONS = {
+    "es": "The output MUST be written in Spanish (Español). The current page is on /es/ and serves Spanish-speaking searchers. Do NOT write any part of the title or description in English.",
+    "ar": "The output MUST be written in Arabic (العربية). The current page is on /ar/ and serves Arabic-speaking searchers. Do NOT write any part of the title or description in English.",
+    "en-IN": "The output MUST be written in Indian English (clear English, Indian cultural context welcome). Use ₹ for currency, reference Indian platforms (WhatsApp, UPI) where relevant.",
+    "en": "The output MUST be written in English.",
+}
+
+
+def _post_language(post: dict) -> str:
+    lang = post.get("language", "")
+    if lang in LANG_INSTRUCTIONS:
+        return lang
+    slug = post.get("slug", "") or ""
+    # Fall back to filesystem location heuristic if language field is missing
+    if any(x in slug for x in ["espanol", "español", "latinoamerica", "mercadopago"]):
+        return "es"
+    return "en"
+
+
 def generate_meta_rewrite(page: dict, research: dict) -> dict:
     """Rewrite title and description for a low-CTR page."""
     post = page["post"]
@@ -333,7 +352,13 @@ def generate_meta_rewrite(page: dict, research: dict) -> dict:
     if attempt > 1:
         retry_hint = "\nIMPORTANT: A previous rewrite did NOT improve CTR. Try a completely different angle — different hook, different structure, different emotional trigger.\n"
 
+    post_lang = _post_language(post)
+    lang_instruction = LANG_INSTRUCTIONS.get(post_lang, LANG_INSTRUCTIONS["en"])
+
     prompt = f"""You are an SEO title/description specialist. Rewrite the title and meta description for this blog post to dramatically increase click-through rate from Google search results.
+
+OUTPUT LANGUAGE: {lang_instruction}
+
 
 CURRENT TITLE: {post.get('title', '')}
 CURRENT DESCRIPTION: {post.get('description', '')[:200]}
@@ -561,6 +586,25 @@ def apply_changes(page: dict, rewrites: dict) -> dict:
         "title": post.get("title", ""),
         "description": post.get("description", ""),
     }
+
+    # Validate output language matches post language before writing
+    post_lang = _post_language(post)
+    if post_lang in ("es", "ar"):
+        import re as _re
+        new_title = rewrites["title"]
+        new_desc = rewrites["description"]
+        if post_lang == "ar":
+            arabic_re = _re.compile(r"[\u0600-\u06FF]")
+            if not arabic_re.search(new_desc):
+                log(f"  ❌ Language mismatch: /ar/ post got non-Arabic description — skipping write")
+                raise ValueError(f"Rewrite language mismatch for {slug}: expected Arabic")
+        elif post_lang == "es":
+            spanish_signals = len(_re.findall(r"[ñáéíóúü¿¡]", new_desc, _re.IGNORECASE))
+            english_stopwords = sum(1 for w in _re.findall(r"[a-z]+", new_desc.lower())
+                                    if w in {"the", "and", "for", "with", "your", "free", "step", "how", "to", "learn"})
+            if spanish_signals == 0 and english_stopwords >= 2:
+                log(f"  ❌ Language mismatch: /es/ post got English description — skipping write")
+                raise ValueError(f"Rewrite language mismatch for {slug}: expected Spanish")
 
     # Apply title + description
     post["title"] = rewrites["title"]

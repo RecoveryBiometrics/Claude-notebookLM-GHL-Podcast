@@ -17,8 +17,11 @@ import json
 import os
 import re
 import shutil
+import sys
 from datetime import datetime
 from pathlib import Path
+
+from lang_check import validate_meta
 
 BASE_DIR       = Path(__file__).parent
 POSTS_DIR      = BASE_DIR / "posts"
@@ -703,7 +706,12 @@ def _build_hreflang_tags(page_path: str = "") -> str:
     return "\n".join(tags)
 
 
+LANG_META_VIOLATIONS = []
+
 def base_html(title: str, description: str, canonical: str, body: str, og_image: str = "", lang: str = "en", text_dir: str = "ltr", hreflang_path: str = "") -> str:
+    ok, msg = validate_meta(canonical, title, description)
+    if not ok:
+        LANG_META_VIOLATIONS.append(msg)
     og_img = og_image or os.getenv("OG_IMAGE_URL", "")
     cats = CATEGORIES
 
@@ -2595,6 +2603,14 @@ def main():
 
     # 404
     build_404()
+
+    if LANG_META_VIOLATIONS:
+        print(f"\n❌ Build FAILED — {len(LANG_META_VIOLATIONS)} meta/language mismatch(es):")
+        for v in LANG_META_VIOLATIONS[:20]:
+            print(f"   • {v}")
+        if len(LANG_META_VIOLATIONS) > 20:
+            print(f"   … and {len(LANG_META_VIOLATIONS) - 20} more")
+        sys.exit(1)
 
     print(f"\n✅ Build complete — {len(merged)} posts, {total_pages} index pages\n")
 
