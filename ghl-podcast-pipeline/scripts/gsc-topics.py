@@ -202,7 +202,7 @@ def find_low_ctr_pages(gsc_data: dict) -> list:
             })
 
     low_ctr.sort(key=lambda x: x["impressions"], reverse=True)
-    return low_ctr[:10]
+    return low_ctr[:30]
 
 
 # ── Strategy 3: Ranking Booster ───────────────────────────────────────────────
@@ -229,7 +229,7 @@ def find_almost_ranking(gsc_data: dict) -> list:
             })
 
     almost.sort(key=lambda x: x["impressions"], reverse=True)
-    return almost[:10]
+    return almost[:30]
 
 
 # ── Topic Generator (uses GSC gaps) ──────────────────────────────────────────
@@ -296,13 +296,19 @@ def generate_improvements(low_ctr: list, almost_ranking: list) -> list:
     suggestions = []
     skipped = 0
 
-    for page in low_ctr[:5]:
+    # Filter cooldowns FIRST, then take top N — otherwise if the top slots are
+    # all in cooldown we return zero suggestions instead of backfilling.
+    low_ctr_eligible = []
+    for page in low_ctr:
         slug = page["page"].split("/blog/")[-1].strip("/") if "/blog/" in page["page"] else ""
         if not slug:
             continue
         if is_on_cooldown(slug, cooldowns):
             skipped += 1
             continue
+        low_ctr_eligible.append((page, slug))
+
+    for page, slug in low_ctr_eligible[:5]:
         suggestions.append({
             "slug": slug,
             "action": "rewrite_meta",
@@ -317,13 +323,17 @@ def generate_improvements(low_ctr: list, almost_ranking: list) -> list:
             "position": page["position"],
         }, cooldowns)
 
-    for page in almost_ranking[:5]:
+    almost_eligible = []
+    for page in almost_ranking:
         slug = page["page"].split("/blog/")[-1].strip("/") if "/blog/" in page["page"] else ""
         if not slug:
             continue
         if is_on_cooldown(slug, cooldowns):
             skipped += 1
             continue
+        almost_eligible.append((page, slug))
+
+    for page, slug in almost_eligible[:5]:
         suggestions.append({
             "slug": slug,
             "action": "expand_content",

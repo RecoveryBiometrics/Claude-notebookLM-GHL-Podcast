@@ -1,33 +1,271 @@
 {
-  "updated_at": "2026-03-27T14:42:11.306451",
-  "period": "2026-02-24 to 2026-03-24",
+  "updated_at": "2026-04-13T15:37:21.649889",
+  "period": "2026-03-13 to 2026-04-10",
   "totals": {
-    "clicks": 3,
-    "impressions": 1747,
-    "ctr": 0.2,
-    "position": 14.1
+    "clicks": 47,
+    "impressions": 13692,
+    "ctr": 0.3,
+    "position": 11.6
   },
   "pages": [
     {
       "page": "https://globalhighlevel.com/blog/build-ai-agents-faster-gohighlevel-template-library-guide/",
+      "clicks": 4,
+      "impressions": 895,
+      "ctr": 0.4,
+      "position": 8.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-reduce-spam-calls-gohighlevel-ivr-number-intelligence/",
+      "clicks": 3,
+      "impressions": 428,
+      "ctr": 0.7,
+      "position": 8.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automate-google-contacts-gohighlevel-sync/",
+      "clicks": 2,
+      "impressions": 65,
+      "ctr": 3.1,
+      "position": 8.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-workflows-automatizar-seguimiento-leads/",
+      "clicks": 2,
+      "impressions": 14,
+      "ctr": 14.3,
+      "position": 19.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-enable-ach-bank-transfers-gohighlevel-nmi-setup/",
+      "clicks": 2,
+      "impressions": 30,
+      "ctr": 6.7,
+      "position": 9.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-manage-rental-bookings-in-gohighlevel-complete-guide/",
+      "clicks": 2,
+      "impressions": 32,
+      "ctr": 6.2,
+      "position": 14.2
+    },
+    {
+      "page": "https://globalhighlevel.com/coupon/",
+      "clicks": 2,
+      "impressions": 43,
+      "ctr": 4.7,
+      "position": 16.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/analyze-webinar-video-performance-gohighlevel-track-conversions/",
       "clicks": 1,
-      "impressions": 109,
+      "impressions": 22,
+      "ctr": 4.5,
+      "position": 11.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automate-client-support-ask-ai-agent-studio-gohighlevel/",
+      "clicks": 1,
+      "impressions": 1234,
+      "ctr": 0.1,
+      "position": 8.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizacion-ghl-mercadopago-cierra-ventas/",
+      "clicks": 1,
+      "impressions": 2,
+      "ctr": 50.0,
+      "position": 17
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/color-code-pipelines-gohighlevel-smart-tags-prioritize-deals/",
+      "clicks": 1,
+      "impressions": 115,
       "ctr": 0.9,
-      "position": 10.4
+      "position": 8.7
     },
     {
       "page": "https://globalhighlevel.com/blog/custom-objects-in-gohighlevel-unlock-unlimited-data-tracking/",
       "clicks": 1,
-      "impressions": 26,
-      "ctr": 3.8,
-      "position": 16.5
+      "impressions": 170,
+      "ctr": 0.6,
+      "position": 9.4
     },
     {
-      "page": "https://globalhighlevel.com/blog/how-to-reduce-spam-calls-gohighlevel-ivr-number-intelligence/",
+      "page": "https://globalhighlevel.com/blog/customize-contact-details-gohighlevel-boost-team-workflow/",
       "clicks": 1,
-      "impressions": 224,
+      "impressions": 33,
+      "ctr": 3.0,
+      "position": 10.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/flujos-automaticos-gohighlevel-agencias-marketing-digital/",
+      "clicks": 1,
+      "impressions": 5,
+      "ctr": 20.0,
+      "position": 42
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-ecommerce-carritos-abandonados-seguimientos/",
+      "clicks": 1,
+      "impressions": 8,
+      "ctr": 12.5,
+      "position": 6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-workflows-mercadopago-automatiza-pagos-clientes/",
+      "clicks": 1,
+      "impressions": 7,
+      "ctr": 14.3,
+      "position": 7.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-beauty-salons-india-booking-retention/",
+      "clicks": 1,
+      "impressions": 4,
+      "ctr": 25.0,
+      "position": 8.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-ecommerce-mercadopago-automatiza-ventas/",
+      "clicks": 1,
+      "impressions": 26,
+      "ctr": 3.8,
+      "position": 10.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-indian-coaching-consulting-businesses/",
+      "clicks": 1,
+      "impressions": 19,
+      "ctr": 5.3,
+      "position": 7.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-servicios-profesionales-latinoamerica-automatiza-citas/",
+      "clicks": 1,
+      "impressions": 4,
+      "ctr": 25.0,
+      "position": 7.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-herramientas-locales-agencia-latinoamerica/",
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 100,
+      "position": 4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-indian-saas-companies-white-label-gohighlevel/",
+      "clicks": 1,
+      "impressions": 41,
+      "ctr": 2.4,
+      "position": 9.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-connect-clickup-in-gohighlevel-sync-workflows/",
+      "clicks": 1,
+      "impressions": 7,
+      "ctr": 14.3,
+      "position": 22.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-enable-disable-deprecated-features-gohighlevel/",
+      "clicks": 1,
+      "impressions": 39,
+      "ctr": 2.6,
+      "position": 7.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-daily-usage-limits-gohighlevel-control-app-costs/",
+      "clicks": 1,
+      "impressions": 16,
+      "ctr": 6.2,
+      "position": 6.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-setup-chat-widget-integration-gohighlevel-real-time-client-support/",
+      "clicks": 1,
+      "impressions": 28,
+      "ctr": 3.6,
+      "position": 9.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-track-revenue-in-gohighlevel-agency-dashboard-guide/",
+      "clicks": 1,
+      "impressions": 56,
+      "ctr": 1.8,
+      "position": 7.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-custom-dispositions-in-gohighlevel-call-automation/",
+      "clicks": 1,
+      "impressions": 45,
+      "ctr": 2.2,
+      "position": 7.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-mcp-server-gohighlevel-ai-integration/",
+      "clicks": 1,
+      "impressions": 24,
+      "ctr": 4.2,
+      "position": 12.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/leverage-ai-pricing-updates-gohighlevel-save-more/",
+      "clicks": 1,
+      "impressions": 226,
       "ctr": 0.4,
-      "position": 8.4
+      "position": 6.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-gohighlevels-knowledge-base-ui-organize-content-fast/",
+      "clicks": 1,
+      "impressions": 38,
+      "ctr": 2.6,
+      "position": 9.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-gohighlevels-new-contact-detail-page-agency-crm/",
+      "clicks": 1,
+      "impressions": 88,
+      "ctr": 1.1,
+      "position": 7.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-new-contact-detail-page-gohighlevel-boost-agency-productivity/",
+      "clicks": 1,
+      "impressions": 100,
+      "ctr": 1.0,
+      "position": 7.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/publish-ios-white-label-apps-gohighlevel-app-store-guide/",
+      "clicks": 1,
+      "impressions": 25,
+      "ctr": 4.0,
+      "position": 8.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/que-es-gohighlevel-plataforma-automatizacion-agencias-latinoamerica/",
+      "clicks": 1,
+      "impressions": 177,
+      "ctr": 0.6,
+      "position": 9.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/setting-up-upi-payments-gohighlevel-indian-agencies/",
+      "clicks": 1,
+      "impressions": 23,
+      "ctr": 4.3,
+      "position": 4.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-gohighlevel-mercadopago-whatsapp-automaticamente/",
+      "clicks": 1,
+      "impressions": 5,
+      "ctr": 20.0,
+      "position": 22.6
     },
     {
       "page": "http://globalhighlevel.com/",
@@ -39,319 +277,3182 @@
     {
       "page": "https://globalhighlevel.com/",
       "clicks": 0,
-      "impressions": 178,
+      "impressions": 284,
       "ctr": 0,
-      "position": 26.8
+      "position": 29.7
     },
     {
-      "page": "https://globalhighlevel.com/blog/automate-client-support-ask-ai-agent-studio-gohighlevel/",
+      "page": "https://globalhighlevel.com/about/",
       "clicks": 0,
-      "impressions": 104,
+      "impressions": 3,
       "ctr": 0,
-      "position": 10.3
+      "position": 8
     },
     {
-      "page": "https://globalhighlevel.com/blog/color-code-pipelines-gohighlevel-smart-tags-prioritize-deals/",
+      "page": "https://globalhighlevel.com/blog/add-associated-records-to-workflows-in-gohighlevel-complete-guide/",
       "clicks": 0,
-      "impressions": 48,
+      "impressions": 12,
       "ctr": 0,
-      "position": 9.7
+      "position": 9.2
     },
     {
-      "page": "https://globalhighlevel.com/blog/enable-audio-response-gohighlevel-boost-engagement/",
+      "page": "https://globalhighlevel.com/blog/ai-business-card-scanner-gohighlevel-automate-contact-capture/",
       "clicks": 0,
-      "impressions": 68,
+      "impressions": 3,
       "ctr": 0,
-      "position": 9.8
+      "position": 7
     },
     {
-      "page": "https://globalhighlevel.com/blog/how-to-automate-workflows-gohighlevel-cross-object-actions/",
+      "page": "https://globalhighlevel.com/blog/automate-client-notifications-gohighlevel-save-time/",
       "clicks": 0,
-      "impressions": 402,
-      "ctr": 0,
-      "position": 19.9
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/how-to-color-code-pipelines-gohighlevel-smart-tags-guide/",
-      "clicks": 0,
-      "impressions": 20,
-      "ctr": 0,
-      "position": 6.2
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/how-to-configure-global-settings-gohighlevel-rental-business/",
-      "clicks": 0,
-      "impressions": 6,
-      "ctr": 0,
-      "position": 8.3
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/how-to-create-coupons-in-gohighlevel-boost-conversions/",
-      "clicks": 0,
-      "impressions": 9,
-      "ctr": 0,
-      "position": 20.3
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/how-to-debug-webhooks-gohighlevel-real-time-logs/",
-      "clicks": 0,
-      "impressions": 54,
-      "ctr": 0,
-      "position": 9.0
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/how-to-enable-3d-secure-payments-in-gohighlevel-fraud-protection/",
-      "clicks": 0,
-      "impressions": 43,
-      "ctr": 0,
-      "position": 5.2
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/how-to-find-qualified-prospects-in-gohighlevel-ai-lead-generation/",
-      "clicks": 0,
-      "impressions": 20,
-      "ctr": 0,
-      "position": 6.5
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/how-to-manage-rentals-in-gohighlevel-calendar-view/",
-      "clicks": 0,
-      "impressions": 23,
-      "ctr": 0,
-      "position": 11.8
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/how-to-preview-meta-ads-in-gohighlevel-share-with-team/",
-      "clicks": 0,
-      "impressions": 15,
-      "ctr": 0,
-      "position": 12.3
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/how-to-set-up-taxes-fees-gohighlevel-boost-revenue/",
-      "clicks": 0,
-      "impressions": 4,
-      "ctr": 0,
-      "position": 9
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/how-to-share-whitelabel-email-templates-gohighlevel/",
-      "clicks": 0,
-      "impressions": 6,
-      "ctr": 0,
-      "position": 13.3
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/how-to-track-click-performance-in-gohighlevel-email-analytics/",
-      "clicks": 0,
-      "impressions": 4,
-      "ctr": 0,
-      "position": 13.8
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/how-to-use-file-type-filter-in-gohighlevel-find-media-instantly/",
-      "clicks": 0,
-      "impressions": 20,
+      "impressions": 8,
       "ctr": 0,
       "position": 8.6
     },
     {
-      "page": "https://globalhighlevel.com/blog/how-to-use-kanban-view-in-gohighlevel-manage-deals-better/",
+      "page": "https://globalhighlevel.com/blog/automatiza-atencion-cliente-whatsapp-workflows-ghl/",
       "clicks": 0,
-      "impressions": 11,
+      "impressions": 1,
       "ctr": 0,
-      "position": 10.7
+      "position": 49
     },
     {
-      "page": "https://globalhighlevel.com/blog/how-to-use-public-apis-gohighlevel-agent-studio/",
+      "page": "https://globalhighlevel.com/blog/automatiza-negocio-gohighlevel-guia-automations-latinoamerica/",
       "clicks": 0,
-      "impressions": 27,
+      "impressions": 6,
       "ctr": 0,
-      "position": 12.3
+      "position": 18.2
     },
     {
-      "page": "https://globalhighlevel.com/blog/leverage-ai-pricing-updates-gohighlevel-save-more/",
+      "page": "https://globalhighlevel.com/blog/automatiza-negocio-gohighlevel-workflows-agencias-marketing-latam/",
       "clicks": 0,
-      "impressions": 2,
-      "ctr": 0,
-      "position": 9.5
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/master-advanced-filters-gohighlevel-smart-lists/",
-      "clicks": 0,
-      "impressions": 62,
+      "impressions": 3,
       "ctr": 0,
       "position": 8.7
     },
     {
-      "page": "https://globalhighlevel.com/blog/master-app-installer-details-api-gohighlevel-agency-branding/",
+      "page": "https://globalhighlevel.com/blog/automatizacion-flujos-gohighlevel-agencias-latinas/",
       "clicks": 0,
-      "impressions": 54,
+      "impressions": 3,
       "ctr": 0,
-      "position": 10.4
+      "position": 14
     },
     {
-      "page": "https://globalhighlevel.com/blog/master-ask-ai-upgrades-gohighlevel-work-smarter/",
+      "page": "https://globalhighlevel.com/blog/automatizacion-gohighlevel-whatsapp-gestionar-clientes-24-7/",
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 9.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizacion-inteligente-ghl-workflows-agencias-latinoamericanas/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizacion-whatsapp-gohighlevel-mensajes-masivos/",
+      "clicks": 0,
+      "impressions": 18,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizaciones-avanzadas-ghl-workflows-inteligentes/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 16
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizaciones-ghl-negocios-inmobiliarios-workflows-calendarios-recordatorios/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizaciones-gohighlevel-agencias-latinas/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizaciones-gohighlevel-agencias-latinoamericanas/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 39.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizaciones-gohighlevel-agencias-marketing-digital/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 82
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizaciones-gohighlevel-flujos-trabajo-conversiones/",
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 42.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizaciones-gohighlevel-flujos-trabajo-sin-codigo/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizaciones-gohighlevel-flujos-trabajo-ventas-latinoamerica/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 5.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizaciones-gohighlevel-flujos-venden/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 79
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizaciones-gohighlevel-flujos-ventas-pasivas/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 29
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizaciones-gohighlevel-guia-paso-a-paso-agencias-latinas/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizaciones-whatsapp-ghl-mensajes-cierren-ventas-24-7/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 10.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizaciones-whatsapp-gohighlevel-vende-sin-telefono/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/automatizaciones-whatsapp-gohighlevel-ventas-24-7/",
+      "clicks": 0,
+      "impressions": 34,
+      "ctr": 0,
+      "position": 13.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/avoid-call-loops-in-gohighlevel-expert-phone-routing/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/book-across-multiple-calendars-gohighlevel-voice-ai/",
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 9.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/build-client-trust-gohighlevel-soc-2-type-ii-security/",
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 8.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/build-saas-mode-systems-gohighlevel-scale-agency/",
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 5.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/building-landing-pages-gohighlevel-indian-markets/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 32.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/building-whatsapp-chatbot-gohighlevel-indian-customers/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 9.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/bulk-add-contacts-to-workflows-gohighlevel-save-time/",
+      "clicks": 0,
+      "impressions": 112,
+      "ctr": 0,
+      "position": 7.1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/bulk-prospecting-in-gohighlevel-find-60-leads-fast/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 9.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/color-code-pipelines-gohighlevel-smart-tags-guide/",
+      "clicks": 0,
+      "impressions": 46,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/como-configurar-automaciones-whatsapp-gohighlevel-aumenta-conversiones/",
+      "clicks": 0,
+      "impressions": 21,
+      "ctr": 0,
+      "position": 16
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/como-configurar-automatizaciones-avanzadas-gohighlevel-agencias-latinoamericanas/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 10.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/como-configurar-automatizaciones-gohighlevel-agencias-marketing-digital/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 9.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/como-configurar-primera-automatizacion-gohighlevel-paso-a-paso/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 22
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/como-dominar-automatizaciones-ghl-agencias-inmobiliarias/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 7.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/como-usar-gohighlevel-negocios-servicios-latinoamerica/",
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 8.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/configurar-automations-ghl-flujos-trabajo-generan-dinero/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 13.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/configurar-automatizaciones-ghl-sin-codigo-principiantes/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 15.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/configure-business-profile-settings-gohighlevel-complete-guide/",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 9.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/create-mobile-estimates-gohighlevel-save-time-consistency/",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 9.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/create-personality-quizzes-gohighlevel-boost-client-results/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/create-vcard-qr-codes-gohighlevel-instant-lead-generation/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 7.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/delete-twilio-subaccounts-gohighlevel-complete-guide/",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 9.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/domina-automatizaciones-gohighlevel-agencias-latinoamerica/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 13
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/domina-ghl-7-automatizaciones-esenciales-agente-digital-2026/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/dominar-workflows-gohighlevel-agencia-digital/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 43.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/edit-client-portal-email-templates-gohighlevel-brand-personalization/",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 11.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/enable-2fa-phone-updates-gohighlevel-secure-account/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/enable-audio-response-gohighlevel-boost-engagement/",
+      "clicks": 0,
+      "impressions": 78,
+      "ctr": 0,
+      "position": 9.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/enable-audio-response-gohighlevel-voice-powered-conversations/",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 8.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/enable-services-in-gohighlevel-multi-service-booking-setup/",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 11.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/facebook-ads-gohighlevel-indian-agencies/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/fix-a2p-campaign-rejections-gohighlevel-get-approved-fast/",
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 11.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/fix-calendar-embed-issues-gohighlevel/",
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 7.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/fix-email-authentication-gohighlevel-spf-dkim-dmarc/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 3.1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/fix-email-blocks-gohighlevel-restore-deliverability/",
+      "clicks": 0,
+      "impressions": 21,
+      "ctr": 0,
+      "position": 6.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/fix-email-deliverability-gohighlevel-rfc-5322-compliance/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/fix-facebook-lead-sync-gohighlevel-troubleshoot-cta-guide/",
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 9.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/fix-gmail-4728-errors-gohighlevel-improve-deliverability/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/fix-google-ads-rejections-gohighlevel-url-redirect-solutions/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 8.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/fix-missing-payment-methods-gohighlevel-stripe-checkout/",
+      "clicks": 0,
+      "impressions": 52,
+      "ctr": 0,
+      "position": 8.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/fix-spam-filter-blocks-gohighlevel-boost-deliverability/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/flujos-de-trabajo-avanzados-gohighlevel-casos-uso-reales/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/flujos-de-trabajo-ghl-automatizar-negocio-sin-codigo/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/flujos-trabajo-automaticos-ghl-plantillas-servicios-locales/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/flujos-trabajo-ghl-negocios-locales-automatiza-atencion-cliente/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 7.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/flujos-trabajo-inteligentes-gohighlevel-automatiza-cotizaciones-pagos/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/force-sync-listings-gohighlevel-speed-up-updates/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-agencias-digitales-latinoamerica-workflows-resultados/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 16
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-agencias-workflows-automatizacion-clientes/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 35
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-agencias-workflows-productividad/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 23.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-automaciones-agencias-digitales-casos-uso-latinoamerica/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-automations-mercadopago-whatsapp-sin-codigo/",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 8.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-automations-service-based-businesses-india-lead-to-client/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 6.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-automations-whatsapp-mercadopago-ventas-24-7/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-automatizaciones-flujos-whatsapp-sms-agencia/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 24.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-para-agencias-workflows-que-triplicaran-tu-productividad/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-razorpay-upi-payments-automation-india/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 7.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-whatsapp-automation-indian-service-businesses-step-by-step/",
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 8.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-workflow-automations-ecommerce-d2c-india/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 7.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-workflows-automatizar-negocio-servicios-sin-codigo/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-workflows-integraciones-locales-whatsapp-pagos/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 20
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/ghl-workflows-real-estate-agents-india-lead-follow-up-automation/",
+      "clicks": 0,
+      "impressions": 60,
+      "ctr": 0,
+      "position": 5.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-5-automatizaciones-transformar-negocio/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 31.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-abandoned-cart-recovery-indian-ecommerce/",
+      "clicks": 0,
+      "impressions": 55,
+      "ctr": 0,
+      "position": 6.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-agencias-automatizaciones-resultados/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 24.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-agencias-digitales-latinoamericanas-automatizacion/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 11.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-agencias-marketing-digital-workflows-automatizaciones/",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 51.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-ai-agents-hindi-customer-support-india/",
+      "clicks": 0,
+      "impressions": 259,
+      "ctr": 0,
+      "position": 6.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-automation-guide-trigger-action-workflows-india/",
+      "clicks": 0,
+      "impressions": 26,
+      "ctr": 0,
+      "position": 31.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-automations-sistema-completo-agencias-marketing-digital/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 21.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-automations-workflows-scale-indian-agency/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 6.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-automatizaciones-desde-cero-guia-completa/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 59
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-automatizaciones-guia-cerrar-ventas-sin-intervencion-manual/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-calendar-booking-indian-service-businesses/",
       "clicks": 0,
       "impressions": 3,
       "ctr": 0,
       "position": 6.3
     },
     {
-      "page": "https://globalhighlevel.com/blog/master-company-based-workflows-gohighlevel-b2b-automation/",
-      "clicks": 0,
-      "impressions": 8,
-      "ctr": 0,
-      "position": 21.9
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/master-email-statistics-gohighlevel-boost-campaign-performance/",
-      "clicks": 0,
-      "impressions": 8,
-      "ctr": 0,
-      "position": 13.1
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/master-gohighlevel-apis-ship-integrations-faster-sdks/",
-      "clicks": 0,
-      "impressions": 78,
-      "ctr": 0,
-      "position": 12.2
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/master-gohighlevels-new-contact-detail-page-agency-crm/",
-      "clicks": 0,
-      "impressions": 5,
-      "ctr": 0,
-      "position": 12
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/master-multi-object-tasks-gohighlevel-never-lose-context/",
-      "clicks": 0,
-      "impressions": 53,
-      "ctr": 0,
-      "position": 11.6
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/send-files-in-gohighlevel-live-chat-faster-client-support/",
-      "clicks": 0,
-      "impressions": 14,
-      "ctr": 0,
-      "position": 9.4
-    },
-    {
-      "page": "https://globalhighlevel.com/blog/track-mrr-accurately-gohighlevel-vs-profitwell/",
-      "clicks": 0,
-      "impressions": 15,
-      "ctr": 0,
-      "position": 8.6
-    },
-    {
-      "page": "https://globalhighlevel.com/category/agency-platform/",
+      "page": "https://globalhighlevel.com/blog/gohighlevel-consultorios-salones-servicios-automatizacion/",
       "clicks": 0,
       "impressions": 9,
       "ctr": 0,
-      "position": 12.7
+      "position": 10.8
     },
     {
-      "page": "https://globalhighlevel.com/category/analytics-reporting/",
+      "page": "https://globalhighlevel.com/blog/gohighlevel-ecommerce-automaciones-cierran-ventas/",
       "clicks": 0,
-      "impressions": 17,
+      "impressions": 2,
       "ctr": 0,
-      "position": 21.9
-    }
-  ],
-  "queries": [
-    {
-      "query": "go high level",
-      "clicks": 0,
-      "impressions": 33,
-      "ctr": 0,
-      "position": 27.5
+      "position": 22.5
     },
     {
-      "query": "ghl",
+      "page": "https://globalhighlevel.com/blog/gohighlevel-ecommerce-mercadopago-integracion/",
       "clicks": 0,
-      "impressions": 23,
+      "impressions": 15,
       "ctr": 0,
-      "position": 16.0
+      "position": 6.1
     },
     {
-      "query": "gohighlevel automation",
+      "page": "https://globalhighlevel.com/blog/gohighlevel-email-marketing-tips-indian-agencies/",
       "clicks": 0,
-      "impressions": 22,
+      "impressions": 3,
       "ctr": 0,
-      "position": 31.5
+      "position": 23.3
     },
     {
-      "query": "gohighlevel",
+      "page": "https://globalhighlevel.com/blog/gohighlevel-en-espanol-configuracion-automatizaciones-primer-cliente/",
       "clicks": 0,
-      "impressions": 21,
+      "impressions": 11,
       "ctr": 0,
-      "position": 28.8
+      "position": 26.8
     },
     {
-      "query": "gohighlevel automations",
+      "page": "https://globalhighlevel.com/blog/gohighlevel-for-indian-tuition-centers-crm-student-parent/",
       "clicks": 0,
-      "impressions": 14,
+      "impressions": 1,
       "ctr": 0,
-      "position": 37.4
+      "position": 10
     },
     {
-      "query": "ghl automations",
+      "page": "https://globalhighlevel.com/blog/gohighlevel-indian-automobile-dealers-lead-followup-automation/",
       "clicks": 0,
-      "impressions": 10,
+      "impressions": 5,
       "ctr": 0,
-      "position": 44.8
+      "position": 6.2
     },
     {
-      "query": "go high level automation",
+      "page": "https://globalhighlevel.com/blog/gohighlevel-indian-dental-clinics-appointment-automation/",
       "clicks": 0,
-      "impressions": 8,
+      "impressions": 3,
       "ctr": 0,
-      "position": 20.5
+      "position": 3
     },
     {
-      "query": "gohighlevel agent studio features 2026",
+      "page": "https://globalhighlevel.com/blog/gohighlevel-indian-gym-fitness-studio-owners/",
       "clicks": 0,
-      "impressions": 8,
+      "impressions": 3,
       "ctr": 0,
-      "position": 8.2
+      "position": 5.3
     },
     {
-      "query": "go high level workflows",
-      "clicks": 0,
-      "impressions": 7,
-      "ctr": 0,
-      "position": 20
-    },
-    {
-      "query": "ghl workflow automation",
-      "clicks": 0,
-      "impressions": 6,
-      "ctr": 0,
-      "position": 38.8
-    },
-    {
-      "query": "gohighlevel agency",
+      "page": "https://globalhighlevel.com/blog/gohighlevel-membership-sites-indian-course-creators/",
       "clicks": 0,
       "impressions": 4,
       "ctr": 0,
-      "position": 36
+      "position": 7.8
     },
     {
-      "query": "ask ai ghl",
+      "page": "https://globalhighlevel.com/blog/gohighlevel-multi-language-support-indian-agencies/",
       "clicks": 0,
       "impressions": 3,
       "ctr": 0,
       "position": 9
     },
     {
-      "query": "ghl automation",
+      "page": "https://globalhighlevel.com/blog/gohighlevel-negocios-latinoamericanos-como-implementar/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-patient-follow-up-automation-indian-healthcare-clinics/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-payment-links-multiple-products/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 16
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-pequenos-negocios-espana-workflows-ventas/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 70.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-pipeline-management-indian-sales-teams-2025/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 9.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-platform-updates-data-compliance-2025/",
+      "clicks": 0,
+      "impressions": 19,
+      "ctr": 0,
+      "position": 12.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-pymes-automatizacion-resultados-mexico-colombia-espana/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-razorpay-integration-indian-payments-accept-rupees/",
       "clicks": 0,
       "impressions": 3,
       "ctr": 0,
-      "position": 47.3
+      "position": 5.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-real-estate-lead-nurturing-india/",
+      "clicks": 0,
+      "impressions": 111,
+      "ctr": 0,
+      "position": 7.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-reputation-management-indian-local-businesses/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-setup-indian-recruitment-agencies/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 9.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-alternativas-locales-agencias-espanolas/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 25
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-alternativas-locales-domina-espana-latinoamerica/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 9.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-alternativas-locales-latinoamerica/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-alternativas-mejor-opcion-agencias-latinas/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-bitrix24-indian-agencies-comparison/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-competencia-local-agencias-espanolas-latinoamericanas/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-competidores-locales-2024/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 9.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-competidores-locales-agencias-espanolas/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 43.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-competidores-locales-domina-espana-america-latina/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 7.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-freshsales-indian-b2b-agencies/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-hubspot-pricing-indian-startups/",
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 9.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-keap-indian-small-businesses/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-leadsquared-indian-edtech-agencies/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 11.1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-plataformas-locales-por-que-ghl-gana-latinoamerica/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 7.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-vs-zoho-crm-indian-agencies-2026-comparison/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 5.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-wedding-planners-india-automation-guide/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 11.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-whatsapp-automatiza-mensajes-aumenta-ventas/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-whatsapp-business-api-setup-india/",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 22.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-whatsapp-business-automatizacion-sin-codigo/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-whatsapp-marketing-indian-real-estate-agents/",
+      "clicks": 0,
+      "impressions": 19,
+      "ctr": 0,
+      "position": 5.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-whatsapp-mercadopago-flujo-ventas/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-workflows-automatiza-negocio-servicios-latinoamerica/",
+      "clicks": 0,
+      "impressions": 16,
+      "ctr": 0,
+      "position": 29
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-workflows-automatizaciones-complejas/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 35
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-workflows-ecommerce-integracion-plataformas-locales/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-workflows-indian-festival-marketing-campaigns/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/gohighlevel-workflows-whatsapp-mercadopago-automatizacion-ventas/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/google-ads-gohighlevel-indian-agencies-2026/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 7.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/guia-automatizaciones-gohighlevel-compite-herramientas-locales-costosas/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/guia-automatizaciones-gohighlevel-secuencias-ventas-espanol/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 14.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/guia-automatizaciones-gohighlevel-supera-brevo-activecampaign-latam/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/guia-automatizaciones-gohighlevel-whatsapp-sms-email/",
+      "clicks": 0,
+      "impressions": 25,
+      "ctr": 0,
+      "position": 14.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/guia-completa-automatizaciones-ghl-leads-clientes-pagos/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/guia-completa-automatizaciones-gohighlevel-aumenta-ventas/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 17.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/guia-completa-gohighlevel-2026-agencias-latinoamerica/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 7.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/guia-completa-gohighlevel-mejor-plataforma-agencias-latinoamerica/",
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 15.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/guia-completa-gohighlevel-que-es-como-usar-agencia-digital/",
+      "clicks": 0,
+      "impressions": 299,
+      "ctr": 0,
+      "position": 11.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/guia-completa-gohighlevel-que-es-ghl-esencial-agencia/",
+      "clicks": 0,
+      "impressions": 57,
+      "ctr": 0,
+      "position": 14.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/guia-completa-workflows-gohighlevel-automatiza-ventas-mercadopago-paypal/",
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/guia-definitiva-automatizaciones-gohighlevel-cero-experto/",
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 19.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/hide-countdown-timers-gohighlevel-apple-mail-fix/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 6.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/hide-template-types-and-tags-in-gohighlevel-organize-faster/",
+      "clicks": 0,
+      "impressions": 23,
+      "ctr": 0,
+      "position": 6.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-indian-ca-firms-use-gohighlevel-client-management/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 24.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-indian-coaching-institutes-fill-batches-gohighlevel/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-indian-digital-marketing-agencies-use-gohighlevel-automations-to-scale/",
+      "clicks": 0,
+      "impressions": 223,
+      "ctr": 0,
+      "position": 8.1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-indian-event-management-companies-use-gohighlevel/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-indian-freelancers-use-gohighlevel-manage-multiple-clients/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 6.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-indian-logistics-companies-use-gohighlevel-client-updates/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-accept-paypal-in-gohighlevel-boost-calendar-conversions/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 2.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-add-countdown-timers-in-gohighlevel-drive-whatsapp-urgency/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 7.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-add-coupon-codes-in-gohighlevel-booking-discounts/",
+      "clicks": 0,
+      "impressions": 30,
+      "ctr": 0,
+      "position": 16.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-add-inbound-messages-gohighlevel-reduce-api-calls/",
+      "clicks": 0,
+      "impressions": 52,
+      "ctr": 0,
+      "position": 8.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-add-tables-to-knowledge-base-in-gohighlevel-ai-employees/",
+      "clicks": 0,
+      "impressions": 78,
+      "ctr": 0,
+      "position": 9.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-automate-badge-issuance-in-gohighlevel-workflows/",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-automate-workflows-gohighlevel-cross-object-actions/",
+      "clicks": 0,
+      "impressions": 704,
+      "ctr": 0,
+      "position": 21.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-book-service-appointments-gohighlevel-mobile-app/",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 10.1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-build-ai-agents-in-gohighlevel-agent-studio-guide/",
+      "clicks": 0,
+      "impressions": 271,
+      "ctr": 0,
+      "position": 10.1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-build-smarter-emails-in-gohighlevel-email-campaign-agent/",
+      "clicks": 0,
+      "impressions": 32,
+      "ctr": 0,
+      "position": 8.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-bulk-import-companies-gohighlevel-save-hours/",
+      "clicks": 0,
+      "impressions": 27,
+      "ctr": 0,
+      "position": 9.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-bulk-import-custom-object-records-in-gohighlevel-save-hours/",
+      "clicks": 0,
+      "impressions": 64,
+      "ctr": 0,
+      "position": 6.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-bulk-manage-qr-codes-in-gohighlevel-save-time/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-cancel-reselling-subscriptions-gohighlevel-in-app/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 13.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-cancel-seo-in-gohighlevel-preserve-optimizations/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 52
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-collect-in-person-signatures-gohighlevel-mobile/",
+      "clicks": 0,
+      "impressions": 20,
+      "ctr": 0,
+      "position": 7.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-color-code-pipelines-gohighlevel-smart-tags-guide/",
+      "clicks": 0,
+      "impressions": 52,
+      "ctr": 0,
+      "position": 7.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-complete-kyc-verification-in-gohighlevel-best-practices/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 6.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-configure-global-settings-gohighlevel-rental-business/",
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 7.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-configure-global-settings-gohighlevel-rental-management/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-configure-global-settings-in-gohighlevel-rental-business/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-configure-rental-pricing-gohighlevel-dynamic-rates/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-connect-airtable-in-gohighlevel-automate-workflows/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 7.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-create-ads-in-gohighlevel-one-click-ad-manager/",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 9.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-create-associate-companies-gohighlevel-auto-workflows/",
+      "clicks": 0,
+      "impressions": 36,
+      "ctr": 0,
+      "position": 7.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-create-brand-voice-gohighlevel-ai-content/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-create-coupons-in-gohighlevel-boost-conversions/",
+      "clicks": 0,
+      "impressions": 39,
+      "ctr": 0,
+      "position": 17.1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-create-custom-metrics-in-gohighlevel-track-kpis/",
+      "clicks": 0,
+      "impressions": 40,
+      "ctr": 0,
+      "position": 34.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-create-custom-objects-in-gohighlevel-all-plans/",
+      "clicks": 0,
+      "impressions": 116,
+      "ctr": 0,
+      "position": 8.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-create-custom-product-pages-in-gohighlevel-boost-conversions/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 30.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-create-custom-qr-codes-in-gohighlevel-boost-networking/",
+      "clicks": 0,
+      "impressions": 19,
+      "ctr": 0,
+      "position": 8.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-create-forms-surveys-gohighlevel-build-faster/",
+      "clicks": 0,
+      "impressions": 68,
+      "ctr": 0,
+      "position": 8.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-create-pages-faster-gohighlevel-ai-studio/",
+      "clicks": 0,
+      "impressions": 25,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-create-rental-bookings-in-gohighlevel-agency-guide/",
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 7.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-create-sell-gift-cards-gohighlevel/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-create-sub-accounts-gohighlevel-snapshots/",
+      "clicks": 0,
+      "impressions": 69,
+      "ctr": 0,
+      "position": 9.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-customize-quiz-results-gohighlevel-score-tiers/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 10.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-debug-ga4-in-gohighlevel-fix-tracking-fast/",
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-debug-webhooks-gohighlevel-real-time-logs/",
+      "clicks": 0,
+      "impressions": 86,
+      "ctr": 0,
+      "position": 7.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-edit-rental-bookings-in-gohighlevel-complete-guide/",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 8.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-enable-3d-secure-payments-gohighlevel-reduce-fraud/",
+      "clicks": 0,
+      "impressions": 37,
+      "ctr": 0,
+      "position": 5.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-enable-3d-secure-payments-in-gohighlevel-fraud-protection/",
+      "clicks": 0,
+      "impressions": 58,
+      "ctr": 0,
+      "position": 6.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-enable-rentals-in-gohighlevel-complete-setup-guide/",
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 8.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-enable-tap-to-pay-in-gohighlevel-mobile-payments/",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 6.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-enable-voice-ai-consent-checks-gohighlevel/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 6.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-enable-workflow-premium-features-gohighlevel/",
+      "clicks": 0,
+      "impressions": 33,
+      "ctr": 0,
+      "position": 15.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-export-companies-to-csv-in-gohighlevel-bulk-export/",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 10.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-export-email-marketing-data-gohighlevel-track-performance/",
+      "clicks": 0,
+      "impressions": 24,
+      "ctr": 0,
+      "position": 7.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-export-orders-as-csv-in-gohighlevel-financial-reporting/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 6.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-export-subscriptions-gohighlevel-revenue-analytics/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 23
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-export-transactions-in-gohighlevel-csv-reports/",
+      "clicks": 0,
+      "impressions": 25,
+      "ctr": 0,
+      "position": 7.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-find-custom-objects-in-gohighlevel-workflow-automation/",
+      "clicks": 0,
+      "impressions": 44,
+      "ctr": 0,
+      "position": 9.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-find-qualified-prospects-in-gohighlevel-ai-lead-generation/",
+      "clicks": 0,
+      "impressions": 91,
+      "ctr": 0,
+      "position": 8.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-fix-payment-errors-in-gohighlevel-paywall-checkout/",
+      "clicks": 0,
+      "impressions": 48,
+      "ctr": 0,
+      "position": 10.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-force-app-updates-gohighlevel-keep-clients-secure/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 22.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-forward-emails-in-gohighlevel-streamline-client-handoffs/",
+      "clicks": 0,
+      "impressions": 59,
+      "ctr": 0,
+      "position": 8.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-get-a2p-approved-gohighlevel-sms-compliance/",
+      "clicks": 0,
+      "impressions": 88,
+      "ctr": 0,
+      "position": 9.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-improve-page-speed-in-gohighlevel-better-conversions/",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 6.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-install-gohighlevel-desktop-app-complete-setup-guide/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-integrate-tiktok-messaging-in-gohighlevel-automate-comments/",
+      "clicks": 0,
+      "impressions": 16,
+      "ctr": 0,
+      "position": 16.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-launch-branded-apps-gohighlevel-reduce-churn/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-launch-branded-mobile-apps-in-gohighlevel-no-developers/",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 18.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-launch-sms-campaign-gohighlevel-get-more-leads/",
+      "clicks": 0,
+      "impressions": 21,
+      "ctr": 0,
+      "position": 7.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-link-apple-app-store-to-gohighlevel-white-label-apps/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 13
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-manage-agent-studio-folders-gohighlevel-stay-organized/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-manage-duplicate-listings-in-gohighlevel-complete-guide/",
+      "clicks": 0,
+      "impressions": 55,
+      "ctr": 0,
+      "position": 10.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-manage-gst-invoicing-with-gohighlevel-in-india/",
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 16.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-manage-multi-location-calls-in-gohighlevel-never-miss-leads/",
+      "clicks": 0,
+      "impressions": 18,
+      "ctr": 0,
+      "position": 5.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-manage-payment-permissions-in-gohighlevel-secure-delegation/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 9.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-manage-rental-taxes-in-gohighlevel-complete-guide/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-manage-rentals-in-gohighlevel-calendar-view/",
+      "clicks": 0,
+      "impressions": 32,
+      "ctr": 0,
+      "position": 10.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-manage-service-appointments-in-gohighlevel-faster-bookings/",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 12.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-manage-unified-payments-in-gohighlevel-v1-v2/",
+      "clicks": 0,
+      "impressions": 21,
+      "ctr": 0,
+      "position": 8.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-manage-whatsapp-settings-in-gohighlevel-complete-guide/",
+      "clicks": 0,
+      "impressions": 108,
+      "ctr": 0,
+      "position": 8.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-maximize-ai-pricing-in-gohighlevel-2025-update/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-merge-duplicate-contacts-in-gohighlevel-clean-crm-data/",
+      "clicks": 0,
+      "impressions": 34,
+      "ctr": 0,
+      "position": 10.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-migrate-from-activecampaign-to-gohighlevel-no-data-loss/",
+      "clicks": 0,
+      "impressions": 48,
+      "ctr": 0,
+      "position": 14.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-migrate-phone-numbers-in-gohighlevel-complete-guide/",
+      "clicks": 0,
+      "impressions": 80,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-optimize-google-business-profile-gohighlevel/",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 7.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-organize-media-in-gohighlevel-centralized-file-management/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 7.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-organize-products-in-gohighlevel-manual-smart-collections/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-organize-rental-listings-in-gohighlevel-agency-guide/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-preview-meta-ads-in-gohighlevel-share-with-stakeholders/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 9.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-preview-meta-ads-in-gohighlevel-share-with-team/",
+      "clicks": 0,
+      "impressions": 32,
+      "ctr": 0,
+      "position": 18.1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-preview-meta-ads-in-gohighlevel-share-with-your-team/",
+      "clicks": 0,
+      "impressions": 20,
+      "ctr": 0,
+      "position": 26.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-purchase-domains-multiple-years-gohighlevel/",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-push-updates-whitelabel-mobile-app-gohighlevel/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 51.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-read-email-statistics-in-gohighlevel-track-campaign-performance/",
+      "clicks": 0,
+      "impressions": 34,
+      "ctr": 0,
+      "position": 10.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-reassign-affiliate-contacts-in-gohighlevel-fix-duplicates/",
+      "clicks": 0,
+      "impressions": 22,
+      "ctr": 0,
+      "position": 10.1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-reduce-survey-abandonment-gohighlevel-mobile-progress-bars/",
+      "clicks": 0,
+      "impressions": 23,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-rename-standard-objects-gohighlevel-customize-crm/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-report-bugs-in-gohighlevel-faster-support/",
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-schedule-automated-reports-in-gohighlevel-save-hours/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 11.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-schedule-gbp-posts-in-gohighlevel-boost-local-visibility/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 7.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-select-server-location-gohighlevel-boost-wordpress-speed/",
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 6.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-sell-gift-cards-gohighlevel-multiple-channels/",
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-sell-print-on-demand-merch-gohighlevel-printify/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-send-documents-via-sms-in-gohighlevel-fast-client-delivery/",
+      "clicks": 0,
+      "impressions": 30,
+      "ctr": 0,
+      "position": 20.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-send-gift-cards-in-gohighlevel-boost-customer-loyalty/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-conversation-ai-response-styles-in-gohighlevel/",
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 9.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-a2p-10dlc-registration-gohighlevel-stay-compliant/",
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 16.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-adyen-payments-in-gohighlevel-accept-global-payments/",
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-auto-recharge-in-gohighlevel-never-run-out/",
+      "clicks": 0,
+      "impressions": 44,
+      "ctr": 0,
+      "position": 7.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-business-profile-in-gohighlevel-brand-authority/",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 24.1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-community-affiliates-in-gohighlevel-drive-growth/",
+      "clicks": 0,
+      "impressions": 73,
+      "ctr": 0,
+      "position": 10.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-drip-mode-in-gohighlevel-scale-outreach-safely/",
+      "clicks": 0,
+      "impressions": 22,
+      "ctr": 0,
+      "position": 6.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-google-lead-ads-in-gohighlevel-auto-sync-leads/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 75
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-live-chat-notifications-in-gohighlevel/",
+      "clicks": 0,
+      "impressions": 19,
+      "ctr": 0,
+      "position": 8.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-rentals-in-gohighlevel-complete-guide/",
+      "clicks": 0,
+      "impressions": 20,
+      "ctr": 0,
+      "position": 8.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-shipping-profiles-in-gohighlevel-flexible-rates/",
+      "clicks": 0,
+      "impressions": 31,
+      "ctr": 0,
+      "position": 7.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-tax-categories-in-gohighlevel-ensure-compliance/",
+      "clicks": 0,
+      "impressions": 20,
+      "ctr": 0,
+      "position": 8.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-taxes-fees-gohighlevel-boost-revenue/",
+      "clicks": 0,
+      "impressions": 82,
+      "ctr": 0,
+      "position": 7.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-taxes-fees-gohighlevel-services-guide/",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 6.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-uberall-listings-in-gohighlevel-local-seo/",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-voice-ai-chat-in-gohighlevel-lead-capture/",
+      "clicks": 0,
+      "impressions": 98,
+      "ctr": 0,
+      "position": 10.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-set-up-voice-ai-granular-permissions-in-gohighlevel/",
+      "clicks": 0,
+      "impressions": 21,
+      "ctr": 0,
+      "position": 7.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-setup-listings-gohighlevel-self-service-onboarding/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-setup-recurring-webinars-in-gohighlevel-automate-sessions/",
+      "clicks": 0,
+      "impressions": 29,
+      "ctr": 0,
+      "position": 8.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-share-whitelabel-email-templates-gohighlevel/",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 7.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-share-whitelabel-email-templates-in-gohighlevel/",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 18.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-style-radio-checkbox-fields-gohighlevel-bubble-style/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 9.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-sync-invoices-with-xero-in-gohighlevel-automate-billing/",
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 20.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-test-debug-ai-agents-gohighlevel/",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 2.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-track-app-marketplace-earnings-in-gohighlevel/",
+      "clicks": 0,
+      "impressions": 16,
+      "ctr": 0,
+      "position": 13
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-track-average-time-on-site-gohighlevel-boost-engagement/",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 6.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-track-changes-gohighlevel-snapshots-version-management/",
+      "clicks": 0,
+      "impressions": 24,
+      "ctr": 0,
+      "position": 8.1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-track-click-performance-gohighlevel-email-analytics/",
+      "clicks": 0,
+      "impressions": 202,
+      "ctr": 0,
+      "position": 68.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-track-click-performance-in-gohighlevel-email-analytics/",
+      "clicks": 0,
+      "impressions": 88,
+      "ctr": 0,
+      "position": 9.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-track-collect-payments-gohighlevel-agency-guide/",
+      "clicks": 0,
+      "impressions": 24,
+      "ctr": 0,
+      "position": 14.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-track-gift-card-performance-gohighlevel-analytics/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 4.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-track-listing-changes-gohighlevel-audit-logs/",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 9.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-track-local-rankings-gohighlevel-seo-heatmaps/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 43.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-track-sms-limits-in-gohighlevel-messaging-ramp/",
+      "clicks": 0,
+      "impressions": 26,
+      "ctr": 0,
+      "position": 9.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-transfer-domains-in-gohighlevel-unified-management/",
+      "clicks": 0,
+      "impressions": 49,
+      "ctr": 0,
+      "position": 8.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-advanced-filters-gohighlevel-analyze-traffic-data/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 8.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-agent-studio-router-in-gohighlevel-smarter-ai-flows/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 7.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-ai-recommendations-gohighlevel-infinite-scroll/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-app-uninstall-api-gohighlevel-optimize-performance/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-canva-integration-in-gohighlevel-save-time/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-custom-objects-in-gohighlevel-unlimited-flexibility/",
+      "clicks": 0,
+      "impressions": 178,
+      "ctr": 0,
+      "position": 8.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-dashboard-summary-ai-in-gohighlevel-instant-insights/",
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 8.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-direct-messages-in-gohighlevel-community-collaboration/",
+      "clicks": 0,
+      "impressions": 16,
+      "ctr": 0,
+      "position": 8.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-enhanced-web-crawler-gohighlevel-better-ai-answers/",
+      "clicks": 0,
+      "impressions": 22,
+      "ctr": 0,
+      "position": 6.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-file-type-filter-in-gohighlevel-find-media-instantly/",
+      "clicks": 0,
+      "impressions": 36,
+      "ctr": 0,
+      "position": 8.1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-global-custom-colors-gohighlevel-brand-consistency/",
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-global-custom-colors-in-gohighlevel-brand-consistency/",
+      "clicks": 0,
+      "impressions": 19,
+      "ctr": 0,
+      "position": 9.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-kanban-view-in-gohighlevel-manage-deals-better/",
+      "clicks": 0,
+      "impressions": 26,
+      "ctr": 0,
+      "position": 8.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-listings-add-ons-gohighlevel-food-healthcare/",
+      "clicks": 0,
+      "impressions": 16,
+      "ctr": 0,
+      "position": 8.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-local-presence-dialing-in-gohighlevel-boost-answer-rates/",
+      "clicks": 0,
+      "impressions": 21,
+      "ctr": 0,
+      "position": 9.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-mcp-server-in-gohighlevel-automate-actions/",
+      "clicks": 0,
+      "impressions": 39,
+      "ctr": 0,
+      "position": 8.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-multi-language-widgets-gohighlevel-agency-localization/",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-notes-in-gohighlevel-custom-objects-guide/",
+      "clicks": 0,
+      "impressions": 64,
+      "ctr": 0,
+      "position": 7.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-public-apis-gohighlevel-agent-studio/",
+      "clicks": 0,
+      "impressions": 126,
+      "ctr": 0,
+      "position": 8.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-qr-codes-in-gohighlevel-drive-scans-conversions/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 7.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-saas-analytics-mrr-gohighlevel-dashboard/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-service-booking-triggers-gohighlevel-automate-appointments/",
+      "clicks": 0,
+      "impressions": 57,
+      "ctr": 0,
+      "position": 18.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-template-library-gohighlevel-save-time-workflows/",
+      "clicks": 0,
+      "impressions": 22,
+      "ctr": 0,
+      "position": 36.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-timezone-adaptation-gohighlevel-global-timer-control/",
+      "clicks": 0,
+      "impressions": 26,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-unique-fields-in-gohighlevel-prevent-data-duplication/",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 6.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-variables-in-gohighlevel-agent-studio-save-time/",
+      "clicks": 0,
+      "impressions": 75,
+      "ctr": 0,
+      "position": 7.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-voice-dictation-in-gohighlevel-build-faster/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 13.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/how-to-use-wait-time-in-gohighlevel-recurring-timer-guide/",
+      "clicks": 0,
+      "impressions": 23,
+      "ctr": 0,
+      "position": 7.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/improve-accessibility-gohighlevel-topbar-help/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 7.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/indian-digital-marketing-agencies-scaling-gohighlevel-saas-mode/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/integracion-whatsapp-mercadopago-gohighlevel-vende-sin-limites/",
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 7.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/integraciones-automatizacion-gohighlevel-mercadopago-whatsapp/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 20
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/link-opportunities-invoices-gohighlevel-deal-tracking/",
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 7.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/manage-snapshot-notifications-gohighlevel-agency-control/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/manage-snapshot-push-notifications-gohighlevel-rolling-updates/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 8.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/map-quiz-results-to-crm-fields-gohighlevel/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-a2p-registration-gohighlevel-reduce-carrier-rejections/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 10.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-advanced-filters-gohighlevel-smart-lists/",
+      "clicks": 0,
+      "impressions": 160,
+      "ctr": 0,
+      "position": 8.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-ai-schedule-gohighlevel-optimize-email-send-times/",
+      "clicks": 0,
+      "impressions": 19,
+      "ctr": 0,
+      "position": 8.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-app-installer-details-api-gohighlevel-agency-branding/",
+      "clicks": 0,
+      "impressions": 131,
+      "ctr": 0,
+      "position": 8.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-ask-ai-upgrades-gohighlevel-work-smarter/",
+      "clicks": 0,
+      "impressions": 83,
+      "ctr": 0,
+      "position": 15.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-calendar-view-services-gohighlevel-manage-bookings/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-company-based-workflows-gohighlevel-b2b-automation/",
+      "clicks": 0,
+      "impressions": 141,
+      "ctr": 0,
+      "position": 8.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-conversation-ai-flow-builder-gohighlevel-complete-setup/",
+      "clicks": 0,
+      "impressions": 72,
+      "ctr": 0,
+      "position": 8.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-custom-objects-in-gohighlevel-organize-crm-data/",
+      "clicks": 0,
+      "impressions": 22,
+      "ctr": 0,
+      "position": 11.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-custom-objects-notes-gohighlevel-complete-guide/",
+      "clicks": 0,
+      "impressions": 39,
+      "ctr": 0,
+      "position": 6.1
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-email-ai-in-gohighlevel-create-on-brand-emails/",
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 11.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-email-preference-management-gohighlevel-boost-deliverability/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-email-statistics-gohighlevel-boost-campaign-performance/",
+      "clicks": 0,
+      "impressions": 45,
+      "ctr": 0,
+      "position": 9.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-global-custom-colors-gohighlevel/",
+      "clicks": 0,
+      "impressions": 18,
+      "ctr": 0,
+      "position": 9.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-gohighlevel-apis-ship-integrations-faster-sdks/",
+      "clicks": 0,
+      "impressions": 195,
+      "ctr": 0,
+      "position": 9.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-gohighlevel-audit-logs-track-all-account-changes/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-gohighlevel-automations-whatsapp-sms-email-india/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-gohighlevel-checkout-orchestrator-eliminate-duplicate-orders/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 4.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-gohighlevel-conversation-ai-knowledge-sources-quality/",
+      "clicks": 0,
+      "impressions": 43,
+      "ctr": 0,
+      "position": 7.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-gohighlevel-mobile-app-v4-manage-faster/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 10.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-gohighlevels-new-contact-detail-page-boost-agency-productivity/",
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 8.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-intent-based-routing-gohighlevel-ai-powered-workflows/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 6.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-keyword-research-gohighlevel-rank-higher/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 5.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-manage-scoring-in-gohighlevel-track-engagement-faster/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-multi-calendar-appointment-booking-gohighlevel/",
+      "clicks": 0,
+      "impressions": 109,
+      "ctr": 0,
+      "position": 11.0
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-multi-object-tasks-gohighlevel-never-lose-context/",
+      "clicks": 0,
+      "impressions": 73,
+      "ctr": 0,
+      "position": 10.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-payment-providers-gohighlevel-complete-setup-guide/",
+      "clicks": 0,
+      "impressions": 20,
+      "ctr": 0,
+      "position": 7.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-rental-calendar-view-gohighlevel-manage-bookings/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-tabular-view-gohighlevel-manage-sub-accounts/",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 10.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-webhook-retries-gohighlevel-never-lose-data/",
+      "clicks": 0,
+      "impressions": 58,
+      "ctr": 0,
+      "position": 6.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/master-workflows-gohighlevel-automatiza-seguimiento-clientes/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/mercado-pago-integration-gohighlevel-accept-payments/",
+      "clicks": 0,
+      "impressions": 26,
+      "ctr": 0,
+      "position": 4.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/por-que-gohighlevel-mejor-alternativas-locales-mexico-colombia-argentina/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/que-es-gohighlevel-ghl-plataforma-automatizacion-agencias-latinoamerica/",
+      "clicks": 0,
+      "impressions": 70,
+      "ctr": 0,
+      "position": 8.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/que-es-gohighlevel-ghl-plataforma-todo-en-uno-agencias-latinoamerica/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 45.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/que-es-gohighlevel-guia-completa-agencias-2026/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 9.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/que-es-gohighlevel-plataforma-all-in-one-agencias/",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 38.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/razorpay-fixed-schedule-subscriptions-gohighlevel/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/remove-associated-records-gohighlevel-clean-workflow-management/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 10.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/resell-apps-gohighlevel-white-label-pricing/",
+      "clicks": 0,
+      "impressions": 54,
+      "ctr": 0,
+      "position": 7.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/save-element-templates-gohighlevel-build-faster/",
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 7.8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/secure-your-brand-with-domain-extensions-in-gohighlevel/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/send-file-attachments-gohighlevel-live-chat-faster-support/",
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 7.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/send-files-in-gohighlevel-live-chat-faster-client-support/",
+      "clicks": 0,
+      "impressions": 21,
+      "ctr": 0,
+      "position": 9.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/send-personalized-videos-gohighlevel-build-trust-boost-replies/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/set-up-agent-studio-triggers-gohighlevel-real-time-automation/",
+      "clicks": 0,
+      "impressions": 131,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/submit-translation-feedback-gohighlevel-improve-localization/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/track-mrr-accurately-gohighlevel-vs-profitwell/",
+      "clicks": 0,
+      "impressions": 23,
+      "ctr": 0,
+      "position": 8.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/use-ai-help-gohighlevel-workflows-build-faster/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8.2
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/verify-stripe-markup-removal-gohighlevel/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 7.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/view-chart-of-accounts-gohighlevel-xero-integration-guide/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-avanzados-ghl-automatiza-leads-instagram-whatsapp/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 8.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-avanzados-ghl-automatiza-seguimiento-leads/",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 11.9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-avanzados-gohighlevel-automatiza-ventas-whatsapp-sms/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-avanzados-gohighlevel-casos-uso-negocios-locales/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 5.3
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-avanzados-gohighlevel-whatsapp/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 23.4
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-de-gohighlevel-con-whatsapp-automatiza-mensajes-y-cierra-mas-ventas/",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-gohighlevel-ahorra-tiempo-dinero/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 22
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-gohighlevel-automatiza-agencia-digital/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 41.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-gohighlevel-automatiza-follow-ups-cierra-deals/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 76
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-gohighlevel-automatiza-negocio-servicios/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 41.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-gohighlevel-automatizar-negocio-servicios-1/",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 29.6
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-gohighlevel-automatizar-negocio-servicios/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-gohighlevel-ecommerce-mercadopago/",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-gohighlevel-whatsapp-automatizacion/",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 12.7
+    },
+    {
+      "page": "https://globalhighlevel.com/blog/workflows-inteligentes-gohighlevel-whatsapp-sms-email/",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "page": "https://globalhighlevel.com/category/agency-platform/",
+      "clicks": 0,
+      "impressions": 27,
+      "ctr": 0,
+      "position": 10.9
+    },
+    {
+      "page": "https://globalhighlevel.com/category/ai-automation/",
+      "clicks": 0,
+      "impressions": 30,
+      "ctr": 0,
+      "position": 31.3
+    },
+    {
+      "page": "https://globalhighlevel.com/category/analytics-reporting/",
+      "clicks": 0,
+      "impressions": 33,
+      "ctr": 0,
+      "position": 30.1
+    },
+    {
+      "page": "https://globalhighlevel.com/category/crm-contacts/",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 5.8
+    },
+    {
+      "page": "https://globalhighlevel.com/category/email-deliverability/",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 13
+    },
+    {
+      "page": "https://globalhighlevel.com/category/payments-commerce/",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 10.6
+    },
+    {
+      "page": "https://globalhighlevel.com/category/phone-voice/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 39.5
+    },
+    {
+      "page": "https://globalhighlevel.com/category/sms-messaging/",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 44
+    },
+    {
+      "page": "https://globalhighlevel.com/trial/",
+      "clicks": 0,
+      "impressions": 125,
+      "ctr": 0,
+      "position": 42.6
+    },
+    {
+      "page": "https://www.globalhighlevel.com/",
+      "clicks": 0,
+      "impressions": 18,
+      "ctr": 0,
+      "position": 43.3
+    },
+    {
+      "page": "https://www.globalhighlevel.com/blog/how-to-create-rental-bookings-in-gohighlevel-agency-guide/",
+      "clicks": 0,
+      "impressions": 14,
+      "ctr": 0,
+      "position": 8.4
+    },
+    {
+      "page": "https://www.globalhighlevel.com/blog/how-to-manage-service-appointments-in-gohighlevel-faster-bookings/",
+      "clicks": 0,
+      "impressions": 58,
+      "ctr": 0,
+      "position": 13.7
+    },
+    {
+      "page": "https://www.globalhighlevel.com/blog/how-to-reassign-affiliate-contacts-in-gohighlevel-fix-duplicates/",
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 6.4
+    },
+    {
+      "page": "https://www.globalhighlevel.com/blog/how-to-schedule-automated-reports-in-gohighlevel-save-hours/",
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 11.5
+    },
+    {
+      "page": "https://www.globalhighlevel.com/blog/how-to-set-up-google-lead-ads-in-gohighlevel-auto-sync-leads/",
+      "clicks": 0,
+      "impressions": 22,
+      "ctr": 0,
+      "position": 12.9
+    },
+    {
+      "page": "https://www.globalhighlevel.com/blog/how-to-set-up-uberall-listings-in-gohighlevel-local-seo/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "page": "https://www.globalhighlevel.com/blog/how-to-use-global-sections-in-gohighlevel-save-time-building/",
+      "clicks": 0,
+      "impressions": 81,
+      "ctr": 0,
+      "position": 9.5
+    },
+    {
+      "page": "https://www.globalhighlevel.com/blog/master-custom-objects-notes-gohighlevel-complete-guide/",
+      "clicks": 0,
+      "impressions": 43,
+      "ctr": 0,
+      "position": 7.7
+    },
+    {
+      "page": "https://www.globalhighlevel.com/blog/master-global-custom-colors-gohighlevel/",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 7.5
+    }
+  ],
+  "queries": [
+    {
+      "query": "ghl",
+      "clicks": 1,
+      "impressions": 450,
+      "ctr": 0.2,
+      "position": 8.4
+    },
+    {
+      "query": "go high level",
+      "clicks": 0,
+      "impressions": 67,
+      "ctr": 0,
+      "position": 31
+    },
+    {
+      "query": "ghl automations",
+      "clicks": 0,
+      "impressions": 23,
+      "ctr": 0,
+      "position": 45.6
+    },
+    {
+      "query": "ghl workflow automation",
+      "clicks": 0,
+      "impressions": 22,
+      "ctr": 0,
+      "position": 40.3
+    },
+    {
+      "query": "go high level automation",
+      "clicks": 0,
+      "impressions": 16,
+      "ctr": 0,
+      "position": 28.6
+    },
+    {
+      "query": "ai voice chatbot widget ghl",
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 14.1
+    },
+    {
+      "query": "custom metrics",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 94.7
+    },
+    {
+      "query": "ghl que es",
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "query": "go high level workflows",
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 24
+    },
+    {
+      "query": "go high level free trial",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 65.4
+    },
+    {
+      "query": "go high level partners",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 55.6
+    },
+    {
+      "query": "ai studio gohighlevel",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 7.6
+    },
+    {
+      "query": "gohighlevel promo code",
+      "clicks": 2,
+      "impressions": 6,
+      "ctr": 33.3,
+      "position": 25.5
+    },
+    {
+      "query": "bing ads gohighlevel",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 83.7
+    },
+    {
+      "query": "go high level 30 day trial",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 62.8
+    },
+    {
+      "query": "ask ai ghl",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 8.8
+    },
+    {
+      "query": "ghl automation",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 50.4
+    },
+    {
+      "query": "go hi level",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 20.4
+    },
+    {
+      "query": "go high level trial",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 66
+    },
+    {
+      "query": "activecampaign to highlevel",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 41.8
+    },
+    {
+      "query": "adyen payment methods global local",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "query": "ghl crm automations",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 19.8
+    },
+    {
+      "query": "go high level ai",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 34.8
+    },
+    {
+      "query": "go high level templates",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 52.2
+    },
+    {
+      "query": "\"uberall\" -site:reddit.com -site:twitter.com -site:x.com -site:wykop.pl -site:tripadvisor.com -site:youtube.com -site:yelp.com -site:booking.com -site:facebook.com -site:instagram.com -site:tiktok.com",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 3.7
+    },
+    {
+      "query": "free gohighlevel",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 51.3
+    },
+    {
+      "query": "ghl ai studio",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 29.3
+    },
+    {
+      "query": "ghl automation workflows",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 10.7
+    },
+    {
+      "query": "ghl discount code",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 35.3
+    },
+    {
+      "query": "global ghl",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 6.7
     },
     {
       "query": "go high level api integration",
@@ -361,6 +3462,20 @@
       "position": 51.3
     },
     {
+      "query": "go high level en espa\u00f1ol",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 31
+    },
+    {
+      "query": "ghl app marketplace",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 38.5
+    },
+    {
       "query": "ghl ask ai",
       "clicks": 0,
       "impressions": 2,
@@ -368,11 +3483,18 @@
       "position": 9
     },
     {
-      "query": "ghl automation workflows",
+      "query": "ghl automation setup service",
       "clicks": 0,
       "impressions": 2,
       "ctr": 0,
-      "position": 10.5
+      "position": 60
+    },
+    {
+      "query": "ghl free trial",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 32
     },
     {
       "query": "global level",
@@ -382,11 +3504,39 @@
       "position": 74.5
     },
     {
-      "query": "go hi level",
+      "query": "go high level agency",
       "clicks": 0,
       "impressions": 2,
       "ctr": 0,
-      "position": 21
+      "position": 74.5
+    },
+    {
+      "query": "go high level automation setup service",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 88
+    },
+    {
+      "query": "go high level discount code",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 41.5
+    },
+    {
+      "query": "go high level email templates",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 65
+    },
+    {
+      "query": "go high level espa\u00f1ol",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 23
     },
     {
       "query": "go high level for cleaning services",
@@ -396,39 +3546,109 @@
       "position": 79.5
     },
     {
-      "query": "go high level partners",
+      "query": "go high level promo code",
       "clicks": 0,
       "impressions": 2,
       "ctr": 0,
-      "position": 54
+      "position": 37.5
     },
     {
-      "query": "goal high level",
+      "query": "go high level template",
       "clicks": 0,
       "impressions": 2,
       "ctr": 0,
-      "position": 8
+      "position": 45.5
     },
     {
-      "query": "gohighlevel agent studio",
+      "query": "go high level webinar",
       "clicks": 0,
       "impressions": 2,
       "ctr": 0,
-      "position": 41
+      "position": 27.5
     },
     {
-      "query": "gohighlevel api rate limits 2026",
+      "query": "go high level.com",
       "clicks": 0,
       "impressions": 2,
       "ctr": 0,
-      "position": 6
+      "position": 52.5
     },
     {
-      "query": "gohighlevel automation workflow",
+      "query": "go higher level",
       "clicks": 0,
       "impressions": 2,
       "ctr": 0,
-      "position": 28.5
+      "position": 27
+    },
+    {
+      "query": "mcp gohighlevel",
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 100,
+      "position": 2
+    },
+    {
+      "query": "\"agent analytics\"",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "query": ".goh domain extension",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "query": "10dlc for veterinary clinics",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 45
+    },
+    {
+      "query": "10dlc go high level",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 39
+    },
+    {
+      "query": "abandonment survey",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 1
+    },
+    {
+      "query": "app.gohighlevel.com",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 99
+    },
+    {
+      "query": "ask ai gohighlevel",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "query": "bypass 3d secure",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 12
+    },
+    {
+      "query": "click performance",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 5
     },
     {
       "query": "contact go high level support",
@@ -436,6 +3656,13 @@
       "impressions": 1,
       "ctr": 0,
       "position": 43
+    },
+    {
+      "query": "facebook lead ads highlevel webhook integrations",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 38
     },
     {
       "query": "g high level",
@@ -452,11 +3679,32 @@
       "position": 45
     },
     {
-      "query": "ghl automation setup service",
+      "query": "ghl appointment booking",
       "clicks": 0,
       "impressions": 1,
       "ctr": 0,
-      "position": 59
+      "position": 37
+    },
+    {
+      "query": "ghl automation agency",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 57
+    },
+    {
+      "query": "ghl espa\u00f1a",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 79
+    },
+    {
+      "query": "ghl espa\u00f1ol",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 22
     },
     {
       "query": "ghl global",
@@ -466,11 +3714,25 @@
       "position": 8
     },
     {
-      "query": "ghl gohighlevel",
+      "query": "ghl marketing",
       "clicks": 0,
       "impressions": 1,
       "ctr": 0,
-      "position": 10
+      "position": 39
+    },
+    {
+      "query": "ghl promo code",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 51
+    },
+    {
+      "query": "ghl sub account transfer",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 56
     },
     {
       "query": "ghl tasks",
@@ -487,11 +3749,11 @@
       "position": 30
     },
     {
-      "query": "global ghl",
+      "query": "ghl vs",
       "clicks": 0,
       "impressions": 1,
       "ctr": 0,
-      "position": 7
+      "position": 10
     },
     {
       "query": "go hgih level",
@@ -501,11 +3763,32 @@
       "position": 18
     },
     {
+      "query": "go high",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 63
+    },
+    {
+      "query": "go high level 30 day free trial",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 62
+    },
+    {
       "query": "go high level agent builder",
       "clicks": 0,
       "impressions": 1,
       "ctr": 0,
       "position": 7
+    },
+    {
+      "query": "go high level ai automation",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 56
     },
     {
       "query": "go high level automation examples",
@@ -515,18 +3798,25 @@
       "position": 17
     },
     {
-      "query": "go high level automation setup service",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 85
-    },
-    {
       "query": "go high level automation tutorial",
       "clicks": 0,
       "impressions": 1,
       "ctr": 0,
       "position": 23
+    },
+    {
+      "query": "go high level automations",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 46
+    },
+    {
+      "query": "go high level calendar",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 29
     },
     {
       "query": "go high level case study",
@@ -550,7 +3840,91 @@
       "position": 83
     },
     {
+      "query": "go high level ghl",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 32
+    },
+    {
+      "query": "go high level help",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 40
+    },
+    {
+      "query": "go high level india",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 44
+    },
+    {
+      "query": "go high level login",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 31
+    },
+    {
+      "query": "go high level marketing",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 57
+    },
+    {
+      "query": "go high level mexico",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 12
+    },
+    {
+      "query": "go high level mobile app",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 52
+    },
+    {
+      "query": "go high level payment processing",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 27
+    },
+    {
+      "query": "go high level reporting",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 31
+    },
+    {
       "query": "go high level services",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 68
+    },
+    {
+      "query": "go high level sms",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 56
+    },
+    {
+      "query": "go high level sms marketing",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 75
+    },
+    {
+      "query": "go high level support",
       "clicks": 0,
       "impressions": 1,
       "ctr": 0,
@@ -564,53 +3938,556 @@
       "position": 18
     },
     {
-      "query": "go high level.com",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 47
-    },
-    {
       "query": "go high levle",
       "clicks": 0,
       "impressions": 1,
       "ctr": 0,
       "position": 49
+    }
+  ],
+  "queries_es": [
+    {
+      "query": "ghl",
+      "clicks": 1,
+      "impressions": 381,
+      "ctr": 0.3,
+      "position": 8.2
     },
     {
-      "query": "go highlevel",
+      "query": "go high level",
+      "clicks": 0,
+      "impressions": 20,
+      "ctr": 0,
+      "position": 26.9
+    },
+    {
+      "query": "gohighlevel",
+      "clicks": 0,
+      "impressions": 19,
+      "ctr": 0,
+      "position": 34.6
+    },
+    {
+      "query": "ai voice chatbot widget ghl",
+      "clicks": 0,
+      "impressions": 13,
+      "ctr": 0,
+      "position": 14.1
+    },
+    {
+      "query": "ghl que es",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 8.7
+    },
+    {
+      "query": "que es ghl",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 12.6
+    },
+    {
+      "query": "gohighlevel conversation ai pricing 2026",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 2.7
+    },
+    {
+      "query": "ghl crm automations",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 19.8
+    },
+    {
+      "query": "gohighlevel como funciona",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 20.8
+    },
+    {
+      "query": "high level",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 29
+    },
+    {
+      "query": "que es go high level",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 13
+    },
+    {
+      "query": "gohighlevel ecommerce",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 13.7
+    },
+    {
+      "query": "gohighlevel official website",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "query": "go hi level",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "query": "go high level en espa\u00f1ol",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 40.5
+    },
+    {
+      "query": "go higher level",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 27
+    },
+    {
+      "query": "gohighlevel (ghl)",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 23.5
+    },
+    {
+      "query": "gohighlevel crm",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 33
+    },
+    {
+      "query": "gohighlevel espa\u00f1ol",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 29.5
+    },
+    {
+      "query": "gohighlevel que es",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 27.5
+    },
+    {
+      "query": "high level crm",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 32.5
+    },
+    {
+      "query": "highlevel",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 42.5
+    },
+    {
+      "query": "que es ghl?",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "query": "mcp gohighlevel",
+      "clicks": 1,
+      "impressions": 1,
+      "ctr": 100,
+      "position": 2
+    },
+    {
+      "query": "ai studio gohighlevel",
       "clicks": 0,
       "impressions": 1,
       "ctr": 0,
-      "position": 23
+      "position": 2
     },
     {
-      "query": "gogighlevel",
+      "query": "ask ai ghl",
       "clicks": 0,
       "impressions": 1,
       "ctr": 0,
       "position": 10
     },
     {
-      "query": "gohighlevel api support",
+      "query": "ghl espa\u00f1a",
       "clicks": 0,
       "impressions": 1,
       "ctr": 0,
-      "position": 23
+      "position": 79
     },
     {
-      "query": "gohighlevel automation agency",
+      "query": "ghl espa\u00f1ol",
       "clicks": 0,
       "impressions": 1,
       "ctr": 0,
-      "position": 66
+      "position": 22
     },
     {
-      "query": "gohighlevel automation tutorial",
+      "query": "ghl vs",
       "clicks": 0,
       "impressions": 1,
       "ctr": 0,
-      "position": 24
+      "position": 10
+    },
+    {
+      "query": "go high",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 63
+    },
+    {
+      "query": "go high level espa\u00f1ol",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 16
+    },
+    {
+      "query": "go high level mexico",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 12
+    },
+    {
+      "query": "go hight level",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 27
+    },
+    {
+      "query": "go higth level",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 29
+    },
+    {
+      "query": "gohighlevel agency 10 lakh per month india",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "query": "gohighlevel agent studio features 2026",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "query": "gohighlevel automations",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 42
+    },
+    {
+      "query": "gohighlevel planes",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 29
+    },
+    {
+      "query": "gohighlevel workflow tutorial",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 27
+    },
+    {
+      "query": "gold high level",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 6
+    },
+    {
+      "query": "highlevel agency",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "query": "highlevel agency sub gohighlevel.c tx",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "query": "highlevel ai studio",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 16
+    },
+    {
+      "query": "highlevel opportunity priority hot warm cold",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    },
+    {
+      "query": "highlevel whatsapp",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "query": "higthlevel",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 12
+    },
+    {
+      "query": "migrating a phone number requires the source and destination display names to be the same.",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "query": "que significa ghl",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 4
+    },
+    {
+      "query": "qu\u00e9 es ghl",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 10
+    }
+  ],
+  "queries_in": [
+    {
+      "query": "gohighlevel",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 57.6
+    },
+    {
+      "query": "go high level",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 47.7
+    },
+    {
+      "query": "go high level agency",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 74.5
+    },
+    {
+      "query": "number intelligence ghl",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "query": "ask ai ghl",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "query": "ghl automation agency",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 57
+    },
+    {
+      "query": "go high level india",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 44
+    },
+    {
+      "query": "go high level marketing",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 57
+    },
+    {
+      "query": "go high level support",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 68
+    },
+    {
+      "query": "gohighlevel agent studio features 2026",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "query": "gohighlevel ai studio",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 30
+    },
+    {
+      "query": "gohighlevel automation services",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 56
+    },
+    {
+      "query": "gohighlevel landing page",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 59
+    },
+    {
+      "query": "gohighlevel logo",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 40
+    },
+    {
+      "query": "high level metrics",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 47
+    },
+    {
+      "query": "high level que es",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 13
+    },
+    {
+      "query": "how to analyze webinars",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 47
+    },
+    {
+      "query": "white label go high level",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 59
+    }
+  ],
+  "queries_ar": [
+    {
+      "query": "ghl workflow automation",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 46.3
+    },
+    {
+      "query": "gohighlevel promo code",
+      "clicks": 2,
+      "impressions": 6,
+      "ctr": 33.3,
+      "position": 25.5
+    },
+    {
+      "query": "gohighlevel workflows",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 52.5
+    },
+    {
+      "query": "gohighlevel",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 53
+    },
+    {
+      "query": "custom metrics",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 96
+    },
+    {
+      "query": "ghl",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 9.5
+    },
+    {
+      "query": "go high level",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 18
+    },
+    {
+      "query": "gohighlevel agent studio features",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "query": "gohighlevel coupon code",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 25
+    },
+    {
+      "query": "high level appointment setting",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 30
     }
   ]
 }

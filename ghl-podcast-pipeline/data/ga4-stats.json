@@ -1,0 +1,180 @@
+{
+  "updated_at": "2026-04-13T15:37:26.068322",
+  "period": "last 7 days",
+  "totals": {
+    "active_users": 97,
+    "sessions": 109,
+    "pageviews": 119,
+    "avg_session_duration": 46.26,
+    "bounce_rate": 0.74,
+    "event_count": 405
+  },
+  "top_pages": [
+    {
+      "page": "/",
+      "pageviews": 26,
+      "users": 24,
+      "avg_duration": 12.6
+    },
+    {
+      "page": "/trial/",
+      "pageviews": 9,
+      "users": 5,
+      "avg_duration": 11.0
+    },
+    {
+      "page": "/blog/automate-client-support-ask-ai-agent-studio-gohighlevel/",
+      "pageviews": 6,
+      "users": 6,
+      "avg_duration": 0.0
+    },
+    {
+      "page": "/blog/how-to-setup-recurring-webinars-in-gohighlevel-automate-sessions/",
+      "pageviews": 4,
+      "users": 3,
+      "avg_duration": 11.1
+    },
+    {
+      "page": "/blog/automate-google-contacts-gohighlevel-sync/",
+      "pageviews": 3,
+      "users": 2,
+      "avg_duration": 513.2
+    },
+    {
+      "page": "/blog/how-to-build-ai-agents-in-gohighlevel-agent-studio-guide/",
+      "pageviews": 3,
+      "users": 3,
+      "avg_duration": 0.0
+    },
+    {
+      "page": "/blog/how-to-enable-workflow-premium-features-gohighlevel/",
+      "pageviews": 3,
+      "users": 3,
+      "avg_duration": 6.0
+    },
+    {
+      "page": "/blog/que-es-gohighlevel-plataforma-automatizacion-agencias-latinoamerica/",
+      "pageviews": 3,
+      "users": 3,
+      "avg_duration": 23.8
+    },
+    {
+      "page": "/blog/build-ai-agents-faster-gohighlevel-template-library-guide/",
+      "pageviews": 2,
+      "users": 2,
+      "avg_duration": 21.2
+    },
+    {
+      "page": "/blog/ghl-automations-service-based-businesses-india-lead-to-client/",
+      "pageviews": 2,
+      "users": 1,
+      "avg_duration": 0.0
+    },
+    {
+      "page": "/blog/gohighlevel-automations-sistema-completo-agencias-marketing-digital/",
+      "pageviews": 2,
+      "users": 2,
+      "avg_duration": 129.3
+    },
+    {
+      "page": "/blog/how-to-bulk-import-companies-gohighlevel-save-hours/",
+      "pageviews": 2,
+      "users": 2,
+      "avg_duration": 0.0
+    },
+    {
+      "page": "/blog/how-to-enable-2fa-in-gohighlevel-secure-your-agency/",
+      "pageviews": 2,
+      "users": 1,
+      "avg_duration": 422.6
+    },
+    {
+      "page": "/blog/how-to-enable-ach-bank-transfers-gohighlevel-nmi-setup/",
+      "pageviews": 2,
+      "users": 2,
+      "avg_duration": 2.0
+    },
+    {
+      "page": "/blog/how-to-improve-page-speed-in-gohighlevel-better-conversions/",
+      "pageviews": 2,
+      "users": 2,
+      "avg_duration": 0.0
+    },
+    {
+      "page": "/blog/how-to-migrate-phone-numbers-in-gohighlevel-complete-guide/",
+      "pageviews": 2,
+      "users": 2,
+      "avg_duration": 0.0
+    },
+    {
+      "page": "/blog/how-to-track-revenue-in-gohighlevel-agency-dashboard-guide/",
+      "pageviews": 2,
+      "users": 2,
+      "avg_duration": 7.8
+    },
+    {
+      "page": "/blog/how-to-use-mcp-server-gohighlevel-ai-integration/",
+      "pageviews": 2,
+      "users": 2,
+      "avg_duration": 18.4
+    },
+    {
+      "page": "/blog/master-new-contact-detail-page-gohighlevel-boost-agency-productivity/",
+      "pageviews": 2,
+      "users": 2,
+      "avg_duration": 4.8
+    },
+    {
+      "page": "/category/agency-platform/",
+      "pageviews": 2,
+      "users": 2,
+      "avg_duration": 12.9
+    }
+  ],
+  "traffic_sources": [
+    {
+      "channel": "Direct",
+      "sessions": 42,
+      "users": 40
+    },
+    {
+      "channel": "Organic Search",
+      "sessions": 29,
+      "users": 24
+    },
+    {
+      "channel": "Organic Social",
+      "sessions": 9,
+      "users": 9
+    },
+    {
+      "channel": "Referral",
+      "sessions": 7,
+      "users": 5
+    },
+    {
+      "channel": "Unassigned",
+      "sessions": 2,
+      "users": 2
+    }
+  ],
+  "cta_clicks": [
+    {
+      "page": "/trial/",
+      "clicks": 2
+    },
+    {
+      "page": "/",
+      "clicks": 1
+    },
+    {
+      "page": "/blog/automate-google-contacts-gohighlevel-sync/",
+      "clicks": 1
+    },
+    {
+      "page": "/blog/como-configurar-primera-automatizacion-gohighlevel-paso-a-paso/",
+      "clicks": 1
+    }
+  ],
+  "total_cta_clicks": 5
+}

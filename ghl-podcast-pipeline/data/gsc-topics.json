@@ -2,6 +2,14 @@
   "generated_at": "2026-04-03T12:00:00",
   "improvements": [
     {
+      "slug": "leverage-ai-pricing-updates-gohighlevel-save-more",
+      "action": "rewrite_meta",
+      "reason": "Position 6.3 with 226 impressions but 0.4% CTR — ranks well but title/meta not winning the click. Expected CTR at pos 6 is 5-8%.",
+      "impressions": 226,
+      "ctr": 0.4,
+      "position": 6.3
+    },
+    {
       "slug": "how-to-reduce-spam-calls-gohighlevel-ivr-number-intelligence",
       "action": "rewrite_meta",
       "reason": "High impressions (224) but low CTR (0.4%) at position 8.4 — title needs to be more compelling",
