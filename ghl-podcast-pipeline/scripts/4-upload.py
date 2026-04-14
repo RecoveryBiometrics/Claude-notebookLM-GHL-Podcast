@@ -303,6 +303,7 @@ def upload_episode(article: dict, published_today: int = 0) -> dict:
         "publishedAt": publish_time.isoformat(),
         "uploadedAt": datetime.now().isoformat(),
         "driveTranscriptId": drive_transcript_id,
+        "transcript": transcript,
     }
 
 

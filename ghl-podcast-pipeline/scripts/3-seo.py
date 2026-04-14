@@ -121,11 +121,19 @@ Return only this JSON, no other text:
     result = json.loads(match.group())
     log(f"  Title: {result.get('title', '')[:60]}")
 
+    # Add UTM params to the trial link in the description so we can attribute
+    # clicks to the specific episode. Slug built from the SEO title.
+    ep_slug = re.sub(r"[^a-z0-9-]", "", result["title"].lower().replace(" ", "-"))[:80]
+    tracked_url = f"https://globalhighlevel.com/trial?utm_source=podcast&utm_medium=shownotes&utm_campaign={ep_slug}"
+    description = result["description"].replace(
+        "https://globalhighlevel.com/trial", tracked_url
+    )
+
     return {
         **article,
         "status": "seo_ready",
         "seoTitle": result["title"],
-        "seoDescription": result["description"],
+        "seoDescription": description,
         "seoTags": result["tags"],
         "seoGeneratedAt": datetime.now().isoformat(),
         "affiliateLinkIncluded": "globalhighlevel.com/trial" in result["description"],
