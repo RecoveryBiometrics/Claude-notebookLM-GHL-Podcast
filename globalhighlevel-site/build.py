@@ -2427,10 +2427,17 @@ def build_language_hub(lang_config: dict, posts: list[dict], per_page: int = 18)
   {pag_html}
 </div>"""
 
+        hub_descriptions = {
+            "en": "Free GoHighLevel tutorials, guides, and strategies for digital marketing agencies and businesses worldwide. Step-by-step help.",
+            "es": "Tutoriales y guías gratuitas de GoHighLevel en español. Aprende a configurar, automatizar y escalar tu agencia paso a paso.",
+            "en-IN": "Free GoHighLevel tutorials and guides for Indian agencies. UPI payments, WhatsApp automation, and agency growth — step by step.",
+            "ar": "دروس ومرشدون مجانية لـ GoHighLevel باللغة العربية. تعلم كيفية إعداد وأتمتة وتوسيع وكالتك خطوة بخطوة.",
+        }
+        hub_desc = hub_descriptions.get(lang_code, f"Free GoHighLevel tutorials and guides in {lang_name}.")
         canonical = f"{SITE_URL}{prefix}/" if page == 1 else f"{SITE_URL}{prefix}/page/{page}/"
         html = base_html(
             title=f"GoHighLevel {lang_name} | {SITE_NAME}",
-            description=f"Free GoHighLevel tutorials and guides in {lang_name}. Step-by-step help for agencies and businesses.",
+            description=hub_desc,
             canonical=canonical,
             body=body,
             lang=lang_code,
