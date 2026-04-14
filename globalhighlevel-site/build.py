@@ -2199,6 +2199,147 @@ def build_about_page(total_posts: int = 0):
     write(PUBLIC_DIR / "about" / "index.html", html)
 
 
+def build_12_month_plan_page():
+    """Build /12-month-plan/ public commitment document (PR/FAQ format)."""
+    canonical = f"{SITE_URL}/12-month-plan/"
+    title = "REI Amplifi 12-Month Operating Plan: Trades Pipeline, Ice Machines, Multi-Tenant Content Platform"
+    description = "REI Amplifi's public 12-month operating plan. Trades pipeline in 4 languages, owner-operated ice machine infrastructure at bass fishing ramps, and the multi-tenant content platform behind it all."
+
+    h2 = "font-family:var(--sans);font-size:1.6rem;font-weight:800;color:var(--text);margin-bottom:20px;margin-top:48px"
+    h3 = "font-family:var(--sans);font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:10px;margin-top:28px"
+    p  = "font-size:1.05rem;color:var(--text2);line-height:1.75;margin-bottom:18px"
+    strong_style = "color:var(--text);font-weight:700"
+
+    body = f"""
+<div class="post-container" style="max-width:740px;padding-top:100px">
+
+  <div class="fade-1" style="margin-bottom:32px">
+    <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px">Public Commitment · Dated April 14, 2027</p>
+    <h1 style="font-family:var(--sans);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;line-height:1.2;color:var(--text);letter-spacing:-.5px;margin-bottom:20px">REI Amplifi Completes 12-Month Operating Plan: Trades Pipeline Live, Ice Machine Infrastructure Deployed, Multi-Tenant Platform Operational</h1>
+    <p style="font-size:1rem;color:var(--text3);margin-bottom:0"><em>South Venice Beach, FL</em></p>
+  </div>
+
+  <div class="fade-2" style="border-top:1px solid var(--border);padding-top:36px;margin-bottom:36px">
+    <p style="{p}">REI Amplifi today reported completion of its 12-month operating plan. The company operates three businesses on a shared multi-tenant infrastructure. Each business is described in full below.</p>
+  </div>
+
+  <h2 style="{h2}">Business 1: GlobalHighLevel.com</h2>
+  <p style="{p}">GlobalHighLevel.com is an affiliate content and partnership site targeting users, buyers, and agencies of the GoHighLevel platform.</p>
+
+  <h3 style="{h3}">What it produces</h3>
+  <p style="{p}">Three content streams feed the site:</p>
+  <ul style="{p};padding-left:22px">
+    <li>A <strong style="{strong_style}">trades pipeline</strong> shipping 9-part Peter Attia style long-form series covering 10 Tier 1 service verticals (plumbers, HVAC, electricians, roofers, general contractors, med spas, dentists, real estate agents, chiropractors, insurance agents) across four languages (Spanish, Arabic, Indian English, English). Spanish and Arabic ranked fastest because non-English categories in this space have thin competition.</li>
+    <li>A <strong style="{strong_style}">podcast</strong> producing 20 episodes per day, distributed via Transistor.fm to Spotify, Apple Podcasts, and Amazon Music. Per-episode UTM tracking added in April 2026 began attributing podcast-driven clicks to revenue for the first time.</li>
+    <li>Derivative blog posts from both streams, published in all four languages.</li>
+  </ul>
+
+  <h3 style="{h3}">How it converts visitors to revenue</h3>
+  <p style="{p}">Every reader or listener who lands on the site is routed by a three-tier CTA pattern:</p>
+  <ul style="{p};padding-left:22px">
+    <li><strong style="{strong_style}">Self-service buyers</strong> click to the GoHighLevel 30-day trial via a FirstPromoter affiliate link. REI Amplifi earns 40 percent recurring commission on each signup.</li>
+    <li><strong style="{strong_style}">Help-needed buyers</strong> click to Extendly via a separate affiliate link. REI Amplifi earns 20 percent lifetime commission on Extendly subscriptions and snapshot purchases.</li>
+    <li><strong style="{strong_style}">Enterprise buyers</strong> who meet the $7,500 per month, 12-month commitment, high-net-profit floor engage REI Amplifi directly for deep implementation. This is the only tier REI Amplifi delivers work for.</li>
+  </ul>
+
+  <h3 style="{h3}">What the business earns from</h3>
+  <ol style="{p};padding-left:22px">
+    <li>GHL SaaS MRR of $1,750 per month from twelve white-label clients, frozen by choice with no new sales calls taken.</li>
+    <li>GHL affiliate commissions from external referrals driven by the content.</li>
+    <li>GHL self-referral: REI Amplifi operates its own agency subscription through its own affiliate link, generating a rebate on that subscription.</li>
+    <li>Extendly affiliate commissions from help-needed buyers.</li>
+    <li>Enterprise retainers at the $7,500 per month floor or above. Any such agreement is reported as upside on top of the base recurring revenue.</li>
+  </ol>
+
+  <h2 style="{h2}">Business 2: SafeBathGrabBar.com</h2>
+  <p style="{p}">SafeBathGrabBar.com is a senior home safety site. It earns in two parallel ways.</p>
+  <p style="{p}"><strong style="{strong_style}">Local installer calls.</strong> The site ranks for local grab bar installation queries. Visitors in the installer's service area who want an installation call the associated installer directly. REI Amplifi does not handle the installation work.</p>
+  <p style="{p}"><strong style="{strong_style}">Affiliate revenue on products and services around the install decision.</strong> Visitors who are not in the installer's service area, or who are researching broader senior home safety purchases, click through to affiliate partners across grab bars, medical alert systems, walk-in tubs, and stairlifts. REI Amplifi earns commission on each qualified click and purchase.</p>
+  <p style="{p}">The site earns on every visitor who leaves with a product or service decision, whether or not they were in the installer's local market.</p>
+
+  <h2 style="{h2}">Business 3: Ice Machine Infrastructure</h2>
+  <p style="{p}">REI Amplifi operates cellular-monitored ice vending machines at bass fishing ramps in Florida and East Texas.</p>
+  <p style="{p}"><strong style="{strong_style}">What the machines do.</strong> Each machine produces and sells bagged ice 24 hours per day, at prices that adjust dynamically based on tournament calendars, demand forecasts, and time of day. A $1.50 bag on a quiet Tuesday becomes $3.00 on a tournament Saturday with a high demand forecast.</p>
+  <p style="{p}"><strong style="{strong_style}">Where the machines are placed.</strong> REI Amplifi uses a proprietary gap database that correlates peak tournament activity, pre-dawn demand patterns, and existing machine locations to identify ramps where national ice vending operators miss the opportunity. National operators place for average daily traffic; REI Amplifi places for peak concentration.</p>
+  <p style="{p}"><strong style="{strong_style}">How the business operates.</strong> Service routes are handled by a contracted partner. REI Amplifi operates the monitoring, pricing, placement intelligence, and financial layer internally. The founder does not drive to ramps.</p>
+  <p style="{p}"><strong style="{strong_style}">Unit economics.</strong> Approximately 93 percent gross margin per bag. Target volume of 35 to 40 bags per day per proven machine. Roughly $1,500 net per proven machine per month. Used machines at proven locations pay back in approximately 12 months.</p>
+  <p style="{p}"><strong style="{strong_style}">The long view.</strong> REI Amplifi targets scaling to 150 machines across Texas, Florida, and California over 3 to 5 years. At that scale the business supports approximately $2.7 million annual EBITDA. None of that scale is claimed as delivered in this 12-month report.</p>
+
+  <h2 style="{h2}">The Infrastructure Behind All Three</h2>
+  <p style="{p}">All three businesses run on a shared multi-tenant content operating system rebuilt in Q2 2026. Each business is defined by a single YAML configuration file. The same content generation, research, fact-checking, deployment, and attribution stages run for every business on the platform. Adding a new business takes one YAML file and one Google account with NotebookLM access.</p>
+  <p style="{p}">This is the unlock. The marginal cost of the next business on the platform is near zero.</p>
+
+  <h2 style="{h2}">The Four Operating Rules</h2>
+  <ol style="{p};padding-left:22px">
+    <li>No service work below $7,500 per month with a 12-month commitment. Every below-floor inquiry routes to Extendly.</li>
+    <li>No fabricated claims. No client counts, outcomes, credentials, or statistics published without a verifiable source.</li>
+    <li>No licensing of proprietary placement intelligence, gap data, platform code, or content methodology to competitors or operators in markets REI Amplifi intends to enter.</li>
+    <li>No English-first content strategy when non-English markets show thinner competition.</li>
+  </ol>
+
+  <h2 style="{h2}">Time Budget</h2>
+  <p style="{p}">REI Amplifi operated on approximately 25 hours per week across all three businesses during the year. No hours were spent on per-project client delivery or sales calls. The operator's first child was born mid-year. The business operated through that transition because physical work was outsourced by design and customer routing eliminated founder-run sales calls.</p>
+
+  <h2 style="{h2}">What Is Not In This Report</h2>
+  <p style="{p}">Any external client wins or retainer signings are not reported as earned revenue unless contracts were signed and first invoices cleared. Any such agreement is reported separately as upside. The 150-machine ice infrastructure exit thesis is a 3-to-5 year trajectory, not a 12-month claim.</p>
+
+  <hr style="border:none;border-top:1px solid var(--border);margin:56px 0">
+
+  <h2 style="{h2}">Frequently Asked Questions</h2>
+
+  <h3 style="{h3}">Why three businesses in one year instead of focus on one?</h3>
+  <p style="{p}">The three businesses are not competing for the same attention. The content layer and the ice machine layer require almost no shared founder time after the first 90 days of each. Content production is automated through the multi-tenant platform. Ice machine service is contracted out. SafeBath is automated affiliate plus a local installer relationship that predates REI Amplifi. Each business is designed to run on its own operating cadence. Adding the second and third business did not double or triple founder hours because the design eliminated the operational coupling.</p>
+
+  <h3 style="{h3}">What is the relationship between the content platform and the ice machine business?</h3>
+  <p style="{p}">They are independent revenue streams with no direct dependency. The content platform produces content and earns affiliate commissions. The ice machine business operates physical infrastructure and earns per-bag margin. Neither business requires the other to function. The two businesses share one thing: the same multi-tenant platform that runs the content pipelines also runs the ice machine directory and gap database. That is an operational efficiency, not a strategic dependency.</p>
+
+  <h3 style="{h3}">Why non-English markets first for the trades pipeline?</h3>
+  <p style="{p}">Because competition is thinner. The English-language market for "GoHighLevel for plumbers" and similar queries has 20 plus competitors ranking. The Spanish-language market for the equivalent query has almost none. Time from publish to page-one ranking is 8 to 12 weeks in non-English markets versus 6 to 12 months in English for this category. Shipping Spanish first meant we were earning affiliate commissions from LatAm readers while the English version was still being written. This is a mechanical advantage available only because nobody else is writing quality long-form GHL content in Spanish or Arabic. It will not last forever. We used it while it existed.</p>
+
+  <h3 style="{h3}">Why own the ice machines instead of license the placement intelligence to other operators?</h3>
+  <p style="{p}">Licensing the placement intelligence would have been worth approximately $2,500 to $5,000 per consulting engagement. Installing our own machine at the same location is worth approximately $18,000 over a 12-month payback and then $18,000 per year thereafter. The math is not close. The placement intelligence is valuable because we own the machines. Once we licensed it, we would have been paying competitors to eat the locations we identified. The earlier draft of the ice machine playbook proposed selling the intelligence. We deleted that section.</p>
+
+  <h3 style="{h3}">Why no done-for-you work below $7,500 per month?</h3>
+  <p style="{p}">Two reasons. First, below that floor, done-for-you GHL setup does not produce lasting customer results. Customers who pay for setup tend to abandon what was built for them because they never learned to operate it. Second, below that floor, the founder hours per dollar are worse than the founder hours per dollar spent on content or affiliate infrastructure. Extendly delivers that work better than REI Amplifi would at that price point. Routing below-floor inquiries to Extendly earns REI Amplifi affiliate commission, serves the customer correctly, and keeps founder time on higher-leverage work.</p>
+
+  <h3 style="{h3}">What happens if one of the three businesses underperforms?</h3>
+  <p style="{p}">Each business is designed to operate independently. If trades content fails to rank, the podcast and existing affiliate revenue continue. If the ice machine unit economics underperform at specific locations, machines are relocated with a forklift. If SafeBath affiliate revenue flatlines, the local installer relationship continues unchanged. The plan does not assume all three businesses succeed at the same rate. It assumes that at least two succeed materially, which is a different assumption and a more honest one.</p>
+
+  <h3 style="{h3}">Who is the customer?</h3>
+  <p style="{p}">REI Amplifi serves four different customer types, each through a different surface. A self-service GoHighLevel buyer who clicks through from the trades content or podcast. An agency owner who wants done-for-you GHL setup and is routed to Extendly. An enterprise GHL client at $7,500 per month and up who engages REI Amplifi directly. An angler buying ice at 4am before a tournament who does not care that REI Amplifi exists. The first three customers are served by the content and affiliate system. The fourth is served by the ice machine business. The company does not try to cross-sell between them.</p>
+
+  <h3 style="{h3}">What did you stop doing in the last 12 months?</h3>
+  <p style="{p}">Stopped taking sales calls for done-for-you GHL setup. Stopped producing podcast episode topics derived exclusively from help documentation (shifted toward vertical and trade-focused topics). Stopped proposing licensing deals for proprietary data. Stopped hand-coding infrastructure that the multi-tenant platform now handles. Stopped fabricating client counts, outcomes, or credentials in any published content.</p>
+
+  <h3 style="{h3}">What is the biggest risk to the plan?</h3>
+  <p style="{p}">Affiliate platform commission structures outside REI Amplifi's direct control. GoHighLevel could change the FirstPromoter affiliate terms. Extendly could modify its lifetime commission structure. Amazon Associates could reduce category rates. The hedge is diversification: no single affiliate source is designed to exceed 35 percent of recurring revenue. The second biggest risk is Google algorithm changes affecting trades pipeline rankings. The hedge is ranking in four languages rather than one, and producing long-form content that passes E-E-A-T scrutiny.</p>
+
+  <h3 style="{h3}">What happened to the plan's emphasis on the podcast?</h3>
+  <p style="{p}">The podcast entered April 2026 at 100 downloads per day, growing. It remains a primary audience surface in April 2027, now integrated with per-episode UTM tracking so click-through from listen to landing page to affiliate signup is measurable for the first time. The podcast continued at 20 episodes per day throughout the year. Topic selection shifted toward vertical and trade content as the trades pipeline came online, leveraging the same research layer.</p>
+
+  <h3 style="{h3}">Is there anything you wish you had done sooner?</h3>
+  <p style="{p}">Yes. Two things. Added UTM tracking to podcast show notes before the podcast's download curve inflected. The blind period before April 2026 cost us the ability to evaluate which episodes actually drove affiliate signups. And flipped the non-English-first ship order earlier. We shipped English content through 2024 and 2025 that would have ranked faster and converted better in Spanish.</p>
+
+  <hr style="border:none;border-top:1px solid var(--border);margin:56px 0 40px">
+
+  <div style="text-align:center;margin-bottom:40px">
+    <p style="font-size:.95rem;color:var(--text2);margin-bottom:8px"><strong style="{strong_style}">William Welch</strong></p>
+    <p style="font-size:.9rem;color:var(--text3);margin-bottom:6px">REI Amplifi</p>
+    <p style="font-size:.9rem;color:var(--text3);margin-bottom:6px">bill@reiamplifi.com</p>
+    <p style="font-size:.9rem;color:var(--text3)">globalhighlevel.com</p>
+  </div>
+
+</div>"""
+
+    html = base_html(
+        title=title,
+        description=description,
+        canonical=canonical,
+        body=body,
+    )
+    write(PUBLIC_DIR / "12-month-plan" / "index.html", html)
+
+
 def build_404():
     body = f"""
 <div style="text-align:center;padding:160px 24px 100px">
@@ -2437,6 +2578,10 @@ def main():
     # About page (E-E-A-T)
     print("Building about page...")
     build_about_page(total_posts=len(merged))
+
+    # 12-month plan page (public commitment document)
+    print("Building 12-month plan page...")
+    build_12_month_plan_page()
 
     # llms.txt (AI discoverability)
     build_llms_txt(merged)
