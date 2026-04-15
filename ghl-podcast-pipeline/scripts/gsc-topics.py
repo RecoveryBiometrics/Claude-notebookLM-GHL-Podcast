@@ -200,8 +200,10 @@ def find_low_ctr_pages(gsc_data: dict) -> list:
         ctr = p.get("ctr", 0)
         clicks = p.get("clicks", 0)
 
-        # High impressions (>20) but CTR < 3% = title/desc not compelling
-        if impressions > 20 and ctr < 3.0:
+        # Impressions >= 50 gives statistical signal (0 clicks @ 3% CTR is
+        # only ~22% noise at n=50, vs ~54% at n=20). Below 50, any CTR
+        # judgment is essentially a coin flip.
+        if impressions >= 50 and ctr < 3.0:
             low_ctr.append({
                 "page": p["page"],
                 "impressions": impressions,
@@ -228,7 +230,10 @@ def find_almost_ranking(gsc_data: dict) -> list:
         position = p.get("position", 100)
         impressions = p.get("impressions", 0)
 
-        if 5 <= position <= 20 and impressions > 10:
+        # Lower threshold than rewrite_meta: ranking-candidate pages have
+        # fewer impressions by definition (not ranked yet), but 30+ gives
+        # enough data to judge whether content expansion earns a rank shift.
+        if 5 <= position <= 20 and impressions >= 30:
             almost.append({
                 "page": p["page"],
                 "position": position,
