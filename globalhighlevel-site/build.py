@@ -673,10 +673,10 @@ def _ga_snippet() -> str:
         f'  if(!a)return;\n'
         f'  var h=a.href||"";\n'
         f'  var isAffiliate=h.indexOf("fp_ref=")>-1;\n'
-        f'  var isTrial=h.indexOf("/trial/")>-1||a.classList.contains("nav-cta")||a.classList.contains("btn-amber");\n'
+        f'  var isTrial=h.indexOf("/trial")>-1||h.indexOf("/start")>-1||h.indexOf("/free-trial")>-1||a.classList.contains("nav-cta")||a.classList.contains("btn-amber");\n'
         f'  var isGHL=h.indexOf("gohighlevel.com")>-1;\n'
         f'  if(isAffiliate){{\n'
-        f'    gtag("event","affiliate_click",{{\n'
+        f'    gtag("event","ghl_click",{{\n'
         f"      link_url:h,\n"
         f"      link_text:a.textContent.trim().slice(0,50),\n"
         f"      page_path:location.pathname,\n"
@@ -940,12 +940,12 @@ def build_post_page(post: dict, all_posts: list = None):
 
     # ── CTA #1 — Below byline (compact one-liner) ─────────────────────────────
     cta1 = f"""
-<p class="cta-byline">Follow along &mdash; <a href="/trial/">get 30 days free &rarr;</a></p>"""
+<p class="cta-byline">Follow along &mdash; <a href="/start/">get 30 days free &rarr;</a></p>"""
 
     # ── CTA #2 — Mid-article inline ───────────────────────────────────────────
     cta_mid = f"""
 <p class="cta-inline">This is built into GoHighLevel.
-<a href="/trial/">Try it free for 30 days &rarr;</a></p>"""
+<a href="/start/">Try it free for 30 days &rarr;</a></p>"""
     body_with_ctas = inject_inline_ctas(html_content, cta_mid)
 
     # ── CTA #3 — End of article box ───────────────────────────────────────────
@@ -1224,7 +1224,7 @@ def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
         <div class="sidebar-cta">
           <div class="s-headline">Try GoHighLevel Free</div>
           <div class="s-sub">30 days full access — double the standard 14-day trial.</div>
-          <a href="/trial/" class="btn-amber" style="display:block;text-align:center;font-size:.8rem">Start Free Trial</a>
+          <a href="/start/" class="btn-amber" style="display:block;text-align:center;font-size:.8rem">Start Free Trial</a>
           <div class="s-fine">Cancel anytime &mdash; $0 for 30 days</div>
         </div>
       </div>
@@ -1316,7 +1316,7 @@ def build_category_pages(posts: list[dict]):
 
 def build_sitemap(posts: list[dict]):
     urls = [f"  <url><loc>{SITE_URL}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>"]
-    urls.append(f"  <url><loc>{SITE_URL}/trial/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>")
+    # /trial is an affiliate redirect — excluded from sitemap and disallowed in robots.txt
     urls.append(f"  <url><loc>{SITE_URL}/coupon/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>")
     urls.append(f"  <url><loc>{SITE_URL}/services/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>")
     urls.append(f"  <url><loc>{SITE_URL}/about/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>")
@@ -1384,8 +1384,18 @@ All tutorials are free. Topics include GoHighLevel automations, AI conversation 
 
 
 def build_trial_page():
-    """Build SEO-optimized /trial/ landing page targeting free trial keywords."""
-    canonical = f"{SITE_URL}/trial/"
+    """Build both affiliate landing pages — /trial/ (podcast) and /start/ (blog)."""
+    _build_affiliate_landing("trial", "podcast")
+    _build_affiliate_landing("start", "blog")
+
+
+def _build_affiliate_landing(slug: str, campaign: str):
+    """Build an SEO-optimized affiliate landing page at /{slug}/ with utm_campaign={campaign}.
+
+    Both /trial/ (podcast traffic) and /start/ (blog traffic) are identical in content —
+    separate URLs allow GA4 to attribute traffic source via page_path.
+    """
+    canonical = f"{SITE_URL}/{slug}/"
     title = "GoHighLevel Free Trial 2026: 30 Days No Credit Card Required"
     description = "Start your 30-day GoHighLevel free trial — no credit card required. Full access to every feature, $0 to start, cancel anytime. Zero risk, real results."
 
@@ -1467,11 +1477,11 @@ def build_trial_page():
 <div class="post-container" style="max-width:740px;padding-top:100px">
 
   <div class="fade-1" style="text-align:center;margin-bottom:48px">
-    <p style="font-size:.82rem;color:var(--text3);margin-bottom:24px">Already know you want in? <a href="{AFFILIATE}&utm_campaign=trial-page-skip" target="_blank" rel="nofollow noopener" style="color:var(--amber)">Go straight to GoHighLevel &rarr;</a></p>
+    <p style="font-size:.82rem;color:var(--text3);margin-bottom:24px">Already know you want in? <a href="{AFFILIATE}&utm_campaign={campaign}-skip" target="_blank" rel="nofollow noopener" style="color:var(--amber)">Go straight to GoHighLevel &rarr;</a></p>
     <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:16px">Extended 30-Day Offer · No Credit Card</p>
     <h1 style="font-family:var(--sans);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;line-height:1.15;color:var(--text);letter-spacing:-.5px;margin-bottom:20px">30 Days to Test GoHighLevel. No Credit Card. No BS.</h1>
     <p style="font-size:1.15rem;color:var(--text2);line-height:1.7;max-width:580px;margin:0 auto 28px">Most trials give you 14 days and hope you figure it out. We give you 30—enough time to actually build, test, and decide if GHL scales your business.</p>
-    <a href="{AFFILIATE}&utm_campaign=trial-page-hero" class="btn-amber" style="font-size:1rem;padding:14px 36px" target="_blank" rel="nofollow noopener">Start Your 30-Day Free Trial &rarr;</a>
+    <a href="{AFFILIATE}&utm_campaign={campaign}-hero" class="btn-amber" style="font-size:1rem;padding:14px 36px" target="_blank" rel="nofollow noopener">Start Your 30-Day Free Trial &rarr;</a>
     <p style="font-size:.8rem;color:var(--text3);margin-top:12px">$0 for 30 days &middot; No credit card &middot; Cancel anytime</p>
   </div>
 
@@ -1564,8 +1574,8 @@ def build_trial_page():
       <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--amber);margin-bottom:12px">Prefer done-for-you setup?</p>
       <h2 style="font-family:var(--sans);font-size:1.4rem;font-weight:800;color:var(--text);margin-bottom:16px;margin-top:0">Extendly handles GoHighLevel onboarding for you</h2>
       <p style="font-size:1.02rem;color:var(--text2);line-height:1.7;margin-bottom:18px">If you want the 30-day trial, but do not want to spend the 30 days doing the setup yourself, Extendly does it for you. They handle GoHighLevel onboarding, 24/7 white-label support for your clients, and pre-built snapshots you can import and run. We use them ourselves.</p>
-      <a href="https://getextendly.com?deal=vqzoli&amp;fp_sid=trial-landing"
-         onclick="gtag('event','affiliate_click_out',{{partner:'extendly',source:'trial',page:'trial-landing'}})"
+      <a href="https://getextendly.com?deal=vqzoli&amp;fp_sid={slug}-landing"
+         onclick="gtag('event','extendly_click',{{page_path:'/{slug}/',source:'{campaign}'}})"
          class="btn-amber"
          style="display:inline-block;font-size:.95rem;padding:12px 28px"
          target="_blank" rel="nofollow noopener">Check out Extendly &rarr;</a>
@@ -1635,7 +1645,7 @@ def build_trial_page():
   <div class="cta-end" style="margin-bottom:48px">
     <h3>Start Your GoHighLevel Free Trial</h3>
     <p>30 days full access. Cancel anytime. Set up your funnels, automations, and AI bots — and follow along with our <a href="/" style="color:var(--amber)">free tutorials</a>.</p>
-    <a href="{AFFILIATE}&utm_campaign=trial-page-bottom" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free 30-Day Trial &rarr;</a>
+    <a href="{AFFILIATE}&utm_campaign={campaign}-bottom" class="btn-amber" target="_blank" rel="nofollow noopener">Start Free 30-Day Trial &rarr;</a>
     <div class="fine">$0 for the first 30 days &middot; then $97/mo &middot; cancel anytime</div>
   </div>
 
@@ -1657,7 +1667,7 @@ def build_trial_page():
         canonical=canonical,
         body=body
     )
-    write(PUBLIC_DIR / "trial" / "index.html", html)
+    write(PUBLIC_DIR / slug / "index.html", html)
 
 
 def build_coupon_page():
