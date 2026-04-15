@@ -535,10 +535,45 @@ def deploy_site():
         # Pull first to avoid push rejection. --autostash handles any stray
         # uncommitted edits on VPS (e.g. hand-edits to build.py) that would
         # otherwise abort the rebase with "You have unstaged changes".
-        subprocess.run(
+        pull = subprocess.run(
             ["git", "pull", "--rebase", "--autostash", "origin", "main"],
-            cwd=site_dir, check=True, capture_output=True, timeout=120
+            cwd=site_dir, check=False, capture_output=True, timeout=120
         )
+
+        # If rebase left us mid-conflict, abort cleanly and alert loudly.
+        # --autostash alone doesn't handle true merge conflicts (e.g. add/add
+        # when both sides created the same file).
+        rebase_in_progress = (
+            (site_dir / ".git" / "rebase-merge").exists()
+            or (site_dir / ".git" / "rebase-apply").exists()
+        )
+        if rebase_in_progress:
+            conflicted = subprocess.run(
+                ["git", "diff", "--name-only", "--diff-filter=U"],
+                cwd=site_dir, capture_output=True, text=True, timeout=30
+            ).stdout.strip().splitlines()
+            subprocess.run(
+                ["git", "rebase", "--abort"],
+                cwd=site_dir, capture_output=True, timeout=30
+            )
+            ops_log(
+                "Podcast Pipeline",
+                f"deploy_site rebase conflict — aborted, content stranded on VPS.\n"
+                f"Conflicted files ({len(conflicted)}): {', '.join(conflicted[:5])}"
+                + (f" + {len(conflicted) - 5} more" if len(conflicted) > 5 else ""),
+                level="error",
+            )
+            return
+
+        if pull.returncode != 0:
+            stderr = pull.stderr.decode("utf-8", "ignore")[:400]
+            log(f"  deploy_site pull failed: {stderr}")
+            ops_log(
+                "Podcast Pipeline",
+                f"deploy_site pull failed (exit {pull.returncode}) — content stranded on VPS.\nstderr: {stderr}",
+                level="error",
+            )
+            return
 
         # Push
         subprocess.run(
