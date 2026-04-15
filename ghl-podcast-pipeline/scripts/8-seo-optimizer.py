@@ -683,8 +683,9 @@ def apply_changes(page: dict, rewrites: dict) -> dict:
     changelog.append(entry)
     save_changelog(changelog)
 
-    # Send Slack notification
-    send_slack_update(entry)
+    # Per-page Slack notifications silenced 2026-04-15.
+    # The weekly summary at end of run is enough; per-page was 10+ msgs of noise.
+    # send_slack_update(entry)
 
     log(f"  Engineer: changes applied for {slug}")
     words_msg = f" (+{words_added}w)" if words_added else ""
