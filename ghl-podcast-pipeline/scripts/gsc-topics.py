@@ -33,7 +33,15 @@ GSC_DATA_FILE = BASE_DIR / "data" / "gsc-stats.json"
 SITE_POSTS_DIR = Path("/opt/globalhighlevel-site/posts") if Path("/opt/globalhighlevel-site/posts").exists() else BASE_DIR.parent / "globalhighlevel-site" / "posts"
 TOPICS_OUTPUT = BASE_DIR / "data" / "gsc-topics.json"
 SEO_COOLDOWN_FILE = BASE_DIR / "data" / "seo-cooldown.json"
-COOLDOWN_DAYS = 28  # Don't re-flag a page for at least 28 days after a suggestion
+# Cooldown days differ by action type:
+#   rewrite_meta:   28 days — title/meta changes show CTR signal in ~2-4 weeks
+#   expand_content: 90 days — content/ranking changes take 3-6 months to show
+# Default for unknown actions = longer, to avoid premature re-rewrites.
+COOLDOWNS_BY_ACTION = {
+    "rewrite_meta": 28,
+    "expand_content": 90,
+}
+COOLDOWN_DAYS = 28  # legacy default — used only as fallback
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 MODEL = "claude-haiku-4-5-20251001"
@@ -114,10 +122,12 @@ def is_on_cooldown(slug: str, cooldowns: dict) -> bool:
     flagged_at = entry.get("flagged_at", "")
     if not flagged_at:
         return False
+    action = entry.get("action", "")
+    cooldown_for_action = COOLDOWNS_BY_ACTION.get(action, COOLDOWN_DAYS)
     try:
         flagged_date = datetime.fromisoformat(flagged_at)
         days_since = (datetime.now() - flagged_date).days
-        return days_since < COOLDOWN_DAYS
+        return days_since < cooldown_for_action
     except Exception:
         return False
 

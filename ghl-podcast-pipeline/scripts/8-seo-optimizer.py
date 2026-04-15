@@ -57,7 +57,13 @@ SITE_URL = os.getenv("SITE_URL", "https://globalhighlevel.com")
 MODEL = "claude-haiku-4-5-20251001"
 MAX_PAGES_PER_CYCLE = int(os.getenv("MAX_PAGES_PER_CYCLE", "10"))
 SCHEDULE_DAYS = int(os.getenv("SEO_OPTIMIZER_SCHEDULE_DAYS", "7"))
-COOLDOWN_DAYS = 28
+# Cooldown varies by action: CTR rewrites stabilize in ~4 weeks; content
+# expansion / ranking moves take 3-6 months.
+COOLDOWNS_BY_ACTION = {
+    "rewrite_meta": 28,
+    "expand_content": 90,
+}
+COOLDOWN_DAYS = 28  # fallback for unknown action types
 MAX_RETRY_ATTEMPTS = int(os.getenv("SEO_MAX_RETRY_ATTEMPTS", "2"))
 TITLE_MAX = int(os.getenv("TITLE_MAX_CHARS", "60"))
 DESC_MAX = int(os.getenv("DESC_MAX_CHARS", "155"))
@@ -171,15 +177,17 @@ def analyze_and_prioritize(improvements: list, max_pages: int) -> list:
         if not slug:
             continue
 
-        # Skip if on cooldown
+        # Skip if on cooldown — use action-specific cooldown window
         if slug in cooldowns:
             cd = cooldowns[slug]
             flagged_at = cd.get("flagged_at", "")
             attempt = cd.get("attempt", 1)
+            prev_action = cd.get("action", "")
+            cooldown_for_action = COOLDOWNS_BY_ACTION.get(prev_action, COOLDOWN_DAYS)
             if flagged_at:
                 try:
                     days_since = (datetime.now() - datetime.fromisoformat(flagged_at)).days
-                    if days_since < COOLDOWN_DAYS:
+                    if days_since < cooldown_for_action:
                         continue
                 except Exception:
                     pass
@@ -711,7 +719,8 @@ Position: {entry['position_before']} | Impressions: {entry['impressions_before']
     if entry.get("attempt", 1) > 1:
         msg += f"\n_Retry attempt #{entry['attempt']}_"
 
-    msg += f"\n\nCooldown: {COOLDOWN_DAYS} days"
+    action = entry.get("action", "")
+    msg += f"\n\nCooldown: {COOLDOWNS_BY_ACTION.get(action, COOLDOWN_DAYS)} days"
 
     try:
         data = json.dumps({"text": msg}).encode("utf-8")
