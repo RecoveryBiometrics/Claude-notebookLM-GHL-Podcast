@@ -532,9 +532,11 @@ def deploy_site():
             cwd=site_dir, check=True, capture_output=True, timeout=30
         )
 
-        # Pull first to avoid push rejection if laptop pushed changes
+        # Pull first to avoid push rejection. --autostash handles any stray
+        # uncommitted edits on VPS (e.g. hand-edits to build.py) that would
+        # otherwise abort the rebase with "You have unstaged changes".
         subprocess.run(
-            ["git", "pull", "--rebase", "origin", "main"],
+            ["git", "pull", "--rebase", "--autostash", "origin", "main"],
             cwd=site_dir, check=True, capture_output=True, timeout=120
         )
 
@@ -547,9 +549,18 @@ def deploy_site():
         log(f"  deploy_site: pushed {new_files} post(s) → Cloudflare Pages deploying globalhighlevel.com")
 
     except subprocess.TimeoutExpired:
-        log("  deploy_site: git command timed out (non-fatal)")
+        log("  deploy_site: git command timed out")
+        ops_log("Podcast Pipeline", "deploy_site timed out — content stuck on VPS, push never completed.", level="error")
     except subprocess.CalledProcessError as e:
-        log(f"  deploy_site error (non-fatal): {e}")
+        stderr = e.stderr.decode("utf-8", "ignore")[:400] if e.stderr else ""
+        log(f"  deploy_site error: {e}\n  stderr: {stderr}")
+        ops_log(
+            "Podcast Pipeline",
+            f"deploy_site failed — new posts stranded on VPS until fixed.\n"
+            f"Command: {' '.join(e.cmd) if hasattr(e, 'cmd') else 'git'}\n"
+            f"stderr: {stderr}",
+            level="error",
+        )
 
 
 # ── Script loader ─────────────────────────────────────────────────────────────
