@@ -323,6 +323,12 @@ def generate_improvements(low_ctr: list, almost_ranking: list) -> list:
             continue
         low_ctr_eligible.append((page, slug))
 
+    # Build the queue only. DO NOT record cooldowns here — cooldown should mean
+    # "page was recently RE-WRITTEN", not "page was recently FLAGGED". Recording
+    # cooldown at flag-time creates a self-defeating loop: gsc-topics locks a
+    # page, then the optimizer reads the queue, sees cooldown, skips. The
+    # optimizer itself is the only writer that should set cooldowns (it does so
+    # in apply_changes() when a rewrite is actually applied).
     for page, slug in low_ctr_eligible[:5]:
         suggestions.append({
             "slug": slug,
@@ -332,11 +338,6 @@ def generate_improvements(low_ctr: list, almost_ranking: list) -> list:
             "ctr": page["ctr"],
             "position": page["position"],
         })
-        record_suggestion(slug, "rewrite_meta", {
-            "impressions": page["impressions"],
-            "ctr": page["ctr"],
-            "position": page["position"],
-        }, cooldowns)
 
     almost_eligible = []
     for page in almost_ranking:
@@ -356,12 +357,6 @@ def generate_improvements(low_ctr: list, almost_ranking: list) -> list:
             "impressions": page["impressions"],
             "position": page["position"],
         })
-        record_suggestion(slug, "expand_content", {
-            "impressions": page["impressions"],
-            "position": page["position"],
-        }, cooldowns)
-
-    save_cooldowns(cooldowns)
     if skipped:
         log(f"  Skipped {skipped} pages on cooldown (flagged within last {COOLDOWN_DAYS} days)")
 
