@@ -1,102 +1,62 @@
-{
-  "languages": [
-    {
-      "code": "en",
-      "name": "English",
-      "native": "English",
-      "slug": "en",
-      "dir": "ltr",
-      "prefix": ""
-    },
-    {
-      "code": "es",
-      "name": "Spanish",
-      "native": "Español",
-      "slug": "es",
-      "dir": "ltr",
-      "prefix": "/es"
-    },
-    {
-      "code": "en-IN",
-      "name": "India",
-      "native": "India",
-      "slug": "in",
-      "dir": "ltr",
-      "prefix": "/in"
-    },
-    {
-      "code": "ar",
-      "name": "Arabic",
-      "native": "العربية",
-      "slug": "ar",
-      "dir": "rtl",
-      "prefix": "/ar"
-    }
-  ],
-  "topics": [
-    {
-      "name": "AI & Automation",
-      "slug": "ai-automation",
-      "description": "Build AI agents, automate workflows, and use Agent Studio to scale your agency with GoHighLevel.",
-      "keywords": ["agent studio", "ai agent", "brand voice", "conversation ai", "voice ai", "dashboard ai", "ai schedule", "template library", "clone ai", "router", "variable", "automation", "trigger", "ai employee", "workflow", "bot"],
-      "keywords_es": ["ia", "inteligencia artificial", "agente ai", "voz ai", "conversación ai", "bot ai", "ai employee"],
-      "keywords_in": ["automation", "workflow", "ai agent", "bot", "whatsapp automation", "voice ai"]
-    },
-    {
-      "name": "Email & Deliverability",
-      "slug": "email-deliverability",
-      "description": "Fix email issues, improve deliverability, and master SPF, DKIM, DMARC in GoHighLevel.",
-      "keywords": ["email", "deliverability", "spf", "dkim", "dmarc", "rfc 5322", "gmail", "spam filter", "blacklist", "mail loop", "inbox"],
-      "keywords_es": ["email", "correo", "electrónico", "spam", "bandeja", "entregabilidad"],
-      "keywords_in": ["email", "deliverability", "spam", "inbox"]
-    },
-    {
-      "name": "SMS & Messaging",
-      "slug": "sms-messaging",
-      "description": "Set up A2P 10DLC, launch SMS campaigns, and manage WhatsApp in GoHighLevel.",
-      "keywords": ["sms", "a2p", "10dlc", "whatsapp", "messaging", "text campaign", "countdown timer"],
-      "keywords_es": ["sms", "whatsapp", "mensaje", "mensajería", "texto", "campaña sms"],
-      "keywords_in": ["sms", "whatsapp", "messaging", "text"]
-    },
-    {
-      "name": "CRM & Contacts",
-      "slug": "crm-contacts",
-      "description": "Manage pipelines, import contacts, and organize your CRM in GoHighLevel.",
-      "keywords": ["crm", "contact", "pipeline", "prospect", "company", "custom object", "import", "migrate", "activecampaign", "affiliate contact", "quiz", "notes", "lead"],
-      "keywords_es": ["crm", "contacto", "pipeline", "prospecto", "empresa", "importar", "migrar", "cliente", "lead", "embudo de ventas"],
-      "keywords_in": ["crm", "contact", "pipeline", "lead", "client management"]
-    },
-    {
-      "name": "Payments & Commerce",
-      "slug": "payments-commerce",
-      "description": "Set up Stripe, NMI, gift cards, and manage transactions in GoHighLevel.",
-      "keywords": ["payment", "stripe", "ach", "nmi", "adyen", "gift card", "subscription", "order", "transaction", "tax", "tap to pay", "markup", "commerce", "kyc", "invoice", "pricing", "price", "cost", "coupon", "promo", "discount", "trial"],
-      "keywords_es": ["pago", "stripe", "suscripción", "factura", "transacción", "comercio", "precio", "precios", "costo", "cupón", "descuento", "prueba", "gratis"],
-      "keywords_in": ["payment", "razorpay", "upi", "stripe", "pricing", "price", "cost", "subscription", "invoice"]
-    },
-    {
-      "name": "Analytics & Reporting",
-      "slug": "analytics-reporting",
-      "description": "Track revenue, debug GA4, and build automated reports in GoHighLevel.",
-      "keywords": ["analytics", "report", "ga4", "revenue", "mrr", "traffic", "time on site", "audit", "dashboard summary", "export email"],
-      "keywords_es": ["analítica", "reporte", "informe", "ingresos", "tráfico", "dashboard"],
-      "keywords_in": ["analytics", "report", "revenue", "dashboard", "tracking"]
-    },
-    {
-      "name": "Phone & Voice",
-      "slug": "phone-voice",
-      "description": "Configure call routing, IVR, and voice AI in GoHighLevel.",
-      "keywords": ["phone", "call", "voice", "ivr", "routing", "disposition", "dictation", "incoming call", "spam call", "consent check", "inbound message"],
-      "keywords_es": ["teléfono", "llamada", "voz", "ivr", "enrutamiento"],
-      "keywords_in": ["phone", "call", "voice", "ivr"]
-    },
-    {
-      "name": "Agency & Platform",
-      "slug": "agency-platform",
-      "description": "Master SaaS mode, APIs, webhooks, listings, and platform features in GoHighLevel.",
-      "keywords": ["saas", "agency", "white label", "resell", "api", "sdk", "webhook", "integration", "listing", "gbp", "seo site", "global section", "knowledge base", "canva", "multi-language", "accessibility", "soc 2", "bug", "file type", "course", "timezone", "app installer", "client portal", "funnel", "landing page", "calendar", "booking", "reputation", "review", "membership", "community"],
-      "keywords_es": ["saas", "agencia", "marca blanca", "api", "webhook", "integración", "plataforma", "funnel", "embudo", "landing", "calendario", "reserva", "reputación", "reseña", "comunidad", "membresía", "guía", "completa", "paso a paso", "automatización", "automatizaciones", "flujo", "flujos", "workflow", "domina", "configura"],
-      "keywords_in": ["saas", "agency", "white label", "api", "webhook", "funnel", "calendar", "booking", "reputation"]
-    }
-  ]
-}
+[
+  {
+    "name": "AI & Automation",
+    "slug": "ai-automation",
+    "description": "Build AI agents, automate workflows, and use Agent Studio to scale your agency with GoHighLevel.",
+    "keywords": ["agent studio", "ai agent", "brand voice", "conversation ai", "voice ai", "dashboard ai", "ai schedule", "template library", "clone ai", "router", "variable", "automation", "trigger", "ai employee"]
+  },
+  {
+    "name": "Email & Deliverability",
+    "slug": "email-deliverability",
+    "description": "Fix email issues, improve deliverability, and master SPF, DKIM, DMARC in GoHighLevel.",
+    "keywords": ["email", "deliverability", "spf", "dkim", "dmarc", "rfc 5322", "gmail", "spam filter", "blacklist", "mail loop", "inbox"]
+  },
+  {
+    "name": "SMS & Messaging",
+    "slug": "sms-messaging",
+    "description": "Set up A2P 10DLC, launch SMS campaigns, and manage WhatsApp in GoHighLevel.",
+    "keywords": ["sms", "a2p", "10dlc", "whatsapp", "messaging", "text campaign", "countdown timer"]
+  },
+  {
+    "name": "CRM & Contacts",
+    "slug": "crm-contacts",
+    "description": "Manage pipelines, import contacts, and organize your CRM in GoHighLevel.",
+    "keywords": ["crm", "contact", "pipeline", "prospect", "company", "custom object", "import", "migrate", "activecampaign", "affiliate contact", "quiz", "notes"]
+  },
+  {
+    "name": "Payments & Commerce",
+    "slug": "payments-commerce",
+    "description": "Set up Stripe, NMI, gift cards, and manage transactions in GoHighLevel.",
+    "keywords": ["payment", "stripe", "ach", "nmi", "adyen", "gift card", "subscription", "order", "transaction", "tax", "tap to pay", "markup", "commerce", "kyc"]
+  },
+  {
+    "name": "Analytics & Reporting",
+    "slug": "analytics-reporting",
+    "description": "Track revenue, debug GA4, and build automated reports in GoHighLevel.",
+    "keywords": ["analytics", "report", "ga4", "revenue", "mrr", "traffic", "time on site", "audit", "dashboard summary", "export email"]
+  },
+  {
+    "name": "Phone & Voice",
+    "slug": "phone-voice",
+    "description": "Configure call routing, IVR, and voice AI in GoHighLevel.",
+    "keywords": ["phone", "call", "voice", "ivr", "routing", "disposition", "dictation", "incoming call", "spam call", "consent check", "inbound message"]
+  },
+  {
+    "name": "Agency & Platform",
+    "slug": "agency-platform",
+    "description": "Master SaaS mode, APIs, webhooks, listings, and platform features in GoHighLevel.",
+    "keywords": ["saas", "agency", "white label", "resell", "api", "sdk", "webhook", "integration", "listing", "gbp", "seo site", "global section", "knowledge base", "canva", "multi-language", "accessibility", "soc 2", "bug", "file type", "course", "timezone", "app installer", "client portal"]
+  },
+  {
+    "name": "GoHighLevel India",
+    "slug": "gohighlevel-india",
+    "description": "GoHighLevel guides for Indian agencies — WhatsApp automation, Razorpay payments, and rupee pricing.",
+    "keywords": ["india", "indian", "whatsapp", "razorpay", "upi", "rupee", "zoho", "mumbai", "bangalore", "delhi", "hyderabad", "pune", "chennai", "dpdp", "gst"]
+  },
+  {
+    "name": "GoHighLevel en Español",
+    "slug": "gohighlevel-espanol",
+    "description": "Guías de GoHighLevel en español para agencias y negocios en Latinoamérica y España.",
+    "keywords": ["español", "spanish", "latino", "latinoamérica", "méxico", "colombia", "argentina", "españa", "agencia", "mercadotecnia"]
+  }
+]
