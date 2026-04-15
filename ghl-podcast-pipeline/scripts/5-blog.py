@@ -314,12 +314,22 @@ def create_blog_post(article: dict) -> dict:
 
     # Save post to globalhighlevel-site/posts/ — scheduler git pushes → Netlify deploys
     SITE_POSTS.mkdir(parents=True, exist_ok=True)
+
+    from lang_check import classify_post_language
+    try:
+        from ops_log import ops_log as _warn
+    except ImportError:
+        _warn = None
+    actual_lang = classify_post_language(post_data["html_content"], expected="en",
+                                         source="5-blog", warn_fn=_warn)
+
     site_post = {
         "slug":         post_data["slug"],
         "title":        title,
         "description":  post_data["meta_description"],
         "html_content": post_data["html_content"],
         "category":     classify_post(title),
+        "language":     actual_lang,
         "articleId":    str(article.get("id", "")),
         "transistorEpisodeId": article.get("transistorEmbedHash", ""),
         "publishedAt":  datetime.now().isoformat(),

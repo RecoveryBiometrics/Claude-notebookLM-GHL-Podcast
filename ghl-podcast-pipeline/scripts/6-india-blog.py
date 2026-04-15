@@ -410,13 +410,21 @@ def publish(topic: str, html_content: str, meta_description: str, slug: str) -> 
     else:
         category = "Agency & Platform"
 
+    from lang_check import classify_post_language
+    try:
+        from ops_log import ops_log as _warn
+    except ImportError:
+        _warn = None
+    actual_lang = classify_post_language(html_content, expected="en-IN",
+                                         source="6-india-blog", warn_fn=_warn)
+
     site_post = {
         "slug":         unique_slug,
         "title":        topic,
         "description":  meta_description,
         "html_content": html_content,
         "category":     category,
-        "language":     "en-IN",
+        "language":     actual_lang,
         "publishedAt":  datetime.now().isoformat(),
     }
     post_file = SITE_POSTS / f"{unique_slug}.json"

@@ -439,6 +439,14 @@ def save_post(topic: str, blog_data: dict, final_html: str) -> str:
     if len(meta_desc) > 160:
         meta_desc = meta_desc[:157] + "..."
 
+    from lang_check import classify_post_language
+    try:
+        from ops_log import ops_log as _warn
+    except ImportError:
+        _warn = None
+    actual_lang = classify_post_language(final_html, expected="ar",
+                                         source="9-arabic-blog", warn_fn=_warn)
+
     post_data = {
         "title": title,
         "slug": slug,
@@ -446,7 +454,7 @@ def save_post(topic: str, blog_data: dict, final_html: str) -> str:
         "html_content": final_html,
         "category": classify_post(topic),
         "tags": ["gohighlevel", "عربي", "الشرق الأوسط", "وكالة", "crm"],
-        "language": "ar",
+        "language": actual_lang,
         "publishedAt": datetime.now().isoformat(),
         "author": "Global High Level",
     }
