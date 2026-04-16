@@ -1,20 +1,28 @@
 """
 verticals_measure.py
 
-Daily measurement loop for shipped vertical URLs. Pulls GSC data per URL,
-posts a digest to #globalhighlevel Slack, fires a "DECISION GATE" alert at
-Day 14 from shipped_date.
+Daily measurement loop for shipped vertical URLs. Reads shipped rows from the
+Verticals Queue Sheet tab (the single source of truth), pulls GSC data per URL,
+writes metrics back to the Sheet, and posts a narrative-English digest to Slack
+#globalhighlevel. Fires a DECISION GATE at Day 14, and an 8-week winning-metric
+check at Day 56.
 
-Hardcoded URL list for now (per build-per-business-no-premature-abstraction).
-When Part 2 ships, add a row to SHIPPED_URLS. At ~5 shipped pillars, extract
-to read from Verticals Queue Sheet tab.
+Sheet: GlobalHighLevel Tracker (1A2eD2LeBpWFjDMe6W9BZbN6FvfW-em_7gD002pJD7_E)
+  - Verticals Queue tab: reads status=shipped rows, writes position/ctr/affiliate_clicks_14d
+  - Columns: vertical | tier | part | language | status | shipped_date | url | position | ctr | affiliate_clicks_14d
 
 Usage:
-  venv/bin/python3 scripts/verticals_measure.py            # run measurement, post to Slack
-  venv/bin/python3 scripts/verticals_measure.py --dry      # print to terminal, don't Slack
+  venv/bin/python3 scripts/verticals_measure.py            # real run, post to Slack, write Sheet
+  venv/bin/python3 scripts/verticals_measure.py --dry      # print to terminal, no Slack, no Sheet write
+
+Auth:
+  - When called from the CEO/SEO triggers env: GOOGLE_SERVICE_ACCOUNT_KEY_B64 env var
+  - When called locally: falls back to token-gsc.json (read-only, no Sheet write unless the
+    local token also has spreadsheets scope — if not, Sheet write-back will 403)
 """
 
 import argparse
+import base64
 import json
 import os
 import sys
@@ -25,59 +33,112 @@ BASE_DIR = Path(__file__).parent.parent
 SCRIPTS = BASE_DIR / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
-GSC_TOKEN_FILE = BASE_DIR / "token-gsc.json"
-GSC_SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
+SPREADSHEET_ID = "1A2eD2LeBpWFjDMe6W9BZbN6FvfW-em_7gD002pJD7_E"
+VERTICALS_QUEUE_TAB = "Verticals Queue"
 GSC_SITE_URL = "sc-domain:globalhighlevel.com"
 SLACK_CHANNEL = "C0AQ95LG97F"  # #globalhighlevel
 
-# Hardcoded shipped URLs. When a new pillar ships, append a row here.
-# (Per feedback_build_per_business_no_premature_abstraction.md — extract to
-# Sheet-read at N=5 pillars, not before.)
-SHIPPED_URLS = [
-    {
-        "url": "https://globalhighlevel.com/es/para/agencias-de-marketing/",
-        "label": "Hub: agencias-de-marketing (ES)",
-        "vertical": "agencias-de-marketing",
-        "language": "es",
-        "type": "hub",
-        "shipped_date": "2026-04-16",
-        "tier": 1,
-    },
-    {
-        "url": "https://globalhighlevel.com/es/para/agencias-de-marketing/por-que-agencias-marketing-necesitan-crm-2026-parte-1/",
-        "label": "Pillar P1: agencias-de-marketing (ES)",
-        "vertical": "agencias-de-marketing",
-        "language": "es",
-        "type": "pillar",
-        "part": 1,
-        "shipped_date": "2026-04-16",
-        "tier": 1,
-    },
-]
+GSC_SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
+SHEETS_SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+COMBINED_SCOPES = GSC_SCOPES + SHEETS_SCOPES
 
 
 def log(msg: str):
     print(f"[{datetime.now().isoformat(timespec='seconds')}] [MEASURE] {msg}", flush=True)
 
 
+# ── Auth ───────────────────────────────────────────────────────────────────────
+
+def get_credentials():
+    """Build credentials from GOOGLE_SERVICE_ACCOUNT_KEY_B64 env var (trigger env)
+    or fall back to local token-gsc.json (user-auth, GSC-only).
+
+    Returns (creds, supports_sheets_write: bool)."""
+    from google.oauth2 import service_account
+    from google.oauth2.credentials import Credentials as UserCredentials
+
+    sa_b64 = os.getenv("GOOGLE_SERVICE_ACCOUNT_KEY_B64", "")
+    if sa_b64:
+        try:
+            info = json.loads(base64.b64decode(sa_b64))
+            creds = service_account.Credentials.from_service_account_info(
+                info, scopes=COMBINED_SCOPES
+            )
+            log("  auth: service account (SA has sheets+webmasters scopes)")
+            return creds, True
+        except Exception as e:
+            log(f"  SA key decode failed: {e}. Falling back to local token.")
+
+    # Local fallback
+    gsc_token = BASE_DIR / "token-gsc.json"
+    if not gsc_token.exists():
+        raise FileNotFoundError(
+            "No GOOGLE_SERVICE_ACCOUNT_KEY_B64 env var AND no token-gsc.json locally. "
+            "Either set the env var (trigger context) or run analytics.py once to bootstrap."
+        )
+    creds = UserCredentials.from_authorized_user_file(str(gsc_token), GSC_SCOPES)
+    log("  auth: local user token (GSC only, no Sheet write)")
+    return creds, False
+
+
+# ── Sheet read / write ────────────────────────────────────────────────────────
+
+def read_shipped_urls(sheets_service) -> list:
+    """Read Verticals Queue tab, return list of shipped-row dicts."""
+    resp = sheets_service.spreadsheets().values().get(
+        spreadsheetId=SPREADSHEET_ID,
+        range=f"{VERTICALS_QUEUE_TAB}!A1:J1000",
+    ).execute()
+    values = resp.get("values", [])
+    if not values:
+        return []
+
+    headers = values[0]
+    rows = values[1:]
+
+    # Build column name → index map
+    col_idx = {name.strip(): i for i, name in enumerate(headers)}
+
+    shipped = []
+    for row_num, row in enumerate(rows, start=2):  # start=2 because row 1 is header
+        # Pad row to full length
+        row = row + [""] * (len(headers) - len(row))
+        status = (row[col_idx.get("status", 4)] or "").strip().lower()
+        if status != "shipped":
+            continue
+        url = (row[col_idx.get("url", 6)] or "").strip()
+        if not url:
+            continue
+        shipped.append({
+            "sheet_row": row_num,
+            "vertical": row[col_idx.get("vertical", 0)].strip(),
+            "tier": int(row[col_idx.get("tier", 1)] or 1),
+            "part": int(row[col_idx.get("part", 2)] or 0),
+            "language": row[col_idx.get("language", 3)].strip(),
+            "shipped_date": row[col_idx.get("shipped_date", 5)].strip(),
+            "url": url,
+        })
+    return shipped
+
+
+def write_metrics_to_sheet(sheets_service, sheet_row: int, position: float,
+                            ctr: float, affiliate_clicks_14d: int):
+    """Write metrics back to the Sheet row. Columns H/I/J = position/ctr/affiliate_clicks_14d."""
+    try:
+        sheets_service.spreadsheets().values().update(
+            spreadsheetId=SPREADSHEET_ID,
+            range=f"{VERTICALS_QUEUE_TAB}!H{sheet_row}:J{sheet_row}",
+            valueInputOption="USER_ENTERED",
+            body={"values": [[position, ctr, affiliate_clicks_14d]]},
+        ).execute()
+    except Exception as e:
+        log(f"  Sheet write row {sheet_row} failed: {e}")
+
+
 # ── GSC ────────────────────────────────────────────────────────────────────────
 
-def get_gsc_service():
-    """Build GSC API service. Reuses token-gsc.json from analytics.py."""
-    from google.oauth2.credentials import Credentials
-    from googleapiclient.discovery import build
-
-    if not GSC_TOKEN_FILE.exists():
-        raise FileNotFoundError(
-            f"GSC token not found at {GSC_TOKEN_FILE}. Run analytics.py once to bootstrap auth."
-        )
-    creds = Credentials.from_authorized_user_file(str(GSC_TOKEN_FILE), GSC_SCOPES)
-    return build("searchconsole", "v1", credentials=creds)
-
-
-def query_url_metrics(service, url: str, days: int = 7) -> dict:
-    """Query GSC for one URL's impressions/clicks/CTR/position over the last N days.
-    GSC has a ~3-day lag, so window is days-3 to days+days-3 ago."""
+def query_url_metrics(gsc_service, url: str, days: int = 7) -> dict:
+    """Query GSC for one URL over the last N days. GSC has ~3-day lag."""
     end_date = (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d")
     start_date = (datetime.now() - timedelta(days=3 + days)).strftime("%Y-%m-%d")
     body = {
@@ -90,7 +151,7 @@ def query_url_metrics(service, url: str, days: int = 7) -> dict:
         "rowLimit": 1,
     }
     try:
-        resp = service.searchanalytics().query(siteUrl=GSC_SITE_URL, body=body).execute()
+        resp = gsc_service.searchanalytics().query(siteUrl=GSC_SITE_URL, body=body).execute()
         rows = resp.get("rows", [])
         if not rows:
             return {"indexed": False, "impressions": 0, "clicks": 0, "ctr": 0.0, "position": 0.0,
@@ -109,27 +170,62 @@ def query_url_metrics(service, url: str, days: int = 7) -> dict:
                 "error": str(e)[:200], "window": f"{start_date} to {end_date}"}
 
 
-# ── Decision-gate logic ──────────────────────────────────────────────────────
+# ── Decision gate + narrative ─────────────────────────────────────────────────
 
 def days_since(date_str: str) -> int:
     try:
-        ship = datetime.strptime(date_str, "%Y-%m-%d")
-        return (datetime.now() - ship).days
+        return (datetime.now() - datetime.strptime(date_str, "%Y-%m-%d")).days
     except Exception:
         return -1
 
 
-def gate_recommendation(item: dict, metrics: dict, days_live: int) -> str:
-    """Return a recommendation string for the decision gate (Day 14)."""
+def gate_recommendation(metrics: dict) -> str:
+    """Decision-gate recommendation at Day 14 (narrative English, not data dump)."""
     if not metrics["indexed"]:
-        return "🚦 BLOCKED: not indexed at Day 14. Check GSC URL Inspection. Likely structure or thin-content issue. DO NOT ship Parts 2-9."
+        return ("🚦 BLOCKED: Google still has not indexed this page after 2 weeks. "
+                "That is a structural or thin-content problem, not a traffic problem. "
+                "Do NOT ship Parts 2-9 of this series. Investigate first via GSC URL Inspection.")
     if metrics["impressions"] < 10:
-        return f"⚠️ INDEXED but only {metrics['impressions']} impressions in 7 days. Keyword/intent mismatch. REWRITE TITLE+META before shipping Parts 2-3."
+        return (f"⚠️ Indexed but only {metrics['impressions']} people saw it in Google search in the last 7 days. "
+                "The keyword or search intent is not matching what you wrote. "
+                "Rewrite the title and meta description to target a higher-intent query before shipping Parts 2-3.")
     if metrics["clicks"] == 0 and metrics["impressions"] >= 50:
-        return f"⚠️ {metrics['impressions']} impressions but 0 clicks. Title/meta is failing. REWRITE before shipping Parts 2-3."
+        return (f"⚠️ Google showed the page {metrics['impressions']} times but 0 people clicked. "
+                "Your title or description is failing the SERP competition. "
+                "Rewrite them to be more compelling before shipping Parts 2-3.")
     if metrics["clicks"] >= 1:
-        return f"✅ GREEN-LIGHT: {metrics['clicks']} clicks, {metrics['impressions']} impressions, position {metrics['position']}. SHIP PARTS 2-3."
-    return f"📊 INDEXED, {metrics['impressions']} impressions, watching."
+        return (f"✅ GREEN-LIGHT. Google showed the page {metrics['impressions']} times, {metrics['clicks']} people clicked, "
+                f"ranking at position {metrics['position']}. "
+                "The format works for this vertical + language. SHIP PARTS 2-3 ES next.")
+    return f"📊 Indexed with {metrics['impressions']} impressions, still watching. Wait 2-4 more days for decision."
+
+
+def narrative_line(item: dict, metrics: dict) -> str:
+    """Write the per-URL narrative paragraph (Bezos-style plain English)."""
+    days_live = days_since(item["shipped_date"])
+    page_type = "hub" if item.get("part", 0) == 0 else f"Part {item['part']}"
+    lang_name = {"es": "Spanish", "en": "English", "in": "India English", "ar": "Arabic"}.get(
+        item["language"], item["language"]
+    )
+    vertical_name = item["vertical"].replace("-", " ")
+
+    if not metrics["indexed"]:
+        status = (f"Google has not shown this page in search yet. "
+                  f"With a ~3-day lag in GSC reporting, that is expected at Day {days_live}. "
+                  f"Real signal usually starts at Day 7-10.")
+    else:
+        pos_pretty = f"position {metrics['position']}"
+        page_num = int(metrics["position"] / 10) + 1 if metrics["position"] > 0 else "?"
+        status = (f"Google showed this page {metrics['impressions']} times in the last 7 days. "
+                  f"{metrics['clicks']} of those viewers clicked through "
+                  f"(CTR {metrics['ctr']}%), ranking at {pos_pretty} "
+                  f"(~page {page_num} of search results). ")
+
+    return (
+        f"*{page_type} — {vertical_name} ({lang_name})*\n"
+        f"<{item['url']}|{item['url']}>\n"
+        f"Day {days_live} live. {status}"
+    )
 
 
 # ── Slack post ───────────────────────────────────────────────────────────────
@@ -151,74 +247,103 @@ def post_to_slack(text: str, dry: bool = False):
 # ── Main ─────────────────────────────────────────────────────────────────────
 
 def main(dry: bool = None):
-    """Run measurement. dry=None → parse from CLI args; dry=True/False → use directly.
-    Callable both as CLI (`python verticals_measure.py --dry`) and from scheduler (`main()`)."""
+    """Run measurement. dry=None → parse CLI args; dry=True/False → use directly."""
     if dry is None:
         parser = argparse.ArgumentParser()
-        parser.add_argument("--dry", action="store_true", help="Print to terminal, don't post Slack")
-        # parse_known_args avoids exit if scheduler passed unrelated args
+        parser.add_argument("--dry", action="store_true", help="Print to terminal, don't post/write")
         args, _ = parser.parse_known_args()
         dry = args.dry
 
-    log(f"Measuring {len(SHIPPED_URLS)} shipped URLs...")
-
     try:
-        service = get_gsc_service()
+        from googleapiclient.discovery import build
+        creds, supports_sheets_write = get_credentials()
     except Exception as e:
-        log(f"GSC auth failed: {e}")
-        post_to_slack(f"⚠️ verticals_measure: GSC auth failed — {e}", dry=dry)
+        log(f"Auth failed: {e}")
+        post_to_slack(f"⚠️ verticals_measure: auth failed — {e}", dry=dry)
         return
 
-    lines = ["📊 *Verticals Measurement Digest*", ""]
-    decision_gates = []
-    today = datetime.now().strftime("%Y-%m-%d")
+    try:
+        gsc_service = build("searchconsole", "v1", credentials=creds)
+        sheets_service = build("sheets", "v4", credentials=creds) if supports_sheets_write else build(
+            "sheets", "v4", credentials=creds
+        )
+    except Exception as e:
+        log(f"Service build failed: {e}")
+        return
 
-    for item in SHIPPED_URLS:
-        metrics = query_url_metrics(service, item["url"], days=7)
+    # Read shipped URLs from Sheet
+    try:
+        shipped = read_shipped_urls(sheets_service)
+    except Exception as e:
+        log(f"Sheet read failed: {e}")
+        post_to_slack(
+            f"⚠️ verticals_measure: could not read Verticals Queue tab — {str(e)[:300]}\n"
+            "If 403: share the Sheet with the service account email "
+            "(seo-agent@safebath-seo-agent.iam.gserviceaccount.com) as Editor.",
+            dry=dry,
+        )
+        return
+
+    if not shipped:
+        log("No shipped rows in Verticals Queue. Nothing to measure.")
+        if not dry:
+            post_to_slack("📊 Verticals Measurement: no shipped URLs in Verticals Queue tab. Add a row with status=shipped to start tracking.", dry=False)
+        return
+
+    log(f"Found {len(shipped)} shipped URL(s) in Sheet.")
+
+    narratives = []
+    decision_gates = []
+
+    for item in shipped:
+        metrics = query_url_metrics(gsc_service, item["url"], days=7)
+        narratives.append(narrative_line(item, metrics))
+
+        # Write metrics back to Sheet
+        if supports_sheets_write and not dry:
+            # affiliate_clicks_14d would come from FirstPromoter if that integration existed; 0 for now
+            write_metrics_to_sheet(
+                sheets_service, item["sheet_row"],
+                metrics["position"], metrics["ctr"], 0
+            )
+
         days_live = days_since(item["shipped_date"])
 
-        index_emoji = "✅" if metrics["indexed"] else "❌"
-        line = (
-            f"{index_emoji} *{item['label']}* (Day {days_live})\n"
-            f"    Impressions: {metrics['impressions']} · Clicks: {metrics['clicks']} · "
-            f"CTR: {metrics['ctr']}% · Position: {metrics['position']}\n"
-            f"    Window: {metrics['window']}"
-        )
-        if "error" in metrics:
-            line += f"\n    ⚠️ GSC error: {metrics['error']}"
-        lines.append(line)
-        lines.append("")
-
-        # Day-14 decision gate (fires once when days_live first hits 14, but to keep idempotent
-        # we fire whenever days_live is in [14, 17] — Slack dedup is fine, this is just an
-        # alerting window)
-        if 14 <= days_live <= 17 and item["type"] == "pillar":
-            rec = gate_recommendation(item, metrics, days_live)
-            decision_gates.append(f"🚦 *DECISION GATE* — {item['label']} (Day {days_live})\n    {rec}")
+        # Day-14 decision gate (fire once in the 14-17 day window for idempotency)
+        if 14 <= days_live <= 17 and item.get("part", 0) >= 1:
+            rec = gate_recommendation(metrics)
+            decision_gates.append(
+                f"🚦 *DECISION GATE — Day {days_live}*\n"
+                f"<{item['url']}|{item['url']}>\n"
+                f"{rec}"
+            )
 
         # Day-56 (8-week) winning metric check
-        if 56 <= days_live <= 59 and item["type"] == "pillar":
+        if 56 <= days_live <= 59 and item.get("part", 0) >= 1:
             criteria_met = sum([
                 metrics["position"] > 0 and metrics["position"] <= 15,
                 metrics["ctr"] >= 1.5,
-                # affiliate clicks check would go here if FirstPromoter integration existed
             ])
             tier = item.get("tier", 1)
             threshold = 2 if tier == 1 else (1 if tier == 2 else 1)
             verdict = "KEEP GOING" if criteria_met >= threshold else "CULL"
             decision_gates.append(
-                f"🎯 *8-WEEK WINNING METRIC* — {item['label']} (Day {days_live})\n"
-                f"    Criteria met: {criteria_met}/2 (position≤15, CTR≥1.5%) — Tier {tier} threshold: {threshold}\n"
-                f"    Verdict: *{verdict}*"
+                f"🎯 *8-WEEK METRIC GATE — Day {days_live}*\n"
+                f"<{item['url']}|{item['url']}>\n"
+                f"Met {criteria_met}/2 criteria (position≤15, CTR≥1.5%). "
+                f"Tier {tier} threshold: {threshold}. Verdict: *{verdict}*"
             )
 
+    # Compose Slack message
+    header = f"📊 *Verticals Measurement Digest — {datetime.now().strftime('%Y-%m-%d')}*"
+    body = "\n\n".join(narratives)
+    msg_parts = [header, "", body]
     if decision_gates:
-        lines.append("")
-        lines.append("─" * 30)
-        lines.extend(decision_gates)
+        msg_parts.append("")
+        msg_parts.append("─" * 30)
+        msg_parts.extend(decision_gates)
 
-    text = "\n".join(lines)
-    post_to_slack(text, dry=dry)
+    post_to_slack("\n".join(msg_parts), dry=dry)
 
 
 if __name__ == "__main__":
