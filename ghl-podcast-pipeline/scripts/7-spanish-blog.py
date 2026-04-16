@@ -4,9 +4,9 @@ Generates Spanish-language GHL blog posts for Latin American and Spanish audienc
 Publishes to globalhighlevel.com via posts/ JSON (same as 5-blog.py).
 
 Three-agent pipeline:
-  1. Researcher  — DuckDuckGo (Spanish queries) + Reddit
-  2. Writer      — Claude Haiku writes Spanish-native blog post
-  3. Fact Checker — Claude Haiku checks regional accuracy + natural Spanish
+  1. Researcher  . DuckDuckGo (Spanish queries) + Reddit
+  2. Writer      . Claude Haiku writes Spanish-native blog post
+  3. Fact Checker . Claude Haiku checks regional accuracy + natural Spanish
 
 Auto-generates topics from GSC data + Claude when running low.
 
@@ -46,32 +46,46 @@ CATEGORIES_FILE = Path("/opt/globalhighlevel-site/categories.json") if Path("/op
 ANTHROPIC_API_KEY  = os.getenv("ANTHROPIC_API_KEY")
 GHL_AFFILIATE_LINK = os.getenv("GHL_AFFILIATE_LINK", "")
 MODEL = "claude-haiku-4-5-20251001"
+MODEL_ATTIA = "claude-haiku-4-5-20251001"  # reverted from Sonnet — Sonnet returned malformed JSON twice.
+# Haiku produces ~500-word clean first-pass which matches our relaxed target. If we later need
+# 2500+ words reliably, fix prompt structure first, then consider Sonnet with structured-output API.
 
 DEFAULT_TOPICS = [
     "Cómo usar GoHighLevel para agencias de marketing en México",
-    "GoHighLevel vs HubSpot — Comparación de precios para Latinoamérica",
+    "GoHighLevel vs HubSpot . Comparación de precios para Latinoamérica",
     "Automatización de WhatsApp con GoHighLevel para negocios latinos",
     "Cómo captar más clientes con embudos de GoHighLevel en español",
-    "GoHighLevel para inmobiliarias en Latinoamérica — Guía completa",
-    "CRM GoHighLevel en español — Todo lo que necesitas saber",
+    "GoHighLevel para inmobiliarias en Latinoamérica . Guía completa",
+    "CRM GoHighLevel en español . Todo lo que necesitas saber",
     "Cómo integrar MercadoPago con GoHighLevel para cobrar en pesos",
     "GoHighLevel para consultorios médicos en México y Colombia",
     "Automatización de seguimiento de clientes con GoHighLevel en español",
-    "GoHighLevel vs Clientify — ¿Cuál es mejor para agencias hispanas?",
+    "GoHighLevel vs Clientify . ¿Cuál es mejor para agencias hispanas?",
     "Cómo crear landing pages en español con GoHighLevel",
     "GoHighLevel para gimnasios y estudios fitness en Latinoamérica",
     "Marketing por WhatsApp para restaurantes con GoHighLevel",
-    "GoHighLevel SaaS Mode — Cómo revender como agencia en Latinoamérica",
+    "GoHighLevel SaaS Mode . Cómo revender como agencia en Latinoamérica",
     "Guía de precios GoHighLevel 2026 en dólares y pesos mexicanos",
 ]
 
 SPANISH_FACT_RULES = """
+RULE #0 . NEVER FABRICATE (HARD FAIL, BLOCKS SHIP):
+- NO invented people (no "Matías manejaba una agencia", no "María en Medellín", no named person)
+- NO invented companies or client names
+- NO invented dollar figures, revenue numbers, client counts, or ROI percentages
+- NO invented case studies, testimonials, or first-person anecdotes
+- NO "trusted by X agencies", "used by X businesses", or any social-proof count
+- ALLOWED: public data with a cited source (GHL pricing page, Clientify public pricing, competitor published docs)
+- ALLOWED: clearly-marked hypothetical examples ("Imagina una agencia de 3 personas en Guadalajara . ejemplo hipotético, no un cliente real")
+- If a number appears without a source footnote, REWRITE the sentence to remove the number.
+- If a named person or business appears without written approval, STRIP the name.
+
 LATIN AMERICA-SPECIFIC GHL FACT CHECK RULES:
 
 COMMUNICATION:
-- WhatsApp is THE business messaging tool in all of Latin America — NOT SMS
+- WhatsApp is THE business messaging tool in all of Latin America . NOT SMS
 - WhatsApp Business API is the correct GHL feature to highlight
-- Email marketing also works but WhatsApp has 5-10x engagement
+- Email marketing also works but WhatsApp typically shows higher engagement for service/agency messaging (use qualitative language only. do NOT cite a specific multiplier like "5-10x" without a primary source)
 
 PAYMENTS:
 - MercadoPago is the dominant payment processor (Argentina, Mexico, Brazil, Colombia)
@@ -88,7 +102,7 @@ COMPETITORS:
 PRICING (as of 2026):
 - GHL Starter: $97/month (USD)
 - GHL Agency: $297/month (USD)
-- Always justify ROI — $97 replaces 5-10 tools that cost $500+/month combined
+- Always justify ROI . $97 replaces 5-10 tools that cost $500+/month combined
 
 MARKETS (use naturally):
 - Mexico (largest Spanish-speaking market, agencies + real estate + healthcare)
@@ -98,12 +112,12 @@ MARKETS (use naturally):
 - Chile, Peru, Ecuador (emerging markets)
 
 CULTURAL:
-- Business relationships are personal — mention building client trust
-- Many agencies are small (1-5 people) — automation is critical
+- Business relationships are personal . mention building client trust
+- Many agencies are small (1-5 people) . automation is critical
 - Price sensitivity is real but ROI argument works well
 - Content should sound like a native Spanish speaker wrote it
 - Use Latin American Spanish (not European Spanish) as default
-- Avoid literal translations from English — use natural phrasing
+- Avoid literal translations from English . use natural phrasing
 - Use "tú" (informal) for blog posts, not "usted" (formal)
 """
 
@@ -188,7 +202,7 @@ def scrape_reddit(query: str, max_results: int = 5) -> list[str]:
 
 
 def research(topic: str) -> dict:
-    log(f"Agent 1: Researching — {topic}")
+    log(f"Agent 1: Researching . {topic}")
     serp1 = scrape_duckduckgo(f"{topic}")
     time.sleep(2)
     serp2 = scrape_duckduckgo(f"GoHighLevel agencia marketing latinoamérica 2026")
@@ -201,8 +215,12 @@ def research(topic: str) -> dict:
 
 
 # ── Agent 2: Writer ────────────────────────────────────────────────────────────
-def write_blog(topic: str, research_data: dict) -> dict:
-    log(f"Agent 2: Writing blog — {topic}")
+def write_blog(topic: str, research_data: dict, mode: str = "standard",
+               vertical: str = "", part: int = 0, series_hub: str = "",
+               hub_title: str = "") -> dict:
+    if mode == "attia-longform":
+        return write_blog_attia(topic, research_data, vertical, part, series_hub, hub_title)
+    log(f"Agent 2: Writing blog . {topic}")
 
     utm_campaign = re.sub(r"[^a-z0-9-]", "", topic.lower().replace(" ", "-").replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u").replace("ñ", "n"))
     affiliate_url = (
@@ -224,14 +242,14 @@ def write_blog(topic: str, research_data: dict) -> dict:
     if research_data.get("english_source"):
         src = research_data["english_source"]
         english_source = f"""
-ARTÍCULO FUENTE EN INGLÉS (de help.gohighlevel.com — ADAPTAR, no traducir literalmente):
+ARTÍCULO FUENTE EN INGLÉS (de help.gohighlevel.com . ADAPTAR, no traducir literalmente):
 Título: {src.get('title', '')}
 Descripción: {src.get('description', '')}
 Contenido (primeros 3000 caracteres):
 {src.get('content_preview', '')[:2000]}
 
 IMPORTANTE: Este artículo es tu fuente principal. Cubre las mismas funciones de GoHighLevel
-pero ADAPTA el contenido para el mercado latinoamericano. No traduzcas — reescribe con
+pero ADAPTA el contenido para el mercado latinoamericano. No traduzcas . reescribe con
 contexto local (WhatsApp, MercadoPago, precios en USD con contexto de valor LatAm).
 """
 
@@ -239,10 +257,10 @@ contexto local (WhatsApp, MercadoPago, precios en USD con contexto de valor LatA
 
 TEMA: {topic}
 {english_source}
-INVESTIGACIÓN — CONTENIDO TOP EN ESTE TEMA:
+INVESTIGACIÓN . CONTENIDO TOP EN ESTE TEMA:
 {serp_context}
 
-INVESTIGACIÓN — QUÉ DICEN LOS MARKETERS:
+INVESTIGACIÓN . QUÉ DICEN LOS MARKETERS:
 {reddit_context}
 
 ENLACE DE AFILIADO (incluir 2-3 veces naturalmente):
@@ -252,7 +270,7 @@ ENLACE DIRECTO DE AFILIADO (usar en CTAs principales):
 {affiliate_url}
 
 REQUISITOS PARA LATINOAMÉRICA:
-- WhatsApp es LA herramienta de comunicación en Latinoamérica — NO SMS
+- WhatsApp es LA herramienta de comunicación en Latinoamérica . NO SMS
 - Mencionar MercadoPago como procesador de pagos principal
 - Precios en USD con contexto de valor para Latinoamérica
 - GHL Starter: $97/mes, Agency: $297/mes
@@ -262,10 +280,10 @@ REQUISITOS PARA LATINOAMÉRICA:
 - Dolor principal: demasiadas herramientas, costos altos, equipos pequeños
 
 ESTRUCTURA DEL BLOG:
-0. PRIMERA LÍNEA — antes de cualquier heading — incluir este banner CTA:
-   <p style="background:#111520;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:4px;color:#eef2ff;"><strong>🚀 Prueba GoHighLevel GRATIS por 30 días</strong> — Sin tarjeta de crédito. <a href="{trial_url}" style="color:#f59e0b;" target="_blank">Empieza tu prueba gratis aquí →</a></p>
-1. Hook — hablar de un problema específico de agencias latinas
-2. Agitar — hacer el problema real con contexto latinoamericano
+0. PRIMERA LÍNEA . antes de cualquier heading . incluir este banner CTA:
+   <p style="background:#111520;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:4px;color:#eef2ff;"><strong>🚀 Prueba GoHighLevel GRATIS por 30 días</strong> . Sin tarjeta de crédito. <a href="{trial_url}" style="color:#f59e0b;" target="_blank">Empieza tu prueba gratis aquí →</a></p>
+1. Hook . hablar de un problema específico de agencias latinas
+2. Agitar . hacer el problema real con contexto latinoamericano
 3. Presentar GHL como la solución
 4. Caso de uso real para una agencia latina (elegir un país/nicho)
 5. Precios de GoHighLevel con justificación de ROI
@@ -304,9 +322,236 @@ Devuelve JSON con estas claves exactas:
     return result
 
 
+# ── Agent 2b: Writer (Attia long-form mode) ────────────────────────────────────
+def write_blog_attia(topic: str, research_data: dict, vertical: str, part: int,
+                     series_hub: str, hub_title: str) -> dict:
+    log(f"Agent 2 [ATTIA]: Writing Part {part} . {topic}")
+
+    utm_campaign = re.sub(r"[^a-z0-9-]", "", topic.lower().replace(" ", "-").replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u").replace("ñ", "n"))
+    affiliate_url = (
+        f"{GHL_AFFILIATE_LINK}"
+        f"&utm_source=blog&utm_medium=article&utm_campaign=verticals-{vertical}-part{part}-es"
+    )
+    trial_url = "https://globalhighlevel.com/trial"
+    extendly_url = "https://extendly.com/gohighlevel/?deal=vqzoli"
+
+    serp_context = "\n".join([f"- {r['title']}: {r['snippet']}" for r in research_data["serp"]]) or "No SERP data available."
+    reddit_context = "\n".join([f"- {q}" for q in research_data["reddit"]]) or "No Reddit data available."
+
+    prompt = f"""Eres un practicante experimentado escribiendo para una agencia de marketing digital hispanohablante. Escribes como alguien que ha implementado el sistema, lo ha visto funcionar, y explica por qué funciona sin vender. Estilo Peter Attia "Straight Dope" . pedagógico, concreto, denso en información, con analogías sostenidas.
+
+TEMA (H1 sugerido): {topic}
+VERTICAL: {vertical}
+PARTE DE LA SERIE: Parte {part} de 9
+HUB DE LA SERIE: {series_hub} (título: "{hub_title}")
+
+INVESTIGACIÓN . SERP:
+{serp_context}
+
+INVESTIGACIÓN . REDDIT:
+{reddit_context}
+
+ENLACE DE AFILIADO PRIMARIO (CTA principal . arriba y abajo): {trial_url}
+ENLACE DE AFILIADO CON UTM: {affiliate_url}
+ENLACE EXTENDLY (CTA secundario . mitad del post): {extendly_url}
+
+═══════════════════════════════════════════════════════════════════
+ESTRUCTURA OBLIGATORIA . LOS 12 ELEMENTOS DE PETER ATTIA "STRAIGHT DOPE"
+═══════════════════════════════════════════════════════════════════
+
+1. PRE-INTRO (1 párrafo, sin heading, máx 80 palabras)
+   - Nombra al lector concretamente ("Si manejas una agencia de marketing de 3 a 5 personas en México o Colombia...")
+   - Nombra el problema en términos concretos (no vagos)
+   - Promete qué explica el post
+   - NO menciones GoHighLevel aún
+   - NO frases tipo "en el mundo actual", "en este post exploraremos"
+
+2. OBJETIVOS DE APRENDIZAJE (caja destacada, numerada 1-5)
+   Formato: <p style="background:#f5f5f0;border-left:4px solid #111520;padding:16px;">
+   <strong>Al terminar este post entenderás:</strong></p>
+   <ol><li>...</li></ol>
+
+3. CONCEPTOS CLAVE (3-5 modelos mentales, no glosario)
+   <h2>Conceptos clave</h2>
+   Para cada concepto: <p><strong>Nombre del concepto.</strong> Una frase de definición. Una frase de por qué importa.</p>
+
+4. CUERPO (H2 + H3 jerarquía, 5-8 H2, al menos 2 H3 tipo pregunta)
+   - H2 como declaración directa o pregunta ("Por qué WhatsApp gana sobre email para agencias")
+   - H3 como preguntas que el lector haría de forma natural
+   - Sin H4 o más profundo
+
+5. UNA ANALOGÍA SOSTENIDA (una sola por parte)
+   - Introducida a mitad del post
+   - Referenciada al menos 2 veces más en secciones posteriores
+   - Debe aclarar la idea técnica, no solo ser linda
+
+6. Q&A EMBEBIDO (al menos 2 H3 en formato pregunta)
+   - Preguntas como las haría un dueño de agencia de verdad
+   - Respuestas de 1-3 párrafos, no bullets
+
+7. NEGRITA EN PRIMER USO DE CADA TÉRMINO TÉCNICO
+   - Solo la primera vez que aparece el término
+   - Solo términos técnicos reales, no palabras de marketing
+
+8. FOOTNOTES PARA DATOS FACTUALES (2-5 por parte)
+   - Todo número, porcentaje, precio, o feature claim debe tener footnote citando fuente primaria
+   - Formato: frase con número.[^1] ... al final: <p><small>[^1]: Fuente, URL, fecha.</small></p>
+   - Si un número no tiene fuente primaria, REESCRIBE la frase sin el número
+
+9. CTA SECUNDARIO A MITAD DEL POST (entre H2 #3 y H2 #4)
+   <p style="background:#fefbf0;border:1px solid #f59e0b;padding:16px;border-radius:4px;">
+   <strong>¿Prefieres implementación hecha por expertos?</strong> Extendly maneja el onboarding de GoHighLevel, soporte white-label 24/7 en español, y snapshots pre-construidos para agencias. Los recomendamos para quien quiere el sistema funcionando sin hacer el setup. <a href="{extendly_url}" target="_blank" rel="nofollow noopener">Ver Extendly →</a></p>
+
+10. UP-NEXT TEASER (párrafo final antes del footer CTA, 50-80 palabras)
+    <h2>Próximamente en la Parte {part + 1}</h2>
+    <p>Una frase sobre de qué trata la Parte {part + 1}. Una frase sobre por qué importa para quien leyó esta parte.</p>
+
+11. CTA PRIMARIO ARRIBA (primera línea, antes de pre-intro)
+    <p style="background:#111520;border-left:4px solid #f59e0b;padding:12px 16px;border-radius:4px;color:#eef2ff;"><strong>🚀 Prueba GoHighLevel GRATIS por 30 días</strong> . Sin tarjeta de crédito. <a href="{trial_url}" style="color:#f59e0b;" target="_blank">Empieza tu prueba gratis aquí →</a></p>
+
+12. CTA PRIMARIO ABAJO (después del up-next teaser)
+    <p style="background:#111520;border-left:4px solid #f59e0b;padding:16px;border-radius:4px;color:#eef2ff;text-align:center;"><strong>Empieza tu prueba de 30 días de GoHighLevel</strong><br>Sin tarjeta de crédito. Cancela cuando quieras. <br><a href="{trial_url}" style="color:#f59e0b;font-weight:bold;" target="_blank">Empezar prueba gratis →</a></p>
+
+═══════════════════════════════════════════════════════════════════
+REGLA #0 . NUNCA FABRICAR (BLOQUEA PUBLICACIÓN)
+═══════════════════════════════════════════════════════════════════
+- NO personas inventadas (NO "Matías en Buenos Aires", NO "María en Medellín")
+- NO empresas inventadas ni nombres de clientes
+- NO cifras de dólares, ingresos, clientes, o ROI inventadas
+- NO testimonios, anécdotas en primera persona, o casos de estudio inventados
+- NO "confiado por X agencias" ni social proof con conteos
+- PERMITIDO: datos públicos con fuente citada (precios GHL, precios Clientify, docs de competidores)
+- PERMITIDO: ejemplos hipotéticos claramente marcados ("Imagina una agencia de 3 personas . ejemplo hipotético, no cliente real")
+
+═══════════════════════════════════════════════════════════════════
+LONGITUD Y TONO
+═══════════════════════════════════════════════════════════════════
+LONGITUD (OBLIGATORIA, NO NEGOCIABLE): 2500-3500 palabras. Bajo 2500 = FALLA, no cuenta como entregable.
+Para llegar a 2500+ sin relleno: incluye 6-8 H2 completos, cada uno con 400-500 palabras de contenido real. Dentro de cada H2, 1-2 H3 como preguntas + respuestas de 150-250 palabras. Los conceptos técnicos se explican con analogías concretas y casos hipotéticos claramente marcados (sin nombres propios).
+
+TONO: practicante experimentado hablando a dueño de agencia en un café. No académico. No marketero.
+IDIOMA: español latinoamericano NEUTRO (no rioplatense/voseo). Usar "tú" + "tienes/necesitas/diriges". NUNCA "vos/tenés/necesitás". NO traducción del inglés.
+SIN EM-DASHES. Usa coma, punto, o paréntesis.
+SIN frases-IA prohibidas: "aprovechar", "utilizar" (usa "usar"), "sumergirnos", "en el mundo actual", "en este post exploraremos", "llevar al siguiente nivel", "desbloquear", "revolucionar", "ecosistema" (para no-biología), "landscape", "journey", "robusto", "de clase mundial", "sin fisuras", "delve", "holístico".
+
+═══════════════════════════════════════════════════════════════════
+CONTEXTO LATINOAMERICANO OBLIGATORIO
+═══════════════════════════════════════════════════════════════════
+- WhatsApp es EL canal de comunicación (NO SMS)
+- MercadoPago, Conekta (México), PayU (Colombia), Transbank (Chile) antes que Stripe
+- Precios GHL: Starter $97 USD/mes, Agency $297 USD/mes (citar como fuente primaria GHL pricing page)
+- Competidores: Clientify (principal alternativa en español), HubSpot (conocido, caro)
+- Mercados: México, Colombia, Argentina, España, Chile, Perú
+
+═══════════════════════════════════════════════════════════════════
+FORMATO DE SALIDA
+═══════════════════════════════════════════════════════════════════
+Devuelve JSON con estas claves exactas:
+{{
+  "html_content": "HTML completo del post con TODOS los 12 elementos arriba en orden",
+  "meta_description": "150-158 caracteres con palabra clave principal en los primeros 80 chars",
+  "slug": "slug-espanol-descriptivo-parte-{part}",
+  "title": "H1 en español . título del post"
+}}"""
+
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    response = client.messages.create(
+        model=MODEL_ATTIA,
+        max_tokens=16000,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    log_api_cost(response, script="7-spanish-blog-write-attia")
+
+    raw = response.content[0].text.strip()
+    json_match = re.search(r'\{[\s\S]*\}', raw)
+    if not json_match:
+        raise ValueError("Attia writer did not return valid JSON")
+
+    result = json.loads(json_match.group())
+    log(f"  Attia blog written: {len(result.get('html_content', ''))} chars")
+    return result
+
+
+# ── Agent 2c: Revise with corrections (Opus reviewer feedback loop) ────────────
+def revise_with_corrections(original_html: str, corrections: list, target_word_min: int = 2500) -> str:
+    """
+    Second-pass Haiku write. Takes the original HTML + list of reviewer corrections,
+    produces v2 HTML that fixes each correction IN PLACE without shortening the post.
+
+    corrections = list of dicts {issue, quote, fix} from language_reviewer.review()
+    Returns revised html_content string.
+    """
+    if not corrections:
+        return original_html
+
+    correction_block = "\n".join(
+        f"  - [{c.get('issue', 'other')}] Cita: «{c.get('quote', '')[:200]}»  → Arreglo: {c.get('fix', '')}"
+        for c in corrections[:30]  # cap to avoid prompt overflow
+    )
+
+    prompt = f"""Eres el mismo writer que produjo este post. Un reviewer nativo latinoamericano identificó problemas específicos. Tu trabajo: aplicar CADA corrección EN SU LUGAR sin acortar el post, sin resumir, sin recompactar. El post debe quedar de la misma longitud o más largo, NO más corto.
+
+REGLA #0. NUNCA FABRICAR (CRÍTICO DURANTE LA EXPANSIÓN):
+- NO inventes personas con nombre (NO "María", NO "Carlos", NO "Matías", NO "Ana"). Si necesitas ejemplo, usa "una agencia hipotética de N personas" SIN nombres propios.
+- NO inventes empresas cliente (NO "Agencia XYZ en CDMX").
+- NO inventes cifras específicas: NO "pierden 5 prospectos/mes", NO "invierten 15 min buscando email", NO "3.5x más engagement", NO "reduce costos $450 a $97". Usa lenguaje cualitativo o elimina el número.
+- NO inventes testimonios ni anécdotas en primera persona.
+- PERMITIDO: "Imagina una agencia de 5 personas . ejemplo hipotético" (claramente marcado).
+- Si el reviewer marcó una fabricación, REEMPLAZA con lenguaje cualitativo, NO con otra fabricación.
+
+DIALECTO LATINOAMERICANO NEUTRO (evitar voseo):
+- Usar "tú" con verbos: "tienes", "necesitas", "puedes", "diriges".
+- NUNCA voseo argentino: NO "tenés", NO "necesitás", NO "podés", NO "dirigís".
+
+REGLAS DURAS PARA EXPANDIR:
+1. NO resumas el post. NO compactes párrafos. NO elimines secciones.
+2. Cada corrección se aplica en su lugar. Encuentra la frase citada, arréglala como indica el "Arreglo", conserva el resto del párrafo.
+3. Si el arreglo elimina un número fabricado, REEMPLAZA la frase con una equivalente cualitativa (no la borres).
+4. El post debe tener AL MENOS {target_word_min} palabras después de tu revisión.
+5. Para expandir a {target_word_min}+ palabras: agrega análisis técnico concreto, más H3 de preguntas que un dueño de agencia haría, más matices sobre compliance/stack tecnológico/equipo, más detalle en conceptos. NO agregues casos de estudio inventados. NO agregues personas con nombre. NO agregues cifras sin fuente.
+6. Devuelve el HTML completo corregido, no fragmentos.
+
+CORRECCIONES DEL REVIEWER (aplica cada una):
+{correction_block}
+
+HTML ORIGINAL:
+{original_html}
+
+Devuelve JSON:
+{{
+  "html_content": "HTML completo v2 con todas las correcciones aplicadas, longitud preservada o mayor"
+}}"""
+
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    response = client.messages.create(
+        model=MODEL,
+        max_tokens=12000,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    log_api_cost(response, script="7-spanish-blog-revise")
+
+    raw = response.content[0].text.strip()
+    json_match = re.search(r'\{[\s\S]*\}', raw)
+    if not json_match:
+        log(f"  Reviser returned non-JSON, returning original")
+        return original_html
+
+    try:
+        result = json.loads(json_match.group())
+    except json.JSONDecodeError:
+        log(f"  Reviser JSON decode failed, returning original")
+        return original_html
+
+    revised = result.get("html_content", "") or original_html
+    orig_words = len(original_html.split())
+    new_words = len(revised.split())
+    log(f"  Revise: {orig_words} → {new_words} words ({new_words - orig_words:+d})")
+    return revised
+
+
 # ── Agent 3: Fact Checker ──────────────────────────────────────────────────────
 def fact_check(topic: str, blog_data: dict) -> dict:
-    log(f"Agent 3: Fact checking — {topic}")
+    log(f"Agent 3: Fact checking . {topic}")
 
     prompt = f"""Eres un profesional de marketing digital latinoamericano y experto en GoHighLevel.
 Tu trabajo es verificar este blog post para precisión regional y autenticidad cultural.
@@ -350,7 +595,7 @@ Devuelve JSON:
         except json.JSONDecodeError:
             pass
 
-    log(f"  Fact checker returned non-JSON — assuming approved")
+    log(f"  Fact checker returned non-JSON . assuming approved")
     return {"approved": True, "corrections": [], "revised_html": ""}
 
 
@@ -388,14 +633,16 @@ def ensure_affiliate_links(html: str) -> str:
         cta = (
             '<p style="background:#111520;border-left:4px solid #f59e0b;padding:12px 16px;'
             'border-radius:4px;color:#eef2ff;"><strong>🚀 Prueba GoHighLevel GRATIS por 30 días</strong>'
-            f' — Sin tarjeta de crédito. <a href="{trial_url}" style="color:#f59e0b;" target="_blank">'
+            f' . Sin tarjeta de crédito. <a href="{trial_url}" style="color:#f59e0b;" target="_blank">'
             'Empieza tu prueba gratis aquí →</a></p>'
         )
         html = cta + html
     return html
 
 
-def save_post(topic: str, blog_data: dict, final_html: str) -> str:
+def save_post(topic: str, blog_data: dict, final_html: str,
+              url_path: str = "", hub_url: str = "", hub_title: str = "",
+              vertical: str = "", part: int = 0) -> str:
     """Save post as JSON to globalhighlevel-site/posts/ for Cloudflare Pages deploy."""
     slug = blog_data.get("slug", "")
     if not slug:
@@ -436,6 +683,15 @@ def save_post(topic: str, blog_data: dict, final_html: str) -> str:
         "publishedAt": datetime.now().isoformat(),
         "author": "Global High Level",
     }
+    if url_path:
+        post_data["url_path"] = url_path
+    if hub_url:
+        post_data["hub_url"] = hub_url
+        post_data["hub_title"] = hub_title
+    if vertical:
+        post_data["vertical"] = vertical
+    if part:
+        post_data["series_part"] = part
 
     SITE_POSTS.mkdir(parents=True, exist_ok=True)
     post_path = SITE_POSTS / f"{slug}.json"
@@ -447,10 +703,15 @@ def save_post(topic: str, blog_data: dict, final_html: str) -> str:
 
 
 # ── Main ───────────────────────────────────────────────────────────────────────
-def process_topic(topic: str, source_data: dict = None) -> dict:
-    """Process a topic. source_data contains Tier 1 English source material if available."""
+def process_topic(topic: str, source_data: dict = None, mode: str = "standard",
+                  vertical: str = "", part: int = 0, series_hub: str = "",
+                  hub_title: str = "") -> dict:
+    """Process a topic. source_data contains Tier 1 English source material if available.
+    When mode='attia-longform', produces 2500+ word Attia-structured pillar at /es/para/[vertical]/."""
     log(f"{'='*50}")
     source = source_data.get("source", "tier3-market") if source_data else "tier3-market"
+    if mode == "attia-longform":
+        source = f"verticals-{vertical}-part{part}"
     log(f"Topic: {topic} [source: {source}]")
 
     # Agent 1: Research
@@ -469,10 +730,11 @@ def process_topic(topic: str, source_data: dict = None) -> dict:
     blog_data = None
     for attempt in range(2):
         try:
-            blog_data = write_blog(topic, research_data)
+            blog_data = write_blog(topic, research_data, mode=mode, vertical=vertical,
+                                   part=part, series_hub=series_hub, hub_title=hub_title)
             break
         except (ValueError, json.JSONDecodeError) as e:
-            log(f"  Writer attempt {attempt + 1} failed: {e} — {'retrying...' if attempt == 0 else 'giving up'}")
+            log(f"  Writer attempt {attempt + 1} failed: {e} . {'retrying...' if attempt == 0 else 'giving up'}")
             time.sleep(5)
     if not blog_data:
         raise ValueError("Writer failed after 2 attempts")
@@ -486,8 +748,16 @@ def process_topic(topic: str, source_data: dict = None) -> dict:
     if not final_html.strip():
         final_html = blog_data["html_content"]
 
+    # Compute url_path for Attia mode (e.g., /es/para/agencias-de-marketing/<slug>/)
+    url_path = ""
+    if mode == "attia-longform" and vertical:
+        slug = blog_data.get("slug", "")
+        url_path = f"/es/para/{vertical}/{slug}/"
+
     # Save to globalhighlevel-site/posts/
-    slug = save_post(topic, blog_data, final_html)
+    slug = save_post(topic, blog_data, final_html, url_path=url_path,
+                     hub_url=series_hub, hub_title=hub_title,
+                     vertical=vertical, part=part)
 
     result = {
         "topic": topic,
@@ -506,7 +776,32 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--topic", type=str, help="Run a single specific topic")
     parser.add_argument("--limit", type=int, default=0, help="Max topics to process (0 = all pending)")
+    parser.add_argument("--mode", type=str, default="standard",
+                        choices=["standard", "attia-longform"],
+                        help="Writing mode. attia-longform = 2500+ word pillar in Peter Attia style")
+    parser.add_argument("--vertical", type=str, default="",
+                        help="Vertical slug (e.g., agencias-de-marketing). Required with --mode=attia-longform")
+    parser.add_argument("--part", type=int, default=0,
+                        help="Part number in the series (1-9). Required with --mode=attia-longform")
+    parser.add_argument("--series-hub", type=str, default="",
+                        help="URL path of the series hub (e.g., /es/para/agencias-de-marketing/)")
+    parser.add_argument("--hub-title", type=str, default="",
+                        help="Human-readable title of the series hub for breadcrumb")
     args = parser.parse_args()
+
+    # Attia mode: run a single part immediately and exit
+    if args.mode == "attia-longform":
+        if not args.topic or not args.vertical or not args.part:
+            parser.error("--mode=attia-longform requires --topic, --vertical, and --part")
+        log(f"Attia long-form run: vertical={args.vertical} part={args.part}")
+        result = process_topic(args.topic, mode="attia-longform",
+                               vertical=args.vertical, part=args.part,
+                               series_hub=args.series_hub, hub_title=args.hub_title)
+        published = load_published()
+        published.append(result)
+        save_published(published)
+        log(f"✅ Attia Part {args.part} written: {result.get('slug')}")
+        return
 
     published = load_published()
 
@@ -520,7 +815,7 @@ def main():
             sourced_topics = get_topics(language="es", published=published, limit=args.limit or 5)
             log(f"Topic sourcer: {len(sourced_topics)} topics ({sum(1 for t in sourced_topics if t['tier']==1)} docs, {sum(1 for t in sourced_topics if t['tier']==2)} GSC)")
         except Exception as e:
-            log(f"Topic sourcer unavailable ({e}) — falling back to topic list")
+            log(f"Topic sourcer unavailable ({e}) . falling back to topic list")
             sourced_topics = []
 
         # Tier 3 fallback: existing topic list + auto-generation
@@ -553,13 +848,13 @@ def main():
                         with open(TOPICS_FILE, "w") as f:
                             json.dump(topics, f, indent=2)
                         pending = [t for t in topics if not is_published(t, published)]
-                        log(f"Added {added} GSC-sourced Spanish topics — now {len(pending)} pending")
+                        log(f"Added {added} GSC-sourced Spanish topics . now {len(pending)} pending")
             except Exception:
                 pass
 
     # Auto-generate topics if still running low
     if len(pending) < 10 and not args.topic:
-        log(f"Only {len(pending)} topics left — generating 15 more...")
+        log(f"Only {len(pending)} topics left . generating 15 more...")
         try:
             client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
             already_done = [t for t in topics if is_published(t, published)]
@@ -569,7 +864,7 @@ def main():
                 max_tokens=1500,
                 messages=[{"role": "user", "content": f"""Genera 15 temas de blog sobre GoHighLevel para negocios y agencias en Latinoamérica.
 
-Estos temas ya se han cubierto — NO los repitas:
+Estos temas ya se han cubierto . NO los repitas:
 {done_list}
 
 Requisitos:
@@ -588,7 +883,7 @@ Devuelve SOLO los 15 temas, uno por línea, sin numeración, sin viñetas."""}]
             with open(TOPICS_FILE, "w") as f:
                 json.dump(topics, f, indent=2)
             pending = [t for t in topics if not is_published(t, published)]
-            log(f"Generated {len(new_topics)} new topics — now {len(pending)} pending")
+            log(f"Generated {len(new_topics)} new topics . now {len(pending)} pending")
         except Exception as e:
             log(f"Topic generation failed: {e}")
 
@@ -622,7 +917,7 @@ Devuelve SOLO los 15 temas, uno por línea, sin numeración, sin viñetas."""}]
             log(f"Done: {topic[:60]}")
             processed += 1
         except Exception as e:
-            log(f"FAILED: {topic[:60]} — {e}")
+            log(f"FAILED: {topic[:60]} . {e}")
             published.append({
                 "topic": topic,
                 "source": source_data.get("source", "tier3-market") if source_data else "tier3-market",
@@ -635,7 +930,7 @@ Devuelve SOLO los 15 temas, uno por línea, sin numeración, sin viñetas."""}]
         if i < len(process_queue) - 1:
             time.sleep(5)
 
-    log(f"Spanish blog run complete — {processed} topics processed")
+    log(f"Spanish blog run complete . {processed} topics processed")
 
 
 if __name__ == "__main__":

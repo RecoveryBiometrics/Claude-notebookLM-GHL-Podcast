@@ -51,6 +51,23 @@ def slugify(text: str) -> str:
     slug = re.sub(r"[^a-z0-9-]", "", text.lower().replace(" ", "-"))
     return re.sub(r"-{2,}", "-", slug).strip("-")
 
+
+def post_url(post: dict) -> str:
+    """Canonical URL path for a post. Uses post['url_path'] if set, else /blog/{slug}/."""
+    path = post.get("url_path")
+    if path:
+        if not path.startswith("/"):
+            path = "/" + path
+        if not path.endswith("/"):
+            path = path + "/"
+        return path
+    return f"/blog/{post.get('slug', '')}/"
+
+
+def post_output_rel(post: dict) -> str:
+    """Output directory relative to PUBLIC_DIR (no leading slash, no index.html)."""
+    return post_url(post).strip("/")
+
 def fmt_date(iso: str) -> str:
     try:
         return datetime.fromisoformat(iso[:19]).strftime("%B %d, %Y")
@@ -132,7 +149,7 @@ def _build_link_index(all_posts: list) -> list[tuple[str, str, str, list[str]]]:
         # Bigrams from meaningful words
         for i in range(len(meaningful) - 1):
             phrases.append(f"{meaningful[i]} {meaningful[i+1]}")
-        index.append((slug, title, cat, phrases))
+        index.append((slug, title, cat, phrases, post_url(p)))
     return index
 
 
@@ -151,11 +168,11 @@ def inject_internal_links(html: str, post: dict, all_posts: list, max_links: int
 
     # Score candidates: same category gets a boost
     candidates = []
-    for s, title, c, phrases in link_index:
+    for s, title, c, phrases, url in link_index:
         if s == slug:
             continue
         score = 2 if c == cat else 1
-        candidates.append((s, title, c, phrases, score))
+        candidates.append((s, title, c, phrases, score, url))
 
     # Shuffle within score tiers so we don't always link the same posts
     import random
@@ -179,7 +196,7 @@ def inject_internal_links(html: str, post: dict, all_posts: list, max_links: int
             continue
 
         text_lower = text_only.lower()
-        for c_slug, c_title, c_cat, c_phrases, c_score in candidates:
+        for c_slug, c_title, c_cat, c_phrases, c_score, c_url in candidates:
             if c_slug in linked_slugs:
                 continue
             # Find the best matching phrase in this paragraph
@@ -203,7 +220,7 @@ def inject_internal_links(html: str, post: dict, all_posts: list, max_links: int
                 if before.count('<') > before.count('>'):
                     continue
                 original_text = part[idx:idx + len(best_match)]
-                link = f'<a href="/blog/{c_slug}/">{original_text}</a>'
+                link = f'<a href="{c_url}">{original_text}</a>'
                 parts[i] = part[:idx] + link + part[idx + len(best_match):]
                 linked_slugs.add(c_slug)
                 links_added += 1
@@ -887,6 +904,223 @@ def merge_data(posts: list[dict], published: list[dict]) -> list[dict]:
 
 # ── Page generators ───────────────────────────────────────────────────────────
 
+# 9-part series outline per vertical (ES). Used by authority template to show
+# all parts in the sidebar/footer — future parts rendered as "próximamente".
+SERIES_PARTS_ES = {
+    "agencias-de-marketing": [
+        (1, "Por qué las agencias de marketing necesitan un CRM en 2026"),
+        (2, "El mejor CRM para agencias de marketing este año"),
+        (3, "GoHighLevel vs Clientify para agencias de marketing: comparación honesta"),
+        (4, "Cómo configurar GoHighLevel para una agencia de marketing"),
+        (5, "Los workflows de GoHighLevel que agencias de marketing usan de verdad"),
+        (6, "Precios de GoHighLevel para una agencia: los números reales"),
+        (7, "Qué cambia en el mes 1 cuando una agencia de marketing adopta GoHighLevel"),
+        (8, "¿Vale la pena GoHighLevel para una agencia de marketing solo?"),
+        (9, "Errores comunes que agencias de marketing cometen al configurar GoHighLevel"),
+    ],
+}
+
+
+def _authority_css() -> str:
+    """Minimal Attia-style CSS. Embedded per-page to avoid template dependencies."""
+    return """
+<style>
+  :root { --ink: #1a1a1a; --ink-soft: #3a3a3a; --link: #1a3a7a; --rule: #e5e5e5; --muted: #6b6b6b; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #fdfcf9; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  body { font-family: Georgia, "Merriweather", "Times New Roman", serif; font-size: 19px; line-height: 1.75; }
+  .auth-header { border-bottom: 1px solid var(--rule); background: #fff; padding: 14px 24px; }
+  .auth-header-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; font-size: 14px; }
+  .auth-header a { color: var(--ink); text-decoration: none; font-weight: 600; letter-spacing: -0.01em; }
+  .auth-header a:hover { color: var(--link); }
+  .auth-header nav a { margin-left: 24px; font-weight: 400; color: var(--muted); }
+  .auth-main { max-width: 760px; margin: 0 auto; padding: 56px 32px 80px; }
+  @media (min-width: 900px) { .auth-main { padding: 64px 0 96px; } }
+  .auth-series-label { font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; }
+  .auth-series-label a { color: var(--muted); text-decoration: none; border-bottom: 1px dotted var(--muted); }
+  .auth-series-label a:hover { color: var(--link); border-bottom-color: var(--link); }
+  h1.auth-title { font-size: 38px; line-height: 1.22; margin: 8px 0 20px; font-weight: 700; letter-spacing: -0.01em; }
+  .auth-byline { color: var(--muted); font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+  .auth-body { font-size: 19px; }
+  .auth-body h2 { font-size: 28px; line-height: 1.3; margin: 56px 0 16px; font-weight: 700; letter-spacing: -0.005em; }
+  .auth-body h3 { font-size: 21px; line-height: 1.4; margin: 36px 0 12px; font-weight: 700; }
+  .auth-body p { margin: 0 0 20px; color: var(--ink); }
+  .auth-body ul, .auth-body ol { margin: 0 0 24px; padding-left: 24px; }
+  .auth-body ul li, .auth-body ol li { padding-left: 4px; }
+  .auth-body li { margin-bottom: 8px; }
+  .auth-body a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .auth-body a:hover { text-decoration-thickness: 2px; }
+  .auth-body strong { font-weight: 700; color: var(--ink); }
+  .auth-body em { font-style: italic; }
+  .auth-body blockquote { margin: 24px 0; padding: 0 0 0 20px; border-left: 3px solid var(--rule); color: var(--ink-soft); font-style: italic; }
+  .auth-body hr { border: none; border-top: 1px solid var(--rule); margin: 48px 0; }
+  /* Strip the writer's inline CTA banners — we render clean prose only */
+  .auth-body p[style*="background:#111520"], .auth-body p[style*="background:#fefbf0"], .auth-body p[style*="background:#f5f5f0"] { background: transparent !important; border: none !important; border-left: 3px solid var(--rule) !important; padding: 16px 0 16px 20px !important; color: var(--ink-soft) !important; border-radius: 0 !important; font-style: italic; }
+  .auth-body p[style*="background:#111520"] a, .auth-body p[style*="background:#fefbf0"] a, .auth-body p[style*="background:#f5f5f0"] a { color: var(--link) !important; font-weight: 500 !important; }
+  .auth-series-nav { margin: 80px 0 40px; padding: 32px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .auth-series-nav h3 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 600; margin: 0 0 18px; }
+  .auth-series-nav ol { list-style: none; padding: 0; margin: 0; counter-reset: series; }
+  .auth-series-nav li { counter-increment: series; padding: 10px 0; border-bottom: 1px dotted var(--rule); font-size: 16px; display: flex; align-items: baseline; }
+  .auth-series-nav li:last-child { border-bottom: none; }
+  .auth-series-nav li::before { content: counter(series); font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 700; color: var(--muted); width: 28px; flex-shrink: 0; }
+  .auth-series-nav li.current { font-weight: 600; }
+  .auth-series-nav li.current::before { color: var(--link); }
+  .auth-series-nav li.pending { color: var(--muted); }
+  .auth-series-nav li.pending .pending-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-left: 8px; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+  .auth-series-nav a { color: var(--ink); text-decoration: none; border-bottom: 1px solid transparent; }
+  .auth-series-nav a:hover { border-bottom-color: var(--link); color: var(--link); }
+  .auth-footer { border-top: 1px solid var(--rule); padding: 32px 24px; margin-top: 40px; font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 13px; color: var(--muted); }
+  .auth-footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .auth-footer a { color: var(--muted); text-decoration: underline; text-decoration-thickness: 1px; }
+  .auth-footer a:hover { color: var(--link); }
+  @media (max-width: 640px) {
+    body { font-size: 17px; }
+    h1.auth-title { font-size: 30px; }
+    .auth-body { font-size: 17px; }
+    .auth-body h2 { font-size: 24px; }
+    .auth-main { padding: 32px 20px 60px; }
+  }
+</style>
+"""
+
+
+def _series_nav_html(post: dict, all_posts: list) -> str:
+    """Render the sibling-parts list for the authority series nav."""
+    vertical = post.get("vertical", "")
+    if not vertical or vertical not in SERIES_PARTS_ES:
+        return ""
+
+    # Map shipped pillars (series_part -> url_path) by scanning all_posts
+    shipped = {}
+    for p in (all_posts or []):
+        if p.get("vertical") == vertical and p.get("series_part"):
+            shipped[p["series_part"]] = post_url(p)
+
+    current_part = post.get("series_part", 0)
+    is_hub = post.get("is_series_hub", False)
+
+    parts = SERIES_PARTS_ES[vertical]
+    items = []
+    for n, title in parts:
+        is_current = (n == current_part) and not is_hub
+        is_shipped = n in shipped
+        if is_current:
+            items.append(f'<li class="current">{title}</li>')
+        elif is_shipped:
+            items.append(f'<li><a href="{shipped[n]}">{title}</a></li>')
+        else:
+            items.append(f'<li class="pending">{title} <span class="pending-label">Próximamente</span></li>')
+
+    return f"""
+<nav class="auth-series-nav" aria-label="Partes de la serie">
+  <h3>Todas las partes de esta serie</h3>
+  <ol>
+    {chr(10).join(items)}
+  </ol>
+</nav>
+"""
+
+
+def build_authority_page(post: dict, all_posts: list = None):
+    """Minimal Attia-style authority template for series hub + pillar pages.
+
+    No nav dropdown, no amber CTAs, no reading-progress bar, no related-posts grid.
+    Just: logo header, series label, title, byline, prose body, series nav, minimal footer.
+    """
+    slug = post["slug"]
+    title = post.get("title", "")
+    description = post.get("description", post.get("meta_description", ""))
+    html_content = post.get("html_content", "")
+    date_str = fmt_date(post.get("publishedAt", ""))
+    rtime = read_time(html_content)
+    canonical = f"{SITE_URL}{post_url(post)}"
+
+    is_hub = post.get("is_series_hub", False)
+    vertical = post.get("vertical", "")
+    series_part = post.get("series_part", 0)
+
+    # Sanitize + inject internal links (same as blog template)
+    html_content = sanitize_content(html_content)
+    if all_posts:
+        html_content = inject_internal_links(html_content, post, all_posts, max_links=4)
+
+    # Series label: for hub it's "Serie" + vertical name; for pillar it's "Parte N de 9 · [Hub Title]"
+    hub_url_for_label = post.get("hub_url") or f"/es/para/{vertical}/"
+    hub_title_for_label = post.get("hub_title", "la serie")
+    if is_hub:
+        series_label = f'Serie de 9 partes'
+    elif series_part:
+        series_label = f'Parte {series_part} de 9 · <a href="{hub_url_for_label}">Ver la serie completa</a>'
+    else:
+        series_label = ""
+
+    series_nav = _series_nav_html(post, all_posts or [])
+
+    # Schema (simplified — Article + BreadcrumbList)
+    schema = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": title,
+        "description": description,
+        "author": {"@type": "Person", "name": "William Welch"},
+        "datePublished": post.get("publishedAt", ""),
+        "mainEntityOfPage": {"@type": "WebPage", "@id": canonical},
+        "url": canonical,
+        "publisher": {"@type": "Organization", "name": SITE_NAME},
+    }
+    if not is_hub and vertical:
+        schema["isPartOf"] = {"@type": "Series", "url": f"{SITE_URL}/es/para/{vertical}/"}
+
+    html = f"""<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title} | {SITE_NAME}</title>
+<meta name="description" content="{truncate(description, 160)}">
+<link rel="canonical" href="{canonical}">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{truncate(description, 160)}">
+<meta property="og:url" content="{canonical}">
+<meta property="og:type" content="article">
+<meta name="robots" content="index, follow, max-image-preview:large">
+{_authority_css()}
+</head>
+<body>
+<header class="auth-header">
+  <div class="auth-header-inner">
+    <a href="/">GlobalHighLevel</a>
+    <nav>
+      <a href="/blog/">Blog</a>
+      <a href="{hub_url_for_label}">La serie</a>
+    </nav>
+  </div>
+</header>
+
+<main class="auth-main">
+  {f'<div class="auth-series-label">{series_label}</div>' if series_label else ''}
+  <h1 class="auth-title">{title}</h1>
+  <div class="auth-byline">Por William Welch{' · ' + date_str if date_str else ''} · {rtime}</div>
+  <article class="auth-body">
+    {html_content}
+  </article>
+  {series_nav}
+</main>
+
+<footer class="auth-footer">
+  <div class="auth-footer-inner">
+    <span>© 2026 GlobalHighLevel. Este sitio participa en el programa de afiliados de GoHighLevel.</span>
+    <span><a href="/about/">Acerca</a> · <a href="/">Home</a></span>
+  </div>
+</footer>
+
+<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script>
+</body>
+</html>"""
+
+    write(PUBLIC_DIR / post_output_rel(post) / "index.html", html)
+
+
 def build_post_page(post: dict, all_posts: list = None):
     slug        = post["slug"]
     title       = post.get("title", post.get("seoTitle", ""))
@@ -897,7 +1131,7 @@ def build_post_page(post: dict, all_posts: list = None):
     html_content = post.get("html_content", "")
     episode_id  = post.get("transistorEpisodeId", "")
     rtime       = read_time(html_content)
-    canonical   = f"{SITE_URL}/blog/{slug}/"
+    canonical   = f"{SITE_URL}{post_url(post)}"
 
     # ── Sanitize content: strip in-content TOC and CTA boxes ──────────────────
     html_content = sanitize_content(html_content)
@@ -988,8 +1222,9 @@ def build_post_page(post: dict, all_posts: list = None):
                 r_slug  = r.get("slug", "")
                 r_title = r.get("title", r.get("seoTitle", ""))
                 r_cat   = display_cat(r.get("category", "")) or "GoHighLevel"
+                r_url   = post_url(r)
                 cards += f"""
-<a href="/blog/{r_slug}/" class="related-card">
+<a href="{r_url}" class="related-card">
   <div class="r-tag">{r_cat}</div>
   <div class="r-title">{r_title}</div>
 </a>"""
@@ -1083,7 +1318,7 @@ def build_post_page(post: dict, all_posts: list = None):
         lang=post_lang,
         text_dir=post_dir,
     )
-    write(PUBLIC_DIR / "blog" / slug / "index.html", html)
+    write(PUBLIC_DIR / post_output_rel(post) / "index.html", html)
 
 
 def build_index(posts: list[dict], page: int = 1, per_page: int = 18):
@@ -1329,9 +1564,8 @@ def build_sitemap(posts: list[dict]):
             for c in CATEGORIES:
                 urls.append(f'  <url><loc>{SITE_URL}{lang["prefix"]}/category/{c["slug"]}/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>')
     for p in posts:
-        slug = p.get("slug", "")
         date = p.get("publishedAt", p.get("uploadedAt", ""))[:10]
-        urls.append(f'  <url><loc>{SITE_URL}/blog/{slug}/</loc><lastmod>{date}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>')
+        urls.append(f'  <url><loc>{SITE_URL}{post_url(p)}</loc><lastmod>{date}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>')
 
     xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n  xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
     xml += "\n".join(urls)
@@ -2559,10 +2793,19 @@ def main():
     print(f"  Categories: {len(CATEGORIES)}")
     print(f"  Merged: {len(merged)}\n")
 
-    # Individual post pages
+    # Individual post pages — authority template for series content, blog template for rest
     print("Building post pages...")
+    authority_count = 0
+    blog_count = 0
     for p in merged:
-        build_post_page(p, all_posts=merged)
+        is_series = p.get("is_series_hub") or p.get("url_path", "").startswith("/es/para/") or p.get("url_path", "").startswith("/for/")
+        if is_series:
+            build_authority_page(p, all_posts=merged)
+            authority_count += 1
+        else:
+            build_post_page(p, all_posts=merged)
+            blog_count += 1
+    print(f"  authority: {authority_count}, blog: {blog_count}")
 
     # Homepage (paginated) — English only
     print("\nBuilding homepage...")
