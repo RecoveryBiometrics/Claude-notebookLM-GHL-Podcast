@@ -633,6 +633,14 @@ async def run_cycle(cycle_num: int):
     except Exception as e:
         log(f"  gsc-topics.py error (non-fatal): {e}")
 
+    # Step 0b2: Verticals measurement — pulls GSC for shipped vertical URLs, posts to #globalhighlevel
+    log("Step 0b2 — Running verticals_measure.py...")
+    try:
+        verticals_measure = load_script("verticals_measure.py")
+        verticals_measure.main()
+    except Exception as e:
+        log(f"  verticals_measure.py error (non-fatal): {e}")
+
     # Step 0c: Run SEO Optimizer (weekly gate — skips if <7 days since last run)
     log("Step 0c — Running 8-seo-optimizer.py (weekly gate)...")
     seo_optimizer_results = {"pages_optimized": 0, "rewrites": 0, "expansions": 0, "details": []}
