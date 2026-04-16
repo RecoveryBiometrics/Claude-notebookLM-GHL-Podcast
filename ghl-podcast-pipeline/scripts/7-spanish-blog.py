@@ -227,7 +227,7 @@ def write_blog(topic: str, research_data: dict, mode: str = "standard",
         f"{GHL_AFFILIATE_LINK}"
         f"&utm_source=blog&utm_medium=article&utm_campaign={utm_campaign}-es"
     )
-    trial_url = "https://globalhighlevel.com/trial"
+    trial_url = "https://globalhighlevel.com/es/trial/"
 
     serp_context = "\n".join(
         [f"- {r['title']}: {r['snippet']}" for r in research_data["serp"]]
@@ -332,7 +332,7 @@ def write_blog_attia(topic: str, research_data: dict, vertical: str, part: int,
         f"{GHL_AFFILIATE_LINK}"
         f"&utm_source=blog&utm_medium=article&utm_campaign=verticals-{vertical}-part{part}-es"
     )
-    trial_url = "https://globalhighlevel.com/trial"
+    trial_url = "https://globalhighlevel.com/es/trial/"
     extendly_url = "https://extendly.com/gohighlevel/?deal=vqzoli"
 
     serp_context = "\n".join([f"- {r['title']}: {r['snippet']}" for r in research_data["serp"]]) or "No SERP data available."
@@ -622,7 +622,7 @@ def classify_post(topic: str) -> str:
 
 def ensure_affiliate_links(html: str) -> str:
     """Replace bare gohighlevel.com links with trial redirect and inject CTA if missing."""
-    trial_url = "https://globalhighlevel.com/trial"
+    trial_url = "https://globalhighlevel.com/es/trial/"
     # Replace bare GHL links with trial redirect
     html = re.sub(
         r'https?://(?:www\.)?gohighlevel\.com(?!/highlevel-bootcamp)[^\s"<]*(?!fp_ref)',

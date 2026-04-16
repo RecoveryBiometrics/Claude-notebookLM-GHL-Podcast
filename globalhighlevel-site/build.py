@@ -1618,9 +1618,153 @@ All tutorials are free. Topics include GoHighLevel automations, AI conversation 
 
 
 def build_trial_page():
-    """Build both affiliate landing pages — /trial/ (podcast) and /start/ (blog)."""
+    """Build affiliate landing pages in all supported languages.
+    English: /trial/, /start/ — full SEO-optimized page (282 lines).
+    ES/IN/AR: /{lang}/trial/, /{lang}/start/ — minimal native-language landing."""
     _build_affiliate_landing("trial", "podcast")
     _build_affiliate_landing("start", "blog")
+    for lang_cfg in LOCALIZED_LANDING_LANGS:
+        _build_localized_affiliate_landing(lang_cfg, "trial", "podcast")
+        _build_localized_affiliate_landing(lang_cfg, "start", "blog")
+
+
+LOCALIZED_LANDING_LANGS = [
+    {
+        "code": "es",
+        "prefix": "/es",
+        "dir": "ltr",
+        "title": "Prueba GoHighLevel Gratis 30 Días — Sin Tarjeta de Crédito",
+        "desc": "Comienza tu prueba gratis de 30 días de GoHighLevel. Sin tarjeta de crédito. Acceso completo a todas las funciones. Cancela cuando quieras.",
+        "h1": "Prueba GoHighLevel Gratis por 30 Días",
+        "subh": "Sin tarjeta de crédito. Acceso completo. Cancela cuando quieras.",
+        "cta": "Empezar mi prueba gratis",
+        "value_props": [
+            ("CRM todo-en-uno", "Reemplaza 10+ herramientas: CRM, embudos, email, SMS, WhatsApp, calendarios, pagos."),
+            ("WhatsApp Business integrado", "El canal real en Latinoamérica. Automatiza seguimientos sin saltar entre apps."),
+            ("Desde $97 USD/mes", "Después de los 30 días. Cancelas cuando quieras, sin compromiso."),
+        ],
+        "faq_h": "Preguntas frecuentes",
+        "faq": [
+            ("¿Necesito tarjeta de crédito?", "No. La prueba de 30 días no requiere tarjeta. Solo te registras con tu email."),
+            ("¿Cuánto cuesta después de la prueba?", "Desde $97 USD al mes. Puedes cancelar en cualquier momento durante los 30 días sin cargo."),
+            ("¿Qué pasa si cancelo?", "Tu cuenta se cierra sin cargo. Mantienes lo que construiste pero no puedes acceder después de la cancelación."),
+        ],
+        "footer_cta": "Empieza tu prueba de 30 días ahora",
+    },
+    {
+        "code": "in",
+        "prefix": "/in",
+        "dir": "ltr",
+        "title": "GoHighLevel Free Trial India — 30 Days, No Credit Card",
+        "desc": "Start your 30-day GoHighLevel free trial in India. No credit card required. Full access to all features, $97/mo (~₹8,000) after trial. Cancel anytime.",
+        "h1": "Start Your 30-Day GoHighLevel Free Trial",
+        "subh": "No credit card. Full access. Built for Indian agencies with Razorpay, WhatsApp, and UPI integration.",
+        "cta": "Start my free trial",
+        "value_props": [
+            ("All-in-one CRM for Indian agencies", "Replace 10+ tools. CRM, funnels, email, WhatsApp, UPI-ready payments."),
+            ("WhatsApp + Razorpay native", "Built for how Indian agencies actually operate. No US-centric SMS/Stripe bottlenecks."),
+            ("Starts at $97 USD/mo (~₹8,000)", "After your free 30 days. Cancel anytime, no commitment."),
+        ],
+        "faq_h": "Frequently asked questions",
+        "faq": [
+            ("Do I need a credit card?", "No. The 30-day trial doesn't require a credit card. Sign up with email only."),
+            ("What does it cost after the trial?", "Starts at $97 USD/month (~₹8,000/month). Agency plan ~₹24,700/month. Cancel anytime during the 30-day trial with no charge."),
+            ("Does it work with Razorpay and WhatsApp Business API?", "Yes. GoHighLevel supports Razorpay, PayU, and WhatsApp Business API natively — no third-party integration headaches."),
+        ],
+        "footer_cta": "Start your 30-day trial",
+    },
+    {
+        "code": "ar",
+        "prefix": "/ar",
+        "dir": "rtl",
+        "title": "نسخة تجريبية مجانية من GoHighLevel لمدة 30 يوم",
+        "desc": "ابدأ تجربتك المجانية لمدة 30 يوم من GoHighLevel. لا توجد بطاقة ائتمان. وصول كامل لجميع الميزات. ألغِ في أي وقت.",
+        "h1": "ابدأ تجربتك المجانية من GoHighLevel لمدة 30 يوم",
+        "subh": "لا توجد بطاقة ائتمان. وصول كامل. ألغِ في أي وقت.",
+        "cta": "ابدأ تجربتي المجانية",
+        "value_props": [
+            ("نظام CRM شامل", "استبدل أكثر من 10 أدوات: CRM، قنوات، بريد إلكتروني، واتساب، تقويمات، مدفوعات."),
+            ("تكامل واتساب للأعمال", "القناة الحقيقية في الشرق الأوسط. أتمتة المتابعات بدون التنقل بين التطبيقات."),
+            ("$97 دولار شهرياً", "بعد 30 يوم. ألغِ في أي وقت بدون التزام."),
+        ],
+        "faq_h": "أسئلة شائعة",
+        "faq": [
+            ("هل أحتاج بطاقة ائتمان؟", "لا. التجربة لمدة 30 يوم لا تتطلب بطاقة. سجل بالبريد الإلكتروني فقط."),
+            ("كم التكلفة بعد التجربة؟", "تبدأ من 97 دولار شهرياً (~356 درهم إماراتي، ~364 ريال سعودي). ألغِ خلال الـ30 يوم بدون رسوم."),
+            ("ماذا لو ألغيت؟", "يغلق حسابك بدون رسوم. تحتفظ بما بنيته لكن لن تتمكن من الوصول بعد الإلغاء."),
+        ],
+        "footer_cta": "ابدأ تجربتك لمدة 30 يوم الآن",
+    },
+]
+
+
+def _build_localized_affiliate_landing(lang_cfg: dict, slug: str, campaign: str):
+    """Build a localized affiliate landing page at /{lang}/{slug}/.
+    Minimal native-language version — full SEO optimization lives in English /trial/ + /start/.
+    Focus: reassure the non-EN reader they're in the right place, click through to affiliate."""
+    lang = lang_cfg["code"]
+    prefix = lang_cfg["prefix"]
+    direction = lang_cfg["dir"]
+    canonical = f"{SITE_URL}{prefix}/{slug}/"
+    affiliate_url = f"{AFFILIATE}&utm_campaign={lang}-{campaign}"
+
+    value_props_html = "\n".join(
+        f'  <div class="vp-item">\n    <strong>{name}</strong>\n    <p>{desc}</p>\n  </div>'
+        for name, desc in lang_cfg["value_props"]
+    )
+    faq_html = "\n".join(
+        f'  <div class="faq-item">\n    <h3>{q}</h3>\n    <p>{a}</p>\n  </div>'
+        for q, a in lang_cfg["faq"]
+    )
+
+    body = f"""
+<div class="trial-wrap" dir="{direction}">
+  <header class="trial-header">
+    <h1>{lang_cfg["h1"]}</h1>
+    <p class="trial-sub">{lang_cfg["subh"]}</p>
+    <a class="trial-cta-primary" href="{affiliate_url}" target="_blank" rel="nofollow noopener">{lang_cfg["cta"]} →</a>
+  </header>
+
+  <section class="trial-value-props">
+{value_props_html}
+  </section>
+
+  <section class="trial-faq">
+    <h2>{lang_cfg["faq_h"]}</h2>
+{faq_html}
+  </section>
+
+  <footer class="trial-footer-cta">
+    <a class="trial-cta-primary" href="{affiliate_url}" target="_blank" rel="nofollow noopener">{lang_cfg["footer_cta"]} →</a>
+  </footer>
+</div>
+
+<style>
+  .trial-wrap {{ max-width: 760px; margin: 0 auto; padding: 48px 24px; font-family: Georgia, serif; line-height: 1.7; color: #1a1a1a; }}
+  .trial-header {{ text-align: center; padding: 32px 0 48px; border-bottom: 1px solid #e5e5e5; margin-bottom: 48px; }}
+  .trial-header h1 {{ font-size: 36px; line-height: 1.2; margin: 0 0 16px; }}
+  .trial-sub {{ font-size: 18px; color: #555; margin: 0 0 32px; }}
+  .trial-cta-primary {{ display: inline-block; background: #f59e0b; color: #111520; padding: 16px 32px; border-radius: 6px; text-decoration: none; font-weight: 700; font-size: 17px; font-family: -apple-system, sans-serif; }}
+  .trial-cta-primary:hover {{ background: #d97706; color: #fff; }}
+  .trial-value-props {{ display: grid; gap: 24px; margin-bottom: 56px; }}
+  .vp-item strong {{ display: block; font-size: 18px; margin-bottom: 6px; }}
+  .vp-item p {{ margin: 0; color: #444; }}
+  .trial-faq h2 {{ font-size: 26px; margin: 0 0 24px; }}
+  .faq-item {{ margin-bottom: 28px; }}
+  .faq-item h3 {{ font-size: 18px; margin: 0 0 8px; }}
+  .faq-item p {{ margin: 0; color: #333; }}
+  .trial-footer-cta {{ text-align: center; padding: 48px 0 24px; border-top: 1px solid #e5e5e5; margin-top: 48px; }}
+</style>
+"""
+    html = base_html(
+        title=f"{lang_cfg['title']} | {SITE_NAME}",
+        description=lang_cfg["desc"],
+        canonical=canonical,
+        body=body,
+        lang=lang,
+        text_dir=direction,
+    )
+    write(PUBLIC_DIR / lang / slug / "index.html", html)
 
 
 def _build_affiliate_landing(slug: str, campaign: str):

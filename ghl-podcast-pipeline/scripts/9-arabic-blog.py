@@ -212,7 +212,7 @@ def write_blog(topic: str, research_data: dict) -> dict:
         f"{GHL_AFFILIATE_LINK}"
         f"&utm_source=blog&utm_medium=article&utm_campaign={utm_campaign}"
     )
-    trial_url = "https://globalhighlevel.com/trial"
+    trial_url = "https://globalhighlevel.com/ar/trial/"
 
     serp_context = "\n".join(
         [f"- {r['title']}: {r['snippet']}" for r in research_data["serp"]]
@@ -389,7 +389,7 @@ def classify_post(topic: str) -> str:
 
 def ensure_affiliate_links(html: str) -> str:
     """Replace bare gohighlevel.com links with trial redirect and inject CTA if missing."""
-    trial_url = "https://globalhighlevel.com/trial"
+    trial_url = "https://globalhighlevel.com/ar/trial/"
     # Replace bare GHL links with trial redirect
     html = re.sub(
         r'https?://(?:www\.)?gohighlevel\.com(?!/highlevel-bootcamp)[^\s"<]*(?!fp_ref)',

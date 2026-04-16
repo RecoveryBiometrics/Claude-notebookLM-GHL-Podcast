@@ -366,7 +366,7 @@ def make_unique_slug(slug: str) -> str:
 
 def ensure_affiliate_links(html: str) -> str:
     """Replace bare gohighlevel.com links with trial redirect and inject CTA if missing."""
-    trial_url = "https://globalhighlevel.com/trial"
+    trial_url = "https://globalhighlevel.com/in/trial/"
     html = re.sub(
         r'https?://(?:www\.)?gohighlevel\.com(?!/highlevel-bootcamp)[^\s"<]*(?!fp_ref)',
         trial_url, html

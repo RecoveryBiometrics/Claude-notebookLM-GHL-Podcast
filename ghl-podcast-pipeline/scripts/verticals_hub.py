@@ -67,7 +67,7 @@ def generate_hub(vertical: str, vertical_plural: str, vertical_singular: str,
     Returns:
         post-shaped dict ready to be saved as JSON
     """
-    trial_url = "https://globalhighlevel.com/trial"
+    trial_url = "https://globalhighlevel.com/es/trial/"
     extendly_url = "https://extendly.com/gohighlevel/?deal=vqzoli"
 
     # Build part list for the Attia writer
