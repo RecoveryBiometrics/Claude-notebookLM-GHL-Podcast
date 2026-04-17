@@ -56,6 +56,7 @@
 - **VPS scripts sync via `scp`, not git pull.** Deploy: `scp -i ~/.ssh/ionos_ghl <file> root@74.208.190.10:/opt/ghl-pipeline/scripts/`
 - **public/ is gitignored.** Build output never tracked.
 - **28-day cooldown** on SEO optimizer and GSC topic flagging
+- **`/trial/`, `/coupon/`, `/start/` are ATTRIBUTION URLs, not SEO landings.** Full content pages (~1,900 words) that pitch both GHL + Extendly affiliates, GA4-tracked CTAs, intentionally `Disallow`'d in `robots.txt` so they don't cannibalize organic SERPs. Parallel SEO-indexable blog posts exist (`/blog/gohighlevel-free-trial-30-days-extended/` etc.). Do NOT unblock, thin out, or migrate their content. Full rules in `globalhighlevel-site/CLAUDE.md`.
 
 ## Affiliate Link
 All GHL links must include `fp_ref=amplifi-technologies12`. Full rules in `globalhighlevel-site/CLAUDE.md`.

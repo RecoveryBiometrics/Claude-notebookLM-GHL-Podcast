@@ -47,6 +47,44 @@
 - **No placeholder `#` links** — if the real URL isn't known, link to `/category/gohighlevel-tutorials/` or `/`
 - Spotify podcast link: `https://open.spotify.com/show/28LLaXVbmnHUMNBFGdgdlV`
 
+## /trial/, /coupon/, /start/ — Attribution URLs (NOT SEO landings)
+
+**Purpose:** These three paths are dedicated attribution/conversion pages for people who arrive from our owned media (podcast descriptions, blog CTAs, social). They are intentionally separated from organic SEO pages.
+
+**What they are:**
+- **`/trial/`** — podcast-description destination. Every episode description on Spotify/Apple points here.
+- **`/coupon/`** — promo-code / discount-hunter destination (also podcast + social use).
+- **`/start/`** — blog-article-embedded CTA destination (split from `/trial/` on 2026-04-15 for attribution).
+
+**Format (all three):**
+- Full content pages, ~1,500–2,000 words each
+- Pitch BOTH GHL primary affiliate AND Extendly secondary affiliate (education + trust before the click)
+- 7+ outbound affiliate links with `fp_ref=amplifi-technologies12` + UTM params
+- GA4 fires `cta_click` / `affiliate_click` event on every CTA press (before the outbound redirect)
+- Peter Attia voice: teach the "why 30 days not 14", who it's for, what's included, then affiliate
+
+**Why they're `Disallow`'d in `robots.txt`:**
+- Normal Googlebot is explicitly blocked from crawling these paths
+- AI crawlers (GPTBot, ClaudeBot, Google-Extended, PerplexityBot, anthropic-ai) ARE allowed
+- Reason: keep attribution clean — these URLs must NOT compete in SERPs with our organic blog pages, otherwise podcast-click data is polluted with organic-search clicks
+
+**Locked for 8 weeks** via `locked_until` in `ghl-podcast-pipeline/data/seo-cooldown.json` — the SEO optimizer skips these paths entirely.
+
+**Parallel SEO-indexable pages exist** (these are the ones that rank for organic money keywords):
+- `/trial/` ↔ `/blog/gohighlevel-free-trial-30-days-extended/`
+- `/coupon/` ↔ `/blog/gohighlevel-promo-code-discount-2026-real-ways-to-save/`
+- `/blog/gohighlevel-pricing-plans-2026-complete-guide/` for the pricing query cluster
+
+The attribution URL and the SEO blog are allowed to have overlapping content — different audiences, different funnels, different attribution. Edit them independently.
+
+**Do NOT:**
+- Unblock `/trial/`, `/coupon/`, or `/start/` in `robots.txt` — it breaks attribution
+- Migrate their content to the blog pages — kills podcast-listener UX and the Extendly pitch
+- Thin them out to a fast redirect — loses the "teach before you sell" voice and Extendly conversion
+- Point internal cross-links to these paths for SEO reasons — always link to the `/blog/...` SEO page for content context, reserve attribution paths for owned-media CTAs only
+
+**When editing:** if you rewrite one, consider whether the parallel SEO blog post needs the same update (e.g., new FAQ entry, updated pricing). They're independent artifacts serving different audiences, but fact drift between them is confusing.
+
 ## Verified Facts (use ONLY these — invent nothing)
 - Site: GlobalHighLevel.com — free GHL tutorials
 - Podcast: "Go High Level" on Spotify

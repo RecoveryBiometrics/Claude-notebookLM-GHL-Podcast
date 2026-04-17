@@ -14,5 +14,11 @@
   ],
   "language": "es",
   "publishedAt": "2026-04-10T06:00:00.000000",
-  "author": "Global High Level"
+  "author": "Global High Level",
+  "translations": {
+    "en": "gohighlevel-pricing-plans-2026-complete-guide",
+    "es": "gohighlevel-precios-planes-2026-guia-completa",
+    "en-IN": "gohighlevel-pricing-india-2026-rupees-complete-guide",
+    "ar": "gohighlevel-pricing-arabic-2026-complete-guide"
+  }
 }

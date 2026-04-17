@@ -723,9 +723,29 @@ def _build_hreflang_tags(page_path: str = "") -> str:
     return "\n".join(tags)
 
 
+def _build_post_hreflang_tags(translations: dict) -> str:
+    """Build hreflang tags for a blog post from an explicit slug-per-language map.
+
+    translations: {"en": "en-slug", "es": "es-slug", "en-IN": "in-slug", "ar": "ar-slug"}
+    Emits <link rel="alternate" hreflang="{code}" href="/blog/{slug}/"> for each,
+    plus x-default pointing at the English variant (or first entry if no English).
+    """
+    if not translations or not isinstance(translations, dict):
+        return ""
+    tags = []
+    for code, slug in translations.items():
+        if not slug:
+            continue
+        tags.append(f'<link rel="alternate" hreflang="{code}" href="{SITE_URL}/blog/{slug}/">')
+    default_slug = translations.get("en") or next(iter(translations.values()), "")
+    if default_slug:
+        tags.append(f'<link rel="alternate" hreflang="x-default" href="{SITE_URL}/blog/{default_slug}/">')
+    return "\n".join(tags)
+
+
 LANG_META_VIOLATIONS = []
 
-def base_html(title: str, description: str, canonical: str, body: str, og_image: str = "", lang: str = "en", text_dir: str = "ltr", hreflang_path: str = "") -> str:
+def base_html(title: str, description: str, canonical: str, body: str, og_image: str = "", lang: str = "en", text_dir: str = "ltr", hreflang_path: str = "", hreflang_override: str = "") -> str:
     ok, msg = validate_meta(canonical, title, description)
     if not ok:
         LANG_META_VIOLATIONS.append(msg)
@@ -767,8 +787,13 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
         href = l["prefix"] + "/" if l["prefix"] else "/"
         footer_lang_links += f'        <a href="{href}">{l["native"]}</a>\n'
 
-    # hreflang tags
-    hreflang_html = _build_hreflang_tags(hreflang_path) if LANGUAGES else ""
+    # hreflang tags — override wins (per-post translations map), else fall back to prefix-based
+    if hreflang_override:
+        hreflang_html = hreflang_override
+    elif LANGUAGES:
+        hreflang_html = _build_hreflang_tags(hreflang_path)
+    else:
+        hreflang_html = ""
 
     # RTL style override
     rtl_attr = ' dir="rtl"' if text_dir == "rtl" else ""
@@ -1310,6 +1335,8 @@ def build_post_page(post: dict, all_posts: list = None):
     post_lang_config = next((l for l in LANGUAGES if l["code"] == post_lang), None)
     post_dir = post_lang_config.get("dir", "ltr") if post_lang_config else "ltr"
 
+    hreflang_override = _build_post_hreflang_tags(post.get("translations") or {})
+
     html = base_html(
         title=f"{title} | {SITE_NAME}",
         description=truncate(description, 160),
@@ -1317,6 +1344,7 @@ def build_post_page(post: dict, all_posts: list = None):
         body=body,
         lang=post_lang,
         text_dir=post_dir,
+        hreflang_override=hreflang_override,
     )
     write(PUBLIC_DIR / post_output_rel(post) / "index.html", html)
 

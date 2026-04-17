@@ -1,0 +1,125 @@
+[
+  {
+    "topic": "Por qu\u00e9 las agencias de marketing digital necesitan un CRM en 2026",
+    "slug": "por-que-agencias-necesitan-crm-2026-parte-1",
+    "source": "verticals-agencias-de-marketing-part1",
+    "corrections": [
+      "RULE #0 VIOLATION: El p\u00e1rrafo sobre white-label est\u00e1 incompleto ('sin que construyas') \u2014 parece cortado. Esto no es una violaci\u00f3n de fabricaci\u00f3n, pero es un error t\u00e9cnico que debe corregirse.",
+      "FALTA CR\u00cdTICA: No se menciona MercadoPago en ning\u00fan momento. Para una agencia en M\u00e9xico, Colombia o Argentina, MercadoPago es EL procesador de pagos dominante. Se debe agregar contexto de pagos recurrentes con clientes LatAm.",
+      "FALTA CR\u00cdTICA: WhatsApp Business API se menciona en la RULE como 'Por qu\u00e9 WhatsApp en tu CRM cambia la econom\u00eda de tu agencia' pero NO se desarrolla en el contenido. Falta una secci\u00f3n que explique WhatsApp como canal principal (no SMS) y su impacto en engagement.",
+      "FALTA: No hay menci\u00f3n de competidores regionales. Clientify es el principal competidor CRM en espa\u00f1ol para LatAm y deber\u00eda mencionarse para posicionar valor de GHL.",
+      "FALTA: Los precios de GHL ($97/$297) no aparecen en el blog. Para una agencia peque\u00f1a en LatAm, el contexto de precio es cr\u00edtico para justificar ROI. Deber\u00eda incluirse.",
+      "VERIFICACI\u00d3N DE ESPA\u00d1OL: El espa\u00f1ol suena natural y latinoamericano \u2713. 'Hacer seguimiento' (correcto), 'WhatsApp' (correcto), tono informal con 't\u00fa' \u2713.",
+      "VERIFICACI\u00d3N GRAM\u00c1TICA: Una falta de ortograf\u00eda potencial: 'quien llam\u00f3' es correcto, pero la serie de verbos est\u00e1 bien.",
+      "FALTA DE CONTEXTO: La introducci\u00f3n menciona 'agencias de 3 a 10 personas en M\u00e9xico, Colombia o Argentina' pero no hay ejemplos hipot\u00e9ticos claros con la estructura 'ejemplo hipot\u00e9tico, no un cliente real'. Esto est\u00e1 bien, pero podr\u00eda reforzarse.",
+      "INCOMPLETO: El p\u00e1rrafo white-label termina sin conclusi\u00f3n ('sin que construyas...'). Necesita completarse."
+    ],
+    "publishedAt": "2026-04-15T16:00:12.198431"
+  },
+  {
+    "topic": "Por qu\u00e9 las agencias de marketing digital necesitan un CRM en 2026",
+    "slug": "por-que-agencias-marketing-necesitan-crm-2026-parte-1",
+    "source": "verticals-agencias-de-marketing-part1",
+    "corrections": [
+      "RULE #0 VIOLATION \u2014 FABRICATED ANECDOTE: 'Hace tres a\u00f1os trabaj\u00e9 con una agencia de paid ads en Bogot\u00e1. Diez personas...' es un case study inventado sin aprobaci\u00f3n escrita. Debe ser removido o marcado expl\u00edcitamente como ejemplo hipot\u00e9tico.",
+      "RULE #0 VIOLATION \u2014 FABRICATED DOLLAR FIGURE: '$15 mil d\u00f3lares mensuales' en el heading sin fuente. Reescribir sin n\u00famero espec\u00edfico o citar fuente p\u00fablica.",
+      "FALTA CR\u00cdTICA: No se menciona MercadoPago como m\u00e9todo de pago principal en Latinoam\u00e9rica. El contenido debe destacar MercadoPago, Conekta (M\u00e9xico), PayU (Colombia) como opciones nativas antes que Stripe.",
+      "FALTA CR\u00cdTICA: No hay justificaci\u00f3n de ROI en USD/moneda local. Debe incluirse: '$97/mes (GHL Starter) reemplaza 5-10 herramientas que cuestan $500+/mes combinadas'.",
+      "FALTA CR\u00cdTICA: WhatsApp Business API debe mencionarse expl\u00edcitamente como canal principal de comunicaci\u00f3n. El contenido dice 'reenviando mails de clientes por WhatsApp' pero no destaca la integraci\u00f3n de WhatsApp como caracter\u00edstica central del CRM.",
+      "FALTA DE CONTEXTO COMPETIDOR: No se menciona Clientify (principal competidor CRM en espa\u00f1ol para Latinoam\u00e9rica). Debe compararse GHL vs Clientify de forma justa.",
+      "TONO INCOMPLETO: El p\u00e1rrafo sobre Bogot\u00e1 se corta a mitad ('Era que...'). Est\u00e1 truncado o incompleto.",
+      "ESPECIFICIDAD REGIONAL: Se mencionan M\u00e9xico, Colombia y Argentina en el p\u00e1rrafo inicial, pero falta contextualizar por qu\u00e9 GHL es espec\u00edficamente mejor para cada mercado (diferencias en m\u00e9todos de pago, idioma, regulaciones).",
+      "ORTOGRAF\u00cdA: 'gatillan' es correcto pero podr\u00eda ser m\u00e1s natural 'se activan' o 'se disparan' en contexto latinoamericano moderno. No es error pero es mejora de tono."
+    ],
+    "publishedAt": "2026-04-15T16:29:55.174743"
+  },
+  {
+    "topic": "Por qu\u00e9 las agencias de marketing digital necesitan un CRM en 2026",
+    "slug": "por-que-agencias-marketing-necesitan-crm-2026-parte-1",
+    "source": "verticals-agencias-de-marketing-part1",
+    "corrections": [
+      "RULE #0 VIOLATION: El texto contiene frases que parecen casos de estudio sin fuentes. Ejemplo: 'el prospecto que se cay\u00f3 porque el seguimiento se perdi\u00f3' y 'una reuni\u00f3n de equipo de 2 horas semanal' parecen inventadas. Necesita aclaraci\u00f3n de que son ejemplos hipot\u00e9ticos.",
+      "RULE #0 VIOLATION: 'cada mes pierdes entre 2 y 5 prospectos' es un n\u00famero espec\u00edfico sin fuente citada. Debe reescribirse de forma cualitativa.",
+      "RULE #0 VIOLATION: 'Una agencia de 3 personas con procesos automatizados puede manejar 20 clientes. Una de 10 personas con procesos manuales se ahoga con 8' son n\u00fameros inventados. Deben ser ejemplos hipot\u00e9ticos claramente marcados.",
+      "PAYMENTS: Se menciona WhatsApp como canal pero NO se especifica WhatsApp Business API ni integraci\u00f3n de pagos. Falta mencionar MercadoPago como opci\u00f3n de pago integrada en GHL (cr\u00edtico para LatAm).",
+      "PRICING: El link 'https://globalhighlevel.com/trial' parece gen\u00e9rico. Deber\u00eda ser un link regional o aclarar que redirige a prueba en USD.",
+      "COMPETITORS: No se menciona a Clientify como alternativa local en espa\u00f1ol. En un post sobre 'por qu\u00e9 necesitas CRM' es importante reconocer competencia regional.",
+      "CULTURAL: El tono es bueno, pero falta mencionar expl\u00edcitamente que MercadoPago, Conekta, PayU son integraciones clave que GHL ofrece (diferenciador contra HubSpot).",
+      "CLARITY: 'El CRM que usas no habla con tu herramienta de email' es vago. Deber\u00eda dar un ejemplo concreto: 'tus contactos de email no sincronizados con WhatsApp Business'.",
+      "MISSING: No se menciona que GHL permite automatizaci\u00f3n de WhatsApp (critical for LatAm). Este es un diferenciador clave contra Clientify y HubSpot.",
+      "LANGUAGE: 'cada paso para recuperarla cuesta tiempo y atenci\u00f3n' est\u00e1 bien, pero podr\u00eda ser m\u00e1s directo: 'cada paso para recuperarla cuesta dinero y ventas perdidas'."
+    ],
+    "publishedAt": "2026-04-15T16:39:00.672469"
+  },
+  {
+    "topic": "Por qu\u00e9 las agencias de marketing digital necesitan un CRM en 2026",
+    "slug": "por-que-agencias-marketing-necesitan-crm-2026-parte-1",
+    "source": "verticals-agencias-de-marketing-part1",
+    "corrections": [
+      "CR\u00cdTICO: La URL de prueba 'https://globalhighlevel.com/trial' parece inventada o no verificada. Usar solo URLs p\u00fablicas documentadas de GHL o eliminar el enlace espec\u00edfico.",
+      "CR\u00cdTICO: Falta mencionar WhatsApp Business API expl\u00edcitamente en la secci\u00f3n de conceptos clave. Es el canal no-negociable para LatAm, no debe estar ausente.",
+      "CR\u00cdTICO: Se menciona HubSpot como competidor pero NO se menciona Clientify, que es el CRM espa\u00f1ol/LatAm directo competidor. Esto es un error regional grave.",
+      "CR\u00cdTICO: En 'Integraci\u00f3n multicanal' el p\u00e1rrafo est\u00e1 truncado ('Un \u00fanico'). Completar o eliminar.",
+      "RECOMENDADO: Agregar menci\u00f3n expl\u00edcita de MercadoPago como opci\u00f3n de pago nativa para LatAm (junto a Stripe si se menciona).",
+      "RECOMENDADO: El p\u00e1rrafo introductorio menciona 'entre 4 y 6 horas cada semana' sin fuente. Usar lenguaje cualitativo ('muchas horas', 'decenas de horas mensuales') o citar fuente.",
+      "RECOMENDADO: Agregar un p\u00e1rrafo sobre por qu\u00e9 WhatsApp es cr\u00edtico en LatAm 2026 (engagement, costo, cultura de mensajer\u00eda) antes de mencionar automatizaci\u00f3n.",
+      "TONO: El espa\u00f1ol suena natural en general, pero 'dejando dinero sobre la mesa' es un giro muy directo del ingl\u00e9s. Mejor: 'perdiendo oportunidades de ingresos' o 'dejando ganancias sin cobrar'.",
+      "ESTRUCTURA: Falta secci\u00f3n sobre costo de NO tener CRM (mencionado en el \u00edndice pero no desarrollado en el contenido mostrado). Verificar que est\u00e9 completo en el post final.",
+      "MENOR: 'White-label' es correcto pero considerar agregar en par\u00e9ntesis '(reposicionar bajo tu marca)' para claridad a lectores no t\u00e9cnicos."
+    ],
+    "publishedAt": "2026-04-15T16:51:06.212454"
+  },
+  {
+    "topic": "Por qu\u00e9 las agencias de marketing digital necesitan un CRM en 2026",
+    "slug": "por-que-agencias-marketing-digital-necesitan-crm-2026",
+    "source": "verticals-agencias-de-marketing-part1",
+    "corrections": [
+      "RULE #0 VIOLATION: El enlace de prueba gratis apunta a 'globalhighlevel.com/trial' - esto parece ser un dominio inventado o no verificable. Debe reemplazarse con la URL oficial de GHL o removerse si no hay fuente p\u00fablica.",
+      "FACT CHECK - PRECIOS: El contenido menciona '$97/month' y '$297/month' en la secci\u00f3n de PRICING pero estos n\u00fameros NO aparecen en el blog post proporcionado. Si se van a mencionar precios, deben estar citados como 'precios 2026 publicados en [fuente]'. Actualmente est\u00e1 bien porque no hay n\u00fameros sin fuente en el contenido entregado, pero si se expande el post, esto ser\u00e1 cr\u00edtico.",
+      "MEJORA REGIONAL: El post menciona 'M\u00e9xico, Colombia o cualquier otro pa\u00eds de Am\u00e9rica Latina' pero no especifica diferencias de contexto. Recomendaci\u00f3n: a\u00f1adir una l\u00ednea sobre por qu\u00e9 WhatsApp es cr\u00edtico espec\u00edficamente en estos mercados (MercadoPago, m\u00e9todos de pago locales).",
+      "FALTA: No se menciona MercadoPago ni opciones de pago latinoamericanas (Conekta, PayU, Transbank). El post es sobre CRM en LatAm pero omite completamente el ecosistema de pagos local. Debe agregarse una secci\u00f3n o al menos una menci\u00f3n contextual.",
+      "FALTA: No hay comparaci\u00f3n con Clientify (principal competidor hispanohablante). Para un post sobre CRM en 2026 dirigido a agencias latinas, omitir Clientify es una p\u00e9rdida de credibilidad. Recomendaci\u00f3n: a\u00f1adir p\u00e1rrafo que mencione 'alternativas como Clientify' de forma justa.",
+      "TONO: El espa\u00f1ol es natural y latinoamericano \u2713 (buen uso de 't\u00fa', ejemplos contextuales). No hay traducciones literales evidentes \u2713",
+      "ESTRUCTURA: El \u00edndice de contenido es claro pero el post est\u00e1 incompleto (termina a mitad de 'Automatizaci\u00f3n de seguimiento'). La versi\u00f3n entregada aparentemente est\u00e1 cortada.",
+      "FALTA CONTEXTO DE VALOR: El post no menciona ROI o justificaci\u00f3n de costo. Recomendaci\u00f3n: agregar l\u00ednea como 'Un CRM bien usado reemplaza 5-10 herramientas que cuestan $500+/mes combinadas' (sin n\u00famero espec\u00edfico de ROI sin fuente).",
+      "RECOMENDACI\u00d3N: A\u00f1adir menci\u00f3n expl\u00edcita a por qu\u00e9 WhatsApp cambia la l\u00f3gica del CRM en LatAm (ya est\u00e1 en el \u00edndice, asegurarse de desarrollarlo con profundidad)."
+    ],
+    "publishedAt": "2026-04-15T17:00:04.145644"
+  },
+  {
+    "topic": "Por qu\u00e9 las agencias de marketing digital necesitan un CRM en 2026",
+    "slug": "por-que-agencias-marketing-digital-necesitan-crm-2026",
+    "source": "verticals-agencias-de-marketing-part1",
+    "corrections": [
+      "CR\u00cdTICO - RULE #0 VIOLATION: El texto menciona 'M\u00e9xico, Colombia o Chile' como mercados espec\u00edficos pero luego dice 'sin cifras inventadas' y luego introduce n\u00fameros sin fuente (ej: '3 a 5 personas'). Esto es coherente pero el p\u00e1rrafo pre-intro necesita ser claramente marcado como ejemplo hipot\u00e9tico.",
+      "CR\u00cdTICO - INCOMPLETE CONTENT: El blog post est\u00e1 truncado ('Sin' al final del p\u00e1rrafo sobre canales). No puedo verificar la estructura completa ni las secciones sobre comparativa de competidores (GoHighLevel, Clientify, HubSpot).",
+      "OMISI\u00d3N - PAGOS: No se menciona MercadoPago, Conekta, PayU o Transbank. Para contenido LatAm 2026, esto es esencial. GoHighLevel debe posicionarse con integraciones de pago locales.",
+      "OMISI\u00d3N - PRECIOS GHL: No aparecen los precios de GoHighLevel ($97 Starter, $297 Agency) ni se justifica ROI versus herramientas alternativas.",
+      "OMISI\u00d3N - COMPETENCIA: Se menciona 'Clientify, HubSpot' en los objetivos pero no est\u00e1n desarrollados en el contenido visible. Falta comparativa justa.",
+      "TONO: El espa\u00f1ol es natural y latinoamericano \u2713 (uso de 't\u00fa', 'agencias', 'apagando incendios'). No hay traducciones literales detectadas \u2713",
+      "WHATSAPP: Se menciona correctamente como canal ('Instagram DM, WhatsApp, formulario web y correo'). Falta profundizar en WhatsApp Business API como soluci\u00f3n central \u2713 parcial.",
+      "CULTURAL: El contexto de agencias peque\u00f1as (3-5 personas) es apropiado para LatAm \u2713. Relaciones personales mencionadas indirectamente \u2713.",
+      "NOTA: El CTA inicial es correcto (30 d\u00edas gratis, sin tarjeta) pero el enlace 'globalhighlevel.com/trial' debe verificarse como URL oficial de GHL LatAm."
+    ],
+    "publishedAt": "2026-04-15T17:05:52.029762"
+  },
+  {
+    "topic": "Por qu\u00e9 las agencias de marketing digital necesitan un CRM en 2026",
+    "slug": "por-que-agencias-marketing-necesitan-crm-2026-parte-1",
+    "source": "verticals-agencias-de-marketing-part1",
+    "corrections": [
+      "CR\u00cdTICO: El enlace de prueba 'https://globalhighlevel.com/trial' no es una URL verificada de GHL. Usar solo URLs oficiales de GoHighLevel o eliminar el enlace.",
+      "RULE #0 VIOLATION: La frase 'Si diriges una agencia de marketing con 3 a 8 personas en M\u00e9xico, Colombia o Argentina' contiene n\u00fameros espec\u00edficos (3 a 8) sin contexto de fuente. Reescribir como ejemplo hipot\u00e9tico claro.",
+      "RULE #0 VIOLATION: '10 y 15 horas semanales' y '20 clientes' y '40 clientes' son n\u00fameros inventados sin fuente. Deben reescribirse eliminando cifras espec\u00edficas o marcarse como hipot\u00e9ticas.",
+      "FALTA CR\u00cdTICA: No se menciona WhatsApp Business API, que es el canal de comunicaci\u00f3n dominante en LatAm. El contenido est\u00e1 enfocado en email/datos pero no menciona mensajer\u00eda.",
+      "FALTA CR\u00cdTICA: No se menciona MercadoPago ni ning\u00fan procesador de pago latinoamericano. GoHighLevel integra MercadoPago en LATAM y esto deber\u00eda estar.",
+      "FALTA CR\u00cdTICA: No se menciona competencia directa (Clientify es la alternativa CRM en espa\u00f1ol). Una comparaci\u00f3n justa ser\u00eda valiosa.",
+      "INCOMPLETITUD: El contenido se corta abruptamente en 'Es porque el tiempo que gastas en recordar d\u00f3nde qued\u00f3 cada cosa se multiplica exponencialmente con cada nue[vo cliente]' - post inacabado.",
+      "TONE: El lenguaje es apropiadamente informal (t\u00fa) pero falta mencionar que 'business relationships are personal' - elemento cultural clave en LATAM.",
+      "PRICING: No se menciona el precio de GHL ($97/month Starter, $297/month Agency). Sin contexto de valor, la propuesta es d\u00e9bil.",
+      "GRAM\u00c1TICA: 'Por qu\u00e9 las agencias de marketing digital necesitan un CRM en 2026' - correcto. Pero revisar coherencia general del fragmento incompleto.",
+      "FALTA: No hay menci\u00f3n de ROI o justificaci\u00f3n econ\u00f3mica ('$97 reemplaza 5-10 herramientas'). Esto es cr\u00edtico para agencias peque\u00f1as en LATAM con sensibilidad de precio."
+    ],
+    "publishedAt": "2026-04-15T17:22:11.472371"
+  }
+]
