@@ -32,3 +32,7 @@ globalhighlevel-site/public/
 ghl-podcast-pipeline/token-ga4.json
 ghl-podcast-pipeline/token-gsc.json.bak
 public/
+
+# macOS noise
+.DS_Store
+**/.DS_Store
