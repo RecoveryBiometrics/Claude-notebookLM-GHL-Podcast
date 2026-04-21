@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Overview — GlobalHighLevel</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #e2e8f0; min-height: 100vh; }
+    header { background: #111; padding: 20px 32px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { font-size: 20px; font-weight: 700; }
+    header a { color: #f59e0b; text-decoration: none; font-size: 13px; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 32px; }
+
+    /* Stats row */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 40px; }
+    .stat { background: #111; border: 1px solid #222; border-radius: 10px; padding: 16px; text-align: center; }
+    .stat .num { font-size: 28px; font-weight: 800; color: #f59e0b; }
+    .stat .label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: .5px; margin-top: 4px; }
+
+    /* Flow diagram */
+    .flow { position: relative; margin: 40px 0; }
+    .flow-title { font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; font-weight: 700; }
+    .flow-row { display: flex; align-items: stretch; gap: 0; margin-bottom: 2px; }
+    .flow-step { flex: 1; background: #111; border: 1px solid #222; padding: 14px 16px; position: relative; }
+    .flow-step:first-child { border-radius: 8px 0 0 8px; }
+    .flow-step:last-child { border-radius: 0 8px 8px 0; }
+    .flow-step .step-name { font-size: 13px; font-weight: 700; color: #f8fafc; margin-bottom: 4px; }
+    .flow-step .step-desc { font-size: 11px; color: #888; line-height: 1.4; }
+    .flow-step .step-num { font-size: 10px; color: #f59e0b; font-weight: 800; margin-bottom: 4px; }
+    .flow-step.active { border-color: #f59e0b; background: #1a1400; }
+    .arrow { color: #f59e0b; font-size: 18px; display: flex; align-items: center; padding: 0 4px; }
+
+    /* Layers */
+    .layer { margin-bottom: 32px; }
+    .layer-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .layer-badge { background: #f59e0b; color: #000; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 4px; text-transform: uppercase; }
+    .layer-name { font-size: 16px; font-weight: 700; }
+    .layer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+    .layer-card { background: #111; border: 1px solid #222; border-radius: 8px; padding: 16px; }
+    .layer-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+    .layer-card p { font-size: 12px; color: #888; line-height: 1.5; }
+    .layer-card .tag { display: inline-block; font-size: 10px; background: #1e293b; color: #60a5fa; padding: 2px 8px; border-radius: 3px; margin-top: 8px; }
+    .layer-card .tag.green { background: #14532d; color: #4ade80; }
+    .layer-card .tag.amber { background: #451a03; color: #f59e0b; }
+    .layer-card .tag.red { background: #450a0a; color: #f87171; }
+
+    /* Language map */
+    .lang-map { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin-bottom: 32px; }
+    .lang-map .lm-header { background: #1e293b; padding: 10px; font-size: 11px; font-weight: 700; text-align: center; color: #94a3b8; }
+    .lang-map .lm-cell { background: #111; padding: 10px; font-size: 11px; text-align: center; border: 1px solid #222; }
+    .lang-map .lm-cell.yes { color: #4ade80; }
+    .lang-map .lm-cell.no { color: #f87171; }
+    .lang-map .lm-cell.new { color: #f59e0b; }
+
+    /* Money flow */
+    .money-flow { background: #111; border: 1px solid #f59e0b33; border-radius: 12px; padding: 24px; margin: 32px 0; }
+    .money-flow h2 { font-size: 14px; color: #f59e0b; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+    .money-steps { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+    .money-step { background: #1a1400; border: 1px solid #f59e0b44; border-radius: 8px; padding: 12px 16px; text-align: center; min-width: 130px; }
+    .money-step .ms-title { font-size: 12px; font-weight: 700; color: #f59e0b; }
+    .money-step .ms-desc { font-size: 11px; color: #888; margin-top: 4px; }
+    .money-arrow { color: #f59e0b; padding: 0 8px; font-size: 20px; }
+
+    /* Safety rules */
+    .rules { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+    .rule { background: #111; border: 1px solid #222; border-radius: 6px; padding: 12px; }
+    .rule .rule-num { font-size: 10px; color: #f59e0b; font-weight: 800; }
+    .rule .rule-name { font-size: 12px; font-weight: 700; margin-top: 2px; }
+    .rule .rule-sev { font-size: 10px; color: #f87171; margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>System Overview — GlobalHighLevel</h1>
+  <a href="/">Pipeline Dashboard</a>
+</header>
+
+<div class="container">
+
+<!-- Live Stats -->
+<div class="stats">
+  <div class="stat"><div class="num">{{ stats.total_posts }}</div><div class="label">Total Posts</div></div>
+  <div class="stat"><div class="num">{{ stats.languages }}</div><div class="label">Languages</div></div>
+  <div class="stat"><div class="num">{{ stats.posts_per_day }}</div><div class="label">Posts / Day</div></div>
+  <div class="stat"><div class="num">{{ stats.episodes }}</div><div class="label">Podcast Episodes</div></div>
+  <div class="stat"><div class="num">{{ stats.cooldowns }}</div><div class="label">Pages Protected</div></div>
+  <div class="stat"><div class="num">{{ stats.redirects }}</div><div class="label">301 Redirects</div></div>
+  <div class="stat"><div class="num">{{ stats.skills }}</div><div class="label">AI Skills</div></div>
+  <div class="stat"><div class="num">{{ stats.triggers }}</div><div class="label">Active Triggers</div></div>
+</div>
+
+<!-- How Money Flows -->
+<div class="money-flow">
+  <h2>How Money Flows</h2>
+  <div class="money-steps">
+    <div class="money-step"><div class="ms-title">GHL Help Docs</div><div class="ms-desc">Free source material</div></div>
+    <div class="money-arrow">&rarr;</div>
+    <div class="money-step"><div class="ms-title">Podcast + Blog</div><div class="ms-desc">35 posts/day, 4 langs</div></div>
+    <div class="money-arrow">&rarr;</div>
+    <div class="money-step"><div class="ms-title">Google Ranks</div><div class="ms-desc">742+ indexed pages</div></div>
+    <div class="money-arrow">&rarr;</div>
+    <div class="money-step"><div class="ms-title">Reader Clicks CTA</div><div class="ms-desc">fp_ref affiliate link</div></div>
+    <div class="money-arrow">&rarr;</div>
+    <div class="money-step"><div class="ms-title">GHL Free Trial</div><div class="ms-desc">30-day, no CC</div></div>
+    <div class="money-arrow">&rarr;</div>
+    <div class="money-step"><div class="ms-title">Recurring Commission</div><div class="ms-desc">$97-497/mo product</div></div>
+  </div>
+</div>
+
+<!-- Daily Pipeline -->
+<div class="flow">
+  <div class="flow-title">25-Hour Production Cycle (VPS Scheduler)</div>
+  <div class="flow-row">
+    <div class="flow-step"><div class="step-num">0a</div><div class="step-name">Analytics</div><div class="step-desc">Transistor downloads + GSC + GA4 country data</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="flow-step"><div class="step-num">0b</div><div class="step-name">GSC Topics</div><div class="step-desc">Flag low-CTR pages, find keyword gaps</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="flow-step"><div class="step-num">0c</div><div class="step-name">SEO Optimizer</div><div class="step-desc">Rewrite titles/descriptions (10/week, 28-day cooldown)</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="flow-step"><div class="step-num">1</div><div class="step-name">Retry Failed</div><div class="step-desc">Recover partial failures from last cycle</div></div>
+  </div>
+  <div class="flow-row" style="margin-top: 2px;">
+    <div class="flow-step active"><div class="step-num">2</div><div class="step-name">Main Pipeline</div><div class="step-desc">20 episodes: Scrape &rarr; NotebookLM audio &rarr; Transistor &rarr; Blog</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="flow-step"><div class="step-num">3-4</div><div class="step-name">Localize</div><div class="step-desc">5 India + 5 Spanish + 5 Arabic (3-tier sourcing)</div></div>
+    <div class="arrow">&rarr;</div>
+    <div class="flow-step"><div class="step-num">5</div><div class="step-name">Deploy</div><div class="step-desc">git push &rarr; Cloudflare Pages rebuilds globalhighlevel.com</div></div>
+  </div>
+</div>
+
+<!-- Language Coverage Map -->
+<div class="layer">
+  <div class="layer-header">
+    <div class="layer-badge">Languages</div>
+    <div class="layer-name">Content Coverage by Language &times; Page Type</div>
+  </div>
+  <div class="lang-map">
+    <div class="lm-header"></div>
+    <div class="lm-header">English</div>
+    <div class="lm-header">Espa&ntilde;ol</div>
+    <div class="lm-header">India</div>
+    <div class="lm-header">&rlm;&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;</div>
+
+    <div class="lm-header">Hub (/lang/)</div>
+    <div class="lm-cell yes">Homepage</div>
+    <div class="lm-cell yes">/es/</div>
+    <div class="lm-cell new">/in/ (just fixed)</div>
+    <div class="lm-cell new">/ar/ (just fixed)</div>
+
+    <div class="lm-header">Free Trial Blog</div>
+    <div class="lm-cell yes">hreflang</div>
+    <div class="lm-cell yes">hreflang</div>
+    <div class="lm-cell yes">hreflang</div>
+    <div class="lm-cell yes">hreflang</div>
+
+    <div class="lm-header">Pricing Blog</div>
+    <div class="lm-cell yes">hreflang</div>
+    <div class="lm-cell yes">hreflang</div>
+    <div class="lm-cell yes">hreflang</div>
+    <div class="lm-cell yes">hreflang</div>
+
+    <div class="lm-header">Promo Blog</div>
+    <div class="lm-cell yes">hreflang</div>
+    <div class="lm-cell yes">hreflang</div>
+    <div class="lm-cell yes">hreflang</div>
+    <div class="lm-cell no">Missing</div>
+
+    <div class="lm-header">Comparison</div>
+    <div class="lm-cell no">Missing</div>
+    <div class="lm-cell new">Consolidated (15&rarr;1)</div>
+    <div class="lm-cell yes">6 pages</div>
+    <div class="lm-cell no">Missing</div>
+
+    <div class="lm-header">MercadoPago Hub</div>
+    <div class="lm-cell">N/A</div>
+    <div class="lm-cell new">NEW (19 spokes)</div>
+    <div class="lm-cell">N/A</div>
+    <div class="lm-cell">N/A</div>
+
+    <div class="lm-header">Attribution (/trial/)</div>
+    <div class="lm-cell yes">Disallowed</div>
+    <div class="lm-cell yes">/es/trial/</div>
+    <div class="lm-cell yes">/in/trial/</div>
+    <div class="lm-cell yes">/ar/trial/</div>
+  </div>
+</div>
+
+<!-- Automation Layers -->
+<div class="layer">
+  <div class="layer-header">
+    <div class="layer-badge">Automation</div>
+    <div class="layer-name">What Runs Without Us</div>
+  </div>
+  <div class="layer-grid">
+    <div class="layer-card">
+      <h3>VPS Scheduler (systemd)</h3>
+      <p>25-hour loop on IONOS VPS. Produces 35 posts/cycle. Auto-deploys to Cloudflare via git push.</p>
+      <span class="tag green">Always running</span>
+    </div>
+    <div class="layer-card">
+      <h3>CEO Daily Narrative</h3>
+      <p>Claude trigger, daily 11am UTC. Reads git logs + GA4 + #ops-log, posts WBR narrative to #ceo Slack.</p>
+      <span class="tag green">Active trigger</span>
+    </div>
+    <div class="layer-card">
+      <h3>Verticals Measurement</h3>
+      <p>Daily noon UTC. Pulls GSC per vertical URL, writes metrics to Google Sheet, posts digest to #globalhighlevel.</p>
+      <span class="tag green">Active trigger</span>
+    </div>
+    <div class="layer-card">
+      <h3>Weekly SEO Report</h3>
+      <p>Tuesdays 1pm UTC. Deep-dive GSC + GA4 per business, posts to #ceo with wins/drops/close-to-page-1.</p>
+      <span class="tag green">Active trigger</span>
+    </div>
+    <div class="layer-card">
+      <h3>GitHub Actions (Mon-Wed)</h3>
+      <p>Monday: GA4 pull. Tuesday: GSC gap report to Sheet. Wednesday: Build gap pages automatically.</p>
+      <span class="tag">Weekly workflows</span>
+    </div>
+    <div class="layer-card">
+      <h3>SEO Optimizer</h3>
+      <p>Weekly inside scheduler. Rewrites titles/metas for high-impression low-click pages. 28-day cooldown.</p>
+      <span class="tag amber">28-day cooldown</span>
+    </div>
+  </div>
+</div>
+
+<!-- Safety System -->
+<div class="layer">
+  <div class="layer-header">
+    <div class="layer-badge">Safety</div>
+    <div class="layer-name">SEO Deploy Gate — 9 Rules</div>
+  </div>
+  <div class="rules">
+    <div class="rule"><div class="rule-num">Rule 1</div><div class="rule-name">8-Week Rule</div><div class="rule-sev">BLOCK if changed &lt;56 days ago</div></div>
+    <div class="rule"><div class="rule-num">Rule 2</div><div class="rule-name">Link Audit</div><div class="rule-sev">BLOCK on broken internal links</div></div>
+    <div class="rule"><div class="rule-num">Rule 3</div><div class="rule-name">Strategic Intent</div><div class="rule-sev">BLOCK if removing new pages too early</div></div>
+    <div class="rule"><div class="rule-num">Rule 4</div><div class="rule-name">UX Preview</div><div class="rule-sev">WARN on structural changes</div></div>
+    <div class="rule"><div class="rule-num">Rule 5</div><div class="rule-name">Deploy Size</div><div class="rule-sev">WARN if &gt;100 files changed</div></div>
+    <div class="rule"><div class="rule-num">Rule 6</div><div class="rule-name">Quality Carve-Out</div><div class="rule-sev">PASS for content-only fixes</div></div>
+    <div class="rule"><div class="rule-num">Rule 7</div><div class="rule-name">Tracker Logging</div><div class="rule-sev">BLOCK if not logged to Sheet</div></div>
+    <div class="rule"><div class="rule-num">Rule 8</div><div class="rule-name">Language Meta</div><div class="rule-sev">BLOCK on wrong-language metas</div></div>
+    <div class="rule"><div class="rule-num">Rule 9</div><div class="rule-name">Findability</div><div class="rule-sev">BLOCK on rich content behind Disallow</div></div>
+  </div>
+</div>
+
+<!-- Skills -->
+<div class="layer">
+  <div class="layer-header">
+    <div class="layer-badge">Skills</div>
+    <div class="layer-name">18 Claude AI Agents (invoke with /skill-name)</div>
+  </div>
+  <div class="layer-grid">
+    {% for skill in skills %}
+    <div class="layer-card">
+      <h3>/{{ skill.name }}</h3>
+      <p>{{ skill.desc }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+</div>
+</body>
+</html>

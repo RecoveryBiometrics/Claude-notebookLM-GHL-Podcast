@@ -111,6 +111,59 @@ def api_log():
     return jsonify(get_recent_log(100))
 
 
+@app.route("/system")
+def system():
+    """System overview page — full architecture visualization."""
+    published = load_published()
+    done = [r for r in published if r.get("status") == "published"]
+
+    # Count posts across site
+    site_posts_dir = BASE_DIR.parent / "globalhighlevel-site" / "posts"
+    total_posts = len(list(site_posts_dir.glob("*.json"))) if site_posts_dir.exists() else 0
+
+    # Count cooldowns
+    cooldown_file = BASE_DIR / "data" / "seo-cooldown.json"
+    cooldowns = 0
+    if cooldown_file.exists():
+        cooldowns = len(json.load(open(cooldown_file)))
+
+    # Count redirects
+    redirects_file = BASE_DIR.parent / "globalhighlevel-site" / "_redirects"
+    redirects = 0
+    if redirects_file.exists():
+        redirects = len([l for l in open(redirects_file).readlines() if l.strip() and "301" in l])
+
+    # Count skills
+    skills_dir = Path(os.path.expanduser("~/.claude/skills"))
+    skill_list = []
+    if skills_dir.exists():
+        for d in sorted(skills_dir.iterdir()):
+            if d.is_dir():
+                skill_md = d / "SKILL.md"
+                desc = ""
+                if skill_md.exists():
+                    for line in open(skill_md).readlines():
+                        if line.startswith("description:"):
+                            desc = line.split("description:", 1)[1].strip()[:120]
+                            break
+                skill_list.append({"name": d.name, "desc": desc or "—"})
+
+    system_stats = {
+        "total_posts": total_posts,
+        "languages": 4,
+        "posts_per_day": 35,
+        "episodes": len(done),
+        "cooldowns": cooldowns,
+        "redirects": redirects,
+        "skills": len(skill_list),
+        "triggers": 3,  # CEO Daily, Verticals Measurement, Weekly SEO
+    }
+
+    return render_template("system.html", stats=system_stats, skills=skill_list)
+
+
 if __name__ == "__main__":
-    print("Dashboard running at http://localhost:5000")
-    app.run(debug=False, host="0.0.0.0", port=5000)
+    port = int(os.getenv("DASHBOARD_PORT", "5050"))
+    print(f"Dashboard running at http://localhost:{port}")
+    print(f"System overview at http://localhost:{port}/system")
+    app.run(debug=False, host="0.0.0.0", port=port)
