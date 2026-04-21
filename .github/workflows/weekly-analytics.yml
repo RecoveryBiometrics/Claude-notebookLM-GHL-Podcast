@@ -45,3 +45,16 @@ jobs:
           BUSINESS_PROJECT_PATH: ${{ github.workspace }}
         run: node index.js --business globalhighlevel
         working-directory: .shared-pipeline/pipelines/analytics
+
+      - name: Notify Slack on failure
+        if: failure()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: |
+          curl -sS -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{
+              \"channel\": \"C0AQG0DP222\",
+              \"text\": \":rotating_light: Weekly Analytics (GHL) failed\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run ${{ github.run_id }}>\"
+            }"
