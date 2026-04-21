@@ -58,5 +58,12 @@
 - **28-day cooldown** on SEO optimizer and GSC topic flagging
 - **`/trial/`, `/coupon/`, `/start/` are ATTRIBUTION URLs, not SEO landings.** Full content pages (~1,900 words) that pitch both GHL + Extendly affiliates, GA4-tracked CTAs, intentionally `Disallow`'d in `robots.txt` so they don't cannibalize organic SERPs. Parallel SEO-indexable blog posts exist (`/blog/gohighlevel-free-trial-30-days-extended/` etc.). Do NOT unblock, thin out, or migrate their content. Full rules in `globalhighlevel-site/CLAUDE.md`.
 
+## Deploy Checklist — BLOCKING (do not skip)
+Before ANY `git push origin main` that touches SEO content (posts, redirects, build.py, meta rewrites):
+1. **Log to Google Sheet FIRST** — "SEO Changelog Tracker" (ID: `1rK5UjtCeuzwwqIRE7GxC39_b3-10dSogUyxfe_Ycc0o`), Changelog tab. One row per change: Date, Business, Slug, Action, Attempt, Position, Impressions, CTR, Old Title, New Title.
+2. **Update `seo-cooldown.json`** — add entries for every page touched. scp to VPS.
+3. **THEN push.** If Sheet write fails, fix auth. Do not push undocumented changes.
+This is Rule 7 of `seo-deploy-gate`. Sheet is source of truth. JSON is fallback.
+
 ## Affiliate Link
 All GHL links must include `fp_ref=amplifi-technologies12`. Full rules in `globalhighlevel-site/CLAUDE.md`.
