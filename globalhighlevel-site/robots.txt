@@ -1,8 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /trial
-Disallow: /free-trial
-Disallow: /start
 
 Sitemap: https://globalhighlevel.com/sitemap.xml
 

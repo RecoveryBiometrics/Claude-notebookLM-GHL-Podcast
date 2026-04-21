@@ -745,7 +745,7 @@ def _build_post_hreflang_tags(translations: dict) -> str:
 
 LANG_META_VIOLATIONS = []
 
-def base_html(title: str, description: str, canonical: str, body: str, og_image: str = "", lang: str = "en", text_dir: str = "ltr", hreflang_path: str = "", hreflang_override: str = "") -> str:
+def base_html(title: str, description: str, canonical: str, body: str, og_image: str = "", lang: str = "en", text_dir: str = "ltr", hreflang_path: str = "", hreflang_override: str = "", noindex: bool = False) -> str:
     ok, msg = validate_meta(canonical, title, description)
     if not ok:
         LANG_META_VIOLATIONS.append(msg)
@@ -805,6 +805,7 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title}</title>
 <meta name="description" content="{description}">
+{'<meta name="robots" content="noindex, follow">' if noindex else ''}
 <link rel="canonical" href="{canonical}">
 {hreflang_html}
 <meta property="og:title" content="{title}">
@@ -1579,8 +1580,9 @@ def build_category_pages(posts: list[dict]):
 
 def build_sitemap(posts: list[dict]):
     urls = [f"  <url><loc>{SITE_URL}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>"]
-    # /trial is an affiliate redirect — excluded from sitemap and disallowed in robots.txt
-    urls.append(f"  <url><loc>{SITE_URL}/coupon/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>")
+    # /trial/, /start/, /coupon/ are excluded from sitemap:
+    # - /trial/ and /start/ are noindex conversion surfaces (podcast/blog CTAs)
+    # - /coupon/ 301 redirects to /blog/gohighlevel-free-trial-30-days-extended/ (discount-consolidation 2026-04-21)
     urls.append(f"  <url><loc>{SITE_URL}/services/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>")
     urls.append(f"  <url><loc>{SITE_URL}/about/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>")
     for c in CATEGORIES:
@@ -1791,6 +1793,7 @@ def _build_localized_affiliate_landing(lang_cfg: dict, slug: str, campaign: str)
         body=body,
         lang=lang,
         text_dir=direction,
+        noindex=True,  # localized /{lang}/trial/ and /{lang}/start/ are conversion surfaces too
     )
     write(PUBLIC_DIR / lang / slug / "index.html", html)
 
@@ -2056,7 +2059,7 @@ def _build_affiliate_landing(slug: str, campaign: str):
   </div>
 
   <div style="text-align:center;margin-bottom:32px">
-    <p style="font-size:.85rem;color:var(--text2)">Looking for a discount? <a href="/coupon/" style="color:var(--amber)">See our GoHighLevel coupon code page</a> or <a href="/" style="color:var(--amber)">browse all GoHighLevel guides</a>.</p>
+    <p style="font-size:.85rem;color:var(--text2)">Looking for a discount? <a href="/blog/gohighlevel-free-trial-30-days-extended/" style="color:var(--amber)">See our GoHighLevel coupon code page</a> or <a href="/" style="color:var(--amber)">browse all GoHighLevel guides</a>.</p>
   </div>
 
   <div style="border-top:1px solid var(--border);padding-top:32px">
@@ -2071,7 +2074,8 @@ def _build_affiliate_landing(slug: str, campaign: str):
         title=f"{title} | {SITE_NAME}",
         description=description,
         canonical=canonical,
-        body=body
+        body=body,
+        noindex=True,  # /trial/ and /start/ are conversion surfaces, not search pages
     )
     write(PUBLIC_DIR / slug / "index.html", html)
 
@@ -2228,7 +2232,7 @@ def build_coupon_page():
   </div>
 
   <div style="text-align:center;margin-bottom:32px">
-    <p style="font-size:.85rem;color:var(--text2)">Looking for tutorials instead? <a href="/trial/" style="color:var(--amber)">Learn more about the free trial</a> or <a href="/" style="color:var(--amber)">browse all GoHighLevel guides</a>.</p>
+    <p style="font-size:.85rem;color:var(--text2)">Looking for tutorials instead? <a href="/blog/gohighlevel-free-trial-30-days-extended/" style="color:var(--amber)">Learn more about the free trial</a> or <a href="/" style="color:var(--amber)">browse all GoHighLevel guides</a>.</p>
   </div>
 
   <div style="border-top:1px solid var(--border);padding-top:32px">
@@ -2456,7 +2460,7 @@ def build_services_page():
 
     <div style="margin-bottom:24px">
       <h3 style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px">Do I need a GoHighLevel account?</h3>
-      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">Yes. We build inside your GHL account so you own everything. Don't have one yet? <a href="/trial/" style="color:var(--amber)">Start a 30-day free trial</a> and we'll set up your first system during the trial period.</p>
+      <p style="font-size:.95rem;color:var(--text2);line-height:1.7">Yes. We build inside your GHL account so you own everything. Don't have one yet? <a href="/blog/gohighlevel-free-trial-30-days-extended/" style="color:var(--amber)">Start a 30-day free trial</a> and we'll set up your first system during the trial period.</p>
     </div>
   </div>
 
@@ -2496,7 +2500,7 @@ def build_services_page():
   </div>
 
   <div style="text-align:center;margin-bottom:32px">
-    <p style="font-size:.85rem;color:var(--text2)">Not ready for services? <a href="/trial/" style="color:var(--amber)">Start a free 30-day GHL trial</a>, check our <a href="/coupon/" style="color:var(--amber)">coupon page</a>, or explore our <a href="/" style="color:var(--amber)">free tutorials</a>.</p>
+    <p style="font-size:.85rem;color:var(--text2)">Not ready for services? <a href="/blog/gohighlevel-free-trial-30-days-extended/" style="color:var(--amber)">Start a free 30-day GHL trial</a>, check our <a href="/blog/gohighlevel-free-trial-30-days-extended/" style="color:var(--amber)">coupon page</a>, or explore our <a href="/" style="color:var(--amber)">free tutorials</a>.</p>
   </div>
 
   <div style="border-top:1px solid var(--border);padding-top:32px">

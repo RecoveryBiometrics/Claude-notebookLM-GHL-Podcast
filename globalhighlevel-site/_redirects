@@ -1,9 +1,13 @@
-/free-trial /trial/ 301
-/start /trial/ 301
-/promo /coupon/ 301
-/promo-code /coupon/ 301
-/discount /coupon/ 301
-/coupon-code /coupon/ 301
+# Discount consolidation 2026-04-21: all trial/promo/discount/coupon intent → master blog post
+# /trial/ stays as podcast conversion page (noindex). Everything else funnels to the master.
+/free-trial /blog/gohighlevel-free-trial-30-days-extended/ 301
+/start /blog/gohighlevel-free-trial-30-days-extended/ 301
+/coupon /blog/gohighlevel-free-trial-30-days-extended/ 301
+/promo /blog/gohighlevel-free-trial-30-days-extended/ 301
+/promo-code /blog/gohighlevel-free-trial-30-days-extended/ 301
+/discount /blog/gohighlevel-free-trial-30-days-extended/ 301
+/coupon-code /blog/gohighlevel-free-trial-30-days-extended/ 301
+/blog/gohighlevel-promo-code-discount-2026-real-ways-to-save /blog/gohighlevel-free-trial-30-days-extended/ 301
 /category/gohighlevel-espanol/ /es/ 301
 /category/gohighlevel-en-espaol/ /es/ 301
 /category/gohighlevel-india/ /in/ 301
