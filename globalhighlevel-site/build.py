@@ -3012,10 +3012,15 @@ def main():
     build_sitemap(merged)
 
     # Landing pages
+    # /trial/ stays as podcast conversion page (noindex). /start/ and /coupon/ are
+    # NOT built — they 301 redirect to the master blog post via _redirects (discount
+    # consolidation 2026-04-21). Static files would take precedence over _redirects
+    # on Cloudflare Pages, so we skip building them entirely.
     print("\nBuilding trial page...")
-    build_trial_page()
-    print("Building coupon page...")
-    build_coupon_page()
+    _build_affiliate_landing("trial", "podcast")
+    for lang_cfg in LOCALIZED_LANDING_LANGS:
+        _build_localized_affiliate_landing(lang_cfg, "trial", "podcast")
+    # Deliberately NOT building /start/ or /coupon/ — see _redirects file
     print("Building services page...")
     build_services_page()
 
