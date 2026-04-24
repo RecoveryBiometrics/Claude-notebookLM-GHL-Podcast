@@ -641,22 +641,12 @@ async def run_cycle(cycle_num: int):
     except Exception as e:
         log(f"  verticals_measure.py error (non-fatal): {e}")
 
-    # Step 0c: Run SEO Optimizer (weekly gate — skips if <7 days since last run)
-    log("Step 0c — Running 8-seo-optimizer.py (weekly gate)...")
-    seo_optimizer_results = {"pages_optimized": 0, "rewrites": 0, "expansions": 0, "details": []}
-    try:
-        seo_optimizer = load_script("8-seo-optimizer.py")
-        seo_optimizer_results = seo_optimizer.main()
-        if seo_optimizer_results.get("skipped"):
-            log("  SEO Optimizer skipped (not yet due)")
-        elif seo_optimizer_results["pages_optimized"] > 0:
-            log(f"  SEO Optimizer: {seo_optimizer_results['pages_optimized']} pages optimized")
-            ops_log("SEO Optimizer", f"{seo_optimizer_results['pages_optimized']} pages optimized ({seo_optimizer_results.get('rewrites', 0)} rewrites, {seo_optimizer_results.get('expansions', 0)} expansions)")
-        else:
-            log("  SEO Optimizer: no pages to optimize")
-    except Exception as e:
-        log(f"  8-seo-optimizer.py error (non-fatal): {e}")
-        ops_log("SEO Optimizer", f"Error: {e}", level="error")
+    # Step 0c: SEO Optimizer — DISABLED 2026-04-24
+    # Replaced by /fix-page-snippet skill (~/.claude/skills/fix-page-snippet/SKILL.md).
+    # Old 8-seo-optimizer.py (859 lines) baked judgment into Python — anti-pattern per
+    # CLAUDE.md "skills first" rule. Caused live conflict with manual rewrites today.
+    # Re-enable only after replacing with thin dispatcher (~50 lines) that calls the skill.
+    log("Step 0c — SEO Optimizer DISABLED (now lives as /fix-page-snippet skill)")
 
     # Send start notification email
     log("Sending start notification email...")
