@@ -466,5 +466,100 @@
     "changes": {
       "note": "hreflang translations field added. Let Google process cross-language signals before any meta rewrites."
     }
+  },
+  "leverage-ai-pricing-updates-gohighlevel-save-more": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-24T15:20:00",
+    "locked_until": "2026-05-22T15:20:00",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 412,
+      "clicks": 1,
+      "ctr": 0.2,
+      "position": 8.6
+    },
+    "changes": {
+      "old_title": "How to Leverage AI Pricing Updates in GoHighLevel — Save More",
+      "new_title": "GHL AI Pricing: Gemini, Claude, GPT, Voice — Real Costs Compared",
+      "old_description": "Learn how GoHighLevel's new consumption-based AI pricing saves agencies money. Compare unlimited vs. pay-per-use models and optimize Voice AI costs.",
+      "new_description": "AI costs eating your margins? GoHighLevel's new consumption-based pricing lets you pay per use across Gemini, Claude, GPT, and Voice AI. See the math."
+    },
+    "reason": "Interactive rewrite: named AI tools in title for long-tail, mirrored article's 'margins' pain in meta"
+  },
+  "how-to-build-ai-agents-in-gohighlevel-agent-studio-guide": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-24T15:24:00",
+    "locked_until": "2026-05-22T15:24:00",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 385,
+      "clicks": 0,
+      "ctr": 0.0,
+      "position": 11.5
+    },
+    "changes": {
+      "old_title": "How to Build AI Agents in GoHighLevel — Agent Studio Guide",
+      "new_title": "Build a GHL AI Agent in 10 Minutes — Agent Studio Walkthrough",
+      "old_description": "Learn how to build AI agents in GoHighLevel's Agent Studio with this step-by-step guide. No coding required. Start automating your business today.",
+      "new_description": "Drowning in customer inquiries, burnt-out team? Build your first GHL AI agent in Agent Studio — full walkthrough, no code, ship today."
+    },
+    "reason": "Interactive rewrite: time promise (10 min) + mirrored article pain opener. Neutral audience framing."
+  },
+  "how-to-use-notes-in-gohighlevel-custom-objects-guide": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-24T15:28:00",
+    "locked_until": "2026-05-22T15:28:00",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 378,
+      "clicks": 0,
+      "ctr": 0.0,
+      "position": 6.8
+    },
+    "changes": {
+      "old_title": "How to Use Notes in GoHighLevel — Custom Objects Guide",
+      "new_title": "GHL Notes + Custom Objects: Stop Losing Customer Context",
+      "old_description": "Master Notes for Custom Objects in GoHighLevel. Learn to add, automate, search, and organize notes across contacts, opportunities & custom entities.",
+      "new_description": "Scattered notes across tools kill deal momentum. Notes in GoHighLevel Custom Objects give your team one place for context, progress, and next steps."
+    },
+    "reason": "Pain-first title + article-pain meta. Universal audience framing (neither agency nor SMB-specific)."
+  },
+  "how-indian-digital-marketing-agencies-use-gohighlevel-automations-to-scale": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-24T15:32:00",
+    "locked_until": "2026-05-22T15:32:00",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 309,
+      "clicks": 0,
+      "ctr": 0.0,
+      "position": 8.3
+    },
+    "changes": {
+      "old_title": "How Indian Digital Marketing Agencies Use GoHighLevel Automations to Scale",
+      "new_title": "GoHighLevel India: Automate 8-10 Clients Without Hiring More",
+      "old_description": "How Indian digital marketing agencies scale using GoHighLevel automations. WhatsApp automation, CRM setup, and agency workflows explained with ₹ pricing.",
+      "new_description": "Your junior execs updating spreadsheets at 9 PM? Scale 8-10 agency clients on GoHighLevel — WhatsApp, CRM, onboarding, workflows automated in ₹."
+    },
+    "reason": "Used article's specific detail (8-10 clients, 9 PM spreadsheets) for specificity magnet. Kept ₹ signal for India audience."
+  },
+  "how-to-use-custom-objects-in-gohighlevel-unlimited-flexibility": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-24T15:36:00",
+    "locked_until": "2026-05-22T15:36:00",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 178,
+      "clicks": 0,
+      "ctr": 0.0,
+      "position": 8.6
+    },
+    "changes": {
+      "old_title": "How to Use Custom Objects in GoHighLevel — Unlimited Flexibility",
+      "new_title": "GoHighLevel Custom Objects: Track Properties, Policies, Patients",
+      "old_description": "Learn how to use Custom Objects in GoHighLevel to build tailored CRM solutions. October 2025 update now available on all plans with 10 Custom Objects per loc...",
+      "new_description": "Standard CRM fields hit a wall. Track properties, vehicles, policies, or patient records with GoHighLevel Custom Objects — 10 per location, every plan."
+    },
+    "reason": "Listed specific record types (properties/policies/patients) as long-tail magnets for different industries. Note: cannibalization cluster flag — architect skill should review pair."
   }
 }
