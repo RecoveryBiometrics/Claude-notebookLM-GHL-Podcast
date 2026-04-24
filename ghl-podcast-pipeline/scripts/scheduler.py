@@ -641,12 +641,26 @@ async def run_cycle(cycle_num: int):
     except Exception as e:
         log(f"  verticals_measure.py error (non-fatal): {e}")
 
-    # Step 0c: SEO Optimizer — DISABLED 2026-04-24
-    # Replaced by /fix-page-snippet skill (~/.claude/skills/fix-page-snippet/SKILL.md).
-    # Old 8-seo-optimizer.py (859 lines) baked judgment into Python — anti-pattern per
-    # CLAUDE.md "skills first" rule. Caused live conflict with manual rewrites today.
-    # Re-enable only after replacing with thin dispatcher (~50 lines) that calls the skill.
-    log("Step 0c — SEO Optimizer DISABLED (now lives as /fix-page-snippet skill)")
+    # Step 0c: SEO Optimizer — RE-ENABLED 2026-04-24 with thin dispatcher
+    # 859-line legacy archived as _legacy_8-seo-optimizer.py.archived.
+    # New 8-seo-optimizer.py is a 250-line dispatcher that reads SKILL.md as system
+    # prompt, calls Claude, validates with hard gates (length + fact-check + don't-
+    # rewrite-if-strong), writes post JSON + cooldown + Google Sheet SEO Changelog.
+    # Cooldown enforces 28-day measurement windows — natural rate limit.
+    log("Step 0c — Running 8-seo-optimizer.py (thin dispatcher → /fix-page-snippet)...")
+    seo_optimizer_results = {"pages_optimized": 0, "rewrites": 0, "expansions": 0, "details": []}
+    try:
+        seo_optimizer = load_script("8-seo-optimizer.py")
+        seo_optimizer_results = seo_optimizer.main()
+        if seo_optimizer_results["pages_optimized"] > 0:
+            sheet_rows = seo_optimizer_results.get("sheet_rows_logged", 0)
+            log(f"  SEO Optimizer: {seo_optimizer_results['pages_optimized']} pages optimized, {sheet_rows} Sheet rows logged")
+            ops_log("SEO Optimizer", f"{seo_optimizer_results['pages_optimized']} snippets rewritten via /fix-page-snippet (Sheet logged: {sheet_rows})")
+        else:
+            log("  SEO Optimizer: no eligible candidates (all in cooldown or below threshold)")
+    except Exception as e:
+        log(f"  8-seo-optimizer.py error (non-fatal): {e}")
+        ops_log("SEO Optimizer", f"Error: {e}", level="error")
 
     # Send start notification email
     log("Sending start notification email...")

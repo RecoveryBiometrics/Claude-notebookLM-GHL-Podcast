@@ -17,6 +17,7 @@ the next cron run automatically uses them. NO code change needed.
 Re-enable in scheduler.py Step 0c after a clean dry-run.
 """
 
+import base64
 import json
 import os
 import re
@@ -28,6 +29,11 @@ import anthropic
 from dotenv import load_dotenv
 
 load_dotenv()
+
+# Sheets logging config — same tracker as the rest of the GHL pipeline
+TRACKING_SHEET_ID = "1A2eD2LeBpWFjDMe6W9BZbN6FvfW-em_7gD002pJD7_E"
+SHEETS_SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+SEO_CHANGELOG_TAB = "SEO Changelog"
 
 # ── Config ────────────────────────────────────────────────────────────────────
 BASE_DIR = Path(__file__).parent.parent
@@ -226,6 +232,62 @@ If the rewrite would only beat current on <2 of 4 tests, set skip=true with reas
     return None
 
 
+def get_sheets_service():
+    """Returns Google Sheets service client OR None if no Sheet-write auth available.
+
+    Mirrors the verticals_measure.py auth pattern:
+      - Trigger/cron context: GOOGLE_SERVICE_ACCOUNT_KEY_B64 env var (SA w/ sheets scope)
+      - Local: returns None (local token-gsc.json doesn't have sheets scope)
+    """
+    sa_b64 = os.getenv("GOOGLE_SERVICE_ACCOUNT_KEY_B64", "")
+    if not sa_b64:
+        log("  Sheets: no GOOGLE_SERVICE_ACCOUNT_KEY_B64 env (local context — Sheet write skipped)")
+        return None
+    try:
+        from google.oauth2 import service_account
+        from googleapiclient.discovery import build
+        info = json.loads(base64.b64decode(sa_b64))
+        creds = service_account.Credentials.from_service_account_info(info, scopes=SHEETS_SCOPES)
+        return build("sheets", "v4", credentials=creds, cache_discovery=False)
+    except Exception as e:
+        log(f"  Sheets: auth failed ({e}) — skipping Sheet write")
+        return None
+
+
+def log_to_sheet(sheets, slug: str, page: dict, rewrite: dict, old_title: str, old_desc: str) -> bool:
+    """Append one row to the SEO Changelog tab. Returns True on success."""
+    if sheets is None:
+        return False
+    today = datetime.now().strftime("%Y-%m-%d")
+    unlock = (datetime.now() + timedelta(days=28)).strftime("%Y-%m-%d")
+    page_path = f"/blog/{slug}/"
+    change_type = "Meta rewrite (title + description) — via thin dispatcher /fix-page-snippet"
+    description = (
+        f"Old title: '{old_title}' → New: '{rewrite['new_title']}'. "
+        f"Old meta replaced with: '{rewrite['new_description']}'. "
+        f"Reason: {rewrite.get('reason', 'no reason given')}. "
+        f"Lever: {rewrite.get('lever_title','?')} + {rewrite.get('lever_meta','?')}."
+    )
+    impact = (
+        f"Baseline: {page['impressions']} impr, {page['clicks']} clicks, "
+        f"{page['ctr']}% CTR, rank {page['position']}. "
+        f"Locked until {unlock}. Measure lift: {unlock}."
+    )
+    row = [today, page_path, change_type, description, impact]
+    try:
+        sheets.spreadsheets().values().append(
+            spreadsheetId=TRACKING_SHEET_ID,
+            range=f"{SEO_CHANGELOG_TAB}!A:E",
+            valueInputOption="USER_ENTERED",
+            insertDataOption="INSERT_ROWS",
+            body={"values": [row]},
+        ).execute()
+        return True
+    except Exception as e:
+        log(f"  Sheets: append failed ({e})")
+        return False
+
+
 def apply_rewrite(slug: str, page: dict, post_data: dict, rewrite: dict) -> bool:
     """Write post JSON + cooldown entry. Returns True on success."""
     post_path = POSTS_DIR / f"{slug}.json"
@@ -281,8 +343,10 @@ def main(dry_run: bool = False):
 
     log(f"Found {len(candidates)} candidates")
     gsc = json.load(open(GSC_FILE))
+    sheets = None if dry_run else get_sheets_service()
     details = []
     rewrites_count = 0
+    sheet_logged = 0
 
     for page in candidates:
         slug = page["_slug"]
@@ -291,10 +355,12 @@ def main(dry_run: bool = False):
             log(f"  SKIP {slug}: post file missing")
             continue
         post_data = json.load(open(post_path))
+        old_title = post_data["title"]
+        old_desc = post_data["description"]
         target_query = infer_target_query(page["page"], gsc)
 
         log(f"\n→ {slug} (imps={page['impressions']} rank={page['position']})")
-        log(f"  Current title: {post_data['title']}")
+        log(f"  Current title: {old_title}")
 
         rewrite = run_skill_against_page(page, post_data, target_query)
         if not rewrite:
@@ -312,15 +378,19 @@ def main(dry_run: bool = False):
 
         if apply_rewrite(slug, page, post_data, rewrite):
             rewrites_count += 1
+            if log_to_sheet(sheets, slug, page, rewrite, old_title, old_desc):
+                sheet_logged += 1
+                log(f"  Sheet: logged to SEO Changelog ✓")
             details.append({"slug": slug, "status": "applied", "rewrite": rewrite})
         else:
             details.append({"slug": slug, "status": "apply-failed"})
 
-    log(f"\nDone. Rewrites applied: {rewrites_count}, dry-run: {dry_run}")
+    log(f"\nDone. Rewrites applied: {rewrites_count}, sheet rows: {sheet_logged}, dry-run: {dry_run}")
     return {
         "skipped": False,
         "pages_optimized": rewrites_count,
         "rewrites": rewrites_count,
+        "sheet_rows_logged": sheet_logged,
         "expansions": 0,
         "details": details,
     }
