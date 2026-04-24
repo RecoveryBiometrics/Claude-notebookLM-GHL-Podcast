@@ -561,5 +561,71 @@
       "new_description": "Standard CRM fields hit a wall. Track properties, vehicles, policies, or patient records with GoHighLevel Custom Objects — 10 per location, every plan."
     },
     "reason": "Listed specific record types (properties/policies/patients) as long-tail magnets for different industries. Note: cannibalization cluster flag — architect skill should review pair."
+  },
+  "gohighlevel-ai-agents-hindi-customer-support-india": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-24T17:30:07.373340",
+    "locked_until": "2026-05-22T17:30:07.373340",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 503,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 7.3
+    },
+    "changes": {
+      "old_title": "GoHighLevel AI Agents Hindi Support: 65% Cost Cut Guide",
+      "new_title": "GHL AI Agents: Hindi & Hinglish Support for Indian Agencies",
+      "old_description": "Indian agencies losing Hindi support revenue? Deploy GHL AI Agents for 24/7 multilingual automation. Setup guide + real ROI metrics inside.",
+      "new_description": "Paying ₹25,000–₹40,000/month per Hindi support exec? Deploy GHL AI Agents for 24/7 WhatsApp automation in Hindi and Hinglish — real ROI inside."
+    },
+    "lever_title": "specific-features-named",
+    "lever_meta": "mirror-article-pain",
+    "reason": "Trimmed 'and regional languages' to bring meta to 156 chars while preserving the rupee figure, WhatsApp specificity, and pain-mirror structure.",
+    "source": "8-seo-optimizer.py (thin dispatcher → /fix-page-snippet)"
+  },
+  "que-es-gohighlevel-plataforma-automatizacion-agencias-latinoamerica": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-24T17:30:20.579282",
+    "locked_until": "2026-05-22T17:30:20.579282",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 197,
+      "clicks": 1,
+      "ctr": 0.5,
+      "position": 9.5
+    },
+    "changes": {
+      "old_title": "Qué es GoHighLevel (GHL): La Plataforma All-in-One para Agencias en Latinoamérica",
+      "new_title": "GoHighLevel: Reemplaza $500/mes en Herramientas por $97",
+      "old_description": "GoHighLevel es la plataforma all-in-one para agencias digitales en Latinoamérica. CRM, WhatsApp, funnels y automatización por $97/mes. Guía completa 2026.",
+      "new_description": "Agencias en México, Colombia y Argentina pagan $200–$850/mes en CRM, WhatsApp, funnels y Zapier por separado. GHL los reemplaza todos por $97/mes."
+    },
+    "lever_title": "contrarian-framing",
+    "lever_meta": "mirror-article-pain",
+    "reason": "Current title fails 3 of 4 tests (no pain, no specificity beyond 'all-in-one', weak verb 'es', overlength at 81 chars); new title leads with the article's own $500/mes fragmentation pain and the replacement promise (pain-first + number), while meta mirrors the article's exact tool-stack fragmentation and named country markets supported by verbatim article text ($200–$850 range, Mexico/Colombia/Argentina, $97/mes — all directly stated in opening).",
+    "source": "8-seo-optimizer.py (thin dispatcher → /fix-page-snippet)"
+  },
+  "build-smarter-ai-agents-gohighlevel-agent-studio-setup": {
+    "action": "rewrite_meta",
+    "flagged_at": "2026-04-24T17:30:43.464414",
+    "locked_until": "2026-05-22T17:30:43.464414",
+    "attempt": 1,
+    "metrics_at_flag": {
+      "impressions": 156,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 8.3
+    },
+    "changes": {
+      "old_title": "Build Smarter AI Agents in GoHighLevel — Agent Studio Setup",
+      "new_title": "Build GHL AI Agents: Configure Agent Nodes, Prompts & Tools",
+      "old_description": "Master GoHighLevel's AI Agent Studio. Learn how to configure AI Agent Nodes, set up intelligent workflows, and deploy agents that automate customer support at scale.",
+      "new_description": "Losing hours to manual workflows? Configure GHL AI Agent Nodes with custom prompts, models, and tools — so agents handle client support while you scale."
+    },
+    "lever_title": "specific-features-named",
+    "lever_meta": "mirror-article-pain",
+    "reason": "Current title passes verb strength and length but fails feature specificity and pain specificity; new title names Agent Nodes, Prompts, and Tools (supported by article's Core Configuration Elements list), while new meta mirrors the article's opening pain and names specific config elements — beating current on 2 of 4 tests to clear the ship threshold.",
+    "source": "8-seo-optimizer.py (thin dispatcher → /fix-page-snippet)"
   }
 }
