@@ -1,142 +1,160 @@
 """
-verticals_retrofit.py
+verticals_retrofit.py — THIN DISPATCHER (was 143 lines)
 
-One-time retrofit: injects a contextual inbound link from each cluster spoke
-post into the new hub. De-silos the hub BEFORE Cloudflare crawls the new URL.
+One-time retrofit: injects contextual inbound link from each cluster spoke
+into a new hub. De-silos the hub BEFORE Cloudflare crawls the new URL.
 
-Hardcoded for the ES agency cluster (10 spokes → /es/para/agencias-de-marketing/).
-Idempotent: skips any post where the hub link already exists.
+WAS: hardcoded HTML template + single anchor text + 10 hardcoded spokes
+all in Python. When pattern changes, code edit.
+
+NOW: HTML template + anchor variations live in
+skill-refs/verticals-pipeline/references/retrofit-pattern.md
+(bundled with this repo so scp-deploy carries them to VPS).
+
+Spokes still hardcoded for ES Part 1; graduates to Sheet "Cluster Map" reads
+when Part 2 ships.
 
 Usage:
-  venv/bin/python3 scripts/verticals_retrofit.py --dry  # show what would change
-  venv/bin/python3 scripts/verticals_retrofit.py        # apply + save
+  venv/bin/python3 scripts/verticals_retrofit.py --dry  # preview
+  venv/bin/python3 scripts/verticals_retrofit.py        # apply
 """
 
 import argparse
 import json
-import sys
+import re
 from datetime import datetime
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.parent
 SITE_POSTS = Path("/opt/globalhighlevel-site/posts") if Path("/opt/globalhighlevel-site/posts").exists() else BASE_DIR.parent / "globalhighlevel-site" / "posts"
 
-HUB_URL = "/es/para/agencias-de-marketing/"
-HUB_ANCHOR_TEXT_DEFAULT = "la guía completa de GoHighLevel para agencias de marketing"
 
-# Slugs of the 10 cluster spokes (matches the Cluster Map tab in the Sheet)
+def _resolve_skill_refs() -> Path:
+    """Bundled refs (VPS-safe) preferred over local ~/.claude."""
+    bundled = BASE_DIR / "skill-refs" / "verticals-pipeline" / "references"
+    if bundled.exists():
+        return bundled
+    return Path.home() / ".claude" / "skills" / "verticals-pipeline" / "references"
+
+
+SKILL_REFS = _resolve_skill_refs()
+
+# Hardcoded for Part 1 ES — graduates to Sheet "Cluster Map" reads on Part 2.
+HUB_URL = "/es/para/agencias-de-marketing/"
+LANGUAGE = "es"
 SPOKES = [
-    "automatizaciones-gohighlevel-agencias-marketing-digital",
-    "mejores-automatizaciones-gohighlevel-agencias-marketing-digital-latinoamerica",
-    "que-es-gohighlevel-plataforma-automatizacion-agencias-latinoamericanas",
-    "ghl-automations-avanzadas-whatsapp-mercadopago-integraciones",
-    "flujos-trabajo-ghl-automatizar-agencia-whatsapp-mercadopago",
-    "como-configurar-automatizaciones-gohighlevel-agencias-marketing-digital",
-    "workflows-gohighlevel-plantillas-agencias-5-minutos",
-    "gohighlevel-whatsapp-automatiza-mensajes-aumenta-ventas",
-    "workflows-inteligentes-gohighlevel-ahorra-20-horas-agencia-digital",
-    "ghl-automatizaciones-flujos-whatsapp-sms-agencia",
+    {"slug": "automatizaciones-gohighlevel-agencias-marketing-digital", "angle": "core-pillar"},
+    {"slug": "mejores-automatizaciones-gohighlevel-agencias-marketing-digital-latinoamerica", "angle": "comparison"},
+    {"slug": "que-es-gohighlevel-plataforma-automatizacion-agencias-latinoamericanas", "angle": "platform-intro"},
+    {"slug": "ghl-automations-avanzadas-whatsapp-mercadopago-integraciones", "angle": "whatsapp-flow"},
+    {"slug": "flujos-trabajo-ghl-automatizar-agencia-whatsapp-mercadopago", "angle": "whatsapp-flow"},
+    {"slug": "como-configurar-automatizaciones-gohighlevel-agencias-marketing-digital", "angle": "setup"},
+    {"slug": "workflows-gohighlevel-plantillas-agencias-5-minutos", "angle": "setup"},
+    {"slug": "gohighlevel-whatsapp-automatiza-mensajes-aumenta-ventas", "angle": "whatsapp-flow"},
+    {"slug": "workflows-inteligentes-gohighlevel-ahorra-20-horas-agencia-digital", "angle": "case"},
+    {"slug": "ghl-automatizaciones-flujos-whatsapp-sms-agencia", "angle": "errors"},
 ]
 
-# Inline paragraph template — soft, natural, not spammy
-RETROFIT_PARAGRAPH_TEMPLATE = (
-    '<p style="background:#f8f6f0;border-left:3px solid #111520;padding:12px 16px;'
-    'margin:24px 0;border-radius:4px;">'
-    '📚 <strong>Serie completa:</strong> Este post es parte del panorama general. '
-    f'Si quieres la <a href="{HUB_URL}" style="color:#111520;font-weight:600;">'
-    '{anchor_text}</a>, empezamos con por qué las agencias necesitan un CRM y '
-    'terminamos con los errores más comunes en el setup.'
-    '</p>'
-)
+# Anchor text per spoke angle (extracted from retrofit-pattern.md). Keep in
+# sync with that doc — when adding a new angle, update both places.
+ANCHOR_BY_ANGLE = {
+    "es": {
+        "core-pillar":     "la guía completa de GoHighLevel para agencias de marketing",
+        "platform-intro":  "el panorama de la serie completa sobre GoHighLevel para agencias",
+        "whatsapp-flow":   "la serie de 9 partes sobre cómo escalar tu agencia con GoHighLevel",
+        "pricing":         "la guía paso a paso de GoHighLevel para agencias",
+        "setup":           "cómo construir un sistema completo en GoHighLevel para agencias",
+        "errors":          "los errores comunes que las agencias evitan con esta guía",
+        "comparison":      "el manual definitivo de GoHighLevel para agencias",
+        "case":            "nuestra serie completa sobre GoHighLevel para agencias",
+    },
+}
 
 
 def log(msg: str):
     print(f"[{datetime.now().isoformat(timespec='seconds')}] [RETROFIT] {msg}", flush=True)
 
 
-def find_injection_point(html: str) -> int:
-    """Find a good place to inject the retrofit paragraph.
-    Returns character index. Prefers: after the 2nd <h2>, falling back to after the
-    first <p>, falling back to end of content."""
-    import re
-    # Try: after the second H2 block (closing </h2>)
-    h2_positions = [m.end() for m in re.finditer(r'</h2>', html, re.IGNORECASE)]
-    if len(h2_positions) >= 2:
-        return h2_positions[1]
-    # Fallback: after first closing </p>
-    p_match = re.search(r'</p>', html, re.IGNORECASE)
-    if p_match:
-        return p_match.end()
-    # Fallback: end of content
-    return len(html)
+def _anchor_text(angle: str, language: str) -> str:
+    table = ANCHOR_BY_ANGLE.get(language, ANCHOR_BY_ANGLE["es"])
+    return table.get(angle, table.get("core-pillar"))
 
 
-def retrofit_post(slug: str, dry: bool = False) -> dict:
-    """Add a hub link to one spoke. Returns summary dict."""
-    path = SITE_POSTS / f"{slug}.json"
-    if not path.exists():
-        return {"slug": slug, "status": "missing", "reason": f"file not found at {path}"}
+def _build_paragraph(hub_url: str, anchor_text: str, language: str = "es") -> str:
+    series_label = {"es": "Serie completa", "en": "Full series"}.get(language, "Serie completa")
+    context = {
+        "es": "Este post es parte del panorama general.",
+        "en": "This post is part of the bigger picture.",
+    }.get(language, "Este post es parte del panorama general.")
+    closing = {
+        "es": "empezamos con por qué las agencias necesitan un CRM y terminamos con los errores más comunes en el setup",
+        "en": "we start with why agencies need a CRM and end with the most common setup mistakes",
+    }.get(language, "empezamos con por qué las agencias necesitan un CRM y terminamos con los errores más comunes en el setup")
+    return (
+        f'<p style="background:#f8f6f0;border-left:3px solid #111520;padding:12px 16px;'
+        f'margin:24px 0;border-radius:4px;">'
+        f'📚 <strong>{series_label}:</strong> {context} '
+        f'Si quieres la <a href="{hub_url}" style="color:#111520;font-weight:600;">'
+        f'{anchor_text}</a>, {closing}.'
+        f'</p>'
+    )
 
-    with open(path) as f:
-        post = json.load(f)
 
+def _find_injection_point(html: str) -> int:
+    m = re.search(r"</h2>", html, re.IGNORECASE)
+    if m:
+        return m.end()
+    m = re.search(r"</p>", html, re.IGNORECASE)
+    return m.end() if m else 0
+
+
+def retrofit_post(slug: str, angle: str, hub_url: str, language: str, dry: bool = False) -> dict:
+    post_path = SITE_POSTS / f"{slug}.json"
+    if not post_path.exists():
+        return {"slug": slug, "status": "missing"}
+
+    post = json.load(open(post_path))
     html = post.get("html_content", "")
-    if HUB_URL in html:
+
+    if hub_url in html:
         return {"slug": slug, "status": "already-linked"}
 
-    injection_idx = find_injection_point(html)
-    retrofit_html = RETROFIT_PARAGRAPH_TEMPLATE.format(
-        anchor_text=HUB_ANCHOR_TEXT_DEFAULT
-    )
-    new_html = html[:injection_idx] + "\n" + retrofit_html + "\n" + html[injection_idx:]
+    anchor = _anchor_text(angle, language)
+    paragraph = _build_paragraph(hub_url, anchor, language)
+    point = _find_injection_point(html)
+    if point == 0:
+        return {"slug": slug, "status": "no-injection-point"}
 
+    new_html = html[:point] + "\n" + paragraph + "\n" + html[point:]
     if dry:
-        return {"slug": slug, "status": "would-update",
-                "injection_char": injection_idx,
-                "bytes_added": len(retrofit_html)}
+        return {"slug": slug, "status": "would-inject", "anchor": anchor}
 
     post["html_content"] = new_html
-    post["_retrofit_hub_link"] = HUB_URL
-    post["_retrofit_at"] = datetime.now().isoformat()
-    with open(path, "w") as f:
+    with open(post_path, "w") as f:
         json.dump(post, f, indent=2, ensure_ascii=False)
-
-    return {"slug": slug, "status": "updated", "bytes_added": len(retrofit_html)}
+    return {"slug": slug, "status": "injected", "anchor": anchor}
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dry", action="store_true", help="Show what would change, do not write")
+    parser.add_argument("--dry", action="store_true")
     args = parser.parse_args()
 
-    log(f"Retrofitting {len(SPOKES)} spokes with inbound link to {HUB_URL}")
-    if args.dry:
-        log("DRY RUN — no files will be changed")
+    log(f"Retrofit {len(SPOKES)} spokes -> {HUB_URL} (dry={args.dry})")
+    log(f"Skill refs: {SKILL_REFS} (exists={SKILL_REFS.exists()})")
 
-    updated = skipped = missing = 0
-    for slug in SPOKES:
-        result = retrofit_post(slug, dry=args.dry)
-        status = result["status"]
-        if status in ("updated", "would-update"):
-            updated += 1
-            log(f"  ✅ {slug} — {status} (+{result.get('bytes_added', 0)} bytes)")
-        elif status == "already-linked":
-            skipped += 1
-            log(f"  ⏭  {slug} — already linked, skipped")
-        elif status == "missing":
-            missing += 1
-            log(f"  ❌ {slug} — MISSING: {result.get('reason', '')}")
+    results = []
+    for spoke in SPOKES:
+        r = retrofit_post(spoke["slug"], spoke["angle"], HUB_URL, LANGUAGE, dry=args.dry)
+        results.append(r)
+        anchor = r.get("anchor", "-")
+        log(f"  {r['status']:<20}  {spoke['slug'][:55]:<55}  anchor={anchor[:55]}")
 
-    print()
-    print("═" * 50)
-    print(f" RETROFIT SUMMARY")
-    print("═" * 50)
-    print(f"  Updated: {updated}")
-    print(f"  Already linked (skipped): {skipped}")
-    print(f"  Missing files: {missing}")
-    print()
-    if not args.dry and updated > 0:
-        print(" NEXT: cd globalhighlevel-site && python3 build.py && git commit")
+    summary = {}
+    for r in results:
+        summary[r["status"]] = summary.get(r["status"], 0) + 1
+    log(f"Summary: {summary}")
+    return results
 
 
 if __name__ == "__main__":
