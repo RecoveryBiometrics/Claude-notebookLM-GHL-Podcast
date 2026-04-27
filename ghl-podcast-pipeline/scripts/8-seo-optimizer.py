@@ -39,7 +39,14 @@ SEO_CHANGELOG_TAB = "SEO Changelog"
 BASE_DIR = Path(__file__).parent.parent
 GSC_FILE = BASE_DIR / "data" / "gsc-stats.json"
 COOLDOWN_FILE = BASE_DIR / "data" / "seo-cooldown.json"
-SKILL_PATH = Path.home() / ".claude" / "skills" / "fix-page-snippet" / "SKILL.md"
+def _resolve_skill_path() -> Path:
+    """VPS-safe: prefer bundled-in-repo skill (deployed via scp) over local ~/.claude."""
+    bundled = BASE_DIR / "skill-refs" / "fix-page-snippet" / "SKILL.md"
+    if bundled.exists():
+        return bundled
+    return Path.home() / ".claude" / "skills" / "fix-page-snippet" / "SKILL.md"
+
+SKILL_PATH = _resolve_skill_path()
 POSTS_DIR = BASE_DIR.parent / "globalhighlevel-site" / "posts"
 SITE_BASE = "https://globalhighlevel.com"
 
