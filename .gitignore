@@ -17,6 +17,8 @@ client_secret*.json
 storage_state*.json
 ghl-podcast-pipeline/token.json
 ghl-podcast-pipeline/token-gsc.json
+ghl-podcast-pipeline/token-ga4.json
+ghl-podcast-pipeline/token-sheets.json
 ghl-podcast-pipeline/credentials.json
 ghl-podcast-pipeline/credentials-gsc.json
 
