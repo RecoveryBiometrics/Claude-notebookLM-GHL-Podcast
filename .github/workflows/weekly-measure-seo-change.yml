@@ -1,0 +1,59 @@
+name: Weekly Measure SEO Change
+
+on:
+  schedule:
+    # Every Sunday at 8:11am ET (12:11 UTC EST / 13:11 UTC EDT — pick UTC, accept ET drift)
+    - cron: '11 13 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  measure-seo-change:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Checkout shared skills
+        uses: actions/checkout@v4
+        with:
+          repository: RecoveryBiometrics/agent-command-center
+          path: .shared-pipeline
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          pip install --quiet \
+            google-auth \
+            google-auth-oauthlib \
+            google-api-python-client
+
+      - name: Run /measure-seo-change orchestrator
+        env:
+          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+          GOOGLE_OAUTH_CREDENTIALS: ${{ secrets.GOOGLE_OAUTH_CREDENTIALS }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          TRACKING_SHEET_ID: 1rK5UjtCeuzwwqIRE7GxC39_b3-10dSogUyxfe_Ycc0o
+          GSC_SITE_URL: sc-domain:globalhighlevel.com
+          SLACK_CHANNEL_ID: C0AQAHSQK38
+        run: python3 .shared-pipeline/skills/measure-seo-change/scripts/measure_all.py
+
+      - name: Notify Slack on failure
+        if: failure()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: |
+          curl -sS -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{
+              \"channel\": \"C0AQG0DP222\",
+              \"text\": \":rotating_light: Weekly Measure SEO Change failed\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run ${{ github.run_id }}>\"
+            }"
