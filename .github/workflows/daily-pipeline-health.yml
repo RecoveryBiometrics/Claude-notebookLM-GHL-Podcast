@@ -1,0 +1,65 @@
+name: Daily Pipeline Health
+
+on:
+  schedule:
+    # 4am MDT (10am UTC EDT / 11am UTC EST — pick UTC, accept ET drift)
+    # Runs 1 hour before CEO Daily Narrative (5am MDT) so any BLOCK
+    # gets auto-fixed by Stage 4 before Bill reads the morning briefing.
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pipeline-health:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Checkout shared skills
+        uses: actions/checkout@v4
+        with:
+          repository: RecoveryBiometrics/agent-command-center
+          path: .shared-pipeline
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Set up Node (claude-agent-sdk's bundled CLI)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Python dependencies
+        run: |
+          pip install --quiet claude-agent-sdk anyio
+
+      - name: Run /pipeline-health skill (auto-remediates via Stage 4)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_OPS_LOG: C0AQG0DP222
+          SLACK_CEO: C0AQAHSQK38
+          SKILL_DIR: .shared-pipeline/skills/pipeline-health
+          PIPELINE_DOCTOR_DIR: .shared-pipeline/skills/pipeline-doctor
+        run: python3 .shared-pipeline/skills/pipeline-health/scripts/run_skill.py
+
+      - name: Notify Slack on workflow failure
+        if: failure()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        run: |
+          curl -sS -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "{
+              \"channel\": \"C0AQAHSQK38\",
+              \"text\": \":rotating_light: Daily Pipeline Health workflow failed (couldn't even run the skill — auth or infra issue)\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View run ${{ github.run_id }}>\"
+            }"
