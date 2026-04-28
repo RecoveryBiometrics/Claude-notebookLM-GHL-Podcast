@@ -20,6 +20,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# CONTENT VELOCITY PAUSE — set 2026-04-28. See scheduler.py header for context.
+# When True: NotebookLM + SEO + Transistor upload still run (audio podcast lives),
+# but Step 4 (blog post creation on globalhighlevel.com) is skipped.
+# Resume: flip to False and scp to VPS. Expected resume 2026-05-19.
+PAUSE_BLOG_POST_FROM_PODCAST = True
+
 BASE_DIR = Path(__file__).parent.parent
 PUBLISHED_FILE = BASE_DIR / "data" / "published.json"
 ARTICLES_CACHE = BASE_DIR / "data" / "articles-cache.json"
@@ -308,13 +314,16 @@ async def process_one(article: dict, published_today: int) -> dict | None:
     log(f"  Scheduled: {result.get('publishedAt')}")
 
     # Step 4: Blog post
-    log("Step 4/4 — Publishing blog post to reiamplifi.com")
-    try:
-        result = blog.create_blog_post(result)
-        log(f"  Blog post live — ID: {result.get('blogPostId')} slug: /{result.get('blogSlug')}")
-    except Exception as e:
-        log(f"  Blog post FAILED (non-fatal): {e}")
-        # Blog failure doesn't kill the pipeline — episode is already published
+    if PAUSE_BLOG_POST_FROM_PODCAST:
+        log("Step 4/4 — Blog post creation SKIPPED — PAUSE_BLOG_POST_FROM_PODCAST=True (Apr 24 GSC cliff recovery)")
+    else:
+        log("Step 4/4 — Publishing blog post to reiamplifi.com")
+        try:
+            result = blog.create_blog_post(result)
+            log(f"  Blog post live — ID: {result.get('blogPostId')} slug: /{result.get('blogSlug')}")
+        except Exception as e:
+            log(f"  Blog post FAILED (non-fatal): {e}")
+            # Blog failure doesn't kill the pipeline — episode is already published
 
     return result
 
