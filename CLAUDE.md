@@ -67,3 +67,14 @@ This is Rule 7 of `seo-deploy-gate`. Sheet is source of truth. JSON is fallback.
 
 ## Affiliate Link
 All GHL links must include `fp_ref=amplifi-technologies12`. Full rules in `globalhighlevel-site/CLAUDE.md`.
+
+## Trigger Surface — BLOCKING (do not skip)
+
+**GitHub Actions is the canonical trigger surface for cloud automation.** All NEW recurring automation goes there. Do not create:
+- New `/schedule` (claude.ai routines) — surface is FROZEN. Existing 3 active routines remain (Verticals Measurement Daily, CEO Daily Narrative, Weekly SEO Report). Everything else is zombie or migrating.
+- VPS cron jobs — VPS systemd is for content generation only (`ghl-podcast.service`, NotebookLM, scp deploys).
+- Mac local cron — Mac may be off; cloud-only.
+
+**Before proposing ANY new trigger:** read `memory/project_automation_surface.md`. It lists what already exists and where. The Apr 27 session burned ~2 hours rebuilding things that already existed because no one diarized first.
+
+**Skill source of truth:** `RecoveryBiometrics/agent-command-center` (24 skills). `~/.claude/skills/` on the Mac is a working copy that drifts; sync it back via `cp -R` + commit before any production workflow reads it.
