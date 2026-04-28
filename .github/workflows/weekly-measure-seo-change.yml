@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write   # Phase 4 self-improvement may commit appended rules to the skill repo
 
 jobs:
   measure-seo-change:
@@ -22,28 +22,38 @@ jobs:
         with:
           repository: RecoveryBiometrics/agent-command-center
           path: .shared-pipeline
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
+      - name: Set up Node (required by claude-agent-sdk's bundled Claude Code CLI)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Install Python dependencies
         run: |
           pip install --quiet \
+            claude-agent-sdk \
+            anyio \
             google-auth \
             google-auth-oauthlib \
             google-api-python-client
 
-      - name: Run /measure-seo-change orchestrator
+      - name: Run /measure-seo-change skill (thin wrapper, fat skill)
         env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
           GOOGLE_OAUTH_CREDENTIALS: ${{ secrets.GOOGLE_OAUTH_CREDENTIALS }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           TRACKING_SHEET_ID: 1rK5UjtCeuzwwqIRE7GxC39_b3-10dSogUyxfe_Ycc0o
           GSC_SITE_URL: sc-domain:globalhighlevel.com
           SLACK_CHANNEL_ID: C0AQAHSQK38
-        run: python3 .shared-pipeline/skills/measure-seo-change/scripts/measure_all.py
+          SKILL_DIR: .shared-pipeline/skills/measure-seo-change
+        run: python3 .shared-pipeline/skills/measure-seo-change/scripts/run_skill.py
 
       - name: Notify Slack on failure
         if: failure()
