@@ -27,6 +27,18 @@ Stop:
   kill $(cat logs/scheduler.pid)
 """
 
+# =============================================================================
+# CONTENT VELOCITY PAUSE — set 2026-04-28 in response to Apr 24 GSC cliff
+# (sitewide algorithmic demotion, 97% impression drop, 266 pages vanished).
+# Pausing the bulk auto-blog steps + auto-rewriter to reduce content velocity
+# during Google's reassessment window. Keep podcast pipeline running — real
+# audio + GHL-doc-grounded blogs are NOT what triggered the demotion.
+# Expected resume: 2026-05-19 (3 weeks). Flip back to False to resume.
+# Watch: GSC Performance daily totals + Pages report "Discovered/Crawled - not
+# indexed" trend. Resume slowly: 5/day week 1, 10/day week 2.
+# =============================================================================
+PAUSE_BULK_BLOGS = True
+
 import asyncio
 import importlib.util
 import json
@@ -649,18 +661,21 @@ async def run_cycle(cycle_num: int):
     # Cooldown enforces 28-day measurement windows — natural rate limit.
     log("Step 0c — Running 8-seo-optimizer.py (thin dispatcher → /fix-page-snippet)...")
     seo_optimizer_results = {"pages_optimized": 0, "rewrites": 0, "expansions": 0, "details": []}
-    try:
-        seo_optimizer = load_script("8-seo-optimizer.py")
-        seo_optimizer_results = seo_optimizer.main()
-        if seo_optimizer_results["pages_optimized"] > 0:
-            sheet_rows = seo_optimizer_results.get("sheet_rows_logged", 0)
-            log(f"  SEO Optimizer: {seo_optimizer_results['pages_optimized']} pages optimized, {sheet_rows} Sheet rows logged")
-            ops_log("SEO Optimizer", f"{seo_optimizer_results['pages_optimized']} snippets rewritten via /fix-page-snippet (Sheet logged: {sheet_rows})")
-        else:
-            log("  SEO Optimizer: no eligible candidates (all in cooldown or below threshold)")
-    except Exception as e:
-        log(f"  8-seo-optimizer.py error (non-fatal): {e}")
-        ops_log("SEO Optimizer", f"Error: {e}", level="error")
+    if PAUSE_BULK_BLOGS:
+        log("  SKIPPED — PAUSE_BULK_BLOGS=True (Apr 24 GSC cliff recovery)")
+    else:
+        try:
+            seo_optimizer = load_script("8-seo-optimizer.py")
+            seo_optimizer_results = seo_optimizer.main()
+            if seo_optimizer_results["pages_optimized"] > 0:
+                sheet_rows = seo_optimizer_results.get("sheet_rows_logged", 0)
+                log(f"  SEO Optimizer: {seo_optimizer_results['pages_optimized']} pages optimized, {sheet_rows} Sheet rows logged")
+                ops_log("SEO Optimizer", f"{seo_optimizer_results['pages_optimized']} snippets rewritten via /fix-page-snippet (Sheet logged: {sheet_rows})")
+            else:
+                log("  SEO Optimizer: no eligible candidates (all in cooldown or below threshold)")
+        except Exception as e:
+            log(f"  8-seo-optimizer.py error (non-fatal): {e}")
+            ops_log("SEO Optimizer", f"Error: {e}", level="error")
 
     # Send start notification email
     log("Sending start notification email...")
@@ -696,36 +711,45 @@ You'll get a summary email when it's done.
 
     # Step 3: Run India blog agent (5 topics per cycle)
     log("Step 3/5 — Running 6-india-blog.py (up to 5 topics)...")
-    try:
-        import sys
-        sys.argv = ["6-india-blog.py", "--limit", "5"]
-        india = load_script("6-india-blog.py")
-        india.main()
-        sys.argv = [sys.argv[0]]
-    except Exception as e:
-        log(f"  6-india-blog.py error (non-fatal): {e}")
+    if PAUSE_BULK_BLOGS:
+        log("  SKIPPED — PAUSE_BULK_BLOGS=True (Apr 24 GSC cliff recovery)")
+    else:
+        try:
+            import sys
+            sys.argv = ["6-india-blog.py", "--limit", "5"]
+            india = load_script("6-india-blog.py")
+            india.main()
+            sys.argv = [sys.argv[0]]
+        except Exception as e:
+            log(f"  6-india-blog.py error (non-fatal): {e}")
 
     # Step 4: Run Spanish blog agent (5 topics per cycle)
     log("Step 4/5 — Running 7-spanish-blog.py (up to 5 topics)...")
-    try:
-        import sys
-        sys.argv = ["7-spanish-blog.py", "--limit", "5"]
-        spanish = load_script("7-spanish-blog.py")
-        spanish.main()
-        sys.argv = [sys.argv[0]]
-    except Exception as e:
-        log(f"  7-spanish-blog.py error (non-fatal): {e}")
+    if PAUSE_BULK_BLOGS:
+        log("  SKIPPED — PAUSE_BULK_BLOGS=True (Apr 24 GSC cliff recovery)")
+    else:
+        try:
+            import sys
+            sys.argv = ["7-spanish-blog.py", "--limit", "5"]
+            spanish = load_script("7-spanish-blog.py")
+            spanish.main()
+            sys.argv = [sys.argv[0]]
+        except Exception as e:
+            log(f"  7-spanish-blog.py error (non-fatal): {e}")
 
     # Step 4.5: Run Arabic blog agent (5 topics per cycle)
     log("Step 4.5/6 — Running 9-arabic-blog.py (up to 5 topics)...")
-    try:
-        import sys
-        sys.argv = ["9-arabic-blog.py", "--limit", "5"]
-        arabic = load_script("9-arabic-blog.py")
-        arabic.main()
-        sys.argv = [sys.argv[0]]
-    except Exception as e:
-        log(f"  9-arabic-blog.py error (non-fatal): {e}")
+    if PAUSE_BULK_BLOGS:
+        log("  SKIPPED — PAUSE_BULK_BLOGS=True (Apr 24 GSC cliff recovery)")
+    else:
+        try:
+            import sys
+            sys.argv = ["9-arabic-blog.py", "--limit", "5"]
+            arabic = load_script("9-arabic-blog.py")
+            arabic.main()
+            sys.argv = [sys.argv[0]]
+        except Exception as e:
+            log(f"  9-arabic-blog.py error (non-fatal): {e}")
 
     # Step 5: Deploy new posts to globalhighlevel.com via GitHub → Cloudflare Pages
     log("Step 5/6 — Deploying new posts to globalhighlevel.com...")
