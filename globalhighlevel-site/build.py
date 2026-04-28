@@ -745,7 +745,7 @@ def _build_post_hreflang_tags(translations: dict) -> str:
 
 LANG_META_VIOLATIONS = []
 
-def base_html(title: str, description: str, canonical: str, body: str, og_image: str = "", lang: str = "en", text_dir: str = "ltr", hreflang_path: str = "", hreflang_override: str = "", noindex: bool = False) -> str:
+def base_html(title: str, description: str, canonical: str, body: str, og_image: str = "", lang: str = "en", text_dir: str = "ltr", hreflang_path: str = "", hreflang_override: str = "", noindex: bool = False, disable_hreflang_fallback: bool = False) -> str:
     ok, msg = validate_meta(canonical, title, description)
     if not ok:
         LANG_META_VIOLATIONS.append(msg)
@@ -787,9 +787,15 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
         href = l["prefix"] + "/" if l["prefix"] else "/"
         footer_lang_links += f'        <a href="{href}">{l["native"]}</a>\n'
 
-    # hreflang tags — override wins (per-post translations map), else fall back to prefix-based
+    # hreflang tags — override wins (per-post translations map), then optional prefix fallback.
+    # disable_hreflang_fallback=True is used for blog posts: if a post has no real
+    # translations dict, emit NO hreflang. The old fallback declared every page as a
+    # translation of /es/ /in/ /ar/ language hubs — false claim that hurt the cluster.
+    # Hubs and category pages still use the fallback (their hreflangs ARE valid).
     if hreflang_override:
         hreflang_html = hreflang_override
+    elif disable_hreflang_fallback:
+        hreflang_html = ""
     elif LANGUAGES:
         hreflang_html = _build_hreflang_tags(hreflang_path)
     else:
@@ -1346,6 +1352,7 @@ def build_post_page(post: dict, all_posts: list = None):
         lang=post_lang,
         text_dir=post_dir,
         hreflang_override=hreflang_override,
+        disable_hreflang_fallback=True,
     )
     write(PUBLIC_DIR / post_output_rel(post) / "index.html", html)
 
