@@ -1,40 +1,38 @@
-# Claude / MCP
-.mcp.json
+
+__pycache__/
 .claude.json
 .claude/settings.local.json
-CLAUDE.md
-ghl-podcast-pipeline/CLAUDE.md
-ghl-podcast-pipeline/.claude/
-
-# Secrets & credentials
+.DS_Store
 .env
+.mcp.json
 *.env
-token.json
-token-gsc.json
-credentials.json
-credentials-gsc.json
-client_secret*.json
-storage_state*.json
-ghl-podcast-pipeline/token.json
-ghl-podcast-pipeline/token-gsc.json
-ghl-podcast-pipeline/token-ga4.json
-ghl-podcast-pipeline/token-sheets.json
-ghl-podcast-pipeline/credentials.json
-ghl-podcast-pipeline/credentials-gsc.json
-
-# Python
-venv/
-__pycache__/
 *.pyc
-
+**/.DS_Store
+# Claude / MCP
 # Data & logs
+# macOS noise
+# Python
+# Secrets & credentials
+CLAUDE.md
+client_secret*.json
+credentials-gsc.json
+credentials.json
+forensic-data/
+ghl-podcast-pipeline/.claude/
+ghl-podcast-pipeline/CLAUDE.md
+ghl-podcast-pipeline/credentials-gsc.json
+ghl-podcast-pipeline/credentials.json
 ghl-podcast-pipeline/data/articles/
 ghl-podcast-pipeline/logs/
-globalhighlevel-site/public/
 ghl-podcast-pipeline/token-ga4.json
+ghl-podcast-pipeline/token-gsc.json
 ghl-podcast-pipeline/token-gsc.json.bak
+ghl-podcast-pipeline/token-sheets.json
+ghl-podcast-pipeline/token.json
+globalhighlevel-site/public/
 public/
-
-# macOS noise
-.DS_Store
-**/.DS_Store
+storage_state*.json
+token-gsc.json
+token.json
+venv/
+.gstack/
