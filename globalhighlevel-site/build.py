@@ -35,6 +35,7 @@ SITE_TAGLINE = os.getenv("SITE_TAGLINE", "GoHighLevel Tutorials, Guides & Strate
 AFFILIATE    = os.getenv("GHL_AFFILIATE_LINK", "https://www.gohighlevel.com/highlevel-bootcamp?fp_ref=amplifi-technologies12&utm_source=globalhighlevel&utm_medium=website")
 
 GA_ID        = "G-HYT0YKNGX2"
+CLARITY_ID   = "wkeq0t21ww"
 ACCENT       = "#f59e0b"   # amber
 ACCENT_DARK  = "#d97706"
 
@@ -712,6 +713,20 @@ def _ga_snippet() -> str:
     )
 
 
+def _clarity_snippet() -> str:
+    if not CLARITY_ID:
+        return ""
+    return (
+        f"<script>\n"
+        f"(function(c,l,a,r,i,t,y){{\n"
+        f"  c[a]=c[a]||function(){{(c[a].q=c[a].q||[]).push(arguments)}};\n"
+        f"  t=l.createElement(r);t.async=1;t.src=\"https://www.clarity.ms/tag/\"+i;\n"
+        f"  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);\n"
+        f'}})(window, document, "clarity", "script", "{CLARITY_ID}");\n'
+        f"</script>"
+    )
+
+
 def _build_hreflang_tags(page_path: str = "") -> str:
     """Build hreflang link tags for a page. page_path is relative (e.g., '/category/ai-automation/')."""
     tags = []
@@ -827,6 +842,7 @@ def base_html(title: str, description: str, canonical: str, body: str, og_image:
 {"html[dir=rtl] .nav-links{flex-direction:row-reverse}html[dir=rtl] .nav-dropdown-menu{left:auto;right:-12px}html[dir=rtl] .cards-grid{direction:rtl}html[dir=rtl] .post-body{direction:rtl;text-align:right}html[dir=rtl] .sidebar-section{direction:rtl}html[dir=rtl] .footer-inner{direction:rtl}" if text_dir == "rtl" else ""}
 </style>
 {_ga_snippet()}
+{_clarity_snippet()}
 </head>
 <body>
 <nav>
@@ -1117,6 +1133,7 @@ def build_authority_page(post: dict, all_posts: list = None):
 <meta property="og:type" content="article">
 <meta name="robots" content="index, follow, max-image-preview:large">
 {_authority_css()}
+{_clarity_snippet()}
 </head>
 <body>
 <header class="auth-header">
@@ -3054,6 +3071,28 @@ def main():
         sys.exit(1)
 
     print(f"\n✅ Build complete — {len(merged)} posts, {total_pages} index pages\n")
+
+    _assert_tracking_tags_on_every_page()
+
+
+def _assert_tracking_tags_on_every_page():
+    """Fail the build if any rendered HTML page is missing the Clarity tag.
+    Structural guarantee: no page ships without Clarity. Adding a new HTML template
+    that bypasses base_html will surface here at build time, not in production."""
+    if not CLARITY_ID:
+        return
+    public = BASE_DIR / "public"
+    pages = list(public.rglob("*.html"))
+    missing = [html.relative_to(public) for html in pages
+               if CLARITY_ID not in html.read_text(encoding="utf-8", errors="ignore")]
+    if missing:
+        print(f"\n❌ Clarity tag ({CLARITY_ID}) missing on {len(missing)} page(s):")
+        for p in missing[:10]:
+            print(f"     • {p}")
+        if len(missing) > 10:
+            print(f"     … and {len(missing) - 10} more")
+        sys.exit(1)
+    print(f"✅ Clarity tag verified on all {len(pages)} pages\n")
 
 
 if __name__ == "__main__":
