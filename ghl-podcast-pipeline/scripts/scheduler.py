@@ -7,7 +7,7 @@ Cycle order:
   1. retry-failed.py  — recover any partial failures from previous run
   2. run-pipeline.py  — generate + publish today's batch of 20 episodes
   3. 6-india-blog.py  — publish 5 India blog topics
-  4. deploy_site()    — git push new posts/ JSON → Netlify rebuilds globalhighlevel.com
+  4. deploy_site()    — git push new posts/ JSON → Cloudflare Pages rebuilds globalhighlevel.com
   5. Send daily email summary to bill@reiamplifi.com
   6. Sleep until 25 hours after cycle started
   7. Repeat forever
@@ -493,7 +493,7 @@ def send_email(subject: str, body: str):
 # ── Site deploy ───────────────────────────────────────────────────────────────
 def deploy_site():
     """
-    Push new blog post JSON files to GitHub → Netlify auto-rebuilds and deploys.
+    Push new blog post JSON files to GitHub → Cloudflare Pages auto-rebuilds and deploys.
     Only commits if there are actual new/changed files in globalhighlevel-site/posts/.
     """
     site_dir = BASE_DIR.parent / "globalhighlevel-site"
