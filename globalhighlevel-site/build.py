@@ -115,12 +115,49 @@ def inject_inline_ctas(html: str, cta_mid: str) -> str:
     mid = h2_positions[n // 2]
     return html[:mid] + cta_mid + html[mid:]
 
+# Slug-pattern markers for language inference. 470 of 946 posts have no
+# explicit `language` field; these markers catch ~160 of those by slug stem.
+# Conservative list — only unambiguous markers. T2.1 (body-text langdetect)
+# will catch the remaining ~310.
+_LANG_SLUG_MARKERS = (
+    ("en-IN", ("india", "indian", "rupee", "whatsapp")),
+    ("es",    ("espanol", "agencia", "plataforma", "latino", "mexico")),
+    ("ar",    ("arabic", "arab", "saudi", "uae")),
+)
+
+
+def post_lang(post: dict) -> str:
+    """Return the post's language code, with slug-pattern fallback.
+
+    Reads `post['language']` when set. When missing, infers from slug
+    markers (e.g. india → en-IN, espanol → es). Falls back to 'en'.
+
+    Treat 'en' and 'en-IN' as DIFFERENT base languages — India-targeted
+    English posts must not appear as related cards on US-English posts.
+    """
+    lang = post.get("language")
+    if lang:
+        return lang
+    slug = post.get("slug", "").lower()
+    for code, markers in _LANG_SLUG_MARKERS:
+        if any(m in slug for m in markers):
+            return code
+    return "en"
+
+
 def get_related(post: dict, all_posts: list, n: int = 3) -> list:
-    """Return n related posts — same category first, then most recent."""
+    """Return n related posts — same language, same category first, then most recent.
+
+    Language filter (added 2026-05-07) prevents the cross-language related-cards
+    bug where English pages pulled Spanish / India / Arabic posts as 'Keep Reading'
+    candidates. See post_lang() for slug-pattern inference logic.
+    """
     slug = post.get("slug", "")
     cat  = post.get("category", "")
-    same = [p for p in all_posts if p.get("slug") != slug and p.get("category") == cat]
-    other = [p for p in all_posts if p.get("slug") != slug and p.get("category") != cat]
+    target_lang = post_lang(post)
+    same_lang = [p for p in all_posts if post_lang(p) == target_lang]
+    same = [p for p in same_lang if p.get("slug") != slug and p.get("category") == cat]
+    other = [p for p in same_lang if p.get("slug") != slug and p.get("category") != cat]
     return (same + other)[:n]
 
 
