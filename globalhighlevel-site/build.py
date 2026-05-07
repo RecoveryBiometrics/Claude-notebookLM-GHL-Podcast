@@ -161,9 +161,14 @@ def get_related(post: dict, all_posts: list, n: int = 3) -> list:
     return (same + other)[:n]
 
 
-def _build_link_index(all_posts: list) -> list[tuple[str, str, str, list[str]]]:
+def _build_link_index(all_posts: list, target_lang=None) -> list[tuple[str, str, str, list[str]]]:
     """Build an index of (slug, title, category, keywords) for internal linking.
-    Keywords are extracted from the title — split into meaningful phrases."""
+    Keywords are extracted from the title — split into meaningful phrases.
+
+    When target_lang is provided, only posts matching that language are indexed.
+    Filter-by-construction: any caller of this index automatically gets
+    language-correct candidates without needing to filter results.
+    """
     index = []
     stop = {"in", "the", "a", "an", "to", "for", "of", "and", "or", "how",
             "is", "it", "on", "at", "by", "with", "your", "you", "this",
@@ -171,6 +176,8 @@ def _build_link_index(all_posts: list) -> list[tuple[str, str, str, list[str]]]:
             "my", "our", "all", "no", "not", "what", "why", "when", "use",
             "set", "up", "get", "go", "new", "vs", "best", "top", "way"}
     for p in all_posts:
+        if target_lang and post_lang(p) != target_lang:
+            continue
         title = p.get("title", p.get("seoTitle", ""))
         slug = p.get("slug", "")
         cat = p.get("category", "")
@@ -196,13 +203,17 @@ def inject_internal_links(html: str, post: dict, all_posts: list, max_links: int
 
     Scans paragraphs for keyword matches against other posts.
     Links are added as natural in-text hyperlinks, max one link per paragraph,
-    max max_links total per post. Same-category posts preferred."""
+    max max_links total per post. Same-category posts preferred. Same-language
+    only — language filter (added 2026-05-07) prevents cross-language body link
+    pollution. See post_lang() for slug-pattern inference logic.
+    """
     if not all_posts:
         return html
 
     slug = post.get("slug", "")
     cat = post.get("category", "")
-    link_index = _build_link_index(all_posts)
+    target_lang = post_lang(post)
+    link_index = _build_link_index(all_posts, target_lang=target_lang)
 
     # Score candidates: same category gets a boost
     candidates = []
