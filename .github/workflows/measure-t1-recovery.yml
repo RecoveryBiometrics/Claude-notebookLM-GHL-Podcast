@@ -47,27 +47,34 @@ jobs:
           MESSAGE=$(cat <<EOF
           📊 *T1 Recovery Measurement — Day +${DAY}*
 
-          globalhighlevel.com cliff recovery checkpoint. T1 deployed 2026-05-07 (merge ac66496) — 96.7% of cross-language link pollution removed. Checking if Google rewards the fix.
+          globalhighlevel.com cliff recovery checkpoint. T1 deployed 2026-05-07 (merge ac66496) — 96.7% of cross-language link pollution removed. Manual Actions tab confirmed clean — cliff is algorithmic.
 
-          *What to do (~5 min):*
+          *What to capture (~10 min — BOTH metrics):*
+
+          *1. Impressions (lagging indicator):*
           \`\`\`
           cd ~/Developer/projects/marketing/podcast-pipeline/ghl-podcast-pipeline
           venv/bin/python3 scripts/gsc-diagnose.py
           \`\`\`
 
-          *Pre-fix baseline (2026-04-27 → 2026-05-04):*
-          • Avg impressions/day: 30.6
-          • Total clicks: 0
-          • Avg position: 13.9
+          *2. Page Indexing buckets (LEADING indicator — moves first):*
+          GSC → Pages report. Note the 7 bucket counts. Compare vs 2026-05-07 baseline.
+
+          *2026-05-07 baseline (deploy day):*
+          • Impressions: 30.6/day avg, 0 clicks, position 13.9
           • Pre-cliff (before 2026-04-24): ~1,569/day
+          • Discovered-not-indexed: 172
+          • Crawled-not-indexed: 35
+          • Total non-indexed: 283 (28.5% of site)
 
           *Threshold for Day +${DAY}:*
           ${THRESHOLD}
 
           *Decision tree:*
-          • >100 impr/day trending up → T1 working, consider T2 expansion
-          • 30-100 impr/day → mixed signal, wait for next checkpoint
-          • <50 impr/day → cliff is algorithmic, consider park/sunset
+          • Impr >150/day AND "not indexed" <100 → T1 working, push T2
+          • Impr 50-150/day AND "not indexed" dropping → classifier softening, wait
+          • Impr <50/day AND "not indexed" >200 → classifier still active, scrap path
+          • Impr flat but "not indexed" dropping → recovery in motion, ranking lag
 
           Save snapshot to: \`forensic-data/baselines/gsc-post-t1-day${DAY}-\$(date +%Y-%m-%d).md\`
           EOF
