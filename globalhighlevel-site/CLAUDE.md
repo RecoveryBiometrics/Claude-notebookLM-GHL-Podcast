@@ -70,12 +70,13 @@
 
 **Locked for 8 weeks** via `locked_until` in `ghl-podcast-pipeline/data/seo-cooldown.json` — the SEO optimizer skips these paths entirely.
 
-**Parallel SEO-indexable pages exist** (these are the ones that rank for organic money keywords):
+**Parallel SEO-indexable pages exist** for trial + pricing (these rank for organic money keywords):
 - `/trial/` ↔ `/blog/gohighlevel-free-trial-30-days-extended/`
-- `/coupon/` ↔ `/blog/gohighlevel-promo-code-discount-2026-real-ways-to-save/`
 - `/blog/gohighlevel-pricing-plans-2026-complete-guide/` for the pricing query cluster
 
-The attribution URL and the SEO blog are allowed to have overlapping content — different audiences, different funnels, different attribution. Edit them independently.
+`/coupon/` does NOT have a parallel SEO blog. Per Apr 21 redesign (commit `3788bf1`): the old `/blog/gohighlevel-promo-code-discount-2026-real-ways-to-save/` was deleted and `_redirects:18` 301s any inbound traffic to `/blog/gohighlevel-free-trial-30-days-extended/` (the trial blog is the canonical SEO destination for both trial and discount intent — they consolidated). Auto-deploy `aa23952` accidentally re-added the promo blog on the cliff day; cleaned up again 2026-05-07 in commit `3f8588e`.
+
+The attribution URLs (`/trial/`, `/coupon/`, `/start/`) and the SEO blog are allowed to have overlapping content — different audiences, different funnels, different attribution. Edit them independently.
 
 **Do NOT:**
 - Unblock `/trial/`, `/coupon/`, or `/start/` in `robots.txt` — it breaks attribution

@@ -115,18 +115,60 @@ def inject_inline_ctas(html: str, cta_mid: str) -> str:
     mid = h2_positions[n // 2]
     return html[:mid] + cta_mid + html[mid:]
 
+# Slug-pattern markers for language inference. 470 of 946 posts have no
+# explicit `language` field; these markers catch ~160 of those by slug stem.
+# Conservative list — only unambiguous markers. T2.1 (body-text langdetect)
+# will catch the remaining ~310.
+_LANG_SLUG_MARKERS = (
+    ("en-IN", ("india", "indian", "rupee", "whatsapp")),
+    ("es",    ("espanol", "agencia", "plataforma", "latino", "mexico")),
+    ("ar",    ("arabic", "arab", "saudi", "uae")),
+)
+
+
+def post_lang(post: dict) -> str:
+    """Return the post's language code, with slug-pattern fallback.
+
+    Reads `post['language']` when set. When missing, infers from slug
+    markers (e.g. india → en-IN, espanol → es). Falls back to 'en'.
+
+    Treat 'en' and 'en-IN' as DIFFERENT base languages — India-targeted
+    English posts must not appear as related cards on US-English posts.
+    """
+    lang = post.get("language")
+    if lang:
+        return lang
+    slug = post.get("slug", "").lower()
+    for code, markers in _LANG_SLUG_MARKERS:
+        if any(m in slug for m in markers):
+            return code
+    return "en"
+
+
 def get_related(post: dict, all_posts: list, n: int = 3) -> list:
-    """Return n related posts — same category first, then most recent."""
+    """Return n related posts — same language, same category first, then most recent.
+
+    Language filter (added 2026-05-07) prevents the cross-language related-cards
+    bug where English pages pulled Spanish / India / Arabic posts as 'Keep Reading'
+    candidates. See post_lang() for slug-pattern inference logic.
+    """
     slug = post.get("slug", "")
     cat  = post.get("category", "")
-    same = [p for p in all_posts if p.get("slug") != slug and p.get("category") == cat]
-    other = [p for p in all_posts if p.get("slug") != slug and p.get("category") != cat]
+    target_lang = post_lang(post)
+    same_lang = [p for p in all_posts if post_lang(p) == target_lang]
+    same = [p for p in same_lang if p.get("slug") != slug and p.get("category") == cat]
+    other = [p for p in same_lang if p.get("slug") != slug and p.get("category") != cat]
     return (same + other)[:n]
 
 
-def _build_link_index(all_posts: list) -> list[tuple[str, str, str, list[str]]]:
+def _build_link_index(all_posts: list, target_lang=None) -> list[tuple[str, str, str, list[str]]]:
     """Build an index of (slug, title, category, keywords) for internal linking.
-    Keywords are extracted from the title — split into meaningful phrases."""
+    Keywords are extracted from the title — split into meaningful phrases.
+
+    When target_lang is provided, only posts matching that language are indexed.
+    Filter-by-construction: any caller of this index automatically gets
+    language-correct candidates without needing to filter results.
+    """
     index = []
     stop = {"in", "the", "a", "an", "to", "for", "of", "and", "or", "how",
             "is", "it", "on", "at", "by", "with", "your", "you", "this",
@@ -134,6 +176,8 @@ def _build_link_index(all_posts: list) -> list[tuple[str, str, str, list[str]]]:
             "my", "our", "all", "no", "not", "what", "why", "when", "use",
             "set", "up", "get", "go", "new", "vs", "best", "top", "way"}
     for p in all_posts:
+        if target_lang and post_lang(p) != target_lang:
+            continue
         title = p.get("title", p.get("seoTitle", ""))
         slug = p.get("slug", "")
         cat = p.get("category", "")
@@ -159,13 +203,17 @@ def inject_internal_links(html: str, post: dict, all_posts: list, max_links: int
 
     Scans paragraphs for keyword matches against other posts.
     Links are added as natural in-text hyperlinks, max one link per paragraph,
-    max max_links total per post. Same-category posts preferred."""
+    max max_links total per post. Same-category posts preferred. Same-language
+    only — language filter (added 2026-05-07) prevents cross-language body link
+    pollution. See post_lang() for slug-pattern inference logic.
+    """
     if not all_posts:
         return html
 
     slug = post.get("slug", "")
     cat = post.get("category", "")
-    link_index = _build_link_index(all_posts)
+    target_lang = post_lang(post)
+    link_index = _build_link_index(all_posts, target_lang=target_lang)
 
     # Score candidates: same category gets a boost
     candidates = []
