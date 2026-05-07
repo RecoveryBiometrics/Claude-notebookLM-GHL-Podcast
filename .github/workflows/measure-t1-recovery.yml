@@ -1,0 +1,88 @@
+name: Measure T1 Recovery (one-off, May 14 / May 21 / Jun 4)
+
+# Fires 3 times after the 2026-05-07 cliff-recovery T1 deploy (commit ac66496).
+# Posts a structured Slack reminder to #ceo with the exact command to run + the
+# pre-fix baseline numbers + recovery thresholds. User runs gsc-diagnose.py
+# locally when they see the Slack message and decides whether to expand to T2,
+# park, or sunset.
+#
+# After 2026-06-04 fires, delete this workflow file (or it self-expires).
+
+on:
+  schedule:
+    # Day +7  — earliest signal check     (May 14, 14:00 UTC)
+    - cron: '0 14 14 5 *'
+    # Day +14 — mid-window check          (May 21, 14:00 UTC)
+    - cron: '0 14 21 5 *'
+    # Day +28 — full cooldown decision    (June 4, 14:00 UTC)
+    - cron: '0 14 4 6 *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine which fire this is
+        id: fire
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          case "$DATE" in
+            2026-05-14) DAY=7;  THRESHOLD="Earliest signal — Google may start re-crawling sample of fixed pages. Likely too early for clear verdict.";;
+            2026-05-21) DAY=14; THRESHOLD="Mid-window check — if impressions still <50/day, cliff is algorithmic not bug-caused. >100/day = T1 working.";;
+            2026-06-04) DAY=28; THRESHOLD="Full Google cooldown window — final read on whether T1 alone moves the needle. DECISION POINT: T2 expansion vs park.";;
+            *)          DAY=manual; THRESHOLD="Manual workflow_dispatch — re-run gsc-diagnose.py and review.";;
+          esac
+          echo "day=$DAY" >> "$GITHUB_OUTPUT"
+          echo "threshold=$THRESHOLD" >> "$GITHUB_OUTPUT"
+
+      - name: Post reminder to Slack #ceo
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          DAY: ${{ steps.fire.outputs.day }}
+          THRESHOLD: ${{ steps.fire.outputs.threshold }}
+        run: |
+          MESSAGE=$(cat <<EOF
+          📊 *T1 Recovery Measurement — Day +${DAY}*
+
+          globalhighlevel.com cliff recovery checkpoint. T1 deployed 2026-05-07 (merge ac66496) — 96.7% of cross-language link pollution removed. Checking if Google rewards the fix.
+
+          *What to do (~5 min):*
+          \`\`\`
+          cd ~/Developer/projects/marketing/podcast-pipeline/ghl-podcast-pipeline
+          venv/bin/python3 scripts/gsc-diagnose.py
+          \`\`\`
+
+          *Pre-fix baseline (2026-04-27 → 2026-05-04):*
+          • Avg impressions/day: 30.6
+          • Total clicks: 0
+          • Avg position: 13.9
+          • Pre-cliff (before 2026-04-24): ~1,569/day
+
+          *Threshold for Day +${DAY}:*
+          ${THRESHOLD}
+
+          *Decision tree:*
+          • >100 impr/day trending up → T1 working, consider T2 expansion
+          • 30-100 impr/day → mixed signal, wait for next checkpoint
+          • <50 impr/day → cliff is algorithmic, consider park/sunset
+
+          Save snapshot to: \`forensic-data/baselines/gsc-post-t1-day${DAY}-\$(date +%Y-%m-%d).md\`
+          EOF
+          )
+
+          # Build JSON payload safely with jq (handles all escaping)
+          PAYLOAD=$(jq -n \
+            --arg channel "C0AQAHSQK38" \
+            --arg text "$MESSAGE" \
+            '{channel: $channel, text: $text}')
+
+          curl -sS -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "$PAYLOAD"
+
+          echo ""
+          echo "Slack reminder posted for Day +${DAY}"
